@@ -1,0 +1,22 @@
+﻿@model User
+@{
+    ViewBag.Title = "Профиль пользователя";
+    Layout = "_Layout";
+}
+
+<h2>Редактирование профиля</h2>
+
+
+<div class="row">
+    <div class="col-md-5">
+        <form asp-action="Edit" method="post">
+            <div class="form-group">
+                <label asp-for="Email">Имя пользователя</label>
+                <input class="form-control" asp-for="Email" type="text">
+                <span asp-validation-for="Email"></span>
+            </div>
+            <input type="hidden" value="@Model.Id"/>
+            <input type="submit" value="Изменить" class="btn btn-outline-dark">
+        </form>
+    </div>
+</div>
