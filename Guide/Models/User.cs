@@ -1,7 +1,9 @@
-﻿namespace Guide.Models
+﻿using Microsoft.AspNetCore.Identity;
+
+namespace Guide.Models
 {
-    public class User
+    public class User : IdentityUser
     {
-        public bool Active { get; set; }
+        public bool Active { get; set; } = true;
     }
 }
