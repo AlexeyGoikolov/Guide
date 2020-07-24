@@ -11,7 +11,12 @@
     <div class="col-md-5">
         <form asp-action="Edit" method="post">
             <div class="form-group">
-                <label asp-for="Email">Имя пользователя</label>
+                <label asp-for="UserName">Имя пользователя</label>
+                <input class="form-control" asp-for="UserName" type="text">
+                <span asp-validation-for="UserName"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email">Почта</label>
                 <input class="form-control" asp-for="Email" type="text">
                 <span asp-validation-for="Email"></span>
             </div>

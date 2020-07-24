@@ -43,7 +43,18 @@ namespace Guide.Controllers
             return View(user);
         }
 
-        
+        [Authorize]
+        public IActionResult Delete(string id)
+        {
+            User user = _db.Users.FirstOrDefault(u => u.Id == id);
+            if (user!=null)
+            {
+                user.Active = false;
+                _db.Users.Update(user);
+                _db.SaveChanges();
+            }
+            return RedirectToAction("Index");
+        }
         
         
         [Authorize]
