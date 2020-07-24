@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Guide.Models;
+using Guide.Models.Data;
 using Guide.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -12,34 +14,35 @@ namespace Guide.Controllers
     public class AccountController : Controller
     {
         private readonly UserManager<User> _userManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly SignInManager<User> _signInManager;
-        private readonly IHostEnvironment _environment;
+        private readonly GuideContext _db;
         
 
 
         public AccountController(
             UserManager<User> userManager,
-            RoleManager<IdentityRole> roleManager,
             SignInManager<User> signInManager,
-            IHostEnvironment environment
+            GuideContext db
             )
         {
             _userManager = userManager;
-            _roleManager = roleManager;
             _signInManager = signInManager;
-            _environment = environment;
+            _db = db;
         }
 
-        
+        [Authorize(Roles = "admin")]
+        public IActionResult Index()
+        {
+            return View(_db.Users.ToList());
+        }
 
         [Authorize]
-        public IActionResult Index(string id = null)
+        public IActionResult Details(string id = null)
         {
             User user = id == null? _userManager.GetUserAsync(User).Result : _userManager.FindByIdAsync(id).Result;
             return View(user);
         }
-        
+
         
         
         
@@ -71,7 +74,7 @@ namespace Guide.Controllers
                     
                     var result = await _userManager.UpdateAsync(user);
                     if (result.Succeeded)
-                        return RedirectToAction("Index");
+                        return RedirectToAction("Details");
                     foreach (var error in result.Errors)
                         ModelState.AddModelError("", error.Description);
                 }
@@ -111,7 +114,7 @@ namespace Guide.Controllers
                     {
                         user.PasswordHash = passwordHasher.HashPassword(user, model.NewPassword);
                         await _userManager.UpdateAsync(user);
-                        return RedirectToAction("Index");
+                        return RedirectToAction("Details");
                     }
                     foreach (var error in result.Errors)
                         ModelState.AddModelError("NewPassword", error.Description);
@@ -122,6 +125,7 @@ namespace Guide.Controllers
             return View(model);
         }
         
+        [Authorize(Roles = "admin")]
         public IActionResult Register()
         {
             return View();
@@ -142,8 +146,7 @@ namespace Guide.Controllers
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    await _signInManager.SignInAsync(user, false);
-                    return RedirectToAction("Index", "Account");
+                    return RedirectToAction("Details", "Account");
                 }
                 foreach (var error in result.Errors)
                     ModelState.AddModelError(String.Empty, error.Description);
@@ -175,7 +178,7 @@ namespace Guide.Controllers
                         return Redirect(model.ReturnUrl);
                     }
 
-                    return RedirectToAction("Index", "Account");
+                    return RedirectToAction("Details", "Account");
                 }
                 ModelState.AddModelError("", "Неправильный логин или пароль");
             }
