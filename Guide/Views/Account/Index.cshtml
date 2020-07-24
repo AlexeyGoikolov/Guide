@@ -1,26 +1,18 @@
-﻿@using Microsoft.AspNetCore.Identity
-@model User
-@inject UserManager<User> UserManager
+﻿@model List<User>
 @{
     ViewBag.Title = "Профиль пользователя";
     Layout = "_Layout";
 }
 
-
-
-    <div class="twPc-div">
-        <a class="twPc-bg twPc-block"></a>
-
-        <div style="padding: 10px;">
-            @if (UserManager.GetUserId(User) == Model.Id)
-            {
-                <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-info">Изменить</a>
-                <a asp-action="ChangePassword" asp-route-id="@Model.Id" class="btn btn-outline-danger">Изменить пароль</a>
-            }
-            <h3>@Model.UserName</h3>
-        </div>
-    </div>
-
-
-
-
+<h1>Список пользователей</h1>
+@foreach (var user in @Model)
+{
+    if (user.Active == true)
+    {
+        <ul>
+            <li>@user.UserName</li>
+            <li><a class="btn btn-danger" asp-action="Edit" asp-controller="Account" asp-route-id="@user.Id">Редактировать</a></li>
+        </ul>
+    }
+}
+<a class="btn btn-danger" asp-action="Register" asp-controller="Account">Добавить пользователя</a>

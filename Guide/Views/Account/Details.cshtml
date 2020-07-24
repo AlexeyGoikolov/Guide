@@ -1,0 +1,24 @@
+﻿@using Microsoft.AspNetCore.Identity
+@model User
+@inject UserManager<User> UserManager
+@{
+    ViewBag.Title = "Профиль пользователя";
+    Layout = "_Layout";
+}
+
+<div style="padding: 10px;">
+    @if (UserManager.GetUserId(User) == Model.Id)
+    {
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-info">Изменить</a>
+        <a asp-action="ChangePassword" asp-route-id="@Model.Id" class="btn btn-outline-danger">Изменить пароль</a>
+    }
+    @if (User.IsInRole("admin"))
+    {
+        <a class="btn btn-danger" asp-action="Register" asp-controller="Account">Добавить пользователя</a>
+    }
+    <h3>@Model.UserName</h3>
+</div>
+
+
+
+
