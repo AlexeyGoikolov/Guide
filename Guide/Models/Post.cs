@@ -13,8 +13,8 @@ namespace Guide.Models
         public DateTime DateOfCreate { get; set; } = DateTime.Now;
         public DateTime DateOfUpdate { get; set; } = DateTime.Now;
         public string CategoryId { get; set; }
-        public Category Category { get; set; }
+        public virtual Category Category { get; set; }
         public string TypeId { get; set; }
-        public Type Type { get; set; }
+        public virtual Type Type { get; set; }
     }
 }

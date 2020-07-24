@@ -8,6 +8,6 @@ namespace Guide.Models
         public string Question { get; set; }
         public string Answer { get; set; }
         public List<string> Links { get; set; }
-        public List<Post> Posts { get; set; }
+        public virtual List<Post> Posts { get; set; }
     }
 }
