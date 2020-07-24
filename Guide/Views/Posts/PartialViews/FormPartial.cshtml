@@ -1,0 +1,26 @@
+﻿@model Post
+
+<div style="text-align: center">
+    <span class="validationError">@Html.ValidationMessage("CustomError")</span>
+</div>
+
+<div>
+    <label>Название поста<span class="text-danger">*</span></label>
+    <input class="form-control" type="text" asp-for="Title" value="@Model.Title">
+    <br/><span class="validationError" asp-validation-for="Title"></span>
+</div>
+<div>
+    <label>Автор<span class="text-danger">*</span></label>
+    <input class="form-control" type="text" asp-for="Author" value="@Model.Author">
+    <br/><span class="validationError" asp-validation-for="Author"></span>
+</div>
+<div>
+    <label>Название поста<span class="text-danger">*</span></label>
+    <input class="form-control" type="text" asp-for="Title" value="@Model.Title">
+    <br/><span class="validationError" asp-validation-for="Title"></span>
+</div>
+<div>
+    <label>Описание<span class="text-danger">*</span></label>
+    <textarea class="form-control" type="text" asp-for="Content" value="@Model.Content"></textarea>
+    <br/><span class="validationError" asp-validation-for="Content"></span>
+</div>

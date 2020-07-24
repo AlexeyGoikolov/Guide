@@ -1,0 +1,28 @@
+﻿@model Post
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<div class="container">
+    <div class="card" style="width:800px;margin:auto;">
+        <div class="card-header text-center">
+            Новая запись
+        </div>
+        <div class="card-body">
+            <form asp-action="Create" asp-controller="Posts" method="post" enctype="multipart/form-data" asp-antiforgery="true">
+                @{ Html.RenderPartial("PartialViews/FormPartial", Model); }
+                <button type="submit" class="btn btn-info" style="margin:  20px 0 0;">Создать</button>
+                <input type="hidden" value="@Model.Id" id="postId" asp-for="Id">
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script>
+        
+    </script>
+}
