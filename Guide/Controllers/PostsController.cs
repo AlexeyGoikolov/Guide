@@ -36,7 +36,21 @@ namespace Guide.Controllers
             return PartialView("PartialViews/CategoriesPartial", model);
         }
         
-        
+        public IActionResult CreateTypeAjax(Type type)
+        {
+            if (type.Name != null)
+            {
+                _db.Types.Add(type);
+                _db.SaveChanges();
+            }
+            PostTypeViewModel model = new PostTypeViewModel()
+            {
+                Post = new Post(),
+                Types = _db.Types.ToList()
+            };
+            
+            return PartialView("PartialViews/TypesPartial", model);
+        }
         
         public IActionResult DeleteCategoryAjax(string id)
         {
@@ -54,6 +68,21 @@ namespace Guide.Controllers
             
             return PartialView("PartialViews/CategoriesPartial", model);
         }
-        
+        public IActionResult DeleteTypeAjax(string id)
+        {
+            Type type = _db.Types.FirstOrDefault(t => t.Id == id);
+            if (type != null)
+            {
+                _db.Types.Remove(type);
+                _db.SaveChanges();
+            }
+            PostTypeViewModel model = new PostTypeViewModel()
+            {
+                Post = new Post(),
+                Types = _db.Types.ToList()
+            };
+            
+            return PartialView("PartialViews/TypesPartial", model);
+        }
     }
 }
