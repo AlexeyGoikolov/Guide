@@ -23,6 +23,28 @@
 @section Scripts
 {
     <script>
+        var loadCategories = function(){
+            var catInput = $('#catInput').val();
+            $("#categories-row").load('@Url.Action("CreateCategoryAjax", "Posts")',{Name: catInput});
+        };
         
+        var deleteCategory = function(categoryId){
+            $("#categories-row").load('@Url.Action("DeleteCategoryAjax", "Posts")', {Id: categoryId});
+        };
+       
+        $(document).ready(function(){
+            loadCategories();
+           
+            $('body').on('click','#catButton',function(event){
+                 event.preventDefault();
+                 setTimeout(loadCategories, 200)
+            });
+            
+            $('body').on('click','.buttonDeleteCat',function(event){
+                 event.preventDefault();
+                 setTimeout(function() {deleteCategory(event.currentTarget.value)}, 200)
+            });
+            
+        })
     </script>
 }
