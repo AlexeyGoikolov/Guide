@@ -4,6 +4,7 @@
     ViewBag.Title = "title";
     Layout = "_Layout";
 }
+<script src="https://cdn.ckeditor.com/4.14.1/standard/ckeditor.js"></script>
 
 <div class="container">
     <div class="card" style="width:800px;margin:auto;">
@@ -22,6 +23,11 @@
 
 @section Scripts
 {
+    
+    
+    <script>
+        CKEDITOR.replace( 'editor1' );
+    </script>
     <script>
         var loadCategories = function(){
             var catInput = $('#catInput').val();
