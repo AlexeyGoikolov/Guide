@@ -1,4 +1,4 @@
-﻿@model List<User>
+﻿@model Guide.ViewModels.ListUsersViwModel
 
 @{
     ViewBag.Title = "Список сотрудников";
@@ -7,50 +7,72 @@
 <div class="container">
 <h2>@ViewBag.Title</h2>
     
-    @if (Model.Count == 0)
-    {
-        <p>Список пуст</p>
-    }
-    else
-    {
+
         <table class="table table-hover">
             <thead>
             <tr>
                 <th scope="col">#</th>
                 <th scope="col">Имя</th>
                 <th scope="col">Фамилия</th>
-                <th scope="col">Должность</th>
-                <th scope="col">Активность</th>
+
+                <form asp-action="ListUsers" asp-controller="Users" method="post">
+                    <th scope="col">
+                        <select class="form-control" asp-for="idPosition">
+                            <option value=@null>Все</option>
+                            @foreach (var position in Model.Positions)
+                            {
+                                <option value="@position.Id">@position.Name</option>
+                            }
+                        </select>
+                    </th>
+                    <th scope="col">
+                        <select class="form-control" asp-for="Action">
+                            <option value=@null>Все</option>
+                            <option value="true">Активные</option>
+                            <option value="false">Заблокированные</option>
+                        </select>
+                    </th>
+                    <th scope="col">
+                       <button type="submit" class="btn btn-primary">Фильтр</button>
+                    </th>
+                </form>
             </tr>
             </thead>
             <tbody>
-            @for (int i = 0; i < Model.Count; i++)
+                @if (Model.Users.Count == 0)
+                {
+                    <p>Список пуст</p>
+                }
+                else
+                {
+            @for (int i = 0; i < Model.Users.Count; i++)
             {
                 <tr>
                     <th scope="row">@checked(i + 1)</th>
                     <td>
-                        <a asp-controller="Users" asp-action="" asp-route-id="@Model[i].Id"> @Model[i].UserName</a>
+                        <a asp-controller="Users" asp-action="" asp-route-id="@Model.Users[i].Id"> @Model.Users[i].UserName</a>
                     </td>
                     <td>
-                        @Model[i].Surname
+                        @Model.Users[i].Surname
                     </td>
-                    <td>@Model[i].Position.Name</td>
-                    @if (Model[i].Active)
-                        {
-                            <td>Активный </td>
-                            <td><input type="submit" value="Заблокировать"></td>
-                        }
-                        else
-                        {
-                            <td>Активный </td>
-                            <td><input type="submit" value="Активировать"></td>
-                        }
+                    <td>@Model.Users[i].Position.Name</td>
+                    @if (Model.Users[i].Active)
+                    {
+                        <td>Активный </td>
+                        <td><input type="submit" value="Заблокировать"></td>
+                    }
+                    else
+                    {
+                        <td>Активный </td>
+                        <td><input type="submit" value="Активировать"></td>
+                    }
                     <td><a asp-action="" asp-controller="">Редактировать</a></td>
                     <td><a asp-action="" asp-controller="">Добавить бизнес процес</a></td>
-                     
+
                 </tr>
             }
+                }
             </tbody>
         </table>
-    }
+   
 </div>
