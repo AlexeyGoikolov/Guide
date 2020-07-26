@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Guide.Models.Data
@@ -13,6 +12,7 @@ namespace Guide.Models.Data
         public DbSet<Category> Categories { get; set; }
         public DbSet<QuestionAnswer> QuestionAnswers { get; set; }
         public DbSet<Glossary> Glossaries { get; set; }
+        public DbSet<Position> Positions { get; set; }
 
         public GuideContext(DbContextOptions<GuideContext> options) : base(options) {}
     }

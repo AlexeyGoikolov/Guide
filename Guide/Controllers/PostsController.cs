@@ -19,7 +19,6 @@ namespace Guide.Controllers
         {
             return View(new Post());
         }
-
         public IActionResult CreateCategoryAjax(Category category)
         {
             if (category.Name != null)

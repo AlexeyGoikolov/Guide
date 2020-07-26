@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.AspNetCore.Http;
 
 namespace Guide.Models
 {
@@ -16,5 +17,8 @@ namespace Guide.Models
         public virtual Category Category { get; set; }
         public string TypeId { get; set; }
         public virtual Type Type { get; set; }
+        
+        
+        
     }
 }
