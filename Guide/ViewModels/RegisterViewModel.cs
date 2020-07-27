@@ -10,6 +10,15 @@ namespace Guide.ViewModels
         [EmailAddress(ErrorMessage = "Некорректный тип Email-a")]
         [Remote("CheckEmail", "Validation", ErrorMessage = "Этот Email занят")] 
         public string Email { get; set; }
+        
+        [Required(ErrorMessage = "Это поле обязательно для заполнения")]
+        public string Name { get; set; }
+        
+        [Required(ErrorMessage = "Это поле обязательно для заполнения")]
+        public string Surname { get; set; }
+        
+        [Required(ErrorMessage = "Это поле обязательно для заполнения")]
+        public string PositionsId { get; set; }
 
         [Required(ErrorMessage = "Это поле обязательно для заполнения")]
         [DataType(DataType.Password)]

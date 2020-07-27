@@ -5,6 +5,7 @@ namespace Guide.Models
 {
     public class User : IdentityUser
     {
+        public string Name { get; set; }
         public string Surname { get; set; }
         
         public string PositionId { get; set; }

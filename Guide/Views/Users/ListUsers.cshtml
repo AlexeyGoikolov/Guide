@@ -1,4 +1,4 @@
-﻿@model Guide.ViewModels.ListUsersViwModel
+﻿@model ListUsersViwModel
 
 @{
     ViewBag.Title = "Список сотрудников";
@@ -50,7 +50,7 @@
                 <tr>
                     <th scope="row">@checked(i + 1)</th>
                     <td>
-                        <a asp-controller="Users" asp-action="" asp-route-id="@Model.Users[i].Id"> @Model.Users[i].UserName</a>
+                        <a asp-controller="Users" asp-action="" asp-route-id="@Model.Users[i].Id"> @Model.Users[i].Name</a>
                     </td>
                     <td>
                         @Model.Users[i].Surname
@@ -80,15 +80,8 @@
     <script>
             $(".BlockingAjax").click(function() {
                 var id = $(this).attr("id");
-                console.log(id);
-              $.ajax({
-                          url: '@Url.Action("BlockingAjax", "Users")',
-                          type : 'POST',
-                          data : {
-                             'idUser' : id
-                             },
+                $.ajax({url: '@Url.Action("BlockingAjax", "Users")',type : 'POST',data : {'idUser' : id},
                       success : function f(data)  {
-                              console.log(data);
                         if (data){
                             $("#"+id).val('Отключить');
                              $("."+id).html("<p>Активный</p>"); 

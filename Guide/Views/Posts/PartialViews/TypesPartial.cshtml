@@ -1,6 +1,6 @@
-﻿@model Guide.ViewModels.PostTypeViewModel
+﻿@model PostTypeViewModel
 
-<label>Выберите категорию<span class="text-danger">*</span></label>
+<label>Выберите Тип<span class="text-danger">*</span></label>
 <div style="display: flex">
     <select class="form-control" name="TypeId" asp-for="@Model.Post.TypeId">
         @foreach (var type in @Model.Types)

@@ -7,7 +7,7 @@ using Guide.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Hosting;
+
 
 namespace Guide.Controllers
 {
@@ -141,20 +141,21 @@ namespace Guide.Controllers
         {
             return View();
         }
-        
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register(RegisterViewModel model)
+        public async Task<IActionResult> Register(PositionsViewModel model)
         {
             if (ModelState.IsValid)
             {
                 User user = new User
                 {
-                    Email = model.Email,
-                    UserName = model.Email,
-                    
+                    Email = model.User.Email,
+                    UserName = model.User.Email,
+                    Name = model.User.Name,
+                    Surname = model.User.Surname,
+                    PositionId = model.User.PositionsId
                 };
-                var result = await _userManager.CreateAsync(user, model.Password);
+                var result = await _userManager.CreateAsync(user, model.User.Password);
                 if (result.Succeeded)
                 {
                     return RedirectToAction("Details", "Account");
@@ -169,7 +170,6 @@ namespace Guide.Controllers
         {
             return View(new LoginViewModel {ReturnUrl = returnUrl});
         }
-
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
@@ -196,13 +196,44 @@ namespace Guide.Controllers
 
             return View(model);
         }
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
             return RedirectToAction("Login");
+        }
+        //добавления должность
+        public IActionResult CreatePositionAjax(Position position)
+        {
+            if (position.Name != null)
+            {
+                _db.Positions.Add(position);
+                _db.SaveChanges();
+            }
+            PositionsViewModel model = new PositionsViewModel()
+            {
+                User = new RegisterViewModel(),
+                Positions = _db.Positions.ToList()
+            };
+            
+            return PartialView("PartialViews/PositionsPortal", model);
+        }
+        //Удоления должность
+        public IActionResult DeletePositionAjax(string id)
+        {
+            Position position = _db.Positions.FirstOrDefault(p => p.Id == id);
+            if (position != null)
+            {
+                _db.Positions.Remove(position);
+                _db.SaveChanges();
+            }
+            PositionsViewModel model = new PositionsViewModel()
+            {
+                User = new RegisterViewModel(),
+                Positions = _db.Positions.ToList()
+            };
+            return PartialView("PartialViews/PositionsPortal", model);
         }
     }
 }

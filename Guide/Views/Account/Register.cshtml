@@ -1,4 +1,4 @@
-﻿@model Guide.ViewModels.RegisterViewModel
+﻿@model PositionsViewModel
 
 @{
     ViewBag.Title = "Регистрация";
@@ -9,25 +9,64 @@
 <div class="row justify-content-center">
     <div class="col-md-6">
         <form method="post" asp-controller="Account" asp-action="Register" enctype="multipart/form-data">
+
             <div asp-validation-summary="ModelOnly"></div>
             <div class="form-group">
-                <label asp-for="Email"></label><br/>
-                <input class="form-control" asp-for="Email"/>
-                <span asp-validation-for="Email"></span>
+                <label asp-for="@Model.User.Email"></label><br/>
+                <input class="form-control" asp-for="@Model.User.Email"/>
+                <span asp-validation-for="@Model.User.Email"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Password"></label><br />
-                <input class="form-control" asp-for="Password" />
-                <span asp-validation-for="Password"></span>
+                <label asp-for="@Model.User.Name"></label><br/>
+                <input class="form-control" asp-for="@Model.User.Name"/>
+                <span asp-validation-for="@Model.User.Name"></span>
             </div>
             <div class="form-group">
-                <label asp-for="PasswordConfirm"></label><br />
-                <input class="form-control" asp-for="PasswordConfirm" />
-                <span asp-validation-for="PasswordConfirm"></span>
+                <label asp-for="@Model.User.Surname"></label><br/>
+                <input class="form-control" asp-for="@Model.User.Surname"/>
+                <span asp-validation-for="@Model.User.Surname"></span>
+            </div>
+            <div id="position-row" class="form-group" style="justify-content: center"></div>
+            <div class="form-group">
+                <label asp-for="@Model.User.Password"></label><br/>
+                <input class="form-control" asp-for="@Model.User.Password"/>
+                <span asp-validation-for="@Model.User.Password"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.User.PasswordConfirm"></label><br/>
+                <input class="form-control" asp-for="@Model.User.PasswordConfirm"/>
+                <span asp-validation-for="@Model.User.PasswordConfirm"></span>
             </div>
             <div>
-                <input class="form-control" type="submit" value="Регистрация" />
+                <input class="form-control" type="submit" value="Регистрация"/>
             </div>
         </form>
     </div>
 </div>
+
+@section Scripts
+{
+    <script>
+        var loadPosition = function(){
+            var positionInput = $('#positionInput').val();
+            $("#position-row").load('@Url.Action("CreatePositionAjax", "Account")',{Name: positionInput});
+        };
+       
+        var deletePosition = function(positonId){
+            $("#position-row").load('@Url.Action("DeletePositionAjax", "Account")', {Id: positonId});
+        };
+       
+        $(document).ready(function(){
+            loadPosition();
+            $('body').on('click','#positionButton',function(event){
+                 event.preventDefault();
+                 setTimeout(loadPosition, 200)
+            });
+            $('body').on('click','.buttonDeletePosition',function(event){
+                 event.preventDefault();
+                 setTimeout(function() {deletePosition(event.currentTarget.value)}, 200)
+            });
+            
+        })
+    </script>
+}
