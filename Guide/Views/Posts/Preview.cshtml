@@ -1,0 +1,39 @@
+﻿@model Post
+
+@{
+    ViewBag.Title = "Пост";
+    Layout = "_Layout";
+}
+
+<h2>@ViewBag.Title</h2>
+<div class="container">
+    <div>
+        <h1>@Model.Title</h1>
+        @if (Model.Author != null)
+        {
+            <h3>@Model.Author</h3>
+        }
+        @if (Model.PhysicalPath != null)
+        {
+            <div>Расположения - @Model.PhysicalPath</div>
+        }
+        <div>Дата добавления - @Model.DateOfCreate</div>
+        @if (Model.DateOfUpdate < Model.DateOfCreate)
+        {
+            <div>Дата обнавления - @Model.DateOfUpdate</div>
+        }
+        <div>Категория - @Model.Category.Name</div>
+        <div>Тип - @Model.Type.Name</div>
+    </div>
+    <div>
+        <div>@Model.Content</div>
+        @if (Model.VirtualPath != null)
+        {
+            <div> @Model.VirtualPath</div>
+        }
+    </div>
+    <div>
+        <button>Добавить комментарий</button>
+        <button>Задать вопрос</button>
+    </div>
+</div>

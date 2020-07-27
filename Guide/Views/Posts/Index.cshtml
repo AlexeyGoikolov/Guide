@@ -21,13 +21,12 @@
         <tbody>
         <tr>
             @foreach (var post in Model)
-            {<a asp-action="" asp-controller="Posts">
-                <td>a@post.Title</td>
+            {
+                <td><a asp-action="Preview" asp-controller="Posts" asp-route-id="@post.Id">a@post.Title</a></td>
                 <td>@post.Author</td>
                 <td>@post.Category.Name</td>
                 <td>@post.Type.Name</td>
             <td>@post.DateOfCreate</td>
-            </a>
             }
         </tr>
         </tbody>

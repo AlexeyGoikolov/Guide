@@ -26,6 +26,14 @@ namespace Guide.Controllers
                 .Include(t => t.Type).ToList();
             return View(posts);
         }
+
+        public IActionResult Preview(string id)
+        {
+            Post post = _db.Posts
+                .Include(c => c.Category)
+                .Include(t => t.Type).FirstOrDefault(p => p.Id == id);
+            return View(post);
+        }
         public IActionResult Create()
         {
             return View(new Post());
