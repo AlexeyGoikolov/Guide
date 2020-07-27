@@ -9,7 +9,9 @@ namespace Guide.Models
         public string Title { get; set; }
         public string Author { get; set; }
         public string Content { get; set; }
+        //Виртуальный Путь
         public string VirtualPath { get; set; }
+        //Физический Путь
         public string PhysicalPath { get; set; }
         public DateTime DateOfCreate { get; set; } = DateTime.Now;
         public DateTime DateOfUpdate { get; set; } = DateTime.Now;

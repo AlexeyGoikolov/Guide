@@ -1,0 +1,35 @@
+﻿@model List<Post>
+
+@{
+    ViewBag.Title = "Список Постов";
+    Layout = "_Layout";
+}
+
+<div class="container">
+    <h2>@ViewBag.Title</h2>
+
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th scope="col">Title</th>
+            <th scope="col">Author</th>
+            <th scope="col">Category</th>
+            <th scope="col">Type</th>
+            <th scope="col">DateOfCreate</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            @foreach (var post in Model)
+            {<a asp-action="" asp-controller="Posts">
+                <td>a@post.Title</td>
+                <td>@post.Author</td>
+                <td>@post.Category.Name</td>
+                <td>@post.Type.Name</td>
+            <td>@post.DateOfCreate</td>
+            </a>
+            }
+        </tr>
+        </tbody>
+    </table>
+</div>

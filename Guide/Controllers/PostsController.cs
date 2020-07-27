@@ -1,8 +1,10 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Guide.Models;
 using Guide.Models.Data;
 using Guide.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Guide.Controllers
 {
@@ -14,7 +16,16 @@ namespace Guide.Controllers
         {
             _db = db;
         }
-        // GET
+
+
+
+        public IActionResult Index()
+        {
+            List<Post> posts = _db.Posts
+                .Include(c => c.Category)
+                .Include(t => t.Type).ToList();
+            return View(posts);
+        }
         public IActionResult Create()
         {
             return View(new Post());
