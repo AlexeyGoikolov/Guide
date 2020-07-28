@@ -52,7 +52,31 @@ namespace Guide.Controllers
         }
         public IActionResult Create()
         {
-            return View(new Post());
+            return View(new PostCreateViewModel());
+        }
+
+        [HttpPost]
+        public IActionResult Create(PostCreateViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                Post post = new Post()
+                {
+                    Id = model.Id,
+                    Title = model.Title,
+                    Author = model.Author,
+                    Content = model.Content,
+                    CategoryId = model.CategoryId,
+                    TypeId = model.TypeId,
+                    PhysicalPath = model.PhysicalPath,
+                    VirtualPath = Load(model.Id, model.VirtualPath)
+                };
+                _db.Posts.Add(post);
+                _db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
+            return View(model);
         }
         public IActionResult CreateCategoryAjax(Category category)
         {
@@ -63,7 +87,7 @@ namespace Guide.Controllers
             }
             PostCategoryViewModel model = new PostCategoryViewModel()
             {
-                Post = new Post(),
+                Post = new PostCreateViewModel(),
                 Categories = _db.Categories.ToList()
             };
             
@@ -79,7 +103,7 @@ namespace Guide.Controllers
             }
             PostTypeViewModel model = new PostTypeViewModel()
             {
-                Post = new Post(),
+                Post = new PostCreateViewModel(),
                 Types = _db.Types.ToList()
             };
             
@@ -96,7 +120,7 @@ namespace Guide.Controllers
             }
             PostCategoryViewModel model = new PostCategoryViewModel()
             {
-                Post = new Post(),
+                Post = new PostCreateViewModel(),
                 Categories = _db.Categories.ToList()
             };
             
@@ -112,7 +136,7 @@ namespace Guide.Controllers
             }
             PostTypeViewModel model = new PostTypeViewModel()
             {
-                Post = new Post(),
+                Post = new PostCreateViewModel(),
                 Types = _db.Types.ToList()
             };
             

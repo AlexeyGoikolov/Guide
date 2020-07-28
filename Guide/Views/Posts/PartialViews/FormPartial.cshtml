@@ -1,4 +1,4 @@
-﻿@model Post
+﻿@model PostCreateViewModel
 
 <div style="text-align: center">
     <span class="validationError">@Html.ValidationMessage("CustomError")</span>
@@ -16,13 +16,16 @@
     <br/><span class="validationError" asp-validation-for="Author"></span>
 </div>
 <div>
-    <label>Название поста<span class="text-danger">*</span></label>
-    <input class="form-control" type="text" asp-for="Title" value="@Model.Title">
-    <br/><span class="validationError" asp-validation-for="Title"></span>
-</div>
-<div>
     <label>Описание<span class="text-danger">*</span></label>
     <textarea name="editor1" class="form-control" type="text" asp-for="Content" value="@Model.Content"></textarea>
     <br/><span class="validationError" asp-validation-for="Content"></span>
+</div>
+<div>
+    <label>Физичес место нахождения</label>
+    <input class="form-control" type="text" asp-for="PhysicalPath" value="@Model.PhysicalPath">
+</div>
+<div>
+    <label>Загрузить файл</label>
+    <input class="form-control" type="file" asp-for="VirtualPath">
 </div>
 
