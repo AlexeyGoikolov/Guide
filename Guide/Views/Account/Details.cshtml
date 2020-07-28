@@ -7,6 +7,7 @@
 }
 
 <div style="padding: 10px;">
+    <h3>Добро пожаловать @Model.UserName</h3>
     @if (UserManager.GetUserId(User) == Model.Id)
     {
         <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-info">Изменить</a>
@@ -16,7 +17,7 @@
     {
         <a class="btn btn-danger" asp-action="Register" asp-controller="Account">Добавить пользователя</a>
     }
-    <h3>@Model.UserName</h3>
+
 </div>
 
 
