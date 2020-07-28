@@ -32,23 +32,15 @@ namespace Guide.Controllers
 
         public IActionResult Index()
         {
-            List<Post> posts = _db.Posts
-                .Include(c => c.Category)
-                .Include(t => t.Type).ToList();
+            List<Post> posts = _db.Posts.ToList();
             return View(posts);
         }
 
         public IActionResult Preview(string id)
         {
-            Post post = _db.Posts
-                .Include(c => c.Category)
-                .Include(t => t.Type).FirstOrDefault(p => p.Id == id);
-
-            ViewBag.ListComment = _db.Comments
-                .Include(c => c.Post)
-                .Include(u => u.Author).ToList();
+            Post post = _db.Posts.FirstOrDefault(p => p.Id == id);
+            ViewBag.ListComment = _db.Comments.Where(c => c.PostId == post.Id).ToList();
             return View(post);
-            
         }
         public IActionResult Create()
         {
@@ -143,16 +135,21 @@ namespace Guide.Controllers
             return PartialView("PartialViews/TypesPartial", model);
         }
         
-        private string Load(string id, IFormFile avatar)
+        private string Load(string id, IFormFile file)
         {
-            string path = Path.Combine(_environment.ContentRootPath + $"\\wwwroot\\PostsFiles\\{id}");
-            string photoPath = $"PostsFiles/{id}/{avatar.FileName}";
-            if (!Directory.Exists($"wwwroot/PostsFiles/{id}"))
+            if (file != null)
             {
-                Directory.CreateDirectory($"wwwroot/PostsFiles/{id}");
+                string path = Path.Combine(_environment.ContentRootPath + $"\\wwwroot\\PostsFiles\\{id}");
+                string filePath = $"PostsFiles/{id}/{file.FileName}";
+                if (!Directory.Exists($"wwwroot/PostsFiles/{id}"))
+                {
+                    Directory.CreateDirectory($"wwwroot/PostsFiles/{id}");
+                }
+                _uploadService.Upload(path, file.FileName, file);
+                return filePath;
             }
-            _uploadService.Upload(path, avatar.FileName, avatar);
-            return photoPath;
+
+            return null;
         }
         
         [HttpPost]
@@ -176,7 +173,6 @@ namespace Guide.Controllers
                 return Json(comment);
             }
             return NotFound();
-           
         }
     }
 }
