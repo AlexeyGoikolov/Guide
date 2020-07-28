@@ -38,7 +38,7 @@
     </div>
 </div>
 <div class="container">
-    <h3>Комментария </h3>
+    <h3>Комментарии</h3>
     <div id="messages_list" class="border">
         @if (ViewBag.ListComment.Count == 0)
         {
@@ -58,7 +58,7 @@
     </div>
     <label class="textarea_label">
 
-        <input class="textarea_chat" type="text" placeholder="комментарий!"/>
+        <input class="textarea_chat" type="text" placeholder="Комментарий"/>
         <input type="submit" value="Добавить комментарий" class="btn btn-light textarea_submit" onclick="sendComment('@Model.Id')"/>
     </label>
 </div>
