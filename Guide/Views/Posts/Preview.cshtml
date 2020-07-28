@@ -5,13 +5,14 @@
     Layout = "_Layout";
 }
 
-<h2>@ViewBag.Title</h2>
+
 <div class="container">
     <div>
-        <h1>@Model.Title</h1>
+        <h3>@Model.Title</h3>
+
         @if (Model.Author != null)
         {
-            <h3>@Model.Author</h3>
+            <h4>@Model.Author</h4>
         }
         @if (Model.PhysicalPath != null)
         {
@@ -33,7 +34,58 @@
         }
     </div>
     <div>
-        <button>Добавить комментарий</button>
         <button>Задать вопрос</button>
     </div>
 </div>
+<div class="container">
+    <h3>Комментария </h3>
+    <div id="messages_list" class="border">
+        @if (ViewBag.ListComment.Count == 0)
+        {
+            <p>Нет комментариев</p>
+        }
+        else
+        {
+            @foreach (var comment in ViewBag.ListComment)
+            {
+                <div class="messages_chat">
+                    <h6>@comment.Author.Name</h6>
+                    <p>@comment.Description</p>
+                    <span class="time-right">@comment.DateOfCreate</span>
+                </div>
+            }
+        }
+    </div>
+    <label class="textarea_label">
+
+        <input class="textarea_chat" type="text" placeholder="комментарий!"/>
+        <input type="submit" value="Добавить комментарий" class="btn btn-light textarea_submit" onclick="sendComment('@Model.Id')"/>
+    </label>
+</div>
+
+
+@section Scripts{
+    <script >
+        function sendComment(postId) {
+            $.ajax({
+            url: '@Url.Action("CreateComment", "Posts")',
+            type: 'POST',
+            data: { 
+            'PostId': postId, 
+            'Description': $('.textarea_chat').val() },
+            success: function(data) {
+            var now = new Date();
+            console.log(data)
+            $('.textarea_chat').val("");
+            $( '#messages_list' ).append( 
+            "<div class=\"messages_chat darker\">" + 
+            "<h6>" +  data.author.name.toString()  +"</h6> "+
+            "<p>" + data.description.toString() + "</p> "+
+            "<span class=\"time-right\">" +now.getDay()+"."+ now.getMonth() +"."+ now.getFullYear()+" "+now.getHours()+":"+now.getMinutes()+":"+now.getSeconds()+"</span> "+ 
+            "</div>");
+            },
+        });
+    }
+    </script>
+}
+

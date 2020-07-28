@@ -11,6 +11,6 @@ namespace Guide.Models
         public virtual Post Post { get; set; }
         public string SelText { get; set; }
         public string Description { get; set; }
-        public DateTime DateOfCreate { get; set; }
+        public DateTime DateOfCreate { get; set; } = DateTime.Now;
     }
 }
