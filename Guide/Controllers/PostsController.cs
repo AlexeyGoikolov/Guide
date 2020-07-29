@@ -1,13 +1,15 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Guide.Models;
 using Guide.Models.Data;
+using Guide.Services;
 using Guide.ViewModels;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 
 namespace Guide.Controllers
@@ -29,27 +31,43 @@ namespace Guide.Controllers
 
         public IActionResult Index()
         {
-            List<Post> posts = _db.Posts
-                .Include(c => c.Category)
-                .Include(t => t.Type).ToList();
+            List<Post> posts = _db.Posts.ToList();
             return View(posts);
         }
 
         public IActionResult Preview(string id)
         {
-            Post post = _db.Posts
-                .Include(c => c.Category)
-                .Include(t => t.Type).FirstOrDefault(p => p.Id == id);
-
-            ViewBag.ListComment = _db.Comments
-                .Include(c => c.Post)
-                .Include(u => u.Author).ToList();
+            Post post = _db.Posts.FirstOrDefault(p => p.Id == id);
+            ViewBag.ListComment = _db.Comments.Where(c => c.PostId == post.Id).ToList();
             return View(post);
-            
         }
         public IActionResult Create()
         {
-            return View(new Post());
+            return View(new PostCreateViewModel());
+        }
+
+        [HttpPost]
+        public IActionResult Create(PostCreateViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                Post post = new Post()
+                {
+                    Id = model.Id,
+                    Title = model.Title,
+                    Author = model.Author,
+                    Content = model.Content,
+                    CategoryId = model.CategoryId,
+                    TypeId = model.TypeId,
+                    PhysicalPath = model.PhysicalPath,
+                    VirtualPath = Load(model.Id, model.VirtualPath)
+                };
+                _db.Posts.Add(post);
+                _db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
+            return View(model);
         }
         public IActionResult CreateCategoryAjax(Category category)
         {
@@ -60,7 +78,7 @@ namespace Guide.Controllers
             }
             PostCategoryViewModel model = new PostCategoryViewModel()
             {
-                Post = new Post(),
+                Post = new PostCreateViewModel(),
                 Categories = _db.Categories.ToList()
             };
             
@@ -76,7 +94,7 @@ namespace Guide.Controllers
             }
             PostTypeViewModel model = new PostTypeViewModel()
             {
-                Post = new Post(),
+                Post = new PostCreateViewModel(),
                 Types = _db.Types.ToList()
             };
             
@@ -93,7 +111,7 @@ namespace Guide.Controllers
             }
             PostCategoryViewModel model = new PostCategoryViewModel()
             {
-                Post = new Post(),
+                Post = new PostCreateViewModel(),
                 Categories = _db.Categories.ToList()
             };
             
@@ -109,7 +127,7 @@ namespace Guide.Controllers
             }
             PostTypeViewModel model = new PostTypeViewModel()
             {
-                Post = new Post(),
+                Post = new PostCreateViewModel(),
                 Types = _db.Types.ToList()
             };
             
@@ -154,7 +172,6 @@ namespace Guide.Controllers
                 return Json(comment);
             }
             return NotFound();
-           
         }
     }
 }
