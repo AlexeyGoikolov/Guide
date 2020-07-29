@@ -5,7 +5,7 @@ namespace Guide.ViewModels
 {
     public class PostTypeViewModel
     {
-        public Post Post { get; set; }
+        public PostCreateViewModel Post { get; set; }
         public List<Type> Types { get; set; }
     }
 }

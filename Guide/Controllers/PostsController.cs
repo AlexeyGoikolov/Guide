@@ -3,7 +3,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Guide.Models;
 using Guide.Models.Data;
-using Guide.Services;
 using Guide.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -17,14 +16,17 @@ namespace Guide.Controllers
     {
         private readonly GuideContext _db;
         private readonly UserManager<User> _userManager;
+        private IHostEnvironment _environment;
+        private UploadService _uploadService;
 
-
-        public PostsController(GuideContext db, UserManager<User> userManager)
+        public PostsController(GuideContext db, UserManager<User> userManager, IHostEnvironment environment, UploadService uploadService)
         {
             _db = db;
             _userManager = userManager;
-
+            _environment = environment;
+            _uploadService = uploadService;
         }
+
         public IActionResult Index()
         {
             List<Post> posts = _db.Posts
@@ -32,6 +34,7 @@ namespace Guide.Controllers
                 .Include(t => t.Type).ToList();
             return View(posts);
         }
+
         public IActionResult Preview(string id)
         {
             Post post = _db.Posts
@@ -111,6 +114,23 @@ namespace Guide.Controllers
             };
             
             return PartialView("PartialViews/TypesPartial", model);
+        }
+        
+        private string Load(string id, IFormFile file)
+        {
+            if (file != null)
+            {
+                string path = Path.Combine(_environment.ContentRootPath + $"\\wwwroot\\PostsFiles\\{id}");
+                string filePath = $"PostsFiles/{id}/{file.FileName}";
+                if (!Directory.Exists($"wwwroot/PostsFiles/{id}"))
+                {
+                    Directory.CreateDirectory($"wwwroot/PostsFiles/{id}");
+                }
+                _uploadService.Upload(path, file.FileName, file);
+                return filePath;
+            }
+
+            return null;
         }
         
         [HttpPost]

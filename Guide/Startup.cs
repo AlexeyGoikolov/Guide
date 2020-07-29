@@ -1,6 +1,7 @@
 using System.Globalization;
 using Guide.Models;
 using Guide.Models.Data;
+using Guide.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -28,6 +29,7 @@ namespace Guide
             services.AddLocalization(options => options.ResourcesPath = "Resources");
             services.AddControllersWithViews().AddViewLocalization();
             string connection = Configuration.GetConnectionString("DefaultConnection");
+            services.AddTransient<UploadService>();
             services.AddDbContext<GuideContext>(options =>
                     options.UseLazyLoadingProxies()
                         .UseNpgsql(connection))

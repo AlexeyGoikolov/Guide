@@ -1,4 +1,4 @@
-﻿@model Post
+﻿@model PostCreateViewModel
 
 @{
     ViewBag.Title = "title";
@@ -53,7 +53,7 @@
             });
             $('body').on('click','#typeButton',function(event){
                  event.preventDefault();
-                 setTimeout(loadCategories, 200)
+                 setTimeout(loadTypes, 200)
             });
             $('body').on('click','.buttonDeleteCat',function(event){
                  event.preventDefault();
