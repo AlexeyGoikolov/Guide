@@ -1,0 +1,39 @@
+﻿@model Glossary
+
+@{
+    ViewBag.Title = "Добавить Глоссарий";
+    Layout = "_Layout";
+}
+
+<div class="container">
+    <div class="card" style="width:800px;margin:auto;">
+        <div class="card-header text-center">
+            @ViewBag.Title
+        </div>
+        <div class="card-body">
+            <form asp-action="Create" asp-controller="Glossarys" method="post" enctype="multipart/form-data" asp-antiforgery="true">
+                @{ Html.RenderPartial("PartialViews/Glossary", Model); }
+                <input type="hidden" value="@Model.Id" asp-for="Id">
+                <button type="submit" class="btn btn-info" style="margin:  20px 0 0;" >Добавить</button>
+                <a asp-action="Index" asp-controller="Glossarys" class="btn btn-info" style="margin:  20px 0 0;" >Отменить</a>
+            </form>
+             
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    
+    <div>
+        <texterea id="content2" name="content2"></texterea>
+    </div>
+</div>
+
+
+@section Scripts
+{
+
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

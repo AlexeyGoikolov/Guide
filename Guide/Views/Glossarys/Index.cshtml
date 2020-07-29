@@ -1,0 +1,56 @@
+﻿@using System.Data
+@model List<Glossary>
+
+@{
+    ViewBag.Title = "Глосарий";
+    Layout = "_Layout";
+}
+
+<div class="container">
+    <h2 class="col-6">@ViewBag.Title</h2>
+    
+    <a asp-action="Create" asp-controller="Glossarys" class="pb-5 pt-3">Добавить Глоссарий</a>
+
+
+    @if (Model.Count == 0)
+    {
+        <p>Список пуст</p>
+    }
+    else
+    {
+        <div class="row border">
+            <div class="col">
+                Нозвание
+            </div>
+            <div class="col-6 border-left">
+                Описание
+            </div>
+            <div class="col"></div>
+        </div>
+
+        @foreach (var glossery in Model)
+        {
+            <div class="row border">
+
+                <div class="col">
+                    <a asp-action="Preview" asp-controller="Glossarys" asp-route-id="@glossery.Id">@glossery.Name</a>
+                </div>
+                <div class="col-6 border-left">
+                    @glossery.Description
+                </div>
+                <div class="col border-left">
+                    <div>
+                        <a asp-action="Edit" asp-controller="Glossarys" asp-route-id="@glossery.Id">Редактировать</a>
+                    </div>
+                    <div>
+                        <a asp-action="Delete" asp-controller="Glossarys" asp-route-id="@glossery.Id">Удалить</a>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+
+</div>
+
+
+
