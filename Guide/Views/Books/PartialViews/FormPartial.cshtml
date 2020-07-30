@@ -1,0 +1,30 @@
+﻿@model BookCreateViewModel
+
+<div style="text-align: center">
+    <span class="validationError">@Html.ValidationMessage("CustomError")</span>
+</div>
+<div id="categories-row" class="form-group" style="justify-content: center"></div>
+<div id="types-row" class="form-group" style="justify-content: center"></div>
+<div>
+    <label>Введите код книги<span class="text-danger">*</span></label>
+    <input class="form-control" type="text" asp-for="ISBN" value="@Model.ISBN">
+    <br/><span class="validationError" asp-validation-for="ISBN"></span>
+</div>
+<div>
+    <label>Автор<span class="text-danger">*</span></label>
+    <input class="form-control" type="text" asp-for="Author" value="@Model.Author">
+    <br/><span class="validationError" asp-validation-for="Author"></span>
+</div>
+<div>
+    <label>Загрузите обложку</label>
+    <input class="form-control" type="file" asp-for="CoverPath">
+</div>
+<div>
+    <label>Цифровая версия книги</label>
+    <input class="form-control" type="file" asp-for="VirtualPath">
+</div>
+<div>
+    <label>Физическое место нахождения</label>
+    <input class="form-control" type="text" asp-for="PhysicalPath" value="@Model.PhysicalPath">
+</div>
+

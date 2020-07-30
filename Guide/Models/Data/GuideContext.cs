@@ -13,6 +13,7 @@ namespace Guide.Models.Data
         public DbSet<QuestionAnswer> QuestionAnswers { get; set; }
         public DbSet<Glossary> Glossaries { get; set; }
         public DbSet<Position> Positions { get; set; }
+        public DbSet<Book> Books { get; set; }
 
         public GuideContext(DbContextOptions<GuideContext> options) : base(options) {}
     }
