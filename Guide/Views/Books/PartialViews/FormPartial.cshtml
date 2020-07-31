@@ -1,30 +1,40 @@
 ﻿@model BookCreateViewModel
 
-<div style="text-align: center">
-    <span class="validationError">@Html.ValidationMessage("CustomError")</span>
-</div>
-<div id="categories-row" class="form-group" style="justify-content: center"></div>
-<div id="types-row" class="form-group" style="justify-content: center"></div>
-<div>
-    <label>Введите код книги<span class="text-danger">*</span></label>
+<div style="margin: 0 0 0 280px; width: 48%">
+    <label>Код книги</label>
     <input class="form-control" type="text" asp-for="ISBN" value="@Model.ISBN">
     <br/><span class="validationError" asp-validation-for="ISBN"></span>
 </div>
-<div>
-    <label>Автор<span class="text-danger">*</span></label>
-    <input class="form-control" type="text" asp-for="Author" value="@Model.Author">
-    <br/><span class="validationError" asp-validation-for="Author"></span>
+<div style="display:flex; justify-content: space-between">
+    <div style="width: 48%;">
+        <label>Автор<span class="text-danger">*</span></label>
+        <input class="form-control" type="text" asp-for="Author" value="@Model.Author">
+        <br/><span class="validationError" asp-validation-for="Author"></span>
+    </div>
+    <div style="width: 48%;">
+        <label>Название<span class="text-danger">*</span></label>
+        <input class="form-control" type="text" asp-for="Name" value="@Model.Author">
+        <br/><span class="validationError" asp-validation-for="Author"></span>
+    </div>
 </div>
-<div>
-    <label>Загрузите обложку</label>
-    <input class="form-control" type="file" asp-for="CoverPath">
+<div style="display:flex; justify-content: space-between">
+    <div style="width: 48%;">
+        <label>Год написания<span class="text-danger">*</span></label>
+        <input placeholder="0000" class="form-control" type="text" asp-for="YearOfWriting" value="@Model.YearOfWriting">
+        <br/><span class="validationError" asp-validation-for="YearOfWriting"></span>
+    </div>
+    <div style="width: 48%;">
+        <label>Физическое место нахождения</label>
+        <input class="form-control" type="text" asp-for="PhysicalPath" value="@Model.PhysicalPath">
+    </div>
 </div>
-<div>
-    <label>Цифровая версия книги</label>
-    <input class="form-control" type="file" asp-for="VirtualPath">
+<div style="display:flex; justify-content: space-between">
+    <div style="width: 48%;">
+        <label>Обложка</label>
+        <input class="form-control" type="file" asp-for="CoverPath">
+    </div>
+    <div style="width: 48%;">
+        <label>Цифровая версия книги</label>
+        <input class="form-control" type="file" asp-for="VirtualPath">
+    </div>
 </div>
-<div>
-    <label>Физическое место нахождения</label>
-    <input class="form-control" type="text" asp-for="PhysicalPath" value="@Model.PhysicalPath">
-</div>
-

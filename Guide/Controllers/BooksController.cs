@@ -44,12 +44,13 @@ namespace Guide.Controllers
                 Book book = new Book()
                 {
                     Id = model.Id,
+                    Name = model.Name,
                     Author = model.Author,
                     ISBN = model.ISBN,
                     CoverPath = Load(model.Id, model.CoverPath),
                     VirtualPath = Load(model.Id, model.VirtualPath),
                     PhysicalPath = model.PhysicalPath,
-                    DateOfWriting = model.DateOfWriting
+                    YearOfWriting = model.YearOfWriting
                 };
                 _db.Books.Add(book);
                 _db.SaveChanges();
@@ -57,6 +58,13 @@ namespace Guide.Controllers
             }
             return View(model);
         }
+
+        public IActionResult Details(string id)
+        {
+            Book book = _db.Books.FirstOrDefault(b => b.Id == id);
+            return View(book);
+        }
+        
         
         private string Load(string id, IFormFile file)
         {

@@ -34,25 +34,30 @@ namespace Guide.Migrations
                     b.Property<DateTime>("DateCreate")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<DateTime>("DateOfWriting")
-                        .HasColumnType("timestamp without time zone");
-
                     b.Property<DateTime>("DateUpdate")
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("ISBN")
                         .HasColumnType("text");
 
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
                     b.Property<string>("PhysicalPath")
                         .HasColumnType("text");
 
-                    b.Property<string>("Type")
+                    b.Property<string>("TypeId")
                         .HasColumnType("text");
 
                     b.Property<string>("VirtualPath")
                         .HasColumnType("text");
 
+                    b.Property<string>("YearOfWriting")
+                        .HasColumnType("text");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("TypeId");
 
                     b.ToTable("Books");
                 });
@@ -189,6 +194,7 @@ namespace Guide.Migrations
                         .HasColumnType("text[]");
 
                     b.Property<string>("Question")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
@@ -418,6 +424,13 @@ namespace Guide.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("Guide.Models.Book", b =>
+                {
+                    b.HasOne("Guide.Models.Type", "Type")
+                        .WithMany()
+                        .HasForeignKey("TypeId");
                 });
 
             modelBuilder.Entity("Guide.Models.Comment", b =>

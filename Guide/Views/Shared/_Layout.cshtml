@@ -6,6 +6,7 @@
     <title>@ViewData["Title"] - Guide</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="../wwwroot/css/site.css?v=1" type="text/css"/>
 </head>
 <body>
 <script src="https://kit.fontawesome.com/26a6781c15.js" crossorigin="anonymous"></script>
@@ -21,7 +22,7 @@
                     @if (User.IsInRole("admin"))
                     {
                         <a class="nav-link text-dark" asp-area="" asp-controller="Posts" asp-action="Index">Материалы</a>
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Posts" asp-action="Create">Добавить материал</a>
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Books" asp-action="Index">Книги</a>
                         <a class="nav-link text-dark" asp-area="" asp-controller="Glossarys" asp-action="Index">Глоссарий</a>
                         <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="ListUsers">Пользователи</a>
                         <a class="nav-link text-dark" asp-area="" asp-controller="QuestionAnswers" asp-action="Index">Вопрос-ответ</a>
