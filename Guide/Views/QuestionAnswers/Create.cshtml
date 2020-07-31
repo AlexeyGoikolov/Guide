@@ -1,0 +1,58 @@
+﻿@model QuestionAnswersViewModel
+
+@{
+   @if (Model.Status == QuestionAnswersStatus.Creat)
+    {
+        ViewBag.Title = "Добавления";
+    }
+    else if  (Model.Status == QuestionAnswersStatus.Edit)
+    {
+        ViewBag.Title = "Редактировать";
+    }
+    else if (Model.Status == QuestionAnswersStatus.ToAnswer)
+    {
+        ViewBag.Title = "Ответить";
+    }
+    else
+    {
+        ViewBag.Title = "Отправить вопрос";
+    }
+    Layout = "_Layout";
+}
+<div class="container">
+    <div class="card" style="width:800px;margin:auto;">
+        <div class="card-header text-center">
+            @ViewBag.Title
+        </div>
+        <div class="card-body">
+            <form asp-action="Create" asp-controller="QuestionAnswers" method="post" enctype="multipart/form-data" asp-antiforgery="true">
+                @{ Html.RenderPartial("PartialViews/QuestionAnswers", Model); }
+                <input type="hidden" value="@Model.QuestionAnswer.Id" asp-for="QuestionAnswer.Id">
+                <input type="hidden" value="@Model.Status" asp-for="@Model.Status">
+                    @if (Model.Status == QuestionAnswersStatus.Creat)
+                    {
+                        <button type="submit" class="btn btn-info" style="margin:  20px 0 0;" >Добавить</button>
+                    }
+                    else if  (Model.Status == QuestionAnswersStatus.Edit)
+                    {
+                        <button type="submit" class="btn btn-info" style="margin:  20px 0 0;" >Сохранить</button>
+                    }
+                    else if  (Model.Status == QuestionAnswersStatus.ToAnswer)
+                    {
+                        <button type="submit" class="btn btn-info" style="margin:  20px 0 0;" >Ответить</button>
+                    }
+                    else if  (Model.Status == QuestionAnswersStatus.ToQuestion)
+                    {
+                        <button type="submit" class="btn btn-info" style="margin:  20px 0 0;" >Отрправит</button>
+                    }
+                    <a asp-action="Index" asp-controller="QuestionAnswers" class="btn btn-info" style="margin:  20px 0 0;" >Отменить</a>
+            </form>
+        </div>
+    </div>
+</div>
+@section Scripts
+{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
