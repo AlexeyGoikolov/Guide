@@ -50,7 +50,7 @@ namespace Guide.Controllers
             if (ModelState.IsValid)
             {
                 QuestionAnswer questionAnswer = new QuestionAnswer();
-                if (model.Status != QuestionAnswersStatus.Creat)
+                if (model.Status == QuestionAnswersStatus.Edit || model.Status == QuestionAnswersStatus.ToAnswer)
                 {
                     questionAnswer = _db.QuestionAnswers.FirstOrDefault(q => q.Id == model.QuestionAnswer.Id);
                     questionAnswer.Question = model.QuestionAnswer.Question;
