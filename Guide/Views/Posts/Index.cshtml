@@ -1,21 +1,22 @@
 ﻿@model List<Post>
 
 @{
-    ViewBag.Title = "Список Постов";
+    ViewBag.Title = "Список материалов";
     Layout = "_Layout";
 }
 
 <div class="container">
     <h2>@ViewBag.Title</h2>
+    <a class="nav-link text-dark" asp-area="" asp-controller="Posts" asp-action="Create">Добавить материал</a>
 
     <table class="table table-hover">
         <thead>
             <tr>
-                <th scope="col">Title</th>
-                <th scope="col">Author</th>
-                <th scope="col">Category</th>
-                <th scope="col">Type</th>
-                <th scope="col">DateOfCreate</th>
+                <th scope="col">Название</th>
+                <th scope="col">Автор</th>
+                <th scope="col">Категория</th>
+                <th scope="col">Тип</th>
+                <th scope="col">Дата создания</th>
             </tr>
         </thead>
         <tbody>

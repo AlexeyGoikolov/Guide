@@ -73,3 +73,8 @@ body {
 .validationError {
   color: red;
 }
+
+.card-row{
+  display: flex;
+  justify-content: space-between;
+}
