@@ -21,10 +21,9 @@
                     @if (User.IsInRole("admin"))
                     {
                         <a class="nav-link text-dark" asp-area="" asp-controller="Posts" asp-action="Index">Список Постов</a>
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Register">Добавить пользователя</a>
                         <a class="nav-link text-dark" asp-area="" asp-controller="Posts" asp-action="Create">Добавить Пост</a>
                         <a class="nav-link text-dark" asp-area="" asp-controller="Glossarys" asp-action="Index">Глоссарий</a>
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="ListUsers">Список сотрудников</a>
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="ListUsers">Пользователи</a>
                         <a class="nav-link text-dark" asp-area="" asp-controller="QuestionAnswers" asp-action="Index">Вопрос-ответ</a>
                     }
                 </ul>
