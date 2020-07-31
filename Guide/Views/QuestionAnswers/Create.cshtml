@@ -3,7 +3,7 @@
 @{
    @if (Model.Status == QuestionAnswersStatus.Creat)
     {
-        ViewBag.Title = "Добавления";
+        ViewBag.Title = "Добавление";
     }
     else if  (Model.Status == QuestionAnswersStatus.Edit)
     {
@@ -43,7 +43,7 @@
                     }
                     else if  (Model.Status == QuestionAnswersStatus.ToQuestion)
                     {
-                        <button type="submit" class="btn btn-info" style="margin:  20px 0 0;" >Отрправит</button>
+                        <button type="submit" class="btn btn-info" style="margin:  20px 0 0;" >Отправить</button>
                     }
                     <a asp-action="Index" asp-controller="QuestionAnswers" class="btn btn-info" style="margin:  20px 0 0;" >Отменить</a>
             </form>
