@@ -1,12 +1,13 @@
 ﻿@model List<QuestionAnswer>
 
 @{
-    ViewBag.Title = "Список с ответами";
+    ViewBag.Title = "Список без ответов";
     Layout = "_Layout";
 }
 
 <div class="container">
     <h2 class="col-6">@ViewBag.Title</h2>
+
     <div class="row">
         <div class="col">
             <a asp-action="Index" asp-controller="QuestionAnswers" class="pb-5 pt-3 pl-2">Вопросы с ответами</a>

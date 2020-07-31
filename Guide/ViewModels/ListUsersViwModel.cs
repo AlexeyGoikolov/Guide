@@ -8,7 +8,6 @@ namespace Guide.ViewModels
     {
         public string? Action { get; set; }
         public string? idPosition { get; set; }
-        
         public List<User> Users { get; set; }
         public List<Position> Positions { get; set; }
     }
