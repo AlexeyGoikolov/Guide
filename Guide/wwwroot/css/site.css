@@ -73,3 +73,27 @@ body {
 .validationError {
   color: red;
 }
+.card-row{
+  display: flex;
+  justify-content: space-between;
+}
+
+.row-books{
+  width: 1000px;
+}
+
+.row-books a{
+  text-decoration: none;
+  color: black;
+}
+
+.book-card{
+  margin: 10px;
+  padding: 20px;
+  width: 290px;
+  background-color: rgba(0,0,0,.08);
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  border-radius: 1rem;
+}
