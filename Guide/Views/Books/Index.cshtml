@@ -1,8 +1,19 @@
-﻿@model List<Guide.Models.Book>
+@model List<Book>
 
 @{
-    ViewBag.Title = "title";
+    ViewBag.Title = "Список книг";
     Layout = "_Layout";
 }
-
-<h2>title</h2>
+<h2>@ViewBag.Title</h2>
+    <a class="nav-link text-dark" asp-area="" asp-controller="Books" asp-action="Create">Добавить книгу</a>
+<div class="row-books row">
+    @foreach (var book in @Model)
+    {
+        <a class=" col-4" asp-action="Details" asp-controller="Books" asp-route-id="@book.Id">
+            <div class="book-card">
+                <img src="../@book.CoverPath" style="width:260px; height: 300px; border-radius: 1rem; margin: 0;">
+                <p style=" margin: 5px 0 0; font-size: 20px;">Преступление и наказание</p>
+            </div>
+        </a>
+    }
+</div>
