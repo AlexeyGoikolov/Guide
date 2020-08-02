@@ -35,7 +35,7 @@ namespace Guide.Controllers
             return View(posts);
         }
 
-        public IActionResult Preview(string id)
+        public IActionResult Details(string id)
         {
             Post post = _db.Posts.FirstOrDefault(p => p.Id == id);
             ViewBag.ListComment = _db.Comments.Where(c => c.PostId == post.Id).ToList();

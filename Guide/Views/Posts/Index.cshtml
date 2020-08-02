@@ -23,7 +23,7 @@
             @foreach (var post in Model)
             {
                 <tr>
-                    <td><a asp-action="Preview" asp-controller="Posts" asp-route-id="@post.Id">@post.Title</a></td>
+                    <td><a asp-action="Details" asp-controller="Posts" asp-route-id="@post.Id">@post.Title</a></td>
                     <td>@post.Author</td>
                     <td>@post.Category.Name</td>
                     <td>@post.Type.Name</td>
