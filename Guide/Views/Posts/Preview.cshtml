@@ -37,23 +37,22 @@
         <button>Задать вопрос</button>
     </div>
     
-    <script>
-                CKEDITOR.replace( 'content' ,{
-                  height: 300,                         
-                  toolbar: 'Custom', 
-                 toolbarStartupExpanded : false,
-                  toolbarCanCollapse  : false,
-                toolbar_Custom: [] 
-                 });
-               
-               
-            </script>
+   
 </div>
 
  @{ Html.RenderPartial("PartialViews/CommentsPartial"); }
 
 @section Scripts{
-    
+    <script>
+                    CKEDITOR.replace( 'content' ,{
+                      height: 300    });                     
+                        $(document).ready(function () {  
+                         CKEDITOR.on('instanceReady', function (ev) {  
+                         document.getElementById(ev.editor.id + '_top').style.display = 'none';  
+                           })                                            
+                     });                
+                   
+                </script>
     <script >
         function sendComment(postId) {
             $.ajax({
