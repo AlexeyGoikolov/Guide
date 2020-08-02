@@ -36,46 +36,24 @@
     <div>
         <button>Задать вопрос</button>
     </div>
-</div>
-<div class="container">
-    <h3>Комментарии</h3>
-    <div id="messages_list" class="border">
-        @if (ViewBag.ListComment.Count == 0)
-        {
-            <p>Нет комментариев</p>
-        }
-        else
-        {
-            @foreach (var comment in ViewBag.ListComment)
-            {
-                <div class="messages_chat">
-                    <h6>@comment.Author.Name</h6>
-                    <p>@comment.Description</p>
-                    <span class="time-right">@comment.DateOfCreate</span>
-                </div>
-            }
-        }
-    </div>
-    <label class="textarea_label">
-
-        <input class="textarea_chat" type="text" placeholder="Комментарий"/>
-        <input type="submit" value="Добавить комментарий" class="btn btn-light textarea_submit" onclick="sendComment('@Model.Id')"/>
-    </label>
+    
+    <script>
+                CKEDITOR.replace( 'content' ,{
+                  height: 300,                         
+                  toolbar: 'Custom', 
+                 toolbarStartupExpanded : false,
+                  toolbarCanCollapse  : false,
+                toolbar_Custom: [] 
+                 });
+               
+               
+            </script>
 </div>
 
+ @{ Html.RenderPartial("PartialViews/CommentsPartial"); }
 
 @section Scripts{
-    <script>
-            CKEDITOR.replace( 'content' ,{
-              height: 300,                         
-              toolbar: 'Custom', 
-             toolbarStartupExpanded : false,
-              toolbarCanCollapse  : false,
-            toolbar_Custom: [] 
-             });
-           
-           
-        </script>
+    
     <script >
         function sendComment(postId) {
             $.ajax({
