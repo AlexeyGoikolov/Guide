@@ -26,8 +26,8 @@
         <div>Тип - @Model.Type.Name</div>
     </div>
     <div>
-        <textarea  name="content" >@Model.Content </textarea>
         
+       <div>@Html.Raw(@Model.Content)</div> 
         @if (Model.VirtualPath != null)
         {
             <div> @Model.VirtualPath</div>
