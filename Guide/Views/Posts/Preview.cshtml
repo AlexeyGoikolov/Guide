@@ -26,7 +26,8 @@
         <div>Тип - @Model.Type.Name</div>
     </div>
     <div>
-        <div>@Model.Content</div>
+        <textarea  name="content" >@Model.Content </textarea>
+        
         @if (Model.VirtualPath != null)
         {
             <div> @Model.VirtualPath</div>
@@ -64,6 +65,17 @@
 
 
 @section Scripts{
+    <script>
+            CKEDITOR.replace( 'content' ,{
+              height: 300,                         
+              toolbar: 'Custom', 
+             toolbarStartupExpanded : false,
+              toolbarCanCollapse  : false,
+            toolbar_Custom: [] 
+             });
+           
+           
+        </script>
     <script >
         function sendComment(postId) {
             $.ajax({
