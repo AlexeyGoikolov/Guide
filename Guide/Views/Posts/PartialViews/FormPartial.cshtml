@@ -4,28 +4,30 @@
     <span class="validationError">@Html.ValidationMessage("CustomError")</span>
 </div>
 
-<div class="card-row">
-    <div>
-        <div style="width: 700px; height: 86px">
+<div class="row">
+    <div class="col-8">
+        <div >
             <label>Заголовок<span class="text-danger">*</span></label>
             <input class="form-control" type="text" asp-for="Title" value="@Model.Title">
             <br/><span class="validationError" asp-validation-for="Title"></span>
         </div>
         <div>
-            <label>Содержание<span class="text-danger">*</span></label>
-            <textarea style="height: 288px;" name="content" class="form-control" type="text" asp-for="Content" value="@Model.Content"></textarea>
-            <br/><span class="validationError" asp-validation-for="Content"></span>
-        </div>
-    </div>
-    <div>
-        <div id="categories-row" class="form-group" style="justify-content: center"></div>
-              <div id="types-row" class="form-group" style="justify-content: center"></div>
-        <div>
             <label>Автор<span class="text-danger">*</span></label>
             <input class="form-control" type="text" asp-for="Author" value="@Model.Author">
             <br/><span class="validationError" asp-validation-for="Author"></span>
         </div>
-        
+        <div>
+            <label>Содержание<span class="text-danger">*</span></label>
+            <textarea  name="content1" type="text" asp-for="Content" value="@Model.Content"></textarea>
+
+        </div>
+
+
+    </div>
+    <div class="col-4">
+
+        <div id="categories-row" class="form-group" style="justify-content: center"></div>
+        <div id="types-row" class="form-group" style="justify-content: center"></div>
         <div>
             <label>Физическое место нахождения</label>
             <input class="form-control" type="text" asp-for="PhysicalPath" value="@Model.PhysicalPath">

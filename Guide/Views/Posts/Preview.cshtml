@@ -1,58 +1,57 @@
 ﻿@model Post
 
 @{
-    ViewBag.Title = "Пост";
+    ViewBag.Title = "Материал";
     Layout = "_Layout";
 }
 
-<div class="container">
-    <div>
+
+<div class="row">
+    <div class="col-8">
         <h3>@Model.Title</h3>
 
         @if (Model.Author != null)
         {
-            <h4>@Model.Author</h4>
+            <h5>Автор : @Model.Author</h5>
         }
+        <div>@Html.Raw(@Model.Content)</div>
+    </div>
+    <div class="col-4">
         @if (Model.PhysicalPath != null)
         {
-            <div>Расположения - @Model.PhysicalPath</div>
+            <div>Место нахождения - @Model.PhysicalPath</div>
         }
         <div>Дата добавления - @Model.DateOfCreate</div>
         @if (Model.DateOfUpdate < Model.DateOfCreate)
         {
-            <div>Дата обнавления - @Model.DateOfUpdate</div>
+            <div>Дата обновления - @Model.DateOfUpdate</div>
         }
         <div>Категория - @Model.Category.Name</div>
         <div>Тип - @Model.Type.Name</div>
-    </div>
-    <div>
+       
+        <div style="margin: 10px;">
+            @if (Model.VirtualPath != null)
+            {
+                <a class="btn btn-blue" src="~/@Model.VirtualPath"  >ссылка</a>                     
+                                 
+            }
+        </div>
+        <div>
+            <a asp-action="Create" asp-controller="QuestionAnswers" class="btn btn-info" asp-route-status="ToQuestion">Задать вопрос</a>
+
+        </div>
         
-       <div>@Html.Raw(@Model.Content)</div> 
-        @if (Model.VirtualPath != null)
-        {
-            <div> @Model.VirtualPath</div>
-        }
     </div>
-    <div>
-        <button>Задать вопрос</button>
-    </div>
-    
-   
 </div>
+
+
+
+
 
  @{ Html.RenderPartial("PartialViews/CommentsPartial"); }
 
 @section Scripts{
-    <script>
-                    CKEDITOR.replace( 'content' ,{
-                      height: 300    });                     
-                        $(document).ready(function () {  
-                         CKEDITOR.on('instanceReady', function (ev) {  
-                         document.getElementById(ev.editor.id + '_top').style.display = 'none';  
-                           })                                            
-                     });                
-                   
-                </script>
+   
     <script >
         function sendComment(postId) {
             $.ajax({
