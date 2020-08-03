@@ -5,7 +5,7 @@
     Layout = "_Layout";
 }
 
-
+<div class="container">
 <div class="row">
     <div class="col-8">
         <h3>@Model.Title</h3>
@@ -43,7 +43,7 @@
         
     </div>
 </div>
-
+</div>
 
 
 
@@ -62,14 +62,20 @@
             'Description': $('.textarea_chat').val() },
             success: function(data) {
             var now = new Date();
-            console.log(data)
             $('.textarea_chat').val("");
-            $( '#messages_list' ).append( 
-            "<div class=\"messages_chat darker\">" + 
-            "<h6>" +  data.author.name.toString()  +"</h6> "+
-            "<p>" + data.description.toString() + "</p> "+
-            "<span class=\"time-right\">" +now.getDay()+"."+ now.getMonth() +"."+ now.getFullYear()+" "+now.getHours()+":"+now.getMinutes()+":"+now.getSeconds()+"</span> "+ 
-            "</div>");
+            $( '.media-list' ).prepend( 
+            "<li class=\"media\">"+
+            "<div class=\"media-body\">" + 
+            "<strong class=\"text-success\">"+
+            "<a>"+data.author.name.toString()+"</a>" + 
+            "</strong>"+
+            " <span class=\"text-muted pull-right\">" + 
+            "<small class=\"text-muted\">"+now.getDay()+"."+ now.getMonth() +"."+ now.getFullYear()+" "+now.getHours()+":"+now.getMinutes()+":"+now.getSeconds()+ 
+            "</small>"+
+            "</span>"+ 
+            "<p>"+data.description.toString() +"</p>"+
+            "</div>"+
+            " </li>");
             },
         });
     }

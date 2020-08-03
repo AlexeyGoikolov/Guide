@@ -3,7 +3,7 @@
     ViewBag.Title = "Профиль пользователя";
     Layout = "_Layout";
 }
-
+<div class="container">
 
 <h1>Список пользователей</h1>
 @foreach (var user in @Model)
@@ -20,3 +20,4 @@
 }
 
 <a class="btn btn-danger" asp-action="Register" asp-controller="Account">Добавить пользователя</a>
+</div>

@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -38,7 +38,7 @@ namespace Guide.Controllers
         public IActionResult Details(string id)
         {
             Post post = _db.Posts.FirstOrDefault(p => p.Id == id);
-            ViewBag.ListComment = _db.Comments.Where(c => c.PostId == post.Id).ToList();
+            ViewBag.ListComment = _db.Comments.Where(c => c.PostId == post.Id).OrderByDescending(g => g.DateOfCreate).ToList();
             return View(post);
         }
         public IActionResult Create()

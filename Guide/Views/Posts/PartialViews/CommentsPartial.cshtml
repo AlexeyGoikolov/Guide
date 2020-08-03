@@ -1,13 +1,15 @@
-﻿<div class="container">
+﻿@model Post
+
+<div class="container">
     <div class="comment-wrapper">
         <div class="panel panel-info">
             <div class="panel-heading">
                 Комментарии
             </div>
             <div class="panel-body">
-                <textarea class="form-control" placeholder="write a comment..." rows="3"></textarea>
+                <textarea class="form-control textarea_chat" placeholder="write a comment..." rows="3"></textarea>
                 <br>
-                <button type="button" class="btn btn-info pull-right">Отправить</button>
+                <button type="button" class="btn btn-info pull-right"  onclick="sendComment('@Model.Id')">Отправить</button>
                 <div class="clearfix"></div>
                 <hr>
                 <ul class="media-list">
@@ -16,9 +18,6 @@
                         @foreach (var commet in ViewBag.ListComment)
                         {
                             <li class="media">
-                                <a href="#" class="pull-left pr-3">
-                                    <img src="https://bootdey.com/img/Content/user_1.jpg" alt="" class="img-circle">
-                                </a>
                                 <div class="media-body">
                                     <strong class="text-success">
                                         <a asp-controller="Account" asp-action="Details" asp-route-id="@commet.Author.Id">
