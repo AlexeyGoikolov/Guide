@@ -7,7 +7,7 @@ namespace Guide.Models
         public string Id { get; set; } = Guid.NewGuid().ToString();
         public string Title { get; set; }
         public string Author { get; set; }
-        public string Content { get; set; }
+        public string TextContent { get; set; }
         //Виртуальный Путь
         public string VirtualPath { get; set; }
         //Физический Путь

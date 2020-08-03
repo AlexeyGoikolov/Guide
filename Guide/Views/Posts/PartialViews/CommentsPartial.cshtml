@@ -1,6 +1,7 @@
-﻿@model List<Comment>
+﻿@using Microsoft.AspNetCore.Identity
+@model List<Comment>
 @inject UserManager<User> UserManager
-@using Microsoft.AspNetCore.Identity
+
 <div class="container">
     <div class="comment-wrapper">
 
@@ -17,7 +18,7 @@
                                     @comment.Author.UserName  
                                 </a>
                                 <span>сделал комментарий :</span> 
-                                @if (UserManager.GetUserId(User) == @comment.AuthorId || User.IsInRole("admin"))
+                                @if (UserManager.GetUserId(User) == comment.AuthorId || User.IsInRole("admin"))
                                 {
                                 <button type="button" class="btn btn-danger pull-right" 
                                         onclick="deleteComment('@comment.Id' ,'@comment.PostId ')">удалить</button>
@@ -38,5 +39,4 @@
             }
         </ul>
     </div>
-        </div>
-  
+</div>

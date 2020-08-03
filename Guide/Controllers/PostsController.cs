@@ -59,7 +59,7 @@ namespace Guide.Controllers
                     Id = model.Id,
                     Title = model.Title,
                     Author = model.Author,
-                    Content = model.Content,
+                    TextContent = model.TextContent,
                     CategoryId = model.CategoryId,
                     TypeId = model.TypeId,
                     PhysicalPath = model.PhysicalPath,

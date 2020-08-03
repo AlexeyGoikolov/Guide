@@ -14,7 +14,7 @@
         {
             <h5>Автор : @Model.Author</h5>
         }
-        <div>@Html.Raw(@Model.Content)</div>
+        <div>@Html.Raw(Model.TextContent)</div>
     </div>
     <div class="col-4">
         @if (Model.PhysicalPath != null)

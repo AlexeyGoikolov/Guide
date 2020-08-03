@@ -11,7 +11,7 @@ namespace Guide.ViewModels
         public string Id { get; set; } = Guid.NewGuid().ToString();
         public string Title { get; set; }
         public string Author { get; set; }
-        public string Content { get; set; }
+        public string TextContent { get; set; }
         public IFormFile VirtualPath { get; set; }
         public string PhysicalPath { get; set; }
         public string CategoryId { get; set; }
