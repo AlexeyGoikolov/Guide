@@ -10,7 +10,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Hosting;
+ using Microsoft.EntityFrameworkCore;
+ using Microsoft.Extensions.Hosting;
 
 namespace Guide.Controllers
 {
@@ -38,7 +39,9 @@ namespace Guide.Controllers
         public IActionResult Details(string id)
         {
             Post post = _db.Posts.FirstOrDefault(p => p.Id == id);
-            ViewBag.ListComment = _db.Comments.Where(c => c.PostId == post.Id).OrderByDescending(g => g.DateOfCreate).ToList();
+         
+            
+           
             return View(post);
         }
         public IActionResult Create()
@@ -150,28 +153,58 @@ namespace Guide.Controllers
 
             return null;
         }
-        
+
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> CreateComment(Comment model)
+        public async Task<IActionResult> CreateComment(Comment? model)
         {
-            if (model.PostId != null && model.Description != null)
+            if (model != null)
             {
-                Comment comment = new Comment()
+                if (model.PostId != null && model.Description != null)
                 {
-                    PostId = model.PostId,
-                    AuthorId = _userManager.GetUserId(User),
-                    Description = model.Description
-                };
-                var result = _db.Comments.AddAsync(comment);
-                if (result.IsCompleted)
-                {
-                    await _db.SaveChangesAsync();
+                    Comment comment = new Comment()
+                    {
+                        PostId = model.PostId,
+                        AuthorId = _userManager.GetUserId(User),
+                        Description = model.Description,
+                        Author = _db.Users.FirstOrDefault(u => u.Id == model.AuthorId)
+                    };
+                    var result = _db.Comments.AddAsync(comment);
+                    if (result.IsCompleted)
+                    {
+                        await _db.SaveChangesAsync();
+                    }
                 }
-                comment.Author = _db.Users.FirstOrDefault(u => u.Id == comment.AuthorId);
-                return Json(comment);
+
+                List<Comment> comments = _db.Comments.Where(c => c.PostId == model.PostId)
+                        .OrderByDescending(g => g.DateOfCreate).ToList();
+
+                    return PartialView("PartialViews/CommentsPartial", comments);
+                }
+
+                return NotFound();
             }
-            return NotFound();
-        }
+        
+
+        [Authorize]
+                public async Task<IActionResult> DeleteComment(string id, string postId)
+                {
+                    Comment comment = _db.Comments.FirstOrDefault(c => c.Id == id);
+                     if (comment != null)
+                                {
+                                   _db.Comments.Remove(comment);
+                                    _db.SaveChanges();
+                                }
+                     
+                     List<Comment> comments = _db.Comments.Where(c => c.PostId == postId).
+                         OrderByDescending(g => g.DateOfCreate).ToList();
+                
+                        return PartialView("PartialViews/CommentsPartial", comments);
+                  
+                   
+                }
+        
+        
+        
     }
 }

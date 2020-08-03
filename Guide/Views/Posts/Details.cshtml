@@ -1,5 +1,4 @@
 ﻿@model Post
-
 @{
     ViewBag.Title = "Материал";
     Layout = "_Layout";
@@ -8,6 +7,7 @@
 <div class="container">
 <div class="row">
     <div class="col-8">
+       
         <h3>@Model.Title</h3>
 
         @if (Model.Author != null)
@@ -36,23 +36,42 @@
                                  
             }
         </div>
-        <div>
+        <div style="margin: 5px; margin-left: auto">
             <a asp-action="Create" asp-controller="QuestionAnswers" class="btn btn-info" asp-route-status="ToQuestion">Задать вопрос</a>
 
+        </div>
+        <div style="margin: 5px; margin-left: auto">
+            <button type="button" class="btn btn-info " 
+                    onclick="sendComment('@Model.Id')">Посмотреть комментарии к этому материалу</button>
+                    
         </div>
         
     </div>
 </div>
 </div>
+<div class="panel panel-info">
+    <div class="panel-heading">
+         
+    </div>
+    <div id="listComment" class="row">
+        
+    </div>
+            <div class="panel-body">
+                <textarea class="form-control textarea_chat" placeholder="write a comment..." rows="3"></textarea>
+                <br>
+                <button type="button" class="btn btn-info pull-right"  onclick="sendComment('@Model.Id')">Отправить</button>
+                <div class="clearfix"></div>
+  </div>
+</div>
 
 
 
 
- @{ Html.RenderPartial("PartialViews/CommentsPartial"); }
 
 @section Scripts{
    
     <script >
+    
         function sendComment(postId) {
             $.ajax({
             url: '@Url.Action("CreateComment", "Posts")',
@@ -61,24 +80,23 @@
             'PostId': postId, 
             'Description': $('.textarea_chat').val() },
             success: function(data) {
-            var now = new Date();
-            $('.textarea_chat').val("");
-            $( '.media-list' ).prepend( 
-            "<li class=\"media\">"+
-            "<div class=\"media-body\">" + 
-            "<strong class=\"text-success\">"+
-            "<a>"+data.author.name.toString()+"</a>" + 
-            "</strong>"+
-            " <span class=\"text-muted pull-right\">" + 
-            "<small class=\"text-muted\">"+now.getDay()+"."+ now.getMonth() +"."+ now.getFullYear()+" "+now.getHours()+":"+now.getMinutes()+":"+now.getSeconds()+ 
-            "</small>"+
-            "</span>"+ 
-            "<p>"+data.description.toString() +"</p>"+
-            "</div>"+
-            " </li>");
+            $('#listComment').html(data); 
             },
         });
-    }
+            }
+         function deleteComment(id, postId) {
+                     $.ajax({
+                     url: '@Url.Action("DeleteComment", "Posts")',
+                     type: 'POST',
+                     data: { 
+                         'id': id,
+                     'postId': postId, 
+                      },
+                     success: function(data) {
+                     $('#listComment').html(data); 
+                     },
+                 });   
+                }
     </script>
 }
 
