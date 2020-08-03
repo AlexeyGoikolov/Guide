@@ -4,29 +4,28 @@
 <!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
 <!--[if gt IE 8]><!--> <html class="no-js" lang=""> <!--<![endif]-->
     <head>
-     
-        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-        <link rel="stylesheet" href="~/css/site.css" />
-        <link rel="stylesheet" href="../wwwroot/css/site.css?v=1" type="text/css"/>
-
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+     <meta charset="utf-8" />
+                <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+               <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">    
+               <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+             <script src="https://cdn.ckeditor.com/4.14.1/standard/ckeditor.js"></script>
         <title>Guide</title>
         <link rel="icon" type="image/ico" href="~/favicon.ico" />
         <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-
+       
+ 
         <!-- ============================================
         ================= Stylesheets ===================
         ============================================= -->
         <!-- vendor css files -->
         <link rel="stylesheet" href="~/assets/css/vendor/bootstrap.min.css">
         
+                <link rel="stylesheet" href="assets/css/vendor/animate.css">
+                <link rel="stylesheet" href="assets/css/vendor/font-awesome.min.css">
+                <link rel="stylesheet" href="assets/js/vendor/animsition/css/animsition.min.css">
 
 
-        
-
-        <script src="https://cdn.ckeditor.com/4.14.1/standard/ckeditor.js"></script>
+      
 
         <!-- project main css files -->
         <link rel="stylesheet" href="~/assets/css/main.css">
@@ -34,7 +33,7 @@
 
 
 
-
+   
     </head>
     <body id="minovate" class="appWrapper">
     
@@ -270,14 +269,16 @@
                 <!--/ SIDEBAR Content -->
                 </div>
             <!--/ CONTROLS Content -->
-            <!-- ====================================================
-            ================= CONTENT ===============================
+        <!-- ====================================================
+        ================= CONTENT ===============================
         ===================================================== -->
-        <div class="page page-fullwidth-layout pt-5">
-            <div class="tbox tbox-sm pt-5">
+     <!--/  это рендерит отлично страницу : id="content"-->
+          <section id="content" >
+        <div class="page "   >
+            <div class= "pt-5">
                 @RenderBody()
             </div>
-        </div>
+        </div></section>
         <!--/ CONTENT -->
         </div>
     <!--/ Application Content -->
