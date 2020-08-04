@@ -4,70 +4,110 @@
     Layout = "_Layout";
 }
 
-<div class="container">
-<div class="row">
-    <div class="col-8">
-       
-        <h3>@Model.Title</h3>
+<section class="tile portlet">
 
-        @if (Model.Author != null)
-        {
-            <h5>Автор : @Model.Author</h5>
-        }
-        <div>@Html.Raw(Model.TextContent)</div>
+    <!-- tile header -->
+    <div class="tile-header dvd dvd-btm">
+        <h1 class="custom-font"><strong> @Model.Title</strong> </h1>
+        <ul class="controls">
+            <li class="dropdown">
+
+                <a role="button" tabindex="0" class="dropdown-toggle settings" data-toggle="dropdown">
+                    <i class="fa fa-cog"></i>
+                    <i class="fa fa-spinner fa-spin"></i>
+                </a>
+
+                <ul class="dropdown-menu pull-right with-arrow animated littleFadeInUp">
+                    <li>
+                        <a role="button" tabindex="0" class="tile-toggle">
+                            <span class="minimize"><i class="fa fa-angle-down"></i>&nbsp;&nbsp;&nbsp;Minimize</span>
+                            <span class="expand"><i class="fa fa-angle-up"></i>&nbsp;&nbsp;&nbsp;Expand</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a role="button" tabindex="0" class="tile-refresh">
+                            <i class="fa fa-refresh"></i> Refresh
+                        </a>
+                    </li>
+                    <li>
+                        <a role="button" tabindex="0" class="tile-fullscreen">
+                            <i class="fa fa-expand"></i> Fullscreen
+                        </a>
+                    </li>
+                </ul>
+
+            </li>
+            <li class="remove">
+                <a role="button" tabindex="0" class="tile-close">
+                    <i class="fa fa-times"></i>
+                </a>
+            </li>
+        </ul>
     </div>
-    <div class="col-4">
-        @if (Model.PhysicalPath != null)
-        {
-            <div>Место нахождения - @Model.PhysicalPath</div>
-        }
-        <div>Дата добавления - @Model.DateOfCreate</div>
-        @if (Model.DateOfUpdate < Model.DateOfCreate)
-        {
-            <div>Дата обновления - @Model.DateOfUpdate</div>
-        }
-        <div>Категория - @Model.Category.Name</div>
-        <div>Тип - @Model.Type.Name</div>
-       
-        <div style="margin: 10px;">
-            @if (Model.VirtualPath != null)
-            {
-                <a class="btn btn-blue" src="~/@Model.VirtualPath"  >ссылка</a>                     
-                                 
-            }
+    <!-- /tile header -->
+
+    <!-- tile body -->
+    <div class="tile-body">
+        <div class="row">
+            <div class="col-8">
+
+
+
+                @if (Model.Author != null)
+                {
+                    <h5>Автор : @Model.Author</h5>
+                }
+                <div>@Html.Raw(Model.TextContent)</div>
+            </div>
+            <div class="col-4">
+                @if (Model.PhysicalPath != null)
+                {
+                    <div>Место нахождения - @Model.PhysicalPath</div>
+                }
+                <div>Дата добавления - @Model.DateOfCreate</div>
+                @if (Model.DateOfUpdate < Model.DateOfCreate)
+                {
+                    <div>Дата обновления - @Model.DateOfUpdate</div>
+                }
+                <div>Категория - @Model.Category.Name</div>
+                <div>Тип - @Model.Type.Name</div>
+
+                <div style="margin: 10px;">
+                    @if (Model.VirtualPath != null)
+                    {
+                        <a class="btn btn-blue" src="~/@Model.VirtualPath">ссылка</a>
+                    }
+                </div>
+                <div style="margin: 5px; margin-left: auto">
+                    <a asp-action="Create" asp-controller="QuestionAnswers" class="btn btn-info" asp-route-status="ToQuestion">Задать вопрос</a>
+
+                </div>
+                <div>
+                    <div class="panel-body">
+                        <textarea id="comment_area" class="form-control textarea_chat" placeholder="Оставить свой комментарий..." rows="3"></textarea>
+                        <br>
+                        <button type="button" class="btn btn-info pull-right" onclick="sendComment('@Model.Id')">Добавить</button>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div style="margin: 5px; margin-left: auto">
+                        <button type="button" class="btn btn-info "
+                                onclick="viewComment('@Model.Id')">
+                            Посмотреть комментарии к этому материалу
+                        </button>
+
+                    </div>
+
+                </div>
+            </div>
         </div>
-        <div style="margin: 5px; margin-left: auto">
-            <a asp-action="Create" asp-controller="QuestionAnswers" class="btn btn-info" asp-route-status="ToQuestion">Задать вопрос</a>
-
+        <div class="panel panel-info">
+            <div class="panel-heading"></div>
+            <div id="listComment"></div>
         </div>
-        <div style="margin: 5px; margin-left: auto">
-            <button type="button" class="btn btn-info " 
-                    onclick="sendComment('@Model.Id')">Посмотреть комментарии к этому материалу</button>
-                    
-        </div>
-        
     </div>
-</div>
-</div>
-<div class="panel panel-info">
-    <div class="panel-heading">
-         
-    </div>
-    <div id="listComment" class="row">
-        
-    </div>
-            <div class="panel-body">
-                <textarea class="form-control textarea_chat" placeholder="write a comment..." rows="3"></textarea>
-                <br>
-                <button type="button" class="btn btn-info pull-right"  onclick="sendComment('@Model.Id')">Отправить</button>
-                <div class="clearfix"></div>
-  </div>
-</div>
-
-
-
-
-
+    <!-- /tile body -->
+</section>
+<!-- /tile -->
 @section Scripts{
    
     <script >
@@ -81,13 +121,16 @@
             'Description': $('.textarea_chat').val() },
             success: function(data) {
             $('#listComment').html(data); 
+             //let form = document.getElementById('comment_area');
+            //  form.text.value = '';
+               $('.textarea_chat').val("");
             },
         });
             }
          function deleteComment(id, postId) {
                      $.ajax({
                      url: '@Url.Action("DeleteComment", "Posts")',
-                     type: 'POST',
+                     type: 'GET',
                      data: { 
                          'id': id,
                      'postId': postId, 
@@ -97,6 +140,16 @@
                      },
                  });   
                 }
+          function viewComment(id) {
+                          $.ajax({
+                         url: '@Url.Action("ViewComment", "Posts")',
+                          type: 'GET',
+                          data: { 'id': id },
+                           success: function(data) {
+                            $('#listComment').html(data); 
+                                     },
+                                 });   
+                                }
     </script>
 }
 
