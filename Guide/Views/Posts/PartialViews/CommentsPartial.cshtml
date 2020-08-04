@@ -2,8 +2,11 @@
 @model List<Comment>
 @inject UserManager<User> UserManager
 
-<div class="container">
-    <div class="comment-wrapper">
+
+    <div style = "overflow: scroll; /* Добавляем полосы прокрутки */
+                                                 width: 1200px; /* Ширина блока */
+                                                 height: 250px; /* Высота блока */
+                                                 padding: 5px; /* Поля вокруг текста */" class="comment-wrapper">
 
         <hr>
         <ul class="media-list">
@@ -14,14 +17,18 @@
                     <li class="media">
                         <div class="media-body">
                             <strong class="text-success">
+                                
                                 <a asp-controller="Account" asp-action="Details" asp-route-id="@comment.AuthorId">
-                                    @comment.Author.UserName  
+                                    @comment.Author.UserName
                                 </a>
-                                <span>сделал комментарий :</span> 
+                                <span>сделал комментарий :</span>
                                 @if (UserManager.GetUserId(User) == comment.AuthorId || User.IsInRole("admin"))
                                 {
-                                <button type="button" class="btn btn-danger pull-right" 
-                                        onclick="deleteComment('@comment.Id' ,'@comment.PostId ')">удалить</button>
+                                    <button class="btn btn-greensea btn-rounded btn-icon-only btn-xs  btn-ef btn-ef-7 btn-ef-7d mb-10 pull-right minimize " 
+                                            onclick="deleteComment('@comment.Id' ,'@comment.PostId ')" >
+                                        <i class="fa fa-trash" ></i> Delete
+                                    </button>
+                                  
                                 }
                             </strong>
                             <span class="text-muted pull-right">
@@ -39,4 +46,4 @@
             }
         </ul>
     </div>
-</div>
+
