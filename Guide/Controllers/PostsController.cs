@@ -153,6 +153,15 @@ namespace Guide.Controllers
 
             return null;
         }
+        [Authorize]
+        public async Task<IActionResult> ViewComment(string id)
+        {
+            List<Comment> comments = _db.Comments.Where(c => c.PostId == id)
+                    .OrderByDescending(g => g.DateOfCreate).ToList();
+
+                return PartialView("PartialViews/CommentsPartial", comments);
+            
+        }
 
         [HttpPost]
         [Authorize]
@@ -187,24 +196,17 @@ namespace Guide.Controllers
         
 
         [Authorize]
-                public async Task<IActionResult> DeleteComment(string id, string postId)
-                {
-                    Comment comment = _db.Comments.FirstOrDefault(c => c.Id == id);
-                     if (comment != null)
-                                {
-                                   _db.Comments.Remove(comment);
-                                    _db.SaveChanges();
-                                }
-                     
-                     List<Comment> comments = _db.Comments.Where(c => c.PostId == postId).
-                         OrderByDescending(g => g.DateOfCreate).ToList();
-                
-                        return PartialView("PartialViews/CommentsPartial", comments);
-                  
-                   
-                }
-        
-        
-        
-    }
+        public async Task<IActionResult> DeleteComment(string id, string postId)
+        {
+            Comment comment = _db.Comments.FirstOrDefault(c => c.Id == id);
+            if (comment != null)
+            {
+                _db.Comments.Remove(comment);
+                _db.SaveChanges();
+            }
+            List<Comment> com = _db.Comments.Where(c=>c.PostId==postId).ToList();
+
+            return PartialView("PartialViews/CommentsPartial", com);
+        }
+        }
 }
