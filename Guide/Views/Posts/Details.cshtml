@@ -86,7 +86,7 @@
                     <div class="panel-body">
                         <textarea id="comment_area" class="form-control textarea_chat" placeholder="Оставить свой комментарий..." rows="3"></textarea>
                         <br>
-                        <button type="button" class="btn btn-info pull-right" onclick="sendComment('@Model.Id')">Добавить</button>
+                        <button type="button" class="btn btn-info pull-right" name="@Model.Id" id ="sendCommetnt">Добавить</button>
                         <div class="clearfix"></div>
                     </div>
                     <div style="margin: 5px; margin-left: auto">
@@ -111,29 +111,34 @@
 @section Scripts{
    
     <script >
-    
-        function sendComment(postId) {
+    $('#sendCommetnt').click(function(event) {
+      event.preventDefault();
+      let id = $('#sendCommetnt').attr('name');
+      let comment = $('#comment_area').val();
+      reset();     
+   
             $.ajax({
             url: '@Url.Action("CreateComment", "Posts")',
             type: 'POST',
             data: { 
-            'PostId': postId, 
-            'Description': $('.textarea_chat').val() },
+            'PostId': id, 
+            'Description': comment  },
             success: function(data) {
             $('#listComment').html(data); 
-             //let form = document.getElementById('comment_area');
-            //  form.text.value = '';
-               $('.textarea_chat').val("");
-            },
+                        },
+           });  
         });
-            }
-         function deleteComment(id, postId) {
+            let reset = function() {
+              $('#comment_area').val("");  
+              
+            };
+         function deleteComment(Id, PostId) {
                      $.ajax({
                      url: '@Url.Action("DeleteComment", "Posts")',
                      type: 'GET',
                      data: { 
-                         'id': id,
-                     'postId': postId, 
+                         'id': Id,
+                     'postId': PostId, 
                       },
                      success: function(data) {
                      $('#listComment').html(data); 

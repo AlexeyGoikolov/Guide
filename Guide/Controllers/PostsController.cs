@@ -153,7 +153,7 @@ namespace Guide.Controllers
 
             return null;
         }
-        [Authorize]
+        [HttpGet]
         public async Task<IActionResult> ViewComment(string id)
         {
             List<Comment> comments = _db.Comments.Where(c => c.PostId == id)
@@ -164,11 +164,10 @@ namespace Guide.Controllers
         }
 
         [HttpPost]
-        [Authorize]
-        public async Task<IActionResult> CreateComment(Comment? model)
+       
+        public async Task<IActionResult> CreateComment(Comment model)
         {
-            if (model != null)
-            {
+           
                 if (model.PostId != null && model.Description != null)
                 {
                     Comment comment = new Comment()
@@ -176,37 +175,35 @@ namespace Guide.Controllers
                         PostId = model.PostId,
                         AuthorId = _userManager.GetUserId(User),
                         Description = model.Description,
-                        Author = _db.Users.FirstOrDefault(u => u.Id == model.AuthorId)
+                       
                     };
-                    var result = _db.Comments.AddAsync(comment);
-                    if (result.IsCompleted)
-                    {
-                        await _db.SaveChangesAsync();
-                    }
+                   _db.Comments.AddAsync(comment);
+                   await _db.SaveChangesAsync();
+                  
                 }
 
-                List<Comment> comments = _db.Comments.Where(c => c.PostId == model.PostId)
-                        .OrderByDescending(g => g.DateOfCreate).ToList();
+                List<Comment> comments =await _db.Comments.Include(c =>c.Author).
+                    Where(c => c.PostId == model.PostId)
+                        .OrderByDescending(g => g.DateOfCreate).ToListAsync();
 
                     return PartialView("PartialViews/CommentsPartial", comments);
                 }
-
-                return NotFound();
-            }
         
 
-        [Authorize]
+        [HttpGet]
         public async Task<IActionResult> DeleteComment(string id, string postId)
         {
-            Comment comment = _db.Comments.FirstOrDefault(c => c.Id == id);
+            Comment comment = await _db.Comments.FirstOrDefaultAsync(c => c.Id == id);
             if (comment != null)
             {
                 _db.Comments.Remove(comment);
-                _db.SaveChanges();
+               await _db.SaveChangesAsync();
             }
-            List<Comment> com = _db.Comments.Where(c=>c.PostId==postId).ToList();
 
-            return PartialView("PartialViews/CommentsPartial", com);
+            List<Comment> comments = await _db.Comments.Where(c => c.PostId == postId)
+                .OrderByDescending(g => g.DateOfCreate).ToListAsync();
+
+            return PartialView("PartialViews/CommentsPartial", comments);
         }
         }
 }
