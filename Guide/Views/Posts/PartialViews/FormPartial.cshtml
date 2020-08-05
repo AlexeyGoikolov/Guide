@@ -12,11 +12,6 @@
             <input class="form-control" type="text" asp-for="Title" value="@Model.Title">
             </div>
         <div>
-            <label>Автор<span class="text-danger">*</span></label>
-            <br/><span class="validationError" asp-validation-for="Author"></span>
-            <input class="form-control" type="text" asp-for="Author" value="@Model.Author">
-            </div>
-        <div>
             <label>Содержание<span class="text-danger">*</span></label>
             <textarea  name="textContent" type="text" asp-for="TextContent" value="@Model.TextContent"></textarea>
         </div>
@@ -27,6 +22,11 @@
             
         </div>
         <div id="types-row" class="form-group" style="justify-content: center"></div>
+        <div>
+            <label>Автор<span class="text-danger">*</span></label>
+            <br/><span class="validationError" asp-validation-for="Author"></span>
+            <input class="form-control" type="text" asp-for="Author" value="@Model.Author">
+            </div>
         <div>
             <label>Физическое место нахождения</label>
             <input class="form-control" type="text" asp-for="PhysicalPath" value="@Model.PhysicalPath">
