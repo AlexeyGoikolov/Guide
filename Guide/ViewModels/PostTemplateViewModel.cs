@@ -3,10 +3,9 @@ using Guide.Models;
 
 namespace Guide.ViewModels
 {
-    public class PostCategoryViewModel
+    public class PostTemplateViewModel
     {
         public PostCreateViewModel Post { get; set; }
-        public List<Category> Categories { get; set; }
-
+        public List<Template> Templates { get; set; }
     }
 }

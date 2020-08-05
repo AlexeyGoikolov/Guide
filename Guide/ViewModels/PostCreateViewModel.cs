@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Guide.Models;
 using Microsoft.AspNetCore.Http;
@@ -26,5 +27,7 @@ namespace Guide.ViewModels
         [Required(ErrorMessage = "Необходимо заполнить поле Тип")]
         [DataType(DataType.Text)]
         public string TypeId { get; set; }
+        
+        
     }
 }

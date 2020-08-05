@@ -6,8 +6,7 @@ using Guide.Models;
 using Guide.Models.Data;
 using Guide.Services;
 using Guide.ViewModels;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
+ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
  using Microsoft.EntityFrameworkCore;
@@ -72,6 +71,24 @@ namespace Guide.Controllers
 
             return View(model);
         }
+        
+        public IActionResult CreateTemplateAjax(Template template)
+        {
+            if (template.Name != null)
+            {
+                _db.Templates.Add(template);
+                _db.SaveChanges();
+            }
+            PostTemplateViewModel model = new PostTemplateViewModel()
+            {
+                Post = new PostCreateViewModel(),
+                Templates = _db.Templates.ToList()
+                
+            };
+            
+            return PartialView("PartialViews/TemplatesPartial", model);
+        }
+        
         public IActionResult CreateCategoryAjax(Category category)
         {
             if (category.Name != null)
@@ -82,7 +99,7 @@ namespace Guide.Controllers
             PostCategoryViewModel model = new PostCategoryViewModel()
             {
                 Post = new PostCreateViewModel(),
-                Categories = _db.Categories.ToList()
+                Categories = _db.Categories.ToList(),
             };
             
             return PartialView("PartialViews/CategoriesPartial", model);
@@ -115,10 +132,28 @@ namespace Guide.Controllers
             PostCategoryViewModel model = new PostCategoryViewModel()
             {
                 Post = new PostCreateViewModel(),
-                Categories = _db.Categories.ToList()
+                Categories = _db.Categories.ToList(),
+
             };
             
             return PartialView("PartialViews/CategoriesPartial", model);
+        }
+        public IActionResult DeleteTemplateAjax(string id)
+        {
+            Template template = _db.Templates.FirstOrDefault(c => c.Id == id);
+            if (template != null)
+            {
+                _db.Templates.Remove(template);
+                _db.SaveChanges();
+            }
+            PostTemplateViewModel model = new PostTemplateViewModel()
+            {
+                Post = new PostCreateViewModel(),
+                Templates = _db.Templates.ToList(),
+
+            };
+            
+            return PartialView("PartialViews/TemplatesPartial", model);
         }
         public IActionResult DeleteTypeAjax(string id)
         {

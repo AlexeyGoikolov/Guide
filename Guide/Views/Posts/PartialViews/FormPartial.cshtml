@@ -32,8 +32,12 @@
             <input class="form-control" type="text" asp-for="PhysicalPath" value="@Model.PhysicalPath">
         </div>
         <div>
-            <label>Загрузить файл</label>
+            <label >Загрузить файл</label>
             <input class="form-control" type="file" asp-for="VirtualPath">
+        </div>
+        <div id="template-row" class="form-group" style="justify-content: center"></div>
+        <div>
+            <a class="btn btn-default" data-toggle="modal" data-target="#myModal2">Добавить шаблон</a>
         </div>
     </div>
 </div>
