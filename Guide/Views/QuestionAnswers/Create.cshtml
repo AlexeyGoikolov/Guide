@@ -29,6 +29,7 @@
                 @{ Html.RenderPartial("PartialViews/QuestionAnswers", Model); }
                 <input type="hidden" value="@Model.QuestionAnswer.Id" asp-for="QuestionAnswer.Id">
                 <input type="hidden" value="@Model.Status" asp-for="@Model.Status">
+                <input type="hidden" value="@Model.PostId" asp-for="@Model.PostId">
                     @if (Model.Status == QuestionAnswersStatus.Creat)
                     {
                         <button type="submit" class="btn btn-info" style="margin:  20px 0 0;" >Добавить</button>

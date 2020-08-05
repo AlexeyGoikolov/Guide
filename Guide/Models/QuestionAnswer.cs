@@ -8,9 +8,11 @@ namespace Guide.Models
     {
         public string Id { get; set; } = Guid.NewGuid().ToString();
         
-        [Required(ErrorMessage = "Поля не заполнено")]
+        [Required(ErrorMessage = "Поле не заполнено")]
         public string Question { get; set; }
         public string Answer { get; set; }
+        public string PostId { get; set; }
+        public virtual Post Post { get; set; }
         public List<string> Links { get; set; }
         public virtual List<Post> Posts { get; set; }
     }

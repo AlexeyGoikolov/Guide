@@ -193,11 +193,16 @@ namespace Guide.Migrations
                     b.Property<List<string>>("Links")
                         .HasColumnType("text[]");
 
+                    b.Property<string>("PostId")
+                        .HasColumnType("text");
+
                     b.Property<string>("Question")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("PostId");
 
                     b.ToTable("QuestionAnswers");
                 });
@@ -457,6 +462,13 @@ namespace Guide.Migrations
                     b.HasOne("Guide.Models.Type", "Type")
                         .WithMany()
                         .HasForeignKey("TypeId");
+                });
+
+            modelBuilder.Entity("Guide.Models.QuestionAnswer", b =>
+                {
+                    b.HasOne("Guide.Models.Post", "Post")
+                        .WithMany()
+                        .HasForeignKey("PostId");
                 });
 
             modelBuilder.Entity("Guide.Models.User", b =>

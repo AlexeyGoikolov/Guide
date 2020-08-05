@@ -36,12 +36,13 @@ namespace Guide.Controllers
             QuestionAnswer questionAnswer = _db.QuestionAnswers.FirstOrDefault(q => q.Id == id);
             return View(questionAnswer);
         }
-        public IActionResult Create(QuestionAnswersStatus status, string id)
+        public IActionResult Create(QuestionAnswersStatus status, string id, string postId)
         {
             QuestionAnswersViewModel model = new QuestionAnswersViewModel();
             if (id != null)
                 model.QuestionAnswer = _db.QuestionAnswers.FirstOrDefault(q => q.Id == id);
             model.Status = status;
+            model.PostId = postId;
             return View(model);
         }
         [HttpPost]
@@ -55,6 +56,8 @@ namespace Guide.Controllers
                     questionAnswer = _db.QuestionAnswers.FirstOrDefault(q => q.Id == model.QuestionAnswer.Id);
                     questionAnswer.Question = model.QuestionAnswer.Question;
                     questionAnswer.Answer = model.QuestionAnswer.Answer;
+                    questionAnswer.PostId= model.PostId;
+                    
                     _db.QuestionAnswers.Update(questionAnswer);
                     
                 }
@@ -63,6 +66,7 @@ namespace Guide.Controllers
                     questionAnswer.Id = model.QuestionAnswer.Id;
                     questionAnswer.Question = model.QuestionAnswer.Question;
                     questionAnswer.Answer = model.QuestionAnswer.Answer;
+                     questionAnswer.PostId= model.PostId;
                     _db.QuestionAnswers.Add(questionAnswer);
                 }
                 _db.SaveChanges();
