@@ -8,23 +8,24 @@
     <div class="col-8">
         <div >
             <label>Заголовок<span class="text-danger">*</span></label>
-            <input class="form-control" type="text" asp-for="Title" value="@Model.Title">
             <br/><span class="validationError" asp-validation-for="Title"></span>
-        </div>
+            <input class="form-control" type="text" asp-for="Title" value="@Model.Title">
+            </div>
         <div>
             <label>Автор<span class="text-danger">*</span></label>
-            <input class="form-control" type="text" asp-for="Author" value="@Model.Author">
             <br/><span class="validationError" asp-validation-for="Author"></span>
-        </div>
+            <input class="form-control" type="text" asp-for="Author" value="@Model.Author">
+            </div>
         <div>
             <label>Содержание<span class="text-danger">*</span></label>
             <textarea  name="textContent" type="text" asp-for="TextContent" value="@Model.TextContent"></textarea>
-
         </div>
     </div>
     <div class="col-4">
 
-        <div id="categories-row" class="form-group" style="justify-content: center"></div>
+        <div id="categories-row" class="form-group" style="justify-content: center;">
+            
+        </div>
         <div id="types-row" class="form-group" style="justify-content: center"></div>
         <div>
             <label>Физическое место нахождения</label>

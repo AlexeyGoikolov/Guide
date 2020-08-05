@@ -17595,3 +17595,7 @@ hr.line-full {
     opacity: 1;
   }
 }
+.field-validation-error{
+  color: red;
+  font-size: 12px;
+}

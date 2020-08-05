@@ -1,6 +1,7 @@
 ﻿@model PostTypeViewModel
 
 <label>Выберите Тип<span class="text-danger">*</span></label>
+  <span class="validationError" asp-validation-for="@Model.Post.TypeId"></span>
 <div style="display: flex">
     <select class="form-control" name="TypeId" asp-for="@Model.Post.TypeId">
         @foreach (var type in @Model.Types)

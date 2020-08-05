@@ -12,15 +12,16 @@
         </div>
         <div class="card-body">
             <form asp-action="Create" asp-controller="Posts" method="post" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly"></div>
                 @{ Html.RenderPartial("PartialViews/FormPartial", Model); }
-             <button type="submit" class="btn btn-info" style="margin:  20px 0 0 270px; width: 500px;">Создать</button>
+                <button type="submit" class="btn btn-info" style="margin:  20px 0 0 270px; width: 500px;">Создать</button>
                 <input type="hidden" value="@Model.Id" id="postId" asp-for="Id">
             </form>
         </div>
     </div>
 
-@{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
 
+@{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
 @section Scripts
 {
        
