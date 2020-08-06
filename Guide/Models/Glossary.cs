@@ -13,5 +13,7 @@ namespace Guide.Models
         public string Name { get; set; }
         [Required(ErrorMessage = "Поля не заполнено")]
         public string Description { get; set; }
+        public string Abbreviation { get; set; }
+        public string Source { get; set; }
     }
 }

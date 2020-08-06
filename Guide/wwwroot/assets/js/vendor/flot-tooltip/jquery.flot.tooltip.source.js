@@ -262,7 +262,7 @@
             if(this.tooltipOptions.defaultTheme) {
                 $tip.css({
                     'background': '#fff',
-                    'z-index': '1050',
+                    'z-index': '1040',
                     'padding': '0.4em 0.6em',
                     'border-radius': '0.5em',
                     'font-size': '0.8em',

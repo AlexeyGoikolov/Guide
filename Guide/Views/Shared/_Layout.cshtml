@@ -274,17 +274,12 @@
         ===================================================== -->
      <!--/  это рендерит отлично страницу : id="content"-->
         <section id="content">
-            <div class=" page ">
-                <div class="pt-5">
-                    @RenderBody()
-                </div>
-            </div>
-        </section>
+           @RenderBody()
+              </section>
         <!--/ CONTENT -->
         </div>
     <!--/ Application Content -->
     
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
 
     <script src="~/js/site.js" asp-append-version="true"></script>
     
@@ -292,15 +287,25 @@
         ============== Vendor JavaScripts ===============
         ============================================= -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-        <script>window.jQuery || document.write('<script src="assets/js/vendor/jquery/jquery-1.11.2.min.js"><\/script>')</script>
+        <script>window.jQuery || document.write('<script src="~/assets/js/vendor/jquery/jquery-1.11.2.min.js"><\/script>')</script>
 
         <script src="~/assets/js/vendor/bootstrap/bootstrap.min.js"></script>
 
         <script src="~/assets/js/vendor/jRespond/jRespond.min.js"></script>
 
     <script src="~/assets/js/vendor/sparkline/jquery.sparkline.min.js"></script>
-    
+
     <script src="~/assets/js/vendor/animsition/js/jquery.animsition.min.js"></script>
+
+    <script src="~/assets/js/vendor/screenfull/screenfull.min.js"></script>
+
+    <script src="~/assets/js/vendor/datatables/js/jquery.dataTables.min.js"></script>
+    <script src="~/assets/js/vendor/datatables/extensions/ColReorder/js/dataTables.colReorder.min.js"></script>
+    <script src="~/assets/js/vendor/datatables/extensions/Responsive/js/dataTables.responsive.min.js"></script>
+    <script src="~/assets/js/vendor/datatables/extensions/ColVis/js/dataTables.colVis.min.js"></script>
+    <script src="~/assets/js/vendor/datatables/extensions/TableTools/js/dataTables.tableTools.min.js"></script>
+    <script src="~/assets/js/vendor/datatables/extensions/dataTables.bootstrap.js"></script>
+
         <!--/ vendor javascripts -->
     
         <!-- ============================================

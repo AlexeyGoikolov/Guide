@@ -4,15 +4,17 @@ using System.Collections.Generic;
 using Guide.Models.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Guide.Migrations
 {
     [DbContext(typeof(GuideContext))]
-    partial class GuideContextModelSnapshot : ModelSnapshot
+    [Migration("20200805130320_addPostIdinComment")]
+    partial class addPostIdinComment
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -109,9 +111,6 @@ namespace Guide.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("text");
 
-                    b.Property<string>("Abbreviation")
-                        .HasColumnType("text");
-
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("text");
@@ -120,9 +119,6 @@ namespace Guide.Migrations
                         .IsRequired()
                         .HasColumnType("character varying(25)")
                         .HasMaxLength(25);
-
-                    b.Property<string>("Source")
-                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -211,25 +207,6 @@ namespace Guide.Migrations
                     b.HasIndex("PostId");
 
                     b.ToTable("QuestionAnswers");
-                });
-
-            modelBuilder.Entity("Guide.Models.Template", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("text");
-
-                    b.Property<string>("ContentTemplate")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Title")
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Templates");
                 });
 
             modelBuilder.Entity("Guide.Models.Type", b =>

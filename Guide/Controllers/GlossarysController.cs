@@ -32,12 +32,7 @@ namespace Guide.Controllers
         {
             if (ModelState.IsValid )
             {
-                Glossary glossary = new Glossary()
-                {
-                    Name = model.Name,
-                    Description = model.Description
-                };
-                _db.Glossaries.Add(glossary);
+                _db.Glossaries.Add(model);
                 _db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -96,7 +91,6 @@ namespace Guide.Controllers
             return View(model);
 
         }
-        
-        
+
     }
 }
