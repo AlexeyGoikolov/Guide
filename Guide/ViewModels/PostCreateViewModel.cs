@@ -20,6 +20,7 @@ namespace Guide.ViewModels
         public string Author { get; set; }
         public string TextContent { get; set; }
         public IFormFile VirtualPath { get; set; }
+        public string _virtualPath { get; set; }
         public string PhysicalPath { get; set; }
          [Required(ErrorMessage = "Необходимо заполнить поле Категория")]
                 [DataType(DataType.Text)]

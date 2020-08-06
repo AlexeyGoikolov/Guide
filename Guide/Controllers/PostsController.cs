@@ -215,7 +215,7 @@ using Microsoft.AspNetCore.Mvc;
         }
 
         [HttpPost]
-       
+     
         public async Task<IActionResult> CreateComment(Comment model)
         {
            
@@ -254,5 +254,80 @@ using Microsoft.AspNetCore.Mvc;
 
             return PartialView("PartialViews/CommentsPartial", comments);
         }
+        
+        public IActionResult Edit(string id)
+        {
+            if (id != null)
+            {
+                Post post = _db.Posts.FirstOrDefault(p => p.Id == id);
+                PostCreateViewModel model = new PostCreateViewModel()
+                {
+                    Id = post.Id,
+                    Title = post.Title,
+                    Author = post.Author,
+                    TextContent = post.TextContent,
+                    _virtualPath = post.VirtualPath,
+                    CategoryId = post.CategoryId,
+                    PhysicalPath = post.PhysicalPath,
+                    TypeId = post.TypeId,
+                    
+                };
+                
+                return View(model);
+            }
+            return NotFound();
         }
+        [HttpPost]
+        public IActionResult Edit(PostCreateViewModel model)
+        {
+            if (ModelState.IsValid )
+            {
+                Post post = _db.Posts.FirstOrDefault(p => p.Id == model.Id);
+                post.Id = model.Id;
+                post.Title = model.Title;
+                post.Author = model.Author;
+                post.TextContent = model.TextContent;
+                post.CategoryId = model.CategoryId;
+                post.TypeId = model.TypeId;
+                post.PhysicalPath = model.PhysicalPath;
+                post.VirtualPath = Load(model.Id, model.VirtualPath);
+                _db.Posts.Update(post);
+                _db.SaveChanges();
+                return RedirectToAction("Index", "Posts");
+            }
+            return View(model);
+
+        }
+        
+        public IActionResult Delete(string id)
+        {
+            if (id != null)
+            {
+                Post post = _db.Posts.FirstOrDefault(v => v.Id == id);
+                if (post != null)
+                {
+                    return View(post);
+                }
+            }
+            return NotFound();
+        }
+        [HttpPost]
+        [ActionName("Delete")]
+        public IActionResult ConfirmDeleta(string id)
+        {
+            if (id != null)
+            {
+                Post post = _db.Posts.FirstOrDefault(v => v.Id == id);
+                if (post != null)
+                {
+                    _db.Posts.Remove(post);
+                    _db.SaveChanges();
+                }
+            }
+            return RedirectToAction("Index" , "Posts");
+        }
+        
+        
+        }
+ 
 }
