@@ -50,24 +50,14 @@
                 </div>
             </div>
         </div>
-        <!-- Modal -->
+<!-- Modal -->
+
 @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
 
-     <script>
-     $("#templateIdBtn").click(function(event) {
-         
-         event.preventDefault();
-         var id = $('#selectTemplate').val();
-         console.log(id);
-
-         $.get('@Url.Action("Create", "Posts")',{templateId: id});
-         
-     });
-      </script>
+     
 @section Scripts
 {
     <script>
-   
         CKEDITOR.replace('textContent');
         </script>
     <script>
@@ -75,7 +65,17 @@
             </script>
      <script>
 
+
+                 $("#templateIdBtn").click(function(event) {
+                     
+                     event.preventDefault();
+                     var id = $('#selectTemplate').val();
+                     console.log(id);
             
+                     $.get('@Url.Action("Create", "Posts")',{templateId: id});
+                     
+                 });
+                
      
         var loadCategories = function(){
             var catInput = $('#catInput').val();

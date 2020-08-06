@@ -1,18 +1,30 @@
 ﻿@model Glossary
 
+<div class="col-8">
+    <div>
+        <label>Название термина<span class="text-danger">*</span></label>
+        <input class="form-control" type="text" asp-for="Name" value="@Model.Name">
+        <br/><span class="validationError" asp-validation-for="Name"></span>
+    </div>
+    <div>
+        <label>Описание<span class="text-danger">*</span></label>
+        <textarea name="Description" class="form-control" type="text" asp-for="Description" value="@Model.Description"></textarea>
+        <br/><span class="validationError" asp-validation-for="Description"></span>
+    </div>
+</div>
+<div class="col-4">
+    <div>
+        <label>Аббревиатура</label>
+        <input class="form-control" type="text" asp-for="Abbreviation" value="@Model.Abbreviation">
+    </div>
+    <div>
+        <label>Источник</label>
+        <input class="form-control" type="text" asp-for="Source" value="@Model.Source">
+    </div>
+</div>
 
-<div style="text-align: center">
-</div>
-<div>
-    <label>Название термина<span class="text-danger">*</span></label>
-    <input class="form-control" type="text" asp-for="Name" value="@Model.Name">
-    <br/><span class="validationError" asp-validation-for="Name"></span>
-</div>
-<div>
-    <label>Описание<span class="text-danger">*</span></label>
-    <textarea class="form-control" type="text" asp-for="Description" value="@Model.Description"></textarea>
-    <br/><span class="validationError" asp-validation-for="Description"></span>
-</div>
+
+
 
 
 

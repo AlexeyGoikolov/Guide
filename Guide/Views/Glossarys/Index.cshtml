@@ -1,4 +1,4 @@
-﻿@using System.Data
+﻿
 @model List<Glossary>
 
 @{
@@ -22,10 +22,18 @@
             <div class="col">
                 Название
             </div>
-            <div class="col-6 border-left">
+            <div class="col-4 border-left">
                 Описание
             </div>
-            <div class="col"></div>
+            <div class="col border-left">
+                Аббревиатуру
+            </div>
+            <div class="col border-left">
+                Источник
+            </div>
+            <div class="col border-left">
+                            
+                        </div>
         </div>
 
         @foreach (var glossery in Model)
@@ -35,8 +43,14 @@
                 <div class="col">
                     <a asp-action="Preview" asp-controller="Glossarys" asp-route-id="@glossery.Id">@glossery.Name</a>
                 </div>
-                <div class="col-6 border-left">
+                <div class="col-4 border-left">
                     @glossery.Description
+                </div>
+                <div class="col border-left">
+                    @glossery.Abbreviation
+                </div>
+                <div class="col border-left">
+                    @glossery.Source
                 </div>
                 <div class="col border-left">
                     <div>
@@ -51,6 +65,5 @@
     }
 
 </div>
-
 
 
