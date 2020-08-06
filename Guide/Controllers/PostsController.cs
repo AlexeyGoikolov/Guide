@@ -1,4 +1,5 @@
-﻿﻿using System.Collections.Generic;
+﻿﻿using System;
+ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,8 +12,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
  using Microsoft.EntityFrameworkCore;
  using Microsoft.Extensions.Hosting;
+ using Type = Guide.Models.Type;
 
-namespace Guide.Controllers
+ namespace Guide.Controllers
 {
     public class PostsController : Controller
     {
@@ -43,9 +45,23 @@ namespace Guide.Controllers
            
             return View(post);
         }
-        public IActionResult Create()
+        public IActionResult Create(string templatesId)
         {
-            return View(new PostCreateViewModel());
+            try
+            {
+                PostCreateViewModel model = new PostCreateViewModel();
+                if (templatesId != null)
+                {
+                    Template template = _db.Templates.FirstOrDefault(t => t.Id == templatesId);
+                    model.Title = template.Title;
+                    model.TextContent = template.ContentTemplate;
+                }
+                return View(model);
+            }
+            catch (Exception e)
+            {
+                return View(new PostCreateViewModel());
+            }
         }
 
         [HttpPost]
@@ -223,8 +239,6 @@ namespace Guide.Controllers
 
                     return PartialView("PartialViews/CommentsPartial", comments);
                 }
-        
-
         [HttpGet]
         public async Task<IActionResult> DeleteComment(string id, string postId)
         {

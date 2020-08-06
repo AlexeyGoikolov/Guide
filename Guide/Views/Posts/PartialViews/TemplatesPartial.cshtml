@@ -1,18 +1,21 @@
 ﻿@model PostTemplateViewModel
 
-<label>Шаблоны<span class="text-danger">*</span></label>
+
 <div style="display: flex">
-    <select class="form-control" name="templateId">
-        @foreach (var template in Model.Templates)
-        {
-            <option value="@template.Id">@template.Name</option>
-        }
-    </select>
-    <div class="input-group-append">
-        <button class="btn btn-outline-secondary" type="button" data-toggle="modal" data-target="#modalTemplate">
-            <i class="fas fa-plus"></i>
-        </button>
-    </div>
+
+        <select class="form-control" name="templateId" id="selectTemplate">
+            @foreach (var template in Model.Templates)
+            {
+                <option value="@template.Id">@template.Name</option>
+            }
+        </select>
+        <a class="btn btn-primary" id="templateIdBtn">Вставить шаблон</a>
+
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button" data-toggle="modal" data-target="#modalTemplate">
+                    <i class="fas fa-plus"></i>
+                </button>
+            </div>
 </div>
 
 <div class="modal fade" data-backdrop="true" id="modalTemplate" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="text-align: center">
@@ -28,7 +31,7 @@
                 <div class="input-group mb-3" style="justify-content: center">
   
                     <div class="input-group-append">
-                        <a class="btn btn-default" data-toggle="modal" data-target="#myModal2" aria-hidden="true">Добавить шаблон</a>
+                        <a class="btn btn-default" data-toggle="modal" data-target="#myModal2" aria-hidden="true">Создать шаблон</a>
                     </div>
                 </div>
                 @foreach (var cat in Model.Templates)

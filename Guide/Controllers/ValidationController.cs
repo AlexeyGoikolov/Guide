@@ -5,7 +5,6 @@ namespace Guide.Controllers
 {
     public class ValidationController : Controller
     {
-        
         public bool CheckYear(string YearOfWriting)
         {
             try

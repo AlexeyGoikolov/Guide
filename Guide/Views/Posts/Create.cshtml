@@ -50,12 +50,22 @@
                 </div>
             </div>
         </div>
-
         <!-- Modal -->
 @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+
+     <script>
+     $("#templateIdBtn").click(function(event) {
+         
+         event.preventDefault();
+         var id = $('#selectTemplate').val();
+         console.log(id);
+
+         $.get('@Url.Action("Create", "Posts")',{templateId: id});
+         
+     });
+      </script>
 @section Scripts
 {
-       
     <script>
    
         CKEDITOR.replace('textContent');
@@ -64,13 +74,16 @@
             CKEDITOR.replace('ContentTemplate');
             </script>
      <script>
+
+            
+     
         var loadCategories = function(){
             var catInput = $('#catInput').val();
             $("#categories-row").load('@Url.Action("CreateCategoryAjax", "Posts")',{Name: catInput});
         };
         var loadTemplate = function(){
             var templateTitle = $('#templateTitle').val();
-            var templateContent = $('#templateContent').val();
+            var templateContent = CKEDITOR.instances['ContentTemplate'].getData();
         var templateInput = $('#templateName').val();
             $("#template-row").load('@Url.Action("CreateTemplateAjax", "Posts")',{Name: templateInput, ContentTemplate : templateContent, Title:templateTitle});
          };
