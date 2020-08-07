@@ -4,96 +4,93 @@
     ViewBag.Title = "Список книг";
     Layout = "_Layout";
 }
-
-
-
 <div class="pageheader">
-        
-                <h2>@ViewBag.Title</h2>
-        
-          <div class="page-bar">
-        
-              <ul class="page-breadcrumb">
-                  <li>
-                      <a href="index.html"><i class="fa fa-home"></i> Guide</a>
-                  </li>
-                  <li>
-                      <span >Книги</span>
-                  </li>
-                  <li>
-                      <span >Список</span>
-                  </li>
-              </ul>
-          </div>
-          </div>       
-   <div class="page page-tables-datatables">
-    
-        <!-- row -->
-        <div class="row">
-            <!-- col -->
-            <div class="col-md-12">
-                <!-- tile -->
-                <section class="tile">
-                    <!-- tile header -->
-                    <div class="tile-header dvd dvd-btm">
-                        <h1 class="custom-font">
-                            <strong></strong>
-                        </h1>
-                        <ul class="controls">
-                            <li>
-                                <a role="button" tabindex="0" asp-action="Create" asp-controller="Books"><i class="fa fa-plus mr-5"></i>Добавить</a>
-                            </li>
 
-                        </ul>
-                    </div>
-                    <!-- /tile header -->
-                    <!-- tile body -->
-                    <div class="tile-body">
-                        <div class="table-responsive">
-                            <table style="width: 100%"  class="table table-custom" id="editable-usage">
-                                <thead>
-                                <tr>
-                                    <th>Название</th>
-                                    <th>Автор</th>
-                                    <th>Год издания</th>
-                                    
-                                   
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <th>Проведение испытаний</th>
-                                    <th>Виктор Блок</th>
-                                    <th>2009</th>
-                                </tr>
-                                <tr>
-                                    <th>Испытание на прочность</th>
-                                    <th>Григорий Распутин</th>
-                                    <th>2020</th>
-                                </tr>
-                                @foreach (Book book in @Model)
-                                {
-                                    <tr class="even gradeC">
-                                        <td>
-                                            <a asp-action="Details" asp-controller="Books" asp-route-id="@book.Id">@book.Name</a>
-                                        </td>
-                                        <td>@book.Author</td>
-                                        <td>@book.DateCreate</td>
-                                    </tr>
-                                }
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <!-- /tile body -->
+    <h2>@ViewBag.Title</h2>
 
-                </section>
-                <!-- /tile -->
-            </div>
-            <!-- /col -->
-        </div>
-        <!-- /row -->
+    <div class="page-bar">
+
+        <ul class="page-breadcrumb">
+            <li>
+                <a href="index.html"><i class="fa fa-home"></i> Guide</a>
+            </li>
+            <li>
+                <span >Книги</span>
+            </li>
+            <li>
+                <span >Список</span>
+            </li>
+        </ul>
     </div>
+</div>
+<div class="page page-tables-datatables">
+
+    <!-- row -->
+    <div class="row">
+        <!-- col -->
+        <div class="col-md-12">
+            <!-- tile -->
+            <section class="tile">
+                <!-- tile header -->
+                <div class="tile-header dvd dvd-btm">
+                    <h1 class="custom-font">
+                        <strong></strong>
+                    </h1>
+                    <ul class="controls">
+                        <li>
+                            <a role="button" tabindex="0" asp-action="Create" asp-controller="Books"><i class="fa fa-plus mr-5"></i>Добавить</a>
+                        </li>
+
+                    </ul>
+                </div>
+                <!-- /tile header -->
+                <!-- tile body -->
+                <div class="tile-body">
+                    <div class="table-responsive">
+                        <table style="width: 100%" class="table table-custom" id="editable-usage">
+                            <thead>
+                            <tr>
+                                <th>Название</th>
+                                <th>Автор</th>
+                                <th>Год издания</th>
+
+
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <th>Проведение испытаний</th>
+                                <th>Виктор Блок</th>
+                                <th>2009</th>
+                            </tr>
+                            <tr>
+                                <th>Испытание на прочность</th>
+                                <th>Григорий Распутин</th>
+                                <th>2020</th>
+                            </tr>
+                            @foreach (Book book in @Model)
+                            {
+                                <tr class="even gradeC">
+                                    <td>
+                                        <a asp-action="Details" asp-controller="Books" asp-route-id="@book.Id">@book.Name</a>
+                                    </td>
+                                    <td>@book.Author</td>
+                                    <td>@book.DateCreate</td>
+                                </tr>
+                            }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- /tile body -->
+
+            </section>
+            <!-- /tile -->
+        </div>
+        <!-- /col -->
+    </div>
+    <!-- /row -->
+</div>
 
 
 @section Scripts
