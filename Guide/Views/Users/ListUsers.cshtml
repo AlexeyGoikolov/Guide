@@ -4,27 +4,27 @@
     ViewBag.Title = "Список сотрудников";
     Layout = "_Layout";
 }
-<div class="pageheader">
-
-    <h2>@ViewBag.Title</h2>
-
-    <div class="page-bar">
-
-        <ul class="page-breadcrumb">
-            <li>
-                <a href="index.html"><i class="fa fa-home"></i> Guide</a>
-            </li>
-            <li>
-                <span >Сотрудники</span>
-            </li>
-            <li>
-                <span >Список</span>
-            </li>
-        </ul>
-    </div>
-</div>
 <div class="page page-tables-datatables">
-
+    <div class="pageheader">
+    
+        <h2>@ViewBag.Title</h2>
+    
+        <div class="page-bar">
+    
+            <ul class="page-breadcrumb">
+                <li>
+                    <a href="index.html"><i class="fa fa-home"></i> Guide</a>
+                </li>
+                <li>
+                    <a asp-action="ListUsers" asp-controller="Users"> Сотрудники</a>
+                </li>
+                <li>
+                    <a asp-action="ListUsers" asp-controller="Users"> Список</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    
     <!-- row -->
     <div class="row">
         <!-- col -->
@@ -54,7 +54,7 @@
                                 <th >#</th>
                                 <th >Имя</th>
                                 <th >Фамилия</th>
-                                <th >Задача</th>
+                                <th >Позиция</th>
                                 <th >Статус</th>
                                 <form asp-action="ListUsers" asp-controller="Users" method="post">
                                     <th scope="col">
