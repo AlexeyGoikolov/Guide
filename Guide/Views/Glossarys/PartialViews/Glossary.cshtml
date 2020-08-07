@@ -1,27 +1,39 @@
 ﻿@model Glossary
 
-<div class="col-8">
-    <div>
-        <label>Название термина<span class="text-danger">*</span></label>
-        <input class="form-control" type="text" asp-for="Name" value="@Model.Name">
-        <br/><span class="validationError" asp-validation-for="Name"></span>
+<div class="row">
+    <div class="col-sm-8 portlets">
+        <section class="tile portlet col-9">
+            <div class="tile-body">
+                <div>
+                    <label>Название термина<span class="text-danger">*</span></label>
+                    <input class="form-control" type="text" asp-for="Name" value="@Model.Name">
+                    <br/><span class="validationError" asp-validation-for="Name"></span>
+                </div>
+                <div>
+                    <label>Описание<span class="text-danger">*</span></label>
+                    <textarea name="Description" class="form-control" type="text" asp-for="Description" value="@Model.Description"></textarea>
+                    <br/><span class="validationError" asp-validation-for="Description"></span>
+                </div>
+            </div>
+        </section>
     </div>
-    <div>
-        <label>Описание<span class="text-danger">*</span></label>
-        <textarea name="Description" class="form-control" type="text" asp-for="Description" value="@Model.Description"></textarea>
-        <br/><span class="validationError" asp-validation-for="Description"></span>
+    <div class="col-sm-4 portlets">
+        <section class="tile portlet col-3">
+            <div class="tile-body">
+                <div>
+                    <label>Аббревиатура</label>
+                    <input class="form-control" type="text" asp-for="Abbreviation" value="@Model.Abbreviation">
+                </div>
+                <div>
+                    <label>Источник</label>
+                    <input class="form-control" type="text" asp-for="Source" value="@Model.Source">
+                </div>
+            </div>
+        </section>
     </div>
 </div>
-<div class="col-4">
-    <div>
-        <label>Аббревиатура</label>
-        <input class="form-control" type="text" asp-for="Abbreviation" value="@Model.Abbreviation">
-    </div>
-    <div>
-        <label>Источник</label>
-        <input class="form-control" type="text" asp-for="Source" value="@Model.Source">
-    </div>
-</div>
+
+    
 
 
 

@@ -7,74 +7,74 @@
   
 
 <div class="page page-ui-portlets">
-  <div class="pageheader">
-          
-                  <h2>@ViewBag.Title</h2>
-          
-            <div class="page-bar">
-          
-                <ul class="page-breadcrumb">
-                    <li>
-                        <a asp-action="Index" asp-controller="Account"><i class="fa fa-home"></i> Guide</a>
-                    </li>
-                    <li>
-                        <a asp-action="Index" asp-controller="Posts"><i class="fa fa-home"></i> Материалы</a>
-                    </li>
-                    <li>
-                        <a asp-action="Create" asp-controller="Posts"><i class="fa fa-home"></i> Добавить</a>
-                    </li>
-                </ul>
-            </div>
-            </div>           
+    <div class="pageheader">
+
+        <h2>@ViewBag.Title</h2>
+
+        <div class="page-bar">
+
+            <ul class="page-breadcrumb">
+                <li>
+                    <a asp-action="Index" asp-controller="Account"><i class="fa fa-home"></i> Guide</a>
+                </li>
+                <li>
+                    <a asp-action="Index" asp-controller="Posts"> Материалы</a>
+                </li>
+                <li>
+                    <a asp-action="Create" asp-controller="Posts"> Добавить</a>
+                </li>
+            </ul>
+        </div>
+    </div>
 
 
-                <div class="row">
-                   
-                        <div class="tile-body">
-                            <form class="post-form" asp-action="Create" asp-controller="Posts" method="post" enctype="multipart/form-data">
-                                <div asp-validation-summary="ModelOnly"></div>
-                                @{ Html.RenderPartial("PartialViews/FormPartial", Model); }
-                                <button type="submit" class="btn btn-info float-right" style=" width: 31%;">Создать</button>
-                                <input type="hidden" value="@Model.Id" id="postId" asp-for="Id">
-                            </form>
-                        </div>
-                        <!-- /tile body -->
+    <div class="row">
 
-                </div>
-                
-                </div>
-               
-            
+        <div class="tile-body">
+            <form class="create-form" asp-action="Create" asp-controller="Posts" method="post" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly"></div>
+                @{ Html.RenderPartial("PartialViews/FormPartial", Model); }
+                <button type="submit" class="btn btn-info float-right" style=" width: 31%;">Создать</button>
+                <input type="hidden" value="@Model.Id" id="postId" asp-for="Id">
+            </form>
+        </div>
+        <!-- /tile body -->
+
+    </div>
+
+</div>
+
+
 <!-- Modal -->
-        <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h3 class="modal-title custom-font">Новый Шаблон</h3>
+<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title custom-font">Новый Шаблон</h3>
+            </div>
+            <div>
+                <div class="p-3">
+                    <div >
+                        <label>Название шаблона<span class="text-danger">*</span></label><br/>
+                        <input class="form-control" type="text" id="templateName">
+                    </div>
+                    <div >
+                        <label>Заголовок<span class="text-danger">*</span></label><br/>
+                        <input class="form-control" type="text" id="templateTitle">
                     </div>
                     <div>
-                        <div class="p-3">
-                            <div >
-                                <label>Название шаблона<span class="text-danger">*</span></label><br/>
-                                <input class="form-control" type="text" id="templateName">
-                            </div>
-                            <div >
-                                <label>Заголовок<span class="text-danger">*</span></label><br/>
-                                <input class="form-control" type="text" id="templateTitle">
-                            </div>
-                            <div>
-                                <label>Содержание<span class="text-danger">*</span></label>
-                                <textarea  name="ContentTemplate" type="templateContent"></textarea>
-                            </div>
-                        </div>
-                        </div>
-                    <div class="modal-footer">
-                        <button class="btn btn-success btn-ef btn-ef-3 btn-ef-3c" data-dismiss="modal" id="templateButton"><i class="fa fa-arrow-right"></i>Создать</button>
-                        <button class="btn btn-lightred btn-ef btn-ef-4 btn-ef-4c" data-dismiss="modal"><i class="fa fa-arrow-left"></i> Отменить</button>
+                        <label>Содержание<span class="text-danger">*</span></label>
+                        <textarea  name="ContentTemplate" type="templateContent"></textarea>
                     </div>
                 </div>
             </div>
+            <div class="modal-footer">
+                <button class="btn btn-success btn-ef btn-ef-3 btn-ef-3c" data-dismiss="modal" id="templateButton"><i class="fa fa-arrow-right"></i>Создать</button>
+                <button class="btn btn-lightred btn-ef btn-ef-4 btn-ef-4c" data-dismiss="modal"><i class="fa fa-arrow-left"></i> Отменить</button>
+            </div>
         </div>
+    </div>
+</div>
 <!-- Modal -->
 
 @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }

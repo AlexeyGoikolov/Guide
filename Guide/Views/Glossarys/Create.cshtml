@@ -4,7 +4,7 @@
     ViewBag.Title = "Добавить термин с описанием";
     Layout = "_Layout";
 }
-<div class="container">
+<div class="page page-ui-portlets">
     <div class="pageheader">
         <h2>@ViewBag.Title</h2>
         <div class="page-bar">
@@ -21,16 +21,11 @@
             </ul>
         </div>
     </div>
-
-    <div class="card p-5" style="margin:auto;">
-        <div class="card-body">
-            <form asp-action="Create" asp-controller="Glossarys" method="post" enctype="multipart/form-data" asp-antiforgery="true">
-                <div class="row">
-
-                    @{ Html.RenderPartial("PartialViews/Glossary", Model); }
-                    <input type="hidden" value="@Model.Id" asp-for="Id">
-
-                </div>
+    <div class="row">
+        <div class="tile-body">
+            <form class="create-form" asp-action="Create" asp-controller="Glossarys" method="post" enctype="multipart/form-data" asp-antiforgery="true">
+                @{ Html.RenderPartial("PartialViews/Glossary", Model); }
+                <input type="hidden" value="@Model.Id" asp-for="Id">
                 <button type="submit" class="btn btn-info glossary-create-button">Добавить</button>
             </form>
         </div>
