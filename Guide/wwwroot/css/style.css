@@ -1,0 +1,9 @@
+﻿.glossary-create-button{
+    width: 30%;
+    position: absolute;
+    bottom: 40%;
+    left: 68%;
+}
+.cke_contents{
+    height: 155px !important;
+}
