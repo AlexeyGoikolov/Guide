@@ -1,6 +1,6 @@
 ﻿@model PositionsViewModel
 
-<label asp-for="@Model.User.PositionsId">Должность<span class="text-danger">*</span></label>
+<label asp-for="@Model.User.PositionsId">Принимается для решения задачи:<span class="text-danger">*</span></label>
 <div style="display: flex">
     <select class="form-control" asp-for="@Model.User.PositionsId">
         @foreach (var position in Model.Positions)
@@ -20,7 +20,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Добавить долженость</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Добавить задачу</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
