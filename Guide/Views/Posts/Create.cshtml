@@ -15,13 +15,13 @@
           
                 <ul class="page-breadcrumb">
                     <li>
-                        <a href="index.html"><i class="fa fa-home"></i> Guide</a>
+                        <a asp-action="Index" asp-controller="Account"><i class="fa fa-home"></i> Guide</a>
                     </li>
                     <li>
-                        <span >Материалы</span>
+                        <a asp-action="Index" asp-controller="Posts"><i class="fa fa-home"></i> Материалы</a>
                     </li>
                     <li>
-                        <span>Добавить</span>
+                        <a asp-action="Create" asp-controller="Posts"><i class="fa fa-home"></i> Добавить</a>
                     </li>
                 </ul>
             </div>
@@ -31,7 +31,7 @@
                 <div class="row">
                    
                         <div class="tile-body">
-                            <form asp-action="Create" asp-controller="Posts" method="post" enctype="multipart/form-data">
+                            <form class="post-form" asp-action="Create" asp-controller="Posts" method="post" enctype="multipart/form-data">
                                 <div asp-validation-summary="ModelOnly"></div>
                                 @{ Html.RenderPartial("PartialViews/FormPartial", Model); }
                                 <button type="submit" class="btn btn-info float-right" style=" width: 31%;">Создать</button>
