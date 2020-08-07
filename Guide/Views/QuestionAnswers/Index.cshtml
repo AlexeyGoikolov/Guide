@@ -5,23 +5,40 @@
     Layout = "_Layout";
 }
 
-<div class="container">
-    <h2 class="col-6">@ViewBag.Title</h2>
-    
+<div class="page">
+    <div class="pageheader">
+
+        <h2>@ViewBag.Title</h2>
+
+        <div class="page-bar">
+            <ul class="page-breadcrumb">
+                <li>
+                    <a asp-action="Index" asp-controller="Account"><i class="fa fa-home"></i> Guide</a>
+                </li>
+                <li>
+                    <a asp-action="Index" asp-controller="QuestionAnswers"> Вопрос-ответ</a>
+                </li>
+                <li>
+                    <a asp-action="Index" asp-controller="QuestionAnswers"> Список с ответами</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
     @if (Model.Count == 0)
     {
         <p>Список пуст</p>
     }
     else
     {
-        <div class="row border">
+        <div>
             <div class="col">
                 Вопросы
             </div>
         </div>
         @foreach (var glossery in Model)
         {
-            <div class="row border">
+            <div>
                 <div class="col">
                     <a asp-action="Preview" asp-controller="QuestionAnswers" asp-route-id="@glossery.Id">@glossery.Question</a>
                 </div>
