@@ -6,8 +6,24 @@
 }
 
 <div class="container">
-    <div class="pb-3 pt-5">
+    <div class="pageheader">
         <h2>@Model.Name</h2>
+        <div class="page-bar">
+            <ul class="page-breadcrumb">
+                <li>
+                    <a href="index.html"><i class="fa fa-home"></i> Guide</a>
+                </li>
+                <li>
+                    <a asp-action="Index" asp-controller="Glossarys">Глоссарий</a>
+                </li>
+                <li>
+                    <a asp-action="Index" asp-controller="Glossarys">Список</a>
+                </li>
+                <li>
+                    <a asp-action="Preview" asp-controller="Glossarys" asp-route-id="@Model.Id">@Model.Name</a>
+                </li>
+            </ul>
+        </div>
     </div>
     <div class="pt-3">
         @Model.Description

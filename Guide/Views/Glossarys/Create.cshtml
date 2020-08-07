@@ -4,9 +4,25 @@
     ViewBag.Title = "Добавить термин с описанием";
     Layout = "_Layout";
 }
+<div class="container">
+    <div class="pageheader">
+        <h2>@ViewBag.Title</h2>
+        <div class="page-bar">
+            <ul class="page-breadcrumb">
+                <li>
+                    <a href="index.html"><i class="fa fa-home"></i> Guide</a>
+                </li>
+                <li>
+                    <a asp-action="Index" asp-controller="Glossarys">Глоссарий</a>
+                </li>
+                <li>
+                    <a asp-action="Create" asp-controller="Glossarys">Добавить</a>
+                </li>
+            </ul>
+        </div>
+    </div>
 
-
-    <div class="card p-5" style="margin:auto;" >
+    <div class="card p-5" style="margin:auto;">
         <div class="card-header text-center">
             @ViewBag.Title
         </div>
@@ -16,13 +32,13 @@
 
                     @{ Html.RenderPartial("PartialViews/Glossary", Model); }
                     <input type="hidden" value="@Model.Id" asp-for="Id">
-                
+
                 </div>
-                <button type="submit" class="btn btn-info float-right" style=" width: 31%;">Добавить</button>
+                <button type="submit" class="btn btn-info glossary-create-button">Добавить</button>
             </form>
         </div>
     </div>
-
+</div>
 
 @section Scripts
 {
