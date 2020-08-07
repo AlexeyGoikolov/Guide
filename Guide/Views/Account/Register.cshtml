@@ -4,8 +4,69 @@
     ViewBag.Title = "Регистрация";
     Layout = "_Layout";
 }
-<div class="container">
-    <h2>Регистрация нового пользователя</h2>
+<div class="page">
+    <div class="pageheader">
+        <h2>Регистрация нового пользователя</h2>
+        <div class="page-bar">
+            <ul class="page-breadcrumb">
+                <li>
+                    <a href="index.html"><i class="fa fa-home"></i> Guide</a>
+                </li>
+                <li>
+                    <a asp-action="ListUsers" asp-controller="Users">Пользователи</a>
+                </li>
+                <li>
+                    <a asp-action="Register" asp-controller="Account">Добавить</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="container w-420 p-15 bg-white mt-40 text-center">
+        
+        <form method="post" asp-controller="Account" asp-action="Register" enctype="multipart/form-data" class="form-validation mt-20">
+
+            <p class="help-block text-left">
+                Введите данные нового пользователя
+            </p>
+
+            <div class="form-group">
+                <input type="email" class="form-control underline-input" asp-for="@Model.User.Email" placeholder="Почта">
+                <span asp-validation-for="@Model.User.Email"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="text" class="form-control underline-input" asp-for="@Model.User.Name" placeholder="Имя">
+                <span asp-validation-for="@Model.User.Name"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="text" class="form-control underline-input" asp-for="@Model.User.Surname" placeholder="Фамилия">
+                <span asp-validation-for="@Model.User.Surname"></span>
+            </div>
+
+            <div id="position-row" class="form-group" style="justify-content: center"></div>
+            <div class="form-group">
+                <input class="form-control" asp-for="@Model.User.Password" placeholder="Пароль"/>
+                <span asp-validation-for="@Model.User.Password"></span>
+            </div>
+            <div class="form-group">
+                <input class="form-control" asp-for="@Model.User.PasswordConfirm" placeholder="Подтвердите пароль"/>
+                <span asp-validation-for="@Model.User.PasswordConfirm"></span>
+            </div>
+            <div>
+                <p class="m-0">
+                    <input type="submit" class="btn btn-greensea b-0 text-uppercase pull-right" value="Регистрация"/>
+                </p>
+            </div>
+        </form>
+
+        <div class="bg-slategray lt wrap-reset mt-20 text-left">
+            
+        </div>
+
+    </div>
+
+</div>
     <div class="row justify-content-center">
         <div class="col-md-6">
             <form method="post" asp-controller="Account" asp-action="Register" enctype="multipart/form-data">
@@ -43,7 +104,7 @@
             </form>
         </div>
     </div>
-</div>
+
 
 @section Scripts
 {

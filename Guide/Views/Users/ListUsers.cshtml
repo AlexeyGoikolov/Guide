@@ -5,9 +5,25 @@
     Layout = "_Layout";
 }
 <div class="container">
-    <h2>@ViewBag.Title</h2>
-    
-<a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Register">Добавить пользователя</a>
+    <div class="pageheader">
+        <h2>@ViewBag.Title</h2>
+        <div class="page-bar">
+            <ul class="page-breadcrumb">
+                <li>
+                    <a href="index.html"><i class="fa fa-home"></i> Guide</a>
+                </li>
+                <li>
+                    <a asp-action="ListUsers" asp-controller="Users">Пользователи</a>
+                </li>
+                <li>
+                    <a asp-action="ListUsers" asp-controller="Users">Список</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+
+    <a class="nav-link" asp-controller="Account" asp-action="Register">Добавить пользователя</a>
     <table class="table table-hover">
         <thead>
         <tr>
@@ -59,15 +75,23 @@
                     @if (Model.Users[i].Active)
                     {
                         <td class="active_inform @Model.Users[i].Id">Активный </td>
-                        <td><input type="submit" class="BlockingAjax" value="Отключить" id="@Model.Users[i].Id"></td>
+                        <td>
+                            <input type="submit" class="BlockingAjax" value="Отключить" id="@Model.Users[i].Id">
+                        </td>
                     }
                     else
                     {
                         <td class="active_inform @Model.Users[i].Id">Заблокирован </td>
-                        <td><input type="submit" class="BlockingAjax" value="Подключить" id="@Model.Users[i].Id"></td>
+                        <td>
+                            <input type="submit" class="BlockingAjax" value="Подключить" id="@Model.Users[i].Id">
+                        </td>
                     }
-                    <td><a asp-action="Edit" asp-controller="Account" asp-route-id="@Model.Users[i].Id">Редактировать</a></td>
-                    <td><a asp-action="" asp-controller="">Добавить в бизнес-процесс</a></td>
+                    <td>
+                        <a asp-action="Edit" asp-controller="Account" asp-route-id="@Model.Users[i].Id">Редактировать</a>
+                    </td>
+                    <td>
+                        <a asp-action="" asp-controller="">Добавить в бизнес-процесс</a>
+                    </td>
                 </tr>
             }
         }

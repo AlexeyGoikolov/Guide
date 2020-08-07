@@ -1,8 +1,8 @@
 ﻿@model PositionsViewModel
 
-<label asp-for="@Model.User.PositionsId">Должность<span class="text-danger">*</span></label>
 <div style="display: flex">
     <select class="form-control" asp-for="@Model.User.PositionsId">
+        <option value="" disabled selected>Выберите должность</option>
         @foreach (var position in Model.Positions)
         {
             <option value="@position.Id">@position.Name</option>
