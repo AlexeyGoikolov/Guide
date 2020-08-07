@@ -1,11 +1,27 @@
 ﻿@model BookCreateViewModel
 
 @{
-    ViewBag.Title = "title";
+    ViewBag.Title = "Добавление книги";
     Layout = "_Layout";
 }
 
 <div class="container">
+    <div class="pageheader">
+        <h2>@ViewBag.Title</h2>
+        <div class="page-bar">
+            <ul class="page-breadcrumb">
+                <li>
+                    <a href="index.html"><i class="fa fa-home"></i> Guide</a>
+                </li>
+                <li>
+                    <a asp-action="Index" asp-controller="Books">Книги</a>
+                </li>
+                <li>
+                    <a asp-action="Index" asp-controller="Books">Добавить</a>
+                </li>
+            </ul>
+        </div>
+    </div>
     <div class="card" style="margin:auto;">
         <div class="card-header text-center">
             Новая книга

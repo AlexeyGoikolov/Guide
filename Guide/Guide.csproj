@@ -113,5 +113,9 @@
       </Content>
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="wwwroot\BooksFiles" />
+    </ItemGroup>
+
 
 </Project>
