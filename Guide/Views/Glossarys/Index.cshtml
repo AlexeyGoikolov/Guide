@@ -5,78 +5,124 @@
     ViewBag.Title = "Глоссарий";
     Layout = "_Layout";
 }
+<div class="pageheader">
 
-<div class="container">
-    <div class="pageheader">
-        <h2>@ViewBag.Title</h2>
-        <div class="page-bar">
-            <ul class="page-breadcrumb">
-                <li>
-                    <a href="index.html"><i class="fa fa-home"></i> Guide</a>
-                </li>
-                <li>
-                    <a asp-action="Index" asp-controller="Glossarys">Глоссарий</a>
-                </li>
-                <li>
-                    <a asp-action="Index" asp-controller="Glossarys">Список</a>
-                </li>
-            </ul>
-        </div>
+    <h2>@ViewBag.Title</h2>
+
+    <div class="page-bar">
+
+        <ul class="page-breadcrumb">
+            <li>
+                <a href="index.html"><i class="fa fa-home"></i> Guide</a>
+            </li>
+            <li>
+                <a href="#">@ViewBag.Title<</a>
+            </li>
+            <li>
+                <a href="tables-datatables.html">Список</a>
+            </li>
+        </ul>
     </div>
-    <a asp-action="Create" asp-controller="Glossarys" class=" pt-3">Добавить термин с определением</a>
-    
-    @if (Model.Count == 0)
-    {
-        <p>Список пуст</p>
-    }
-    else
-    {
-        <div class="row border mt-2 mx-1">
-            <div class="col">
-                Название
-            </div>
-            <div class="col-4 border-left">
-                Описание
-            </div>
-            <div class="col border-left">
-                Аббревиатура
-            </div>
-            <div class="col border-left">
-                Источник
-            </div>
-            <div class="col border-left">
+</div>
+<div class="page page-tables-datatables">
 
-            </div>
+    <!-- row -->
+    <div class="row">
+        <!-- col -->
+        <div class="col-md-12">
+            <!-- tile -->
+            <section class="tile">
+                <!-- tile header -->
+                <div class="tile-header dvd dvd-btm">
+                    <h1 class="custom-font">
+                        <strong></strong>
+                    </h1>
+                    <ul class="controls">
+                        <li>
+                            <a role="button" tabindex="0" asp-action="Create" asp-controller="Glossarys"><i class="fa fa-plus mr-5"></i>Добавить</a>
+                        </li>
+
+                    </ul>
+                </div>
+                <!-- /tile header -->
+                <!-- tile body -->
+                <div class="tile-body">
+                    <div class="table-responsive">
+                        <table class="table table-custom" id="editable-usage">
+                            <thead>
+                            <tr>
+                                <th>Название  </th>
+                                <th>Описание  </th>
+                                <th>Аббревиатура </th>
+                                <th>Источник </th>
+                                <th>Действия</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach (var glossery in @Model)
+                            {
+                                <tr class="odd gradeX">
+                                    <div class="row border">
+                                        <td>
+                                            <div class="col">
+                                                <a asp-action="Preview" asp-controller="Glossarys" asp-route-id="@glossery.Id">@glossery.Name</a>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="col-4 border-left">
+                                                @glossery.Description
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="col border-left">
+                                                @glossery.Abbreviation
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="col border-left">
+                                                @glossery.Source
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="col border-left">
+                                                <div>
+                                                    <a asp-action="Edit" asp-controller="Glossarys" asp-route-id="@glossery.Id">Редактировать</a>
+                                                </div>
+                                                <div>
+                                                    <a asp-action="Delete" asp-controller="Glossarys" asp-route-id="@glossery.Id">Удалить</a>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </div>
+                                </tr>
+                            }
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- /tile body -->
+
+            </section>
+            <!-- /tile -->
         </div>
-
-        @foreach (var glossery in Model)
-        {
-            <div class="row border mx-1">
-
-                <div class="col">
-                    <a asp-action="Preview" asp-controller="Glossarys" asp-route-id="@glossery.Id">@glossery.Name</a>
-                </div>
-                <div class="col-4 border-left">
-                    @glossery.Description
-                </div>
-                <div class="col border-left">
-                    @glossery.Abbreviation
-                </div>
-                <div class="col border-left">
-                    @glossery.Source
-                </div>
-                <div class="col border-left">
-                    <div>
-                        <a asp-action="Edit" asp-controller="Glossarys" asp-route-id="@glossery.Id">Редактировать</a>
-                    </div>
-                    <div>
-                        <a asp-action="Delete" asp-controller="Glossarys" asp-route-id="@glossery.Id">Удалить</a>
-                    </div>
-                </div>
-            </div>
-        }
-    }
-
+        <!-- /col -->
+    </div>
+    <!-- /row -->
 </div>
 
+
+@section Scripts
+{
+    <script>
+              $(window).load(function(){                                           
+                var oTable = $('#editable-usage').DataTable({
+                    "aoColumnDefs": [
+                      { 'bSortable': false, 'aTargets': [ "no-sort" ] }
+                    ]
+                });          
+            
+                         });
+            </script>
+}
 

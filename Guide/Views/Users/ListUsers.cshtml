@@ -4,104 +4,144 @@
     ViewBag.Title = "Список сотрудников";
     Layout = "_Layout";
 }
-<div class="container">
-    <div class="pageheader">
-        <h2>@ViewBag.Title</h2>
-        <div class="page-bar">
-            <ul class="page-breadcrumb">
-                <li>
-                    <a href="index.html"><i class="fa fa-home"></i> Guide</a>
-                </li>
-                <li>
-                    <a asp-action="ListUsers" asp-controller="Users">Пользователи</a>
-                </li>
-                <li>
-                    <a asp-action="ListUsers" asp-controller="Users">Список</a>
-                </li>
-            </ul>
-        </div>
+<div class="pageheader">
+
+    <h2>@ViewBag.Title</h2>
+
+    <div class="page-bar">
+
+        <ul class="page-breadcrumb">
+            <li>
+                <a href="index.html"><i class="fa fa-home"></i> Guide</a>
+            </li>
+            <li>
+                <span >Сотрудники</span>
+            </li>
+            <li>
+                <span >Список</span>
+            </li>
+        </ul>
     </div>
+</div>
+<div class="page page-tables-datatables">
 
+    <!-- row -->
+    <div class="row">
+        <!-- col -->
+        <div class="col-md-12">
+            <!-- tile -->
+            <section class="tile">
+                <!-- tile header -->
+                <div class="tile-header dvd dvd-btm">
+                       
+                    <h1 class="custom-font">
+                        <strong></strong>
+                    </h1>
+                    <ul class="controls">
+                        <li>
+                            <a role="button" tabindex="0" asp-action="Register" asp-controller="Account"><i class="fa fa-plus mr-5"></i>Добавить</a>
+                        </li>
 
-    <a class="nav-link" asp-controller="Account" asp-action="Register">Добавить пользователя</a>
-    <table class="table table-hover">
-        <thead>
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">Имя</th>
-            <th scope="col">Фамилия</th>
+                    </ul>
+                </div>
+                <!-- /tile header -->
+                <!-- tile body -->
+                <div class="tile-body">
+                    <div class="table-responsive">
+                        <table style="width: 100%" class="table table-custom" id="editable-usage">
+                            <thead>
+                            <tr>
+                                <th >#</th>
+                                <th >Имя</th>
+                                <th >Фамилия</th>
+                                <th >Задача</th>
+                                <th >Статус</th>
+                                <form asp-action="ListUsers" asp-controller="Users" method="post">
+                                    <th scope="col">
+                                        <select class="form-control" asp-for="idPosition">
+                                            <option value=@null>Все</option>
+                                            @foreach (var position in Model.Positions)
+                                            {
+                                                <option value="@position.Id">@position.Name</option>
+                                            }
+                                        </select>
+                                    </th>
+                                    <th scope="col">
+                                        <select class="form-control" asp-for="Action">
+                                            <option value="true">Активные</option>
+                                            <option value="false">Заблокированные</option>
+                                            <option value=@null>Все</option>
+                                        </select>
+                                    </th>
+                                    <th scope="col">
+                                        <button type="submit" class="btn btn-primary">Фильтр</button>
+                                    </th>
+                                </form>
 
-            <form asp-action="ListUsers" asp-controller="Users" method="post">
-                <th scope="col">
-                    <select class="form-control" asp-for="idPosition">
-                        <option value=@null>Все</option>
-                        @foreach (var position in Model.Positions)
-                        {
-                            <option value="@position.Id">@position.Name</option>
-                        }
-                    </select>
-                </th>
-                <th scope="col">
-                    <select class="form-control" asp-for="Action">
-                        <option value="true">Активные</option>
-                        <option value="false">Заблокированные</option>
-                        <option value=@null>Все</option>
-                    </select>
-                </th>
-                <th scope="col">
-                    <button type="submit" class="btn btn-primary">Фильтр</button>
-                </th>
-            </form>
-        </tr>
-        </thead>
-        <tbody>
-        @if (Model.Users.Count == 0)
-        {
-            <p>Список пуст</p>
-        }
-        else
-        {
-            @for (int i = 0; i < Model.Users.Count; i++)
-            {
-                <tr>
-                    <th scope="row">@checked(i + 1)</th>
-                    <td>
-                        <a asp-controller="Users" asp-action="" asp-route-id="@Model.Users[i].Id"> @Model.Users[i].Name</a>
-                    </td>
-                    <td>
-                        @Model.Users[i].Surname
-                    </td>
-                    <td>@Model.Users[i].Position.Name</td>
-                    @if (Model.Users[i].Active)
-                    {
-                        <td class="active_inform @Model.Users[i].Id">Активный </td>
-                        <td>
-                            <input type="submit" class="BlockingAjax" value="Отключить" id="@Model.Users[i].Id">
-                        </td>
-                    }
-                    else
-                    {
-                        <td class="active_inform @Model.Users[i].Id">Заблокирован </td>
-                        <td>
-                            <input type="submit" class="BlockingAjax" value="Подключить" id="@Model.Users[i].Id">
-                        </td>
-                    }
-                    <td>
-                        <a asp-action="Edit" asp-controller="Account" asp-route-id="@Model.Users[i].Id">Редактировать</a>
-                    </td>
-                    <td>
-                        <a asp-action="" asp-controller="">Добавить в бизнес-процесс</a>
-                    </td>
-                </tr>
-            }
-        }
-        </tbody>
-    </table>
+                            </tr>
+                            </thead>
+                            <tbody>
+
+                            @if (Model.Users.Count == 0)
+                            {
+                                <p>Список пуст</p>
+                            }
+                            else
+                            {
+                                @for (int i = 0; i < Model.Users.Count; i++)
+                                {
+                                    <tr>
+                                        <th scope="row">@checked(i + 1)</th>
+                                        <td>
+                                            <a asp-controller="Users" asp-action="" asp-route-id="@Model.Users[i].Id"> @Model.Users[i].Name</a>
+                                        </td>
+                                        <td>
+                                            @Model.Users[i].Surname
+                                        </td>
+                                        <td>@Model.Users[i].Position.Name</td>
+                                        @if (Model.Users[i].Active)
+                                        {
+                                                  <td class="active_inform @Model.Users[i].Id">Активный </td>
+                                                  <td><input type="submit" class="BlockingAjax" value="Отключить" id="@Model.Users[i].Id"></td>
+                                              }
+                                              else
+                                              {
+                                                  <td class="active_inform @Model.Users[i].Id">Заблокирован </td>
+                                                  <td><input type="submit" class="BlockingAjax" value="Подключить" id="@Model.Users[i].Id"></td>
+                                              }
+                                              <td><a asp-action="Edit" asp-controller="Account" asp-route-id="@Model.Users[i].Id">Редактировать</a></td>
+                                              <td><a asp-action="" asp-controller="">Добавить в бизнес-процесс</a></td>
+                                          </tr>
+                                      }
+                                  }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- /tile body -->
+
+            </section>
+            <!-- /tile -->
+        </div>
+        <!-- /col -->
+    </div>
+    <!-- /row -->
 </div>
 
 @section Scripts{
     
-    <script>
+    <script>       
+    
+                  $(window).load(function(){                                           
+                    var oTable = $('#editable-usage').DataTable({
+                        "aoColumnDefs": [
+                          { 'bSortable': false, 'aTargets': [ "no-sort" ] }
+                        ]
+                    });          
+                
+                             });               
+    
+
             $(".BlockingAjax").click(function() {
                 var id = $(this).attr("id");
                 $.ajax({url: '@Url.Action("BlockingAjax", "Users")',type : 'POST',data : {'idUser' : id},
