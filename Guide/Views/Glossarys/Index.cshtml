@@ -5,26 +5,27 @@
     ViewBag.Title = "Глоссарий";
     Layout = "_Layout";
 }
-<div class="pageheader">
+<div class="page">
+    <div class="pageheader">
 
-    <h2>@ViewBag.Title</h2>
+        <h2>@ViewBag.Title</h2>
 
-    <div class="page-bar">
+        <div class="page-bar">
 
-        <ul class="page-breadcrumb">
-            <li>
-                <a href="index.html"><i class="fa fa-home"></i> Guide</a>
-            </li>
-            <li>
-                <a href="#">@ViewBag.Title<</a>
-            </li>
-            <li>
-                <a href="tables-datatables.html">Список</a>
-            </li>
-        </ul>
+            <ul class="page-breadcrumb">
+                <li>
+                    <a href="index.html"><i class="fa fa-home"></i> Guide</a>
+                </li>
+                <li>
+                    <a asp-action="Index" asp-controller="Glossarys">@ViewBag.Title</a>
+                </li>
+                <li>
+                    <a asp-action="Index" asp-controller="Glossarys">Список</a>
+                </li>
+            </ul>
+        </div>
     </div>
-</div>
-<div class="page page-tables-datatables">
+
 
     <!-- row -->
     <div class="row">
@@ -51,10 +52,10 @@
                         <table class="table table-custom" id="editable-usage">
                             <thead>
                             <tr>
-                                <th>Название  </th>
-                                <th>Описание  </th>
-                                <th>Аббревиатура </th>
-                                <th>Источник </th>
+                                <th>Название</th>
+                                <th>Описание</th>
+                                <th>Аббревиатура  </th>
+                                <th>Источник  </th>
                                 <th>Действия</th>
                             </tr>
                             </thead>
@@ -64,34 +65,20 @@
                                 <tr class="odd gradeX">
                                     <div class="row border">
                                         <td>
-                                            <div class="col">
-                                                <a asp-action="Preview" asp-controller="Glossarys" asp-route-id="@glossery.Id">@glossery.Name</a>
-                                            </div>
+                                            <a asp-action="Preview" asp-controller="Glossarys" asp-route-id="@glossery.Id">@glossery.Name</a>
                                         </td>
                                         <td>
-                                            <div class="col-4 border-left">
-                                                @glossery.Description
-                                            </div>
+                                            @glossery.Description
                                         </td>
                                         <td>
-                                            <div class="col border-left">
-                                                @glossery.Abbreviation
-                                            </div>
+                                            @glossery.Abbreviation
                                         </td>
                                         <td>
-                                            <div class="col border-left">
-                                                @glossery.Source
-                                            </div>
+                                            @glossery.Source
                                         </td>
                                         <td>
-                                            <div class="col border-left">
-                                                <div>
-                                                    <a asp-action="Edit" asp-controller="Glossarys" asp-route-id="@glossery.Id">Редактировать</a>
-                                                </div>
-                                                <div>
-                                                    <a asp-action="Delete" asp-controller="Glossarys" asp-route-id="@glossery.Id">Удалить</a>
-                                                </div>
-                                            </div>
+                                            <a role="button" asp-action="Edit" asp-controller="Glossarys" asp-route-id="@glossery.Id" tabindex="0" class="edit d-block text-primary text-uppercase text-strong text-sm mr-10">Редактировать</a>
+                                            <a role="button" tabindex="0" class="delete d-block text-danger text-uppercase text-strong text-sm mr-10" asp-action="Delete" asp-controller="Glossarys" asp-route-id="@glossery.Id">Удалить</a>
                                         </td>
                                     </div>
                                 </tr>
@@ -106,11 +93,10 @@
             </section>
             <!-- /tile -->
         </div>
-        <!-- /col -->
-    </div>
-    <!-- /row -->
-</div>
 
+        <!-- /row -->
+    </div>
+</div>
 
 @section Scripts
 {

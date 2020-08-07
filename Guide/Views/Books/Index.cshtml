@@ -15,10 +15,10 @@
                 <a href="index.html"><i class="fa fa-home"></i> Guide</a>
             </li>
             <li>
-                <span >Книги</span>
+                <a asp-action="Index" asp-controller="Books"> Книги</a>
             </li>
             <li>
-                <span >Список</span>
+                <a asp-action="Index" asp-controller="Books"> Список</a>
             </li>
         </ul>
     </div>
@@ -49,23 +49,13 @@
                     <div class="table-responsive">
                         <table style="width: 100%" class="table table-custom" id="editable-usage">
                             <thead>
-                            <tr>
-                                <th>Название</th>
-                                <th>Автор</th>
-                                <th>Год издания</th>
-                            </tr>
+                                <tr>
+                                    <th>Название</th>
+                                    <th>Автор</th>
+                                    <th>Год издания</th>
+                                </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <th>Проведение испытаний</th>
-                                <th>Виктор Блок</th>
-                                <th>2009</th>
-                            </tr>
-                            <tr>
-                                <th>Испытание на прочность</th>
-                                <th>Григорий Распутин</th>
-                                <th>2020</th>
-                            </tr>
                             @foreach (Book book in @Model)
                             {
                                 <tr class="even gradeC">
@@ -73,7 +63,7 @@
                                         <a asp-action="Details" asp-controller="Books" asp-route-id="@book.Id">@book.Name</a>
                                     </td>
                                     <td>@book.Author</td>
-                                    <td>@book.DateCreate</td>
+                                    <td>@book.YearOfWriting</td>
                                 </tr>
                             }
                             </tbody>
