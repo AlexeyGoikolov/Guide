@@ -10,3 +10,11 @@
 .register-form-footer{
     background: #493d55;
 }
+.select-filter{
+    display: inline-block;
+    width: 20%;
+}
+.my-form{
+    padding: 0 12px;
+    height: 27px;
+}

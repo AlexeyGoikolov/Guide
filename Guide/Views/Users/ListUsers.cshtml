@@ -33,10 +33,30 @@
             <section class="tile">
                 <!-- tile header -->
                 <div class="tile-header dvd dvd-btm">
-                       
-                    <h1 class="custom-font">
-                        <strong></strong>
-                    </h1>
+
+                    <ul>
+                        <form asp-action="ListUsers" asp-controller="Users" method="post">
+                            <div class="select-filter">
+                                <select class="form-control my-form" asp-for="idPosition">
+                                    <option value=@null>Все</option>
+                                    @foreach (var position in Model.Positions)
+                                    {
+                                        <option value="@position.Id">@position.Name</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="select-filter">
+                                <select class="form-control my-form" asp-for="Action">
+                                    <option value="true">Активные</option>
+                                    <option value="false">Заблокированные</option>
+                                    <option value=@null>Все</option>
+                                </select>
+                            </div>
+                            <div class="select-filter">
+                                <button type="submit" class="btn btn-default w-100">Фильтр</button>
+                            </div>
+                        </form>
+                    </ul>
                     <ul class="controls">
                         <li>
                             <a role="button" tabindex="0" asp-action="Register" asp-controller="Account"><i class="fa fa-plus mr-5"></i>Добавить</a>
@@ -56,31 +76,10 @@
                                 <th >Фамилия</th>
                                 <th >Позиция</th>
                                 <th >Статус</th>
-                                <form asp-action="ListUsers" asp-controller="Users" method="post">
-                                    <th scope="col">
-                                        <select class="form-control" asp-for="idPosition">
-                                            <option value=@null>Все</option>
-                                            @foreach (var position in Model.Positions)
-                                            {
-                                                <option value="@position.Id">@position.Name</option>
-                                            }
-                                        </select>
-                                    </th>
-                                    <th scope="col">
-                                        <select class="form-control" asp-for="Action">
-                                            <option value="true">Активные</option>
-                                            <option value="false">Заблокированные</option>
-                                            <option value=@null>Все</option>
-                                        </select>
-                                    </th>
-                                    <th scope="col">
-                                        <button type="submit" class="btn btn-primary">Фильтр</button>
-                                    </th>
-                                </form>
-
+                                <th >Действие</th>
                             </tr>
                             </thead>
-                            <tbody>
+                        <tbody>
 
                             @if (Model.Users.Count == 0)
                             {
@@ -91,7 +90,7 @@
                                 @for (int i = 0; i < Model.Users.Count; i++)
                                 {
                                     <tr>
-                                        <th scope="row">@checked(i + 1)</th>
+                                        <td scope="row">@checked(i + 1)</td>
                                         <td>
                                             <a asp-controller="Users" asp-action="" asp-route-id="@Model.Users[i].Id"> @Model.Users[i].Name</a>
                                         </td>
@@ -99,21 +98,62 @@
                                             @Model.Users[i].Surname
                                         </td>
                                         <td>@Model.Users[i].Position.Name</td>
+
                                         @if (Model.Users[i].Active)
                                         {
-                                                  <td class="active_inform @Model.Users[i].Id">Активный </td>
-                                                  <td><input type="submit" class="BlockingAjax" value="Отключить" id="@Model.Users[i].Id"></td>
-                                              }
-                                              else
-                                              {
-                                                  <td class="active_inform @Model.Users[i].Id">Заблокирован </td>
-                                                  <td><input type="submit" class="BlockingAjax" value="Подключить" id="@Model.Users[i].Id"></td>
-                                              }
-                                              <td><a asp-action="Edit" asp-controller="Account" asp-route-id="@Model.Users[i].Id">Редактировать</a></td>
-                                              <td><a asp-action="" asp-controller="">Добавить в бизнес-процесс</a></td>
-                                          </tr>
-                                      }
-                                  }
+                                            <td>
+                                                <p class="active_inform @Model.Users[i].Id">Активный </p>
+                                            </td>
+
+                                            <td>
+                                                <div class="btn-group">
+                                                    <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        Выберите действие <span class="caret"></span>
+                                                    </button>
+                                                    <ul class="dropdown-menu">
+                                                        <li>
+                                                            <a asp-action="" asp-controller="">Добавить в бизнес-процесс</a>
+                                                        </li>
+                                                        <li>
+                                                            <a asp-action="Edit" asp-controller="Account" asp-route-id="@Model.Users[i].Id">Редактировать</a>
+                                                        </li>
+                                                        <li>
+                                                            <a type="submit" class="BlockingAjax" id="@Model.Users[i].Id">Отключить</a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </td>
+                                        }
+                                        else
+                                        {
+                                            <td>
+                                                <p class="active_inform @Model.Users[i].Id">Заблокирован</p>
+                                            </td>
+                                            <td>
+                                                <div class="btn-group">
+                                                    <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        Выберите действие <span class="caret"></span>
+                                                    </button>
+                                                    <ul class="dropdown-menu">
+                                                        
+                                                        <li>
+                                                            <a asp-action="" asp-controller="">Добавить в бизнес-процесс</a>
+                                                        </li>
+                                                        <li>
+                                                            <a asp-action="Edit" asp-controller="Account" asp-route-id="@Model.Users[i].Id">Редактировать</a>
+                                                        </li>
+                                                        <li>
+                                                            <a type="submit" class="BlockingAjax" id="@Model.Users[i].Id">Подключить</a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </td>
+                                            
+                                        }
+
+                                    </tr>
+                                }
+                            }
                             </tbody>
                         </table>
                     </div>
@@ -135,7 +175,7 @@
                   $(window).load(function(){                                           
                     var oTable = $('#editable-usage').DataTable({
                         "aoColumnDefs": [
-                          { 'bSortable': false, 'aTargets': [ "no-sort" ] }
+                          { 'defaultContent': '-', 'bSortable': false, 'aTargets': [ "no_sort" ] }
                         ]
                     });          
                 
@@ -147,11 +187,11 @@
                 $.ajax({url: '@Url.Action("BlockingAjax", "Users")',type : 'POST',data : {'idUser' : id},
                       success : function f(data)  {
                         if (data){
-                            $("#"+id).val('Отключить');
+                            $("#"+id).html('Отключить');
                              $("."+id).html("<p>Активный</p>"); 
                         }
                         else{
-                            $("#"+id).val('Подключить');
+                            $("#"+id).html('Подключить');
                             $("."+id).html("<p>Заблокирован</p>"); 
                         }
                         }
