@@ -45,23 +45,19 @@ using Microsoft.AspNetCore.Mvc;
            
             return View(post);
         }
-        public IActionResult Create(string templatesId)
+        
+        public IActionResult ValTemplate(string templatesId)
         {
-            try
+            if (templatesId != null)
             {
-                PostCreateViewModel model = new PostCreateViewModel();
-                if (templatesId != null)
-                {
-                    Template template = _db.Templates.FirstOrDefault(t => t.Id == templatesId);
-                    model.Title = template.Title;
-                    model.TextContent = template.ContentTemplate;
-                }
-                return View(model);
+                Template template = _db.Templates.FirstOrDefault(t => t.Id == templatesId);
+                return Json(template);
             }
-            catch (Exception e)
-            {
-                return View(new PostCreateViewModel());
-            }
+            return Json(null);
+        }
+        public IActionResult Create()
+        {
+            return View(new PostCreateViewModel());
         }
 
         [HttpPost]
