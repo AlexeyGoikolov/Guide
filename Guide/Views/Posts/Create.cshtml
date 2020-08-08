@@ -88,20 +88,23 @@
     <script>
             CKEDITOR.replace('ContentTemplate');
             </script>
-     <script>
-
-
-                 $("#templateIdBtn").click(function(event) {
-                     
-                     event.preventDefault();
-                     var id = $('#selectTemplate').val();
-                     console.log(id);
-            
-                     $.get('@Url.Action("Create", "Posts")',{templateId: id});
-                     
-                 });
-                
-     
+    <script >
+                function sendTemplate() {
+                    var id = $("#selectTemplate").val()
+                    $.ajax({
+                    url: '@Url.Action("ValTemplate", "Posts")',
+                    type: 'GET',
+                    data: { 
+                    'templatesId': id},
+                    success: function(data) {
+                    console.log(data)
+                    $( '#Title' ).val(data.title);
+                    CKEDITOR.instances['TextContent'].setData(data.contentTemplate);
+                    },
+                    });
+                    }
+     </script>
+    <script>
         var loadCategories = function(){
             var catInput = $('#catInput').val();
             $("#categories-row").load('@Url.Action("CreateCategoryAjax", "Posts")',{Name: catInput});
