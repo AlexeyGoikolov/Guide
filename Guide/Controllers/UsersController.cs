@@ -24,7 +24,7 @@ namespace Guide.Controllers
         public  IActionResult ListUsers()
         {
             List<User> listUsers = Filter("true",null);
-            ListUsersViwModel users = new ListUsersViwModel()
+            ListUsersViewModel users = new ListUsersViewModel()
             {
                 Users = listUsers,
                 Positions = _db.Positions.ToList()
@@ -32,10 +32,10 @@ namespace Guide.Controllers
             return View(users);
         }
         [HttpPost]
-        public  IActionResult ListUsers(ListUsersViwModel usersViwModel)
+        public  IActionResult ListUsers(ListUsersViewModel usersViewModel)
         {
-            List<User> listUsers = Filter(usersViwModel.Action,usersViwModel.idPosition);
-            ListUsersViwModel users = new ListUsersViwModel()
+            List<User> listUsers = Filter(usersViewModel.Action,usersViewModel.idPosition);
+            ListUsersViewModel users = new ListUsersViewModel()
             {
                 Users = listUsers,
                 Positions = _db.Positions.ToList()
@@ -69,18 +69,37 @@ namespace Guide.Controllers
                     await _userManager.UpdateAsync(user);
                     return Json(false);
                 }
-                else
-                {
-                    user.Active = true;
-                    await _userManager.UpdateAsync(user);
-                    return Json(true);
-                }
+                user.Active = true;
+                await _userManager.UpdateAsync(user);
+                return Json(true);
             }
-            else
-                return NotFound();
-            
-           
+            return NotFound();
         }
 
+        public async Task<IActionResult> GetPosition(string userId)
+        {
+            User user = await _db.Users.FirstOrDefaultAsync(u => u.Id == userId);
+            List<Position> positions = await _db.Positions.ToListAsync();
+            ListUsersViewModel model = new ListUsersViewModel
+            {
+                Users = new List<User>{user},
+                Positions = positions
+            };
+            return PartialView("PartialViews/ChangePositionPartial", model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ChangePosition(string userId, string positionId)
+        {
+            User user = await _db.Users.FirstOrDefaultAsync(u => u.Id == userId);
+            Position position = await _db.Positions.FirstOrDefaultAsync(p => p.Id == positionId);
+            if (user != null)
+            {
+                user.PositionId = positionId;
+                _db.Update(user);
+                await _db.SaveChangesAsync();
+            }
+            return Json(position.Name);
+        }
     }
 }

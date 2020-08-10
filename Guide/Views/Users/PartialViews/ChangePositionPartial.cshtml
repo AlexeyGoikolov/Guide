@@ -1,0 +1,9 @@
+﻿@model ListUsersViewModel
+<select class="form-control" id="changePositionId">
+    <option value="" disabled selected>Выберите позицию</option>
+    @foreach (var position in Model.Positions)
+    {
+        <option value="@position.Id">@position.Name</option>
+    }
+</select>
+<input type="hidden" id="userId" value="@Model.Users[0].Id">

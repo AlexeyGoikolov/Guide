@@ -4,7 +4,7 @@ using Guide.Models;
 
 namespace Guide.ViewModels
 {
-    public class ListUsersViwModel
+    public class ListUsersViewModel
     {
         public string? Action { get; set; }
         public string? idPosition { get; set; }

@@ -1,4 +1,4 @@
-﻿@model ListUsersViwModel
+﻿@model ListUsersViewModel
 
 @{
     ViewBag.Title = "Список сотрудников";
@@ -97,7 +97,7 @@
                                         <td>
                                             @Model.Users[i].Surname
                                         </td>
-                                        <td>@Model.Users[i].Position.Name</td>
+                                        <td id="userPosition-@Model.Users[i].Id">@Model.Users[i].Position.Name</td>
 
                                         @if (Model.Users[i].Active)
                                         {
@@ -112,7 +112,7 @@
                                                     </button>
                                                     <ul class="dropdown-menu">
                                                         <li>
-                                                            <a asp-action="" asp-controller="">Добавить в бизнес-процесс</a>
+                                                            <a onclick="changePosition('@Model.Users[i].Id')" data-toggle="modal" data-target="#modalPosition">Изменить позицию</a>
                                                         </li>
                                                         <li>
                                                             <a asp-action="Edit" asp-controller="Account" asp-route-id="@Model.Users[i].Id">Редактировать</a>
@@ -137,7 +137,7 @@
                                                     <ul class="dropdown-menu">
                                                         
                                                         <li>
-                                                            <a asp-action="" asp-controller="">Добавить в бизнес-процесс</a>
+                                                            <a onclick="changePosition('@Model.Users[i].Id')" data-toggle="modal" data-target="#modalPosition">Изменить позицию</a>
                                                         </li>
                                                         <li>
                                                             <a asp-action="Edit" asp-controller="Account" asp-route-id="@Model.Users[i].Id">Редактировать</a>
@@ -167,37 +167,74 @@
     </div>
     <!-- /row -->
 </div>
-
+<div class="modal fade" id="modalPosition" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="text-align: center">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Изменение позиции</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="modal-body">
+                
+            </div>
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary" data-dismiss="modal" type="button" id="positionButton">Изменить</button>
+            </div>
+        </div>
+    </div>
+</div>
 @section Scripts{
     
     <script>       
     
-                  $(window).load(function(){                                           
-                    var oTable = $('#editable-usage').DataTable({
-                        "aoColumnDefs": [
-                          { 'defaultContent': '-', 'bSortable': false, 'aTargets': [ "no_sort" ] }
-                        ]
-                    });          
-                
-                             });               
+        $(window).load(function(){                                           
+            var oTable = $('#editable-usage').DataTable({
+                "aoColumnDefs": [
+                    { 'defaultContent': '-', 'bSortable': false, 'aTargets': [ "no_sort" ] }
+                ]
+            });                         
+        });               
     
 
-            $(".BlockingAjax").click(function() {
-                var id = $(this).attr("id");
-                $.ajax({url: '@Url.Action("BlockingAjax", "Users")',type : 'POST',data : {'idUser' : id},
-                      success : function f(data)  {
-                        if (data){
-                            $("#"+id).html('Отключить');
-                             $("."+id).html("<p>Активный</p>"); 
-                        }
-                        else{
-                            $("#"+id).html('Подключить');
-                            $("."+id).html("<p>Заблокирован</p>"); 
-                        }
-                        }
-                      })
+        $(".BlockingAjax").click(function() {
+            var id = $(this).attr("id");
+            $.ajax({url: '@Url.Action("BlockingAjax", "Users")',type : 'POST',data : {'idUser' : id},
+                success : function f(data)  {
+                    if (data){
+                        $("#"+id).html('Отключить');
+                        $("."+id).html("<p>Активный</p>"); 
+                    }
+                    else{
+                        $("#"+id).html('Подключить');
+                        $("."+id).html("<p>Заблокирован</p>"); 
+                    }
+                }
             })
-        </script>
+        });
+        
+        function changePosition(userId){
+            $("#modal-body").load('@Url.Action("GetPosition", "Users")', {userId : userId});            
+        }
+        
+        $('#positionButton').click(function(event) { 
+            event.preventDefault();
+            let positionId = $('#changePositionId').val();
+            let userId = $('#userId').val();
+            $.ajax({
+                url: '@Url.Action("ChangePosition", "Users")',
+                type : 'POST',
+                data : {
+                    'userId' : userId,
+                    'positionId' : positionId},
+                success : function(data) {
+                    $('#modal-body').trigger("reset");
+                    $('#userPosition-'+userId).html(data)
+                }
+            })
+        });              
+    </script>
     
     
 }
