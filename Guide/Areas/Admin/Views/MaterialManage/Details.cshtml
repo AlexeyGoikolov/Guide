@@ -86,7 +86,7 @@
                     <div class="panel-body">
                         <textarea id="comment_area" class="form-control textarea_chat" placeholder="Оставить свой комментарий..." rows="3"></textarea>
                         <br>
-                        <button type="button" class="btn btn-info pull-right" name="@Model.Id" id ="sendCommetnt">Добавить</button>
+                        <button type="button" class="btn btn-info pull-right" name="@Model.Id" id ="sendComment">Добавить</button>
                         <div class="clearfix"></div>
                     </div>
                     <div style="margin: 5px; margin-left: auto">
@@ -111,50 +111,52 @@
 @section Scripts{
    
     <script >
-    $('#sendCommetnt').click(function(event) {
-      event.preventDefault();
-      let id = $('#sendCommetnt').attr('name');
-      let comment = $('#comment_area').val();
-      reset();     
-   
-            $.ajax({
-            url: '@Url.Action("CreateComment", "Posts")',
+    $('#sendComment').click(function(event) {
+        event.preventDefault();
+        let id = $('#sendComment').attr('name');
+        let comment = $('#comment_area').val();
+        reset();        
+        $.ajax({
+            url: '@Url.Action("CreateComment", "MaterialManage")',
             type: 'POST',
             data: { 
-            'PostId': id, 
-            'Description': comment  },
+                'PostId': id, 
+                'Description': comment  },
+            success: function(data) {
+                $('#listComment').html(data); 
+            },
+        });  
+    });
+    
+    let reset = function() {
+        $('#comment_area').val("");               
+    };
+    
+    function deleteComment(Id, PostId) {
+        $.ajax({
+            url: '@Url.Action("DeleteComment", "MaterialManage")',
+            type: 'GET',
+            data: { 
+                'id': Id,
+                'postId': PostId, 
+            },
+            success: function(data) {
+                $('#listComment').html(data); 
+            },
+        });   
+    }
+          
+    function viewComment(id) {
+                          
+        $.ajax({
+            url: '@Url.Action("ViewComment", "MaterialManage")',
+            type: 'GET',
+            data: { 'id': id },
             success: function(data) {
             $('#listComment').html(data); 
-                        },
-           });  
-        });
-            let reset = function() {
-              $('#comment_area').val("");  
-              
-            };
-         function deleteComment(Id, PostId) {
-                     $.ajax({
-                     url: '@Url.Action("DeleteComment", "Posts")',
-                     type: 'GET',
-                     data: { 
-                         'id': Id,
-                     'postId': PostId, 
-                      },
-                     success: function(data) {
-                     $('#listComment').html(data); 
-                     },
-                 });   
-                }
-          function viewComment(id) {
-                          $.ajax({
-                         url: '@Url.Action("ViewComment", "Posts")',
-                          type: 'GET',
-                          data: { 'id': id },
-                           success: function(data) {
-                            $('#listComment').html(data); 
-                                     },
-                                 });   
-                                }
+            },
+        });   
+    }
     </script>
 }
 

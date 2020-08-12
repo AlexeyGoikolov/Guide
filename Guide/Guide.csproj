@@ -115,6 +115,7 @@
 
     <ItemGroup>
       <Folder Include="Views\Books" />
+      <Folder Include="Views\Material" />
       <Folder Include="wwwroot\BooksFiles" />
     </ItemGroup>
 

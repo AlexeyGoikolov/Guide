@@ -1,0 +1,59 @@
+﻿@model MaterialCreateViewModel
+
+<div class="row">
+
+    <div class="col-sm-8 portlets sortable">
+        <section class="tile portlet col - 9">
+
+            <!-- tile body -->
+            <div class="tile-body">
+                <div >
+                    <label>Заголовок<span class="text-danger">*</span></label>
+                    <br/><span class="validationError" asp-validation-for="Title"></span>
+                    <input class="form-control" type="text" asp-for="Title" value="@Model.Title">
+                </div>
+                <div>
+                    <label>Содержание<span class="text-danger">*</span></label>
+                    <textarea  name="textContent" type="text" asp-for="TextContent" value="@Model.TextContent"></textarea>
+                </div>
+            </div>
+
+            <!-- /tile body -->
+
+        </section>
+    </div>
+    <div class="col-sm-4 portlets sortable">
+        <section class="tile portlet col - 3">
+            <!-- tile body -->
+            <div class="tile-body">
+                <div id="categories-row" class="form-group" style="justify-content: center;">
+
+                </div>
+                <div id="types-row" class="form-group" style="justify-content: center"></div>
+                <div>
+                    <label>Автор<span class="text-danger">*</span></label>
+                    <br/><span class="validationError" asp-validation-for="Author"></span>
+                    <input class="form-control" type="text" asp-for="Author" value="@Model.Author">
+                </div>
+                <div>
+                    <label>Физическое место нахождения</label>
+                    <input class="form-control" type="text" asp-for="PhysicalPath" value="@Model.PhysicalPath">
+                </div>
+                <div>
+                    <label >Загрузить файл</label>
+                    <input class="form-control" type="file" asp-for="VirtualPath">
+                </div>
+                <br/><label>Шаблоны</label>
+                <div id="template-row" class="form-group" style="justify-content: center"></div>
+            </div>
+
+            <!-- /tile body -->
+
+        </section>
+    </div>
+</div>
+<div style="text-align: center">
+    <span class="validationError">@Html.ValidationMessage("CustomError")</span>
+</div>
+
+

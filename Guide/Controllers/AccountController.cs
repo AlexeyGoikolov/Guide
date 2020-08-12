@@ -37,11 +37,11 @@ namespace Guide.Controllers
         }
 
         [Authorize]
-        public IActionResult Details()
+        public IActionResult Details(string id = null)
         {
             User user = _userManager.GetUserAsync(User).Result;
             if (User.IsInRole("admin"))
-                return RedirectToAction("Profile", "Service", new {area = "Admin"});
+                return RedirectToAction("Profile", "Service", new {area = "Admin", id});
             return View(user);
         }
 

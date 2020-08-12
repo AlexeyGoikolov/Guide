@@ -1,5 +1,4 @@
-﻿﻿using System;
- using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,23 +6,26 @@ using Guide.Models;
 using Guide.Models.Data;
 using Guide.Services;
 using Guide.ViewModels;
- using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
- using Microsoft.EntityFrameworkCore;
- using Microsoft.Extensions.Hosting;
- using Type = Guide.Models.Type;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 
- namespace Guide.Controllers
+namespace Guide.Areas.Admin.Controllers
 {
-    public class PostsController : Controller
+    [Area("Admin")]
+    [Authorize(Roles = "admin")]
+    public class MaterialManageController : Controller
     {
         private readonly GuideContext _db;
         private readonly UserManager<User> _userManager;
         private IHostEnvironment _environment;
         private UploadService _uploadService;
 
-        public PostsController(GuideContext db, UserManager<User> userManager, IHostEnvironment environment, UploadService uploadService)
+        public MaterialManageController(GuideContext db, UserManager<User> userManager, IHostEnvironment environment,
+            UploadService uploadService)
         {
             _db = db;
             _userManager = userManager;
@@ -40,12 +42,11 @@ using Microsoft.AspNetCore.Mvc;
         public IActionResult Details(string id)
         {
             Post post = _db.Posts.FirstOrDefault(p => p.Id == id);
-         
-            
-           
+
+
             return View(post);
         }
-        
+
         public IActionResult ValTemplate(string templatesId)
         {
             if (templatesId != null)
@@ -53,15 +54,17 @@ using Microsoft.AspNetCore.Mvc;
                 Template template = _db.Templates.FirstOrDefault(t => t.Id == templatesId);
                 return Json(template);
             }
+
             return Json(null);
         }
+
         public IActionResult Create()
         {
-            return View(new PostCreateViewModel());
+            return View(new MaterialCreateViewModel());
         }
 
         [HttpPost]
-        public IActionResult Create(PostCreateViewModel model)
+        public IActionResult Create(MaterialCreateViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -83,7 +86,7 @@ using Microsoft.AspNetCore.Mvc;
 
             return View(model);
         }
-        
+
         public IActionResult CreateTemplateAjax(Template template)
         {
             if (template.Name != null)
@@ -91,16 +94,16 @@ using Microsoft.AspNetCore.Mvc;
                 _db.Templates.Add(template);
                 _db.SaveChanges();
             }
-            PostTemplateViewModel model = new PostTemplateViewModel()
+
+            MaterialTemplateViewModel model = new MaterialTemplateViewModel()
             {
-                Post = new PostCreateViewModel(),
+                Material = new MaterialCreateViewModel(),
                 Templates = _db.Templates.ToList()
-                
             };
-            
+
             return PartialView("PartialViews/TemplatesPartial", model);
         }
-        
+
         public IActionResult CreateCategoryAjax(Category category)
         {
             if (category.Name != null)
@@ -108,15 +111,16 @@ using Microsoft.AspNetCore.Mvc;
                 _db.Categories.Add(category);
                 _db.SaveChanges();
             }
-            PostCategoryViewModel model = new PostCategoryViewModel()
+
+            MaterialCategoryViewModel model = new MaterialCategoryViewModel()
             {
-                Post = new PostCreateViewModel(),
+                Material = new MaterialCreateViewModel(),
                 Categories = _db.Categories.ToList(),
             };
-            
+
             return PartialView("PartialViews/CategoriesPartial", model);
         }
-        
+
         public IActionResult CreateTypeAjax(Type type)
         {
             if (type.Name != null)
@@ -124,15 +128,16 @@ using Microsoft.AspNetCore.Mvc;
                 _db.Types.Add(type);
                 _db.SaveChanges();
             }
-            PostTypeViewModel model = new PostTypeViewModel()
+
+            MaterialTypeViewModel model = new MaterialTypeViewModel()
             {
-                Post = new PostCreateViewModel(),
+                Material = new MaterialCreateViewModel(),
                 Types = _db.Types.ToList()
             };
-            
+
             return PartialView("PartialViews/TypesPartial", model);
         }
-        
+
         public IActionResult DeleteCategoryAjax(string id)
         {
             Category category = _db.Categories.FirstOrDefault(c => c.Id == id);
@@ -141,15 +146,16 @@ using Microsoft.AspNetCore.Mvc;
                 _db.Categories.Remove(category);
                 _db.SaveChanges();
             }
-            PostCategoryViewModel model = new PostCategoryViewModel()
-            {
-                Post = new PostCreateViewModel(),
-                Categories = _db.Categories.ToList(),
 
+            MaterialCategoryViewModel model = new MaterialCategoryViewModel()
+            {
+                Material = new MaterialCreateViewModel(),
+                Categories = _db.Categories.ToList(),
             };
-            
+
             return PartialView("PartialViews/CategoriesPartial", model);
         }
+
         public IActionResult DeleteTemplateAjax(string id)
         {
             Template template = _db.Templates.FirstOrDefault(c => c.Id == id);
@@ -158,15 +164,16 @@ using Microsoft.AspNetCore.Mvc;
                 _db.Templates.Remove(template);
                 _db.SaveChanges();
             }
-            PostTemplateViewModel model = new PostTemplateViewModel()
-            {
-                Post = new PostCreateViewModel(),
-                Templates = _db.Templates.ToList(),
 
+            MaterialTemplateViewModel model = new MaterialTemplateViewModel()
+            {
+                Material = new MaterialCreateViewModel(),
+                Templates = _db.Templates.ToList(),
             };
-            
+
             return PartialView("PartialViews/TemplatesPartial", model);
         }
+
         public IActionResult DeleteTypeAjax(string id)
         {
             Type type = _db.Types.FirstOrDefault(t => t.Id == id);
@@ -175,15 +182,16 @@ using Microsoft.AspNetCore.Mvc;
                 _db.Types.Remove(type);
                 _db.SaveChanges();
             }
-            PostTypeViewModel model = new PostTypeViewModel()
+
+            MaterialTypeViewModel model = new MaterialTypeViewModel()
             {
-                Post = new PostCreateViewModel(),
+                Material = new MaterialCreateViewModel(),
                 Types = _db.Types.ToList()
             };
-            
+
             return PartialView("PartialViews/TypesPartial", model);
         }
-        
+
         private string Load(string id, IFormFile file)
         {
             if (file != null)
@@ -194,47 +202,44 @@ using Microsoft.AspNetCore.Mvc;
                 {
                     Directory.CreateDirectory($"wwwroot/PostsFiles/{id}");
                 }
+
                 _uploadService.Upload(path, file.FileName, file);
                 return filePath;
             }
 
             return null;
         }
+
         [HttpGet]
         public async Task<IActionResult> ViewComment(string id)
         {
             List<Comment> comments = _db.Comments.Where(c => c.PostId == id)
-                    .OrderByDescending(g => g.DateOfCreate).ToList();
+                .OrderByDescending(g => g.DateOfCreate).ToList();
 
-                return PartialView("PartialViews/CommentsPartial", comments);
-            
+            return PartialView("PartialViews/CommentsPartial", comments);
         }
 
         [HttpPost]
-     
         public async Task<IActionResult> CreateComment(Comment model)
         {
-           
-                if (model.PostId != null && model.Description != null)
+            if (model.PostId != null && model.Description != null)
+            {
+                Comment comment = new Comment()
                 {
-                    Comment comment = new Comment()
-                    {
-                        PostId = model.PostId,
-                        AuthorId = _userManager.GetUserId(User),
-                        Description = model.Description,
-                       
-                    };
-                   _db.Comments.AddAsync(comment);
-                   await _db.SaveChangesAsync();
-                  
-                }
+                    PostId = model.PostId,
+                    AuthorId = _userManager.GetUserId(User),
+                    Description = model.Description,
+                };
+                _db.Comments.AddAsync(comment);
+                await _db.SaveChangesAsync();
+            }
 
-                List<Comment> comments =await _db.Comments.Include(c =>c.Author).
-                    Where(c => c.PostId == model.PostId)
-                        .OrderByDescending(g => g.DateOfCreate).ToListAsync();
+            List<Comment> comments = await _db.Comments.Include(c => c.Author).Where(c => c.PostId == model.PostId)
+                .OrderByDescending(g => g.DateOfCreate).ToListAsync();
 
-                    return PartialView("PartialViews/CommentsPartial", comments);
-                }
+            return PartialView("PartialViews/CommentsPartial", comments);
+        }
+
         [HttpGet]
         public async Task<IActionResult> DeleteComment(string id, string postId)
         {
@@ -242,7 +247,7 @@ using Microsoft.AspNetCore.Mvc;
             if (comment != null)
             {
                 _db.Comments.Remove(comment);
-               await _db.SaveChangesAsync();
+                await _db.SaveChangesAsync();
             }
 
             List<Comment> comments = await _db.Comments.Where(c => c.PostId == postId)
@@ -250,13 +255,13 @@ using Microsoft.AspNetCore.Mvc;
 
             return PartialView("PartialViews/CommentsPartial", comments);
         }
-        
+
         public IActionResult Edit(string id)
         {
             if (id != null)
             {
                 Post post = _db.Posts.FirstOrDefault(p => p.Id == id);
-                PostCreateViewModel model = new PostCreateViewModel()
+                MaterialCreateViewModel model = new MaterialCreateViewModel()
                 {
                     Id = post.Id,
                     Title = post.Title,
@@ -266,17 +271,18 @@ using Microsoft.AspNetCore.Mvc;
                     CategoryId = post.CategoryId,
                     PhysicalPath = post.PhysicalPath,
                     TypeId = post.TypeId,
-                    
                 };
-                
+
                 return View(model);
             }
+
             return NotFound();
         }
+
         [HttpPost]
-        public IActionResult Edit(PostCreateViewModel model)
+        public IActionResult Edit(MaterialCreateViewModel model)
         {
-            if (ModelState.IsValid )
+            if (ModelState.IsValid)
             {
                 Post post = _db.Posts.FirstOrDefault(p => p.Id == model.Id);
                 post.Id = model.Id;
@@ -289,12 +295,12 @@ using Microsoft.AspNetCore.Mvc;
                 post.VirtualPath = Load(model.Id, model.VirtualPath);
                 _db.Posts.Update(post);
                 _db.SaveChanges();
-                return RedirectToAction("Index", "Posts");
+                return RedirectToAction("Index", "MaterialManage");
             }
-            return View(model);
 
+            return View(model);
         }
-        
+
         public IActionResult Delete(string id)
         {
             if (id != null)
@@ -305,8 +311,10 @@ using Microsoft.AspNetCore.Mvc;
                     return View(post);
                 }
             }
+
             return NotFound();
         }
+
         [HttpPost]
         [ActionName("Delete")]
         public IActionResult ConfirmDeleta(string id)
@@ -320,10 +328,8 @@ using Microsoft.AspNetCore.Mvc;
                     _db.SaveChanges();
                 }
             }
-            return RedirectToAction("Index" , "Posts");
+
+            return RedirectToAction("Index", "MaterialManage");
         }
-        
-        
-        }
- 
+    }
 }

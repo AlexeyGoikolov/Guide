@@ -1,15 +1,15 @@
-﻿@model PostCategoryViewModel
+﻿@model MaterialCategoryViewModel
 
 <label>Выберите категорию<span class="text-danger">*</span></label>
-  <span class="validationError" asp-validation-for="@Model.Post.CategoryId"></span>
+  <span class="validationError" asp-validation-for="@Model.Material.CategoryId"></span>
 <div style="display: flex">
-    <select class="form-control" name="CategoryId" asp-for="@Model.Post.CategoryId">
-        @foreach (var cat in @Model.Categories)
+    <select class="form-control" name="CategoryId" asp-for="@Model.Material.CategoryId">
+        @foreach (var cat in Model.Categories)
         {
             <option value="@cat.Id">@cat.Name</option>
         }
     </select>
-   <span class="validationError" asp-validation-for="@Model.Post.CategoryId"></span>
+   <span class="validationError" asp-validation-for="@Model.Material.CategoryId"></span>
     <div class="input-group-append" >
         <button class="btn btn-outline-secondary" type="button" data-toggle="modal" data-target="#modalCategory">
             <i class="fas fa-plus"></i>
@@ -34,7 +34,7 @@
                         <button class="btn btn-outline-secondary" data-dismiss="modal" type="button" id="catButton">Добавить</button>
                     </div>
                 </div>
-                @foreach (var cat in @Model.Categories)
+                @foreach (var cat in Model.Categories)
                 {
                     <p>- @cat.Name <button data-dismiss="modal" type="button" value="@cat.Id" class="btn buttonDeleteCat"><i class="fas fa-trash-alt"></i></button></p>
                 }

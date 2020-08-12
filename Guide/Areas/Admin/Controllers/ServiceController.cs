@@ -23,9 +23,14 @@ namespace Guide.Areas.Admin.Controllers
         }
 
         
-        public IActionResult Profile()
+        public IActionResult Profile(string id = null)
         {
-            User user = _db.Users.FirstOrDefault(u => u.Id == _userManager.GetUserId(User));
+            User user;
+            if (id == null)
+                user = _db.Users.FirstOrDefault(u => u.Id == _userManager.GetUserId(User));
+            else
+                user = _db.Users.FirstOrDefault(u => u.Id == id);
+
             return View(user);
         }
     }

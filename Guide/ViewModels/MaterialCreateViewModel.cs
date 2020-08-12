@@ -8,7 +8,7 @@ using Type = System.Type;
 
 namespace Guide.ViewModels
 {
-    public class PostCreateViewModel
+    public class MaterialCreateViewModel
     {
         public string Id { get; set; } = Guid.NewGuid().ToString();
         [Required(ErrorMessage = "Необходимо заполнить поле Заголовок")]

@@ -1,22 +1,20 @@
-﻿@model PostTypeViewModel
+﻿@model MaterialTypeViewModel
 
 <label>Выберите Тип<span class="text-danger">*</span></label>
-  <span class="validationError" asp-validation-for="@Model.Post.TypeId"></span>
+<span class="validationError" asp-validation-for="@Model.Material.TypeId"></span>
 <div style="display: flex">
-    <select class="form-control" name="TypeId" asp-for="@Model.Post.TypeId">
+    <select class="form-control" name="TypeId" asp-for="@Model.Material.TypeId">
         @foreach (var type in @Model.Types)
         {
             <option value="@type.Id">@type.Name</option>
         }
     </select>
-    <div class="input-group-append" >
+    <div class="input-group-append">
         <button class="btn btn-outline-secondary" type="button" data-toggle="modal" data-target="#modalType">
             <i class="fas fa-plus"></i>
         </button>
     </div>
 </div>
-
-
 
 <div class="modal fade" id="modalType" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="text-align: center">
     <div class="modal-dialog" role="document">

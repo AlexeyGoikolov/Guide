@@ -1,4 +1,4 @@
-﻿@model PostCreateViewModel
+﻿@model MaterialCreateViewModel
 
 @{
     ViewBag.Title = "Новый материал";
@@ -15,13 +15,13 @@
 
             <ul class="page-breadcrumb">
                 <li>
-                    <a asp-action="Index" asp-controller="Account"><i class="fa fa-home"></i> Guide</a>
+                    <a asp-action="Details" asp-controller="Account"><i class="fa fa-home"></i> Guide</a>
                 </li>
                 <li>
-                    <a asp-action="Index" asp-controller="Posts"> Материалы</a>
+                    <a asp-action="Index" asp-controller="MaterialManage"> Материалы</a>
                 </li>
                 <li>
-                    <a asp-action="Create" asp-controller="Posts"> Добавить</a>
+                    <a asp-action="Create" asp-controller="MaterialManage"> Добавить</a>
                 </li>
             </ul>
         </div>
@@ -31,7 +31,7 @@
     <div class="row">
 
         <div class="tile-body">
-            <form class="create-form" asp-action="Create" asp-controller="Posts" method="post" enctype="multipart/form-data">
+            <form class="create-form" asp-action="Create" asp-controller="MaterialManage" method="post" enctype="multipart/form-data">
                 <div asp-validation-summary="ModelOnly"></div>
                 @{ Html.RenderPartial("PartialViews/FormPartial", Model); }
                 <button type="submit" class="btn btn-info float-right" style=" width: 31%;">Создать</button>
@@ -89,44 +89,41 @@
             CKEDITOR.replace('ContentTemplate');
             </script>
     <script >
-                function sendTemplate() {
-                    var id = $("#selectTemplate").val()
-                    $.ajax({
-                    url: '@Url.Action("ValTemplate", "Posts")',
-                    type: 'GET',
-                    data: { 
+        function sendTemplate() {
+            let id = $("#selectTemplate").val();
+            $.ajax({
+                url: '@Url.Action("ValTemplate", "MaterialManage", new {area = "Admin"})',
+                type: 'GET',
+                data: { 
                     'templatesId': id},
-                    success: function(data) {
-                    console.log(data)
-                    $( '#Title' ).val(data.title);
+                success: function(data) {                  
+                    $('#Title').val(data.title);
                     CKEDITOR.instances['TextContent'].setData(data.contentTemplate);
-                    },
-                    });
-                    }
-     </script>
-    <script>
+                },                  
+            });
+        }    
         var loadCategories = function(){
             var catInput = $('#catInput').val();
-            $("#categories-row").load('@Url.Action("CreateCategoryAjax", "Posts")',{Name: catInput});
+            $("#categories-row").load('@Url.Action("CreateCategoryAjax", "MaterialManage")',{Name: catInput});
         };
         var loadTemplate = function(){
             var templateTitle = $('#templateTitle').val();
             var templateContent = CKEDITOR.instances['ContentTemplate'].getData();
         var templateInput = $('#templateName').val();
-            $("#template-row").load('@Url.Action("CreateTemplateAjax", "Posts")',{Name: templateInput, ContentTemplate : templateContent, Title:templateTitle});
+            $("#template-row").load('@Url.Action("CreateTemplateAjax", "MaterialManage")',{Name: templateInput, ContentTemplate : templateContent, Title:templateTitle});
          };
         var loadTypes = function(){
             var typeInput = $('#typeInput').val();
-            $("#types-row").load('@Url.Action("CreateTypeAjax", "Posts")',{Name: typeInput});
+            $("#types-row").load('@Url.Action("CreateTypeAjax", "MaterialManage")',{Name: typeInput});
         };
         var deleteCategory = function(categoryId){
-            $("#categories-row").load('@Url.Action("DeleteCategoryAjax", "Posts")', {Id: categoryId});
+            $("#categories-row").load('@Url.Action("DeleteCategoryAjax", "MaterialManage")', {Id: categoryId});
         };
                 var deleteTemplate = function(templateId){
-                    $("#template-row").load('@Url.Action("DeleteTemplateAjax", "Posts")', {Id: templateId});
+                    $("#template-row").load('@Url.Action("DeleteTemplateAjax", "MaterialManage")', {Id: templateId});
                 };
         var deleteType = function(typeId){
-            $("#types-row").load('@Url.Action("DeleteTypeAjax", "Posts")', {Id: typeId});
+            $("#types-row").load('@Url.Action("DeleteTypeAjax", "MaterialManage")', {Id: typeId});
         };
         $(document).ready(function(){
             loadTemplate();
