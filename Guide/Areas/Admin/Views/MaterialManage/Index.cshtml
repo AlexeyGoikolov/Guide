@@ -96,16 +96,14 @@
 
 @section Scripts
 {
-    <script>
-    
+    <script> 
         $(window).load(function(){                                           
             let oTable = $('#editable-usage').DataTable({
                 "aoColumnDefs": [
-                    { 'bSortable': false, 'aTargets': [ "no-sort" ] }
+                    { 'defaultContent': '-', 'bSortable': false, 'aTargets': [ "no_sort" ] }
                 ]
-            });          
-            
-        });
+            });                         
+        }); 
     </script>
 }
 

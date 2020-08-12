@@ -51,11 +51,10 @@
                                 <th>Описание</th>
                                 <th>Аббревиатура  </th>
                                 <th>Источник  </th>
-                                <th>Действия</th>
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach (var glossery in @Model)
+                            @foreach (var glossery in Model)
                             {
                                 <tr class="odd gradeX">
                                     <div class="row border">
@@ -63,7 +62,7 @@
                                             <a asp-action="Preview" asp-controller="Glossarys" asp-route-id="@glossery.Id">@glossery.Name</a>
                                         </td>
                                         <td>
-                                            @glossery.Description
+                                            @Html.Raw(glossery.Description)
                                         </td>
                                         <td>
                                             @glossery.Abbreviation
@@ -93,12 +92,11 @@
 {
     <script>
         $(window).load(function(){                                           
-            var oTable = $('#editable-usage').DataTable({
+            let oTable = $('#editable-usage').DataTable({
                 "aoColumnDefs": [
-                    { 'bSortable': false, 'aTargets': [ "no-sort" ] }
+                    { 'defaultContent': '-', "targets": "_all", 'bSortable': false, 'aTargets': [ "no_sort" ] }
                 ]
-            });          
-            
+            });                         
         });
     </script>
 }

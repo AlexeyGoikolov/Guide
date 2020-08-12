@@ -29,12 +29,7 @@ namespace Guide.Controllers
             _signInManager = signInManager;
             _db = db;
         }
-
-        [Authorize(Roles = "admin")]
-        public IActionResult Index()
-        {
-            return View(_db.Users.ToList());
-        }
+        
 
         [Authorize]
         public IActionResult Details(string id = null)
@@ -45,7 +40,8 @@ namespace Guide.Controllers
             return View(user);
         }
 
-        [Authorize]
+        
+        [Authorize(Roles = "admin")]
         public IActionResult Delete(string id)
         {
             User user = _db.Users.FirstOrDefault(u => u.Id == id);
@@ -55,11 +51,11 @@ namespace Guide.Controllers
                 _db.Users.Update(user);
                 _db.SaveChanges();
             }
-            return RedirectToAction("Index");
+            return RedirectToAction("Details");
         }
         
         
-        [Authorize]
+        [Authorize(Roles = "admin")]
         public IActionResult Edit(string id = null)
         {
             User user = new User();
@@ -75,7 +71,7 @@ namespace Guide.Controllers
         }
 
         [HttpPost]
-        [Authorize]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Edit(User userModel)
         {
             if (ModelState.IsValid)
@@ -204,6 +200,7 @@ namespace Guide.Controllers
             await _signInManager.SignOutAsync();
             return RedirectToAction("Login");
         }
+        
         //добавления должность
         public IActionResult CreatePositionAjax(Position position)
         {

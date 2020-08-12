@@ -6,7 +6,7 @@
 }
 <div class="page">
     <div class="pageheader">
-        <h2>@Model.Name</h2>
+        <h2>Редактирование термина @Model.Name</h2>
         <div class="page-bar">
             <ul class="page-breadcrumb">
                 <li>
@@ -27,19 +27,17 @@
             </ul>
         </div>
     </div>
-    <div class="card" style="width:800px;margin:auto;">
-        <div class="card-header text-center">
-            @ViewBag.Title
-        </div>
-        <div class="card-body">
-            <form asp-action="Edit" asp-controller="GlossarysManage" asp-area="Admin" method="post" enctype="multipart/form-data" asp-antiforgery="true">
+    <div class="row">
+        <div class="tile-body">
+            <form class="create-form" asp-action="Edit" asp-controller="GlossarysManage" asp-area="Admin" method="post" enctype="multipart/form-data" asp-antiforgery="true">
                 @{ Html.RenderPartial("PartialViews/Glossary", Model); }
                 <input type="hidden" value="@Model.Id" asp-for="Id">
-                <button type="submit" class="btn btn-info" style="margin:  20px 0 0;">Сохранить</button>
-                <a asp-action="Index" asp-controller="GlossarysManage" class="btn btn-info" style="margin:  20px 0 0;">Отменить</a>
+                <button type="submit" class="btn btn-info glossary-create-button" style="margin:  20px 0 0;">Сохранить</button>
+                <a asp-action="Index" asp-controller="GlossarysManage" class="btn btn-info glossary-cancel-button" style="margin:  20px 0 0;">Отменить</a>
             </form>
         </div>
     </div>
+
 </div>
 
 @section Scripts
@@ -47,4 +45,7 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+    <script>
+                CKEDITOR.replace('Description');
+    </script>
 }

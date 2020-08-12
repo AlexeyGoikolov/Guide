@@ -86,12 +86,11 @@
 {
     <script>
         $(window).load(function(){                                           
-            var oTable = $('#editable-usage').DataTable({
+            let oTable = $('#editable-usage').DataTable({
                 "aoColumnDefs": [
-                    { 'bSortable': false, 'aTargets': [ "no-sort" ] }
+                    { 'defaultContent': '-', "targets": "_all", 'bSortable': false, 'aTargets': [ "no_sort" ] }
                 ]
-            });          
-            
+            });                         
         });
     </script>
 }
