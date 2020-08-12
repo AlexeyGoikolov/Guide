@@ -1,17 +1,19 @@
-﻿<!doctype html>
+﻿@using Microsoft.AspNetCore.Identity
+@inject UserManager<User> UserManager
+<!doctype html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
 <!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
 <!--[if gt IE 8]><!--> <html class="no-js" lang=""> <!--<![endif]-->
     <head>
      <meta charset="utf-8" />
-                <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-               <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">    
+     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">    
           
-             <script src="https://cdn.ckeditor.com/4.14.1/standard/ckeditor.js"></script>
-        <title>Guide</title>
-        <link rel="icon" type="image/ico" href="~/favicon.ico" />
-        <meta name="description" content="">
+     <script src="https://cdn.ckeditor.com/4.14.1/standard/ckeditor.js"></script>
+     <title>Guide</title>
+     <link rel="icon" type="image/ico" href="~/favicon.ico" />
+     <meta name="description" content="">
        
  
         <!-- ============================================
@@ -24,6 +26,7 @@
                 <link rel="stylesheet" href="assets/css/vendor/font-awesome.min.css">
                 <link rel="stylesheet" href="assets/js/vendor/animsition/css/animsition.min.css">
                 <link rel="stylesheet" href="~/css/style.css">
+                
                 
 
       
@@ -57,12 +60,12 @@
                     <div class="branding">
                         @if (User.Identity.IsAuthenticated)
                           {
-                            <a class="brand" asp-controller="Account" asp-action="Index"><span><strong>Guide</strong></span></a>
+                            <a class="brand" asp-controller="Account" asp-action="Index" asp-area=""><span><strong>Guide</strong></span></a>
                             <a href="#" class="offcanvas-toggle visible-xs-inline"><i class="fa fa-bars"></i></a>
                           }
                          else
                           {
-                            <a class="brand" asp-controller="Account" asp-action="Login"><span><strong>Guide</strong></span></a>
+                            <a class="brand" asp-controller="Account" asp-action="Login" asp-area=""><span><strong>Guide</strong></span></a>
                               <a href="#" class="offcanvas-toggle visible-xs-inline"><i class="fa fa-bars"></i></a>
                           }
                     </div>
@@ -150,42 +153,31 @@
                     <!-- Left-side navigation end -->
                    <!-- Right-side navigation -->
                     <ul class="nav-right pull-right list-inline">
-                     @if (User.Identity.IsAuthenticated)
-                     {
-                       <li class="dropdown nav-profile">
-                            <a href class="dropdown-toggle" data-toggle="dropdown">
-                                <span>@User.Identity.Name<i class="fa fa-angle-down"></i></span>
+                      @if (User.Identity.IsAuthenticated)
+                      {
+                        <li class="dropdown nav-profile">
+                            <a class="dropdown-toggle" data-toggle="dropdown" asp-action="Details" asp-controller="Account" asp-area="">
+                                <span>
+                                    @User.Identity.Name<i class="fa fa-angle-down"></i>
+                                </span>
                             </a>
                             <ul class="dropdown-menu animated littleFadeInRight" role="menu">
-
                                 <li>
-                                    <a asp-controller="Account" asp-action="Details">
-                                        <i class="fa fa-user"></i>
-                                        Личный кабинет
-                                        </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <span class="label bg-lightred pull-right">new</span>
-                                        <i class="fa fa-check"></i>Tasks
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <i class="fa fa-cog"></i>Settings
-                                    </a>
+                                     <a asp-controller="Account" asp-action="Details" asp-area="">
+                                         <i class="fa fa-user"></i>
+                                         Личный кабинет
+                                     </a>
                                 </li>
                                 <li class="divider"></li>
                                 <li>
-                                    <a asp-controller="Account" asp-action="Logout">
+                                    <a asp-controller="Account" asp-action="Logout" asp-area="">
                                         <i class="fa fa-sign-out"></i>
-                                          Выход
+                                        Выход
                                     </a>
                                 </li>
-
-                            </ul>
-                        </li>
-                     }
+                             </ul>
+                         </li>
+                      }
                     </ul>
                     <!-- Right-side navigation end -->
                 </header>

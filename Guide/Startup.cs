@@ -77,9 +77,10 @@ namespace Guide
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllerRoute(
+                endpoints.MapAreaControllerRoute(
                     name: "AdminArea",
-                    pattern: "{area:exists}/{controller=Service}/{action=Index}/{id?}");
+                    areaName: "admin",
+                    pattern: "admin/{controller}/{action}/{id?}");
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Account}/{action=Details}/{id?}");

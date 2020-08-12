@@ -37,9 +37,11 @@ namespace Guide.Controllers
         }
 
         [Authorize]
-        public IActionResult Details(string id = null)
+        public IActionResult Details()
         {
-            User user = id == null? _userManager.GetUserAsync(User).Result : _userManager.FindByIdAsync(id).Result;
+            User user = _userManager.GetUserAsync(User).Result;
+            if (User.IsInRole("admin"))
+                return RedirectToAction("Profile", "Service", new {area = "Admin"});
             return View(user);
         }
 
@@ -188,7 +190,7 @@ namespace Guide.Controllers
                     {
                         return Redirect(model.ReturnUrl);
                     }
-
+                    
                     return RedirectToAction("Details", "Account");
                 }
                 ModelState.AddModelError("", "Неправильный логин или пароль");

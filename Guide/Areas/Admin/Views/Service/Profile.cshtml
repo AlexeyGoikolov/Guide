@@ -1,0 +1,15 @@
+﻿@model User
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@{
+    ViewBag.Title = "Личный кабинет";
+    Layout = "_Layout";
+}
+
+<div class="page">
+    <h3>Добро пожаловать @Model.UserName</h3>
+    
+    <a asp-action="Edit" asp-controller="Account" asp-route-id="@Model.Id" class="btn btn-outline-info">Изменить</a>
+    <a asp-action="ChangePassword" asp-controller="Account" asp-route-id="@Model.Id" class="btn btn-outline-danger">Изменить пароль</a>
+    <a class="btn btn-danger" asp-action="Register" asp-controller="Account">Добавить пользователя</a>
+</div>
