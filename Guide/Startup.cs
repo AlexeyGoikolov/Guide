@@ -79,7 +79,7 @@ namespace Guide
             {
                 endpoints.MapAreaControllerRoute(
                     name: "AdminArea",
-                    areaName: "admin",
+                    areaName: "Admin",
                     pattern: "admin/{controller}/{action}/{id?}");
                 endpoints.MapControllerRoute(
                     name: "default",

@@ -2,10 +2,13 @@
 using System.Linq;
 using Guide.Models;
 using Guide.Models.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Guide.Areas.Admin.Controllers
 {
+    [Area("Admin")]
+    [Authorize(Roles = "admin")]
     public class GlossarysManageController : Controller
     {
         private readonly GuideContext _db;
@@ -70,7 +73,7 @@ namespace Guide.Areas.Admin.Controllers
                     _db.SaveChanges();
                 }
             }
-            return RedirectToAction("Index" , "Glossarys");
+            return RedirectToAction("Index" , "GlossarysManage");
         }
 
         public IActionResult Edit(string id)
@@ -91,7 +94,7 @@ namespace Guide.Areas.Admin.Controllers
             {
                 _db.Glossaries.Update(model);
                 _db.SaveChanges();
-               return RedirectToAction("Index", "Glossarys");
+               return RedirectToAction("Index", "GlossarysManage");
             }
             return View(model);
         }

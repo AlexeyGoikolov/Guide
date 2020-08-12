@@ -5,16 +5,38 @@
     Layout = "_Layout";
 }
 <div class="page">
+    <div class="pageheader">
+        <h2>@Model.Name</h2>
+        <div class="page-bar">
+            <ul class="page-breadcrumb">
+                <li>
+                    <a asp-action="Profile" asp-controller="Service"><i class="fa fa-home"></i> Guide</a>
+                </li>
+                <li>
+                    <a asp-action="Index" asp-controller="GlossarysManage">Глоссарий</a>
+                </li>
+                <li>
+                    <a asp-action="Index" asp-controller="GlossarysManage">Список</a>
+                </li>
+                <li>
+                    <a asp-action="Preview" asp-controller="GlossarysManage" asp-route-id="@Model.Id">@Model.Name</a>
+                </li>
+                <li>
+                    <a asp-action="Edit" asp-controller="GlossarysManage" asp-route-id="@Model.Id">Редактирование</a>
+                </li>
+            </ul>
+        </div>
+    </div>
     <div class="card" style="width:800px;margin:auto;">
         <div class="card-header text-center">
             @ViewBag.Title
         </div>
         <div class="card-body">
-            <form asp-action="Edit" asp-controller="GlossarysManage" method="post" enctype="multipart/form-data" asp-antiforgery="true">
+            <form asp-action="Edit" asp-controller="GlossarysManage" asp-area="Admin" method="post" enctype="multipart/form-data" asp-antiforgery="true">
                 @{ Html.RenderPartial("PartialViews/Glossary", Model); }
                 <input type="hidden" value="@Model.Id" asp-for="Id">
-                <button type="submit" class="btn btn-info" style="margin:  20px 0 0;" >Сохранить</button>
-                <a asp-action="Index" asp-controller="Glossarys" class="btn btn-info" style="margin:  20px 0 0;" >Отменить</a>
+                <button type="submit" class="btn btn-info" style="margin:  20px 0 0;">Сохранить</button>
+                <a asp-action="Index" asp-controller="GlossarysManage" class="btn btn-info" style="margin:  20px 0 0;">Отменить</a>
             </form>
         </div>
     </div>
