@@ -1,14 +1,10 @@
-﻿.glossary-create-button,
+﻿.glossary-update-button,
 .glossary-cancel-button{
-    width: 30%;
-    position: absolute;
-    left: 68%;
+    display: inline-block;
+    width: 15rem;
 }
 .glossary-create-button{
-    bottom: 40%;
-}
-.glossary-cancel-button{
-    bottom: 30%;
+    width: 100%;
 }
 .create-form{
     padding: 0 15px;

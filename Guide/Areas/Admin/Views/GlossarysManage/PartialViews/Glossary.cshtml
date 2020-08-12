@@ -28,7 +28,16 @@
                     <label>Источник</label>
                     <input class="form-control" type="text" asp-for="Source" value="@Model.Source">
                 </div>
-                <button type="submit" class="btn btn-info mt-10">Добавить</button>
+                @if (Model.Name == null && Model.Description == null)
+                {
+                    <button type="submit" class="btn btn-info mt-10 glossary-create-button">Добавить</button>
+                }
+                else
+                {
+                    <button type="submit" class="btn btn-info mt-10 glossary-update-button">Сохранить</button>
+                    <a asp-action="Index" asp-controller="GlossarysManage" class="btn btn-info mt-10 glossary-cancel-button" style="margin:  20px 0 0;">Отменить</a>
+                }
+                
             </div>
         </section>
     </div>
