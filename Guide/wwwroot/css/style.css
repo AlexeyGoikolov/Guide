@@ -18,3 +18,12 @@
     padding: 0 12px;
     height: 27px;
 }
+.fa-trash{
+    color: red;
+}
+.btn_commit_del{
+    float: right;
+}
+.materiol_content{
+    min-height: 20em;
+}
