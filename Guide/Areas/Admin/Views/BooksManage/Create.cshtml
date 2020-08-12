@@ -5,13 +5,13 @@
     Layout = "_Layout";
 }
 
-<div class="container">
+<div class="page">
     <div class="pageheader">
         <h2>@ViewBag.Title</h2>
         <div class="page-bar">
             <ul class="page-breadcrumb">
                 <li>
-                    <a href="index.html"><i class="fa fa-home"></i> Guide</a>
+                    <a asp-action="Profile" asp-controller="Service"><i class="fa fa-home"></i> Guide</a>
                 </li>
                 <li>
                     <a asp-action="Index" asp-controller="BooksManage">Книги</a>
@@ -24,10 +24,10 @@
     </div>
     <div class="card" style="margin:auto;">
         <div class="card-body">
-            <form asp-action="Create" asp-controller="BooksManage" method="post" enctype="multipart/form-data" asp-antiforgery="true">
+            <form asp-action="Create" asp-controller="BooksManage" asp-area="Admin" method="post" enctype="multipart/form-data" asp-antiforgery="true">
                 @{ Html.RenderPartial("PartialViews/FormPartial", Model); }
-                <button type="submit" class="btn btn-info" style="margin:  20px 0 0 270px; width: 500px;">Создать</button>
                 <input type="hidden" value="@Model.Id" id="postId" asp-for="Id">
+                <button type="submit" class="btn btn-info" style="margin:  20px 0 0 270px; width: 500px;">Создать</button>
             </form>
         </div>
     </div>

@@ -13,14 +13,14 @@ using Microsoft.Extensions.Hosting;
 namespace Guide.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Roles = "admin")]
+    
     public class BooksManageController : Controller
     {
         
         private readonly GuideContext _db;
         private readonly UserManager<User> _userManager;
-        private IHostEnvironment _environment;
-        private UploadService _uploadService;
+        private readonly IHostEnvironment _environment;
+        private readonly UploadService _uploadService;
 
         public BooksManageController(GuideContext db, UserManager<User> userManager, IHostEnvironment environment, UploadService uploadService)
         {
@@ -83,7 +83,6 @@ namespace Guide.Areas.Admin.Controllers
                 _uploadService.Upload(path, file.FileName, file);
                 return filePath;
             }
-
             return null;
         }
     }

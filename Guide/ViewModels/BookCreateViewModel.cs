@@ -1,9 +1,9 @@
-﻿﻿using System;
- using System.ComponentModel.DataAnnotations;
- using Microsoft.AspNetCore.Http;
- using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 
- namespace Guide.ViewModels
+namespace Guide.ViewModels
 {
     public class BookCreateViewModel
     {
@@ -18,7 +18,7 @@
         public IFormFile VirtualPath { get; set; }
         public string PhysicalPath { get; set; }
         [Required(ErrorMessage = "Это поле обязательно для заполнения")]
-        [Remote("CheckYear","Validation", ErrorMessage = "Некорректное значение")]
+        [Remote("CheckYear","Validation", "", ErrorMessage = "Некорректное значение")]
         public string YearOfWriting { get; set; }
         
     }

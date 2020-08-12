@@ -1,6 +1,4 @@
-﻿
-
-using System.IO;
+﻿using System.IO;
 using Microsoft.AspNetCore.Http;
 
 namespace Guide.Services
