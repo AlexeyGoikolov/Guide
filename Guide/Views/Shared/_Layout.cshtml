@@ -46,241 +46,243 @@
         <!-- ====================================================
         ================= Application Content ===================
         ===================================================== -->
-        <div id="wrap" class="animsition">
-            <!-- ===============================================
-            ================= HEADER Content ===================
-            ================================================ -->
-            <section id="header">
-                <header class="clearfix">
+    <div id="wrap" class="animsition">
+    @if (User.Identity.IsAuthenticated)
+    {
+        <!-- ===============================================
+    ================= HEADER Content ===================
+    ================================================ -->
+    <section id="header">
+        <header class="clearfix">
 
-                    <!-- Branding -->
-                    <div class="branding">
-                        @if (User.Identity.IsAuthenticated)
-                          {
-                            <a class="brand" asp-controller="Account" asp-action="Index"><span><strong>Guide</strong></span></a>
-                            <a href="#" class="offcanvas-toggle visible-xs-inline"><i class="fa fa-bars"></i></a>
-                          }
-                         else
-                          {
-                            <a class="brand" asp-controller="Account" asp-action="Login"><span><strong>Guide</strong></span></a>
-                              <a href="#" class="offcanvas-toggle visible-xs-inline"><i class="fa fa-bars"></i></a>
-                          }
-                    </div>
-                    <!-- Branding end -->
-                <!-- Left-side navigation -->
-                    <ul class="nav-left pull-left list-unstyled list-inline">
-                        <li class="sidebar-collapse divided-right">
-                            <a href="#" class="collapse-sidebar">
-                                <i class="fa fa-outdent"></i>
-                            </a>
-                        </li>
-                        <li class="dropdown divided-right settings">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <i class="fa fa-cog"></i>
-                            </a>
-                            <ul class="dropdown-menu with-arrow animated littleFadeInUp" role="menu">
-                                <li>
-                                    <ul class="color-schemes list-inline">
-                                        <li class="title">Header Color:</li>
-                                        <li><a href="#" class="scheme-drank header-scheme" data-scheme="scheme-default"></a></li>
-                                        <li><a href="#" class="scheme-black header-scheme" data-scheme="scheme-black"></a></li>
-                                        <li><a href="#" class="scheme-greensea header-scheme" data-scheme="scheme-greensea"></a></li>
-                                        <li><a href="#" class="scheme-cyan header-scheme" data-scheme="scheme-cyan"></a></li>
-                                        <li><a href="#" class="scheme-lightred header-scheme" data-scheme="scheme-lightred"></a></li>
-                                        <li><a href="#" class="scheme-light header-scheme" data-scheme="scheme-light"></a></li>
-                                        <li class="title">Branding Color:</li>
-                                        <li><a href="#" class="scheme-drank branding-scheme" data-scheme="scheme-default"></a></li>
-                                        <li><a href="#" class="scheme-black branding-scheme" data-scheme="scheme-black"></a></li>
-                                        <li><a href="#" class="scheme-greensea branding-scheme" data-scheme="scheme-greensea"></a></li>
-                                        <li><a href="#" class="scheme-cyan branding-scheme" data-scheme="scheme-cyan"></a></li>
-                                        <li><a href="#" class="scheme-lightred branding-scheme" data-scheme="scheme-lightred"></a></li>
-                                        <li><a href="#" class="scheme-light branding-scheme" data-scheme="scheme-light"></a></li>
-                                        <li class="title">Sidebar Color:</li>
-                                        <li><a href="#" class="scheme-drank sidebar-scheme" data-scheme="scheme-default"></a></li>
-                                        <li><a href="#" class="scheme-black sidebar-scheme" data-scheme="scheme-black"></a></li>
-                                        <li><a href="#" class="scheme-greensea sidebar-scheme" data-scheme="scheme-greensea"></a></li>
-                                        <li><a href="#" class="scheme-cyan sidebar-scheme" data-scheme="scheme-cyan"></a></li>
-                                        <li><a href="#" class="scheme-lightred sidebar-scheme" data-scheme="scheme-lightred"></a></li>
-                                        <li><a href="#" class="scheme-light sidebar-scheme" data-scheme="scheme-light"></a></li>
-                                        <li class="title">Active Color:</li>
-                                        <li><a href="#" class="scheme-drank color-scheme" data-scheme="drank-scheme-color"></a></li>
-                                        <li><a href="#" class="scheme-black color-scheme" data-scheme="black-scheme-color"></a></li>
-                                        <li><a href="#" class="scheme-greensea color-scheme" data-scheme="greensea-scheme-color"></a></li>
-                                        <li><a href="#" class="scheme-cyan color-scheme" data-scheme="cyan-scheme-color"></a></li>
-                                        <li><a href="#" class="scheme-lightred color-scheme" data-scheme="lightred-scheme-color"></a></li>
-                                        <li><a href="#" class="scheme-light color-scheme" data-scheme="light-scheme-color"></a></li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <div class="form-group">
-                                        <div class="row">
-                                            <label class="col-xs-8 control-label">Fixed header</label>
-                                            <div class="col-xs-4 control-label">
-                                                <div class="onoffswitch lightred small">
-                                                    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="fixed-header" checked="">
-                                                    <label class="onoffswitch-label" for="fixed-header">
-                                                        <span class="onoffswitch-inner"></span>
-                                                        <span class="onoffswitch-switch"></span>
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-
-                                <li>
-                                    <div class="form-group">
-                                        <div class="row">
-                                            <label class="col-xs-8 control-label">Fixed aside</label>
-                                            <div class="col-xs-4 control-label">
-                                                <div class="onoffswitch lightred small">
-                                                    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="fixed-aside" checked="">
-                                                    <label class="onoffswitch-label" for="fixed-aside">
-                                                        <span class="onoffswitch-inner"></span>
-                                                        <span class="onoffswitch-switch"></span>
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
+            <!-- Branding -->
+            <div class="branding">
+                <a class="brand" asp-controller="Account" asp-action="Index"><span><strong>Guide</strong></span></a>
+                <a href="#" class="offcanvas-toggle visible-xs-inline"><i class="fa fa-bars"></i></a>
+            </div>
+            <!-- Branding end -->
+            <!-- Left-side navigation -->
+            <ul class="nav-left pull-left list-unstyled list-inline">
+                <li class="sidebar-collapse divided-right">
+                    <a href="#" class="collapse-sidebar">
+                        <i class="fa fa-outdent"></i>
+                    </a>
+                </li>
+                <li class="dropdown divided-right settings">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <i class="fa fa-cog"></i>
+                    </a>
+                    <ul class="dropdown-menu with-arrow animated littleFadeInUp" role="menu">
+                        <li>
+                            <ul class="color-schemes list-inline">
+                                <li class="title">Header Color:</li>
+                                <li><a href="#" class="scheme-drank header-scheme" data-scheme="scheme-default"></a></li>
+                                <li><a href="#" class="scheme-black header-scheme" data-scheme="scheme-black"></a></li>
+                                <li><a href="#" class="scheme-greensea header-scheme" data-scheme="scheme-greensea"></a></li>
+                                <li><a href="#" class="scheme-cyan header-scheme" data-scheme="scheme-cyan"></a></li>
+                                <li><a href="#" class="scheme-lightred header-scheme" data-scheme="scheme-lightred"></a></li>
+                                <li><a href="#" class="scheme-light header-scheme" data-scheme="scheme-light"></a></li>
+                                <li class="title">Branding Color:</li>
+                                <li><a href="#" class="scheme-drank branding-scheme" data-scheme="scheme-default"></a></li>
+                                <li><a href="#" class="scheme-black branding-scheme" data-scheme="scheme-black"></a></li>
+                                <li><a href="#" class="scheme-greensea branding-scheme" data-scheme="scheme-greensea"></a></li>
+                                <li><a href="#" class="scheme-cyan branding-scheme" data-scheme="scheme-cyan"></a></li>
+                                <li><a href="#" class="scheme-lightred branding-scheme" data-scheme="scheme-lightred"></a></li>
+                                <li><a href="#" class="scheme-light branding-scheme" data-scheme="scheme-light"></a></li>
+                                <li class="title">Sidebar Color:</li>
+                                <li><a href="#" class="scheme-drank sidebar-scheme" data-scheme="scheme-default"></a></li>
+                                <li><a href="#" class="scheme-black sidebar-scheme" data-scheme="scheme-black"></a></li>
+                                <li><a href="#" class="scheme-greensea sidebar-scheme" data-scheme="scheme-greensea"></a></li>
+                                <li><a href="#" class="scheme-cyan sidebar-scheme" data-scheme="scheme-cyan"></a></li>
+                                <li><a href="#" class="scheme-lightred sidebar-scheme" data-scheme="scheme-lightred"></a></li>
+                                <li><a href="#" class="scheme-light sidebar-scheme" data-scheme="scheme-light"></a></li>
+                                <li class="title">Active Color:</li>
+                                <li><a href="#" class="scheme-drank color-scheme" data-scheme="drank-scheme-color"></a></li>
+                                <li><a href="#" class="scheme-black color-scheme" data-scheme="black-scheme-color"></a></li>
+                                <li><a href="#" class="scheme-greensea color-scheme" data-scheme="greensea-scheme-color"></a></li>
+                                <li><a href="#" class="scheme-cyan color-scheme" data-scheme="cyan-scheme-color"></a></li>
+                                <li><a href="#" class="scheme-lightred color-scheme" data-scheme="lightred-scheme-color"></a></li>
+                                <li><a href="#" class="scheme-light color-scheme" data-scheme="light-scheme-color"></a></li>
                             </ul>
                         </li>
-                    </ul>
-                    <!-- Left-side navigation end -->
-                   <!-- Right-side navigation -->
-                    <ul class="nav-right pull-right list-inline">
-                     @if (User.Identity.IsAuthenticated)
-                     {
-                       <li class="dropdown nav-profile">
-                            <a href class="dropdown-toggle" data-toggle="dropdown">
-                                <span>@User.Identity.Name<i class="fa fa-angle-down"></i></span>
-                            </a>
-                            <ul class="dropdown-menu animated littleFadeInRight" role="menu">
-
-                                <li>
-                                    <a asp-controller="Account" asp-action="Details">
-                                        <i class="fa fa-user"></i>
-                                        Личный кабинет
-                                        </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <span class="label bg-lightred pull-right">new</span>
-                                        <i class="fa fa-check"></i>Tasks
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <i class="fa fa-cog"></i>Settings
-                                    </a>
-                                </li>
-                                <li class="divider"></li>
-                                <li>
-                                    <a asp-controller="Account" asp-action="Logout">
-                                        <i class="fa fa-sign-out"></i>
-                                          Выход
-                                    </a>
-                                </li>
-
-                            </ul>
-                        </li>
-                     }
-                    </ul>
-                    <!-- Right-side navigation end -->
-                </header>
-            </section>
-            <!--/ HEADER Content  -->
-            <!-- =================================================
-            ================= CONTROLS Content ===================
-            ================================================== -->
-            <div id="controls">
-                <!-- ================================================
-                ================= SIDEBAR Content ===================
-                ================================================= -->
-                <aside id="sidebar">
-                    <div id="sidebar-wrap">
-                        <div class="panel-group slim-scroll" role="tablist">
-                            <div class="panel panel-default">
-                                    <div class="panel-body">
-                                        <!-- ===================================================
-                                    ================= NAVIGATION Content ===================
-                                    ==================================================== -->
-                                    @if (User.Identity.IsAuthenticated)
-                                    {
-                                        <ul id="navigation">
-                                            <li>
-                                                <a>
-                                                    <i class="fa fa-pencil-square-o"></i>
-                                                    <span>Материалы</span>
-                                                </a>
-                                                <ul>
-                                                    <li><a asp-controller="Posts" asp-action="Index"><i class="fa fa-caret-right"></i>Список</a></li>
-                                                    <li><a asp-controller="Posts" asp-action="Create"><i class="fa fa-caret-right"></i>Добавить</a></li>
-                                                </ul>
-                                            </li>
-                                            <li>
-                                             <a>
-                                                    <i class="fa fa-book"></i>
-                                                    <span>Книги</span>
-                                               </a>
-                                                <ul>
-                                                    <li><a asp-controller="Books" asp-action="Index"><i class="fa fa-caret-right"></i>Список</a></li>
-                                                    <li><a asp-controller="Books" asp-action="Create"><i class="fa fa-caret-right"></i>Добавить</a></li>
-                                                </ul>
-                                            </li>
-                                            <li>
-                                                 <a>
-                                                  <i class="fa fa-puzzle-piece"></i>
-                                                  <span>Глоссарий</span></a>
-                                                <ul>
-                                                     <li><a asp-controller="Glossarys" asp-action="Index"><i class="fa fa-caret-right"></i>Список</a></li>
-                                                     <li><a asp-controller="Glossarys" asp-action="Create"><i class="fa fa-caret-right"></i>Добавить</a></li>
-                                                </ul>
-                                            </li>
-                                            <li>
-                                  
-                                                <a>
-                                                <i class="fa fa-users"></i>
-                                                <span>Пользователи</span></a>
-                                                <ul>
-                                                     <li><a asp-controller="Users" asp-action="ListUsers"><i class="fa fa-caret-right"></i>Список</a></li>
-                                                    <li><a asp-controller="Account" asp-action="Register"><i class="fa fa-caret-right"></i>Добавить</a></li>
-                                                </ul>
-                                            </li>
-                                            <li>
-                                                 <a asp-controller="QuestionAnswers" asp-action="Index">
-                                                  <i class="fa fa-question"></i>
-                                                   <span>Вопрос-ответ</span></a>
-                                                <ul>
-                                                    <li><a asp-action="Index" asp-controller="QuestionAnswers"><i class="fa fa-caret-right"></i>Вопросы с ответами</a></li>
-                                                    <li><a asp-action="IndexQuestions" asp-controller="QuestionAnswers"><i class="fa fa-caret-right"></i>Вопросы без ответов</a></li>
-                                                     <li><a asp-action="Create" asp-controller="QuestionAnswers" asp-route-status="Create"><i class="fa fa-caret-right"></i>Добавить</a></li>
-                                                     <li><a asp-action="Create" asp-controller="QuestionAnswers" asp-route-status="ToQuestion"><i class="fa fa-caret-right"></i>Задать вопрос</a></li>
-                                                </ul>
-                                            </li>
-                                        </ul>
-                                        }
-                                        <!--/ NAVIGATION Content -->
+                        <li>
+                            <div class="form-group">
+                                <div class="row">
+                                    <label class="col-xs-8 control-label">Fixed header</label>
+                                    <div class="col-xs-4 control-label">
+                                        <div class="onoffswitch lightred small">
+                                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="fixed-header" checked="">
+                                            <label class="onoffswitch-label" for="fixed-header">
+                                                <span class="onoffswitch-inner"></span>
+                                                <span class="onoffswitch-switch"></span>
+                                            </label>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+                        </li>
+
+                        <li>
+                            <div class="form-group">
+                                <div class="row">
+                                    <label class="col-xs-8 control-label">Fixed aside</label>
+                                    <div class="col-xs-4 control-label">
+                                        <div class="onoffswitch lightred small">
+                                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="fixed-aside" checked="">
+                                            <label class="onoffswitch-label" for="fixed-aside">
+                                                <span class="onoffswitch-inner"></span>
+                                                <span class="onoffswitch-switch"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <!-- Left-side navigation end -->
+            <!-- Right-side navigation -->
+            <ul class="nav-right pull-right list-inline">
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <li class="dropdown nav-profile">
+                        <a href class="dropdown-toggle" data-toggle="dropdown">
+                            <span>@User.Identity.Name<i class="fa fa-angle-down"></i></span>
+                        </a>
+                        <ul class="dropdown-menu animated littleFadeInRight" role="menu">
+
+                            <li>
+                                <a asp-controller="Account" asp-action="Details">
+                                    <i class="fa fa-user"></i>
+                                    Личный кабинет
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <span class="label bg-lightred pull-right">new</span>
+                                    <i class="fa fa-check"></i>Tasks
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <i class="fa fa-cog"></i>Settings
+                                </a>
+                            </li>
+                            <li class="divider"></li>
+                            <li>
+                                <a asp-controller="Account" asp-action="Logout">
+                                    <i class="fa fa-sign-out"></i>
+                                    Выход
+                                </a>
+                            </li>
+
+                        </ul>
+                    </li>
+                }
+            </ul>
+            <!-- Right-side navigation end -->
+        </header>
+    </section>
+    <!--/ HEADER Content  -->
+    <!-- =================================================
+    ================= CONTROLS Content ===================
+    ================================================== -->
+    <div id="controls">
+        <!-- ================================================
+        ================= SIDEBAR Content ===================
+        ================================================= -->
+        <aside id="sidebar">
+            <div id="sidebar-wrap">
+                <div class="panel-group slim-scroll" role="tablist">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <!-- ===================================================
+                            ================= NAVIGATION Content ===================
+                            ==================================================== -->
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <ul id="navigation">
+                                    <li>
+                                        <a>
+                                            <i class="fa fa-pencil-square-o"></i>
+                                            <span>Материалы</span>
+                                        </a>
+                                        <ul>
+                                            <li><a asp-controller="Posts" asp-action="Index"><i class="fa fa-caret-right"></i>Список</a></li>
+                                            <li><a asp-controller="Posts" asp-action="Create"><i class="fa fa-caret-right"></i>Добавить</a></li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <a>
+                                            <i class="fa fa-book"></i>
+                                            <span>Книги</span>
+                                        </a>
+                                        <ul>
+                                            <li><a asp-controller="Books" asp-action="Index"><i class="fa fa-caret-right"></i>Список</a></li>
+                                            <li><a asp-controller="Books" asp-action="Create"><i class="fa fa-caret-right"></i>Добавить</a></li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <a>
+                                            <i class="fa fa-puzzle-piece"></i>
+                                            <span>Глоссарий</span></a>
+                                        <ul>
+                                            <li><a asp-controller="Glossarys" asp-action="Index"><i class="fa fa-caret-right"></i>Список</a></li>
+                                            <li><a asp-controller="Glossarys" asp-action="Create"><i class="fa fa-caret-right"></i>Добавить</a></li>
+                                        </ul>
+                                    </li>
+                                    <li>
+
+                                        <a>
+                                            <i class="fa fa-users"></i>
+                                            <span>Пользователи</span></a>
+                                        <ul>
+                                            <li><a asp-controller="Users" asp-action="ListUsers"><i class="fa fa-caret-right"></i>Список</a></li>
+                                            <li><a asp-controller="Account" asp-action="Register"><i class="fa fa-caret-right"></i>Добавить</a></li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <a asp-controller="QuestionAnswers" asp-action="Index">
+                                            <i class="fa fa-question"></i>
+                                            <span>Вопрос-ответ</span></a>
+                                        <ul>
+                                            <li><a asp-action="Index" asp-controller="QuestionAnswers"><i class="fa fa-caret-right"></i>Вопросы с ответами</a></li>
+                                            <li><a asp-action="IndexQuestions" asp-controller="QuestionAnswers"><i class="fa fa-caret-right"></i>Вопросы без ответов</a></li>
+                                            <li><a asp-action="Create" asp-controller="QuestionAnswers" asp-route-status="Create"><i class="fa fa-caret-right"></i>Добавить</a></li>
+                                            <li><a asp-action="Create" asp-controller="QuestionAnswers" asp-route-status="ToQuestion"><i class="fa fa-caret-right"></i>Задать вопрос</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            }
+                            <!--/ NAVIGATION Content -->
                         </div>
-                </aside>
-                <!--/ SIDEBAR Content -->
+                    </div>
                 </div>
-            <!--/ CONTROLS Content -->
-        <!-- ====================================================
-        ================= CONTENT ===============================
-        ===================================================== -->
-     <!--/  это рендерит отлично страницу : id="content"-->
-        <section id="content">
-            <div class=" pt-5">
-            @RenderBody()
             </div>
-        </section>
-        <!--/ CONTENT -->
+        </aside>
+        <!--/ SIDEBAR Content -->
+    </div>
+    <!--/ CONTROLS Content -->
+    <!-- ====================================================
+    ================= CONTENT ===============================
+    ===================================================== -->
+    <!--/  это рендерит отлично страницу : id="content"-->
+    
+    <section id="content">
+            <div class=" pt-5">
+                @RenderBody()
+            </div>
+     </section>
+    }
+    else
+    {
+        <div class=" pt-5">
+                    @RenderBody()
         </div>
+    }
+    <!--/ CONTENT -->
+    </div>
     <!--/ Application Content -->
     
 
