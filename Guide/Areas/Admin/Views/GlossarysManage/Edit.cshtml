@@ -4,13 +4,13 @@
     ViewBag.Title = "Редактировать описание термина";
     Layout = "_Layout";
 }
-<div class="container">
+<div class="page">
     <div class="card" style="width:800px;margin:auto;">
         <div class="card-header text-center">
             @ViewBag.Title
         </div>
         <div class="card-body">
-            <form asp-action="Edit" asp-controller="Glossarys" method="post" enctype="multipart/form-data" asp-antiforgery="true">
+            <form asp-action="Edit" asp-controller="GlossarysManage" method="post" enctype="multipart/form-data" asp-antiforgery="true">
                 @{ Html.RenderPartial("PartialViews/Glossary", Model); }
                 <input type="hidden" value="@Model.Id" asp-for="Id">
                 <button type="submit" class="btn btn-info" style="margin:  20px 0 0;" >Сохранить</button>
@@ -22,9 +22,7 @@
 
 @section Scripts
 {
-   
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
-     
 }

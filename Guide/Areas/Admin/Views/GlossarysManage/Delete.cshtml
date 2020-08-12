@@ -1,0 +1,13 @@
+﻿@model Glossary
+
+@{
+    ViewBag.Title = "Удаление";
+    Layout = "_Layout";
+}
+<div class="page">
+    <h2>Вы уверены что хотите удалить @Model.Name</h2>
+        <form asp-action="Delete" asp-controller="GlossarysManage" method="post" asp-route-id="@Model.Id">
+            <button type="submit">Подтвердить</button>
+        </form>
+        <a asp-action="Index" asp-controller="GlossarysManage">Отменить</a>
+</div>

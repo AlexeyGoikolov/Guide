@@ -11,7 +11,7 @@
         <div class="page-bar">
             <ul class="page-breadcrumb">
                 <li>
-                    <a asp-action="Details" asp-controller="Account"><i class="fa fa-home"></i> Guide</a>
+                    <a href="index.html"><i class="fa fa-home"></i> Guide</a>
                 </li>
                 <li>
                     <a asp-action="Index" asp-controller="Glossarys">Глоссарий</a>
@@ -27,5 +27,14 @@
     </div>
     <div class="pt-3">
         @Model.Description
+    </div>
+
+    <div>
+        <div>
+            <a asp-action="Edit" asp-controller="Glossarys" asp-route-id="@Model.Id">Редактировать</a>
+        </div>
+        <div>
+            <a asp-action="Delete" asp-controller="Glossarys" asp-route-id="@Model.Id">Удалить</a>
+        </div>
     </div>
 </div>

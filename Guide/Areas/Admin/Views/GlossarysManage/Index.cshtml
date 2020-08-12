@@ -1,4 +1,5 @@
-﻿@model List<Glossary>
+﻿
+@model List<Glossary>
 
 @{
     ViewBag.Title = "Глоссарий";
@@ -13,7 +14,7 @@
 
             <ul class="page-breadcrumb">
                 <li>
-                    <a asp-action="Details" asp-controller="Account"><i class="fa fa-home"></i> Guide</a>
+                    <a href="index.html"><i class="fa fa-home"></i> Guide</a>
                 </li>
                 <li>
                     <a asp-action="Index" asp-controller="Glossarys">@ViewBag.Title</a>
@@ -38,6 +39,9 @@
                         <strong></strong>
                     </h1>
                     <ul class="controls">
+                        <li>
+                            <a role="button" tabindex="0" asp-action="Create" asp-controller="Glossarys"><i class="fa fa-plus mr-5"></i>Добавить</a>
+                        </li>
                     </ul>
                 </div>
                 <!-- /tile header -->
@@ -71,6 +75,10 @@
                                         <td>
                                             @glossery.Source
                                         </td>
+                                        <td>
+                                            <a role="button" asp-action="Edit" asp-controller="Glossarys" asp-route-id="@glossery.Id" tabindex="0" class="edit d-block text-primary text-uppercase text-strong text-sm mr-10">Редактировать</a>
+                                            <a role="button" tabindex="0" class="delete d-block text-danger text-uppercase text-strong text-sm mr-10" asp-action="Delete" asp-controller="Glossarys" asp-route-id="@glossery.Id">Удалить</a>
+                                        </td>
                                     </div>
                                 </tr>
                             }
@@ -92,14 +100,14 @@
 @section Scripts
 {
     <script>
-        $(window).load(function(){                                           
-            var oTable = $('#editable-usage').DataTable({
-                "aoColumnDefs": [
-                    { 'bSortable': false, 'aTargets': [ "no-sort" ] }
-                ]
-            });          
+              $(window).load(function(){                                           
+                var oTable = $('#editable-usage').DataTable({
+                    "aoColumnDefs": [
+                      { 'bSortable': false, 'aTargets': [ "no-sort" ] }
+                    ]
+                });          
             
-        });
-    </script>
+                         });
+            </script>
 }
 
