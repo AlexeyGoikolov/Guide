@@ -22,13 +22,7 @@ namespace Guide.Areas.Admin.Controllers
             _db = db;
         }
 
-        // GET
-        public IActionResult Index()
-        {
-            return View();
-        }
-
-
+        
         public IActionResult Profile()
         {
             User user = _db.Users.FirstOrDefault(u => u.Id == _userManager.GetUserId(User));

@@ -26,61 +26,6 @@ namespace Guide.Controllers
             _uploadService = uploadService;
         }
 
-        public IActionResult Index()
-        {
-            return View(_db.Books.ToList());
-        }
         
-        public IActionResult Create()
-        {
-            return View(new BookCreateViewModel());
-        }
-        
-        [HttpPost]
-        public IActionResult Create(BookCreateViewModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                Book book = new Book()
-                {
-                    Id = model.Id,
-                    Name = model.Name,
-                    Author = model.Author,
-                    ISBN = model.ISBN,
-                    CoverPath = Load(model.Id, model.CoverPath),
-                    VirtualPath = Load(model.Id, model.VirtualPath),
-                    PhysicalPath = model.PhysicalPath,
-                    YearOfWriting = model.YearOfWriting
-                };
-                _db.Books.Add(book);
-                _db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View(model);
-        }
-
-        public IActionResult Details(string id)
-        {
-            Book book = _db.Books.FirstOrDefault(b => b.Id == id);
-            return View(book);
-        }
-        
-        
-        private string Load(string id, IFormFile file)
-        {
-            if (file != null)
-            {
-                string path = Path.Combine(_environment.ContentRootPath + $"\\wwwroot\\BooksFiles\\{id}");
-                string filePath = $"BooksFiles/{id}/{file.FileName}";
-                if (!Directory.Exists($"wwwroot/BooksFiles/{id}"))
-                {
-                    Directory.CreateDirectory($"wwwroot/BooksFiles/{id}");
-                }
-                _uploadService.Upload(path, file.FileName, file);
-                return filePath;
-            }
-
-            return null;
-        }
     }
 }

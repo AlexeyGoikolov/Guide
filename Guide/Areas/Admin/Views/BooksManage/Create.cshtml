@@ -14,17 +14,17 @@
                     <a href="index.html"><i class="fa fa-home"></i> Guide</a>
                 </li>
                 <li>
-                    <a asp-action="Index" asp-controller="Books">Книги</a>
+                    <a asp-action="Index" asp-controller="BooksManage">Книги</a>
                 </li>
                 <li>
-                    <a asp-action="Create" asp-controller="Books">Добавить</a>
+                    <a asp-action="Create" asp-controller="BooksManage">Добавить</a>
                 </li>
             </ul>
         </div>
     </div>
     <div class="card" style="margin:auto;">
         <div class="card-body">
-            <form asp-action="Create" asp-controller="Books" method="post" enctype="multipart/form-data" asp-antiforgery="true">
+            <form asp-action="Create" asp-controller="BooksManage" method="post" enctype="multipart/form-data" asp-antiforgery="true">
                 @{ Html.RenderPartial("PartialViews/FormPartial", Model); }
                 <button type="submit" class="btn btn-info" style="margin:  20px 0 0 270px; width: 500px;">Создать</button>
                 <input type="hidden" value="@Model.Id" id="postId" asp-for="Id">

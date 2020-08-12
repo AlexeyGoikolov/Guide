@@ -13,13 +13,13 @@
     
             <ul class="page-breadcrumb">
                 <li>
-                    <a href="index.html"><i class="fa fa-home"></i> Guide</a>
+                    <a asp-action="Profile" asp-controller="Service"><i class="fa fa-home"></i> Guide</a>
                 </li>
                 <li>
-                    <a asp-action="Index" asp-controller="Books"> Книги</a>
+                    <a asp-action="Index" asp-controller="BooksManage"> Книги</a>
                 </li>
                 <li>
-                    <a asp-action="Index" asp-controller="Books"> Список</a>
+                    <a asp-action="Index" asp-controller="BooksManage"> Список</a>
                 </li>
             </ul>
         </div>
@@ -37,7 +37,10 @@
                     </h1>
                     <ul class="controls">
                         <li>
-                            <a role="button" tabindex="0" asp-action="Create" asp-controller="Books"><i class="fa fa-plus mr-5"></i>Добавить</a>
+                            <a role="button" tabindex="0" asp-action="Create" asp-controller="BooksManage"><i class="fa fa-plus mr-5"></i>Добавить</a>
+                        </li>
+                        <li>
+                            <a role="button" tabindex="0" asp-action="" asp-controller=""><i class="fa fa-eye mr-5"></i>Вид пользователя</a>
                         </li>
                     </ul>
                 </div>
@@ -54,11 +57,11 @@
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach (Book book in @Model)
+                            @foreach (Book book in Model)
                             {
                                 <tr class="even gradeC">
                                     <td>
-                                        <a asp-action="Details" asp-controller="Books" asp-route-id="@book.Id">@book.Name</a>
+                                        <a asp-action="Details" asp-controller="BooksManage" asp-route-id="@book.Id">@book.Name</a>
                                     </td>
                                     <td>@book.Author</td>
                                     <td>@book.YearOfWriting</td>
@@ -82,13 +85,13 @@
 @section Scripts
 {
     <script>
-              $(window).load(function(){                                           
-                var oTable = $('#editable-usage').DataTable({
-                    "aoColumnDefs": [
-                      { 'bSortable': false, 'aTargets': [ "no-sort" ] }
-                    ]
-                });          
+        $(window).load(function(){                                           
+            var oTable = $('#editable-usage').DataTable({
+                "aoColumnDefs": [
+                    { 'bSortable': false, 'aTargets': [ "no-sort" ] }
+                ]
+            });          
             
-                         });
-            </script>
+        });
+    </script>
 }
