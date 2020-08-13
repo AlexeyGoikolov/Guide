@@ -1,0 +1,18 @@
+﻿@model Book
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+@{
+    ViewBag.Title = "Удаление";
+    Layout = "_Layout";
+}
+<div class="container">
+    <h2>Вы уверены что хотите удалить @Model.Name</h2>
+    <form asp-action="Delete" asp-controller="Books" method="post" asp-route-id="@Model.Id">
+        <button type="submit">подтвердить</button>
+    </form>
+    <a asp-action="Index" asp-controller="Books" asp-route-id="@Model.Id">Отменить</a>
+</div>

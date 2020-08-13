@@ -12,6 +12,7 @@ namespace Guide.Models
         public string Question { get; set; }
         public string Answer { get; set; }
         public string PostId { get; set; }
+        public bool Active { get; set; } = true;
         public virtual Post Post { get; set; }
         public List<string> Links { get; set; }
         public virtual List<Post> Posts { get; set; }
