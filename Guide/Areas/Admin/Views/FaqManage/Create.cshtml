@@ -30,17 +30,17 @@
                     <a asp-action="Details" asp-controller="Account"><i class="fa fa-home"></i> Guide</a>
                 </li>
                 <li>
-                    <a asp-action="Index" asp-controller="QuestionAnswers"> Вопрос-ответ</a>
+                    <a asp-action="Index" asp-controller="FaqManage"> Вопрос-ответ</a>
                 </li>
                 <li>
-                    <a asp-action="IndexQuestions" asp-controller="QuestionAnswers"> @ViewBag.Title</a>
+                    <a asp-action="IndexQuestions" asp-controller="FaqManage"> @ViewBag.Title</a>
                 </li>
             </ul>
         </div>
     </div>
-    <div class="card" style="width:80%;margin:auto;">
+    <div class="card" style="width:100%;margin:auto;">
         <div class="card-body">
-            <form asp-action="Create" asp-controller="QuestionAnswers" method="post" enctype="multipart/form-data" asp-antiforgery="true">
+            <form asp-action="Create" asp-controller="FaqManage" asp-area="Admin" method="post" enctype="multipart/form-data" asp-antiforgery="true">
                 @{ Html.RenderPartial("PartialViews/QuestionAnswers", Model); }
                 <input type="hidden" value="@Model.QuestionAnswer.Id" asp-for="QuestionAnswer.Id">
                 <input type="hidden" value="@Model.Status" asp-for="@Model.Status">
@@ -61,7 +61,7 @@
                     {
                         <button type="submit" class="btn btn-info" style="margin:  20px 0 0;" >Отправить</button>
                     }
-                    <a asp-action="Index" asp-controller="QuestionAnswers" class="btn btn-info" style="margin:  20px 0 0;" >Отменить</a>
+                    <a asp-action="Index" asp-controller="FaqManage" class="btn btn-info" style="margin:  20px 0 0;" >Отменить</a>
             </form>
         </div>
     </div>

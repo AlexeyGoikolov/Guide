@@ -16,10 +16,10 @@
                     <a asp-action="Details" asp-controller="Account"><i class="fa fa-home"></i> Guide</a>
                 </li>
                 <li>
-                    <a asp-action="Index" asp-controller="QuestionAnswers"> Вопрос-ответ</a>
+                    <a asp-action="Index" asp-controller="FaqManage"> Вопрос-ответ</a>
                 </li>
                 <li>
-                    <a asp-action="Index" asp-controller="QuestionAnswers"> Список с ответами</a>
+                    <a asp-action="Index" asp-controller="FaqManage"> Список с ответами</a>
                 </li>
             </ul>
         </div>
@@ -40,7 +40,7 @@
         {
             <div>
                 <div class="col">
-                    <a asp-action="Preview" asp-controller="QuestionAnswers" asp-route-id="@glossery.Id">@glossery.Question</a>
+                    <a asp-action="Preview" asp-controller="FaqManage" asp-route-id="@glossery.Id">@glossery.Question</a>
                 </div>
             </div>
         }

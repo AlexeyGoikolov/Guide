@@ -174,20 +174,23 @@ namespace Guide.Controllers
             if (ModelState.IsValid)
             {
                 User user = await _userManager.FindByEmailAsync(model.Email);
-                var result = await _signInManager.PasswordSignInAsync(
-                    user,
-                    model.Password,
-                    model.RememberMe,
-                    false);
-                if (result.Succeeded)
+                if (user != null)
                 {
-                    if (!string.IsNullOrEmpty(model.ReturnUrl)&&
-                        Url.IsLocalUrl(model.ReturnUrl))
+                    var result = await _signInManager.PasswordSignInAsync(
+                        user,
+                        model.Password,
+                        model.RememberMe,
+                        false);
+                    if (result.Succeeded)
                     {
-                        return Redirect(model.ReturnUrl);
-                    }
+                        if (!string.IsNullOrEmpty(model.ReturnUrl)&&
+                            Url.IsLocalUrl(model.ReturnUrl))
+                        {
+                            return Redirect(model.ReturnUrl);
+                        }
                     
-                    return RedirectToAction("Details", "Account");
+                        return RedirectToAction("Details", "Account");
+                    }
                 }
                 ModelState.AddModelError("", "Неправильный логин или пароль");
             }

@@ -152,16 +152,16 @@
                     </ul>
                     <!-- Left-side navigation end -->
                    <!-- Right-side navigation -->
-                    <ul class="nav-right pull-right list-inline">
+                    <ul class="nav-right pull-right list-inline mr-40">
                       @if (User.Identity.IsAuthenticated)
                       {
-                        <li class="dropdown nav-profile">
+                        <li class="dropdown nav-profile mr-40">
                             <a class="dropdown-toggle" data-toggle="dropdown" asp-action="Details" asp-controller="Account" asp-area="">
                                 <span>
                                     @User.Identity.Name<i class="fa fa-angle-down"></i>
                                 </span>
                             </a>
-                            <ul class="dropdown-menu animated littleFadeInRight" role="menu">
+                            <ul class="dropdown-menu animated littleFadeInLeft" role="menu">
                                 <li>
                                      <a asp-controller="Account" asp-action="Details" asp-area="">
                                          <i class="fa fa-user"></i>
@@ -241,14 +241,14 @@
                                                 </ul>
                                             </li>
                                             <li>
-                                                 <a asp-controller="QuestionAnswers" asp-action="Index">
+                                                 <a asp-controller="FaqManage" asp-action="Index">
                                                   <i class="fa fa-question"></i>
                                                    <span>Вопрос-ответ</span></a>
                                                 <ul>
-                                                    <li><a asp-action="Index" asp-controller="QuestionAnswers"><i class="fa fa-caret-right"></i>Вопросы с ответами</a></li>
-                                                    <li><a asp-action="IndexQuestions" asp-controller="QuestionAnswers"><i class="fa fa-caret-right"></i>Вопросы без ответов</a></li>
-                                                     <li><a asp-action="Create" asp-controller="QuestionAnswers" asp-route-status="Create"><i class="fa fa-caret-right"></i>Добавить</a></li>
-                                                     <li><a asp-action="Create" asp-controller="QuestionAnswers" asp-route-status="ToQuestion"><i class="fa fa-caret-right"></i>Задать вопрос</a></li>
+                                                    <li><a asp-action="Index" asp-controller="FaqManage" asp-area="Admin"><i class="fa fa-caret-right"></i>Вопросы с ответами</a></li>
+                                                    <li><a asp-action="IndexQuestions" asp-controller="FaqManage" asp-area="Admin"><i class="fa fa-caret-right"></i>Вопросы без ответов</a></li>
+                                                     <li><a asp-action="Create" asp-controller="FaqManage" asp-area="Admin" asp-route-status="Create"><i class="fa fa-caret-right"></i>Добавить</a></li>
+                                                     <li><a asp-action="Create" asp-controller="FaqManage" asp-area="Admin" asp-route-status="ToQuestion"><i class="fa fa-caret-right"></i>Задать вопрос</a></li>
                                                 </ul>
                                             </li>
                                         </ul>

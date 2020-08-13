@@ -7,10 +7,10 @@
 <div class="container">
     <h2>Вы уверены что хотите удалить</h2>
     <h3>@Model.QuestionAnswer.Question</h3>
-    <form asp-action="Delete" asp-controller="QuestionAnswers" method="post">
+    <form asp-action="Delete" asp-controller="FaqManage" method="post">
         <input type="hidden" asp-for="QuestionAnswer.Id" value="@Model.QuestionAnswer.Id">
         <input type="hidden" value="@Model.Status" asp-for="@Model.Status">
-        <button type="submit">подтвердить</button>
+        <button type="submit">Подтвердить</button>
     </form>
-    <a asp-action="Preview" asp-controller="QuestionAnswers" asp-route-id="@Model.QuestionAnswer.Id">Отменить</a>
+    <a asp-action="Preview" asp-controller="FaqManage" asp-route-id="@Model.QuestionAnswer.Id">Отменить</a>
 </div>
