@@ -1,4 +1,6 @@
-﻿@model User
+﻿@using Microsoft.AspNetCore.Identity
+@model User
+@inject UserManager<User> UserManager
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
 @{
@@ -7,9 +9,60 @@
 }
 
 <div class="page">
-    <h3>Добро пожаловать @Model.UserName</h3>
+    @if (UserManager.GetUserId(User) == Model.Id)
+        {
+            <h3>Добро пожаловать Администратор</h3>
+            
+            <a asp-action="Edit" asp-controller="Account" asp-area="" asp-route-id="@Model.Id" class="btn btn-outline-info">Изменить</a>
+            <a asp-action="ChangePassword" asp-controller="Account" asp-area="" asp-route-id="@Model.Id" class="btn btn-outline-danger">Изменить пароль</a>
+            <a class="btn btn-danger" asp-action="Register" asp-controller="Account" asp-area="">Добавить пользователя</a>
+        }
+        else
+        {
+            <h3>Кабинет пользователя @Model.Name @Model.Surname</h3>
+            @if (!Model.Active)
+            {
+                <span id="info" class="text-danger block mb-10 text-sm">Пользователь отключен</span>
+            }
+            else
+            {
+                <span id="info" class="text-danger block mb-10 text-sm"></span>
+            }
+            <a asp-action="Edit" asp-controller="Account" asp-area="" asp-route-id="@Model.Id" class="btn btn-sm btn-info">Изменить</a>
+            <a asp-action="ChangePassword" asp-controller="Account" asp-area="" asp-route-id="@Model.Id" class="btn btn-sm btn-info">Изменить пароль</a>
+            @if (Model.Active)
+            {
+                <a class="BlockingAjax btn btn-sm btn-danger" id="@Model.Id">Отключить</a> 
+            }
+            else
+            {
+                <a class="BlockingAjax btn btn-sm btn-danger" id="@Model.Id">Подключить</a> 
+            }
+                                                                                                                                                
+        }
+
     
-    <a asp-action="Edit" asp-controller="Account" asp-area="" asp-route-id="@Model.Id" class="btn btn-outline-info">Изменить</a>
-    <a asp-action="ChangePassword" asp-controller="Account" asp-area="" asp-route-id="@Model.Id" class="btn btn-outline-danger">Изменить пароль</a>
-    <a class="btn btn-danger" asp-action="Register" asp-controller="Account" asp-area="">Добавить пользователя</a>
 </div>
+
+@section Scripts
+{
+    <script >
+        $(".BlockingAjax").click(function() {
+            var id = $(this).attr("id");
+            $.ajax({url: '@Url.Action("BlockingAjax", "UsersManage")',type : 'POST',data : {'idUser' : id},
+                success : function f(data)  {
+                    if (data){
+                        $("#"+id).html('Отключить');
+                        $("."+id).html("<p>Активный</p>");
+                        $('#info').html("")
+                    }
+                    else{
+                        $("#"+id).html('Подключить');
+                        $("."+id).html("<p>Заблокирован</p>");
+                        $('#info').html("Пользователь отключен")
+                    }
+                }
+            })
+        });
+    </script>
+}
