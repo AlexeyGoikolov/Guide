@@ -13,13 +13,13 @@
     
             <ul class="page-breadcrumb">
                 <li>
-                    <a href="index.html"><i class="fa fa-home"></i> Guide</a>
+                    <a asp-action="Details" asp-controller="Account"><i class="fa fa-home"></i> Guide</a>
                 </li>
                 <li>
-                    <a asp-action="ListUsers" asp-controller="Users"> Сотрудники</a>
+                    <a asp-action="ListUsers" asp-controller="UsersManage"> Сотрудники</a>
                 </li>
                 <li>
-                    <a asp-action="ListUsers" asp-controller="Users"> Список</a>
+                    <a asp-action="ListUsers" asp-controller="UsersManage"> Список</a>
                 </li>
             </ul>
         </div>
@@ -35,7 +35,7 @@
                 <div class="tile-header dvd dvd-btm">
 
                     <ul>
-                        <form asp-action="ListUsers" asp-controller="Users" method="post">
+                        <form asp-action="ListUsers" asp-controller="UsersManage" method="post">
                             <div class="select-filter">
                                 <select class="form-control my-form" asp-for="idPosition">
                                     <option value=@null>Все</option>
@@ -92,7 +92,7 @@
                                     <tr>
                                         <td scope="row">@checked(i + 1)</td>
                                         <td>
-                                            <a asp-controller="Users" asp-action="" asp-route-id="@Model.Users[i].Id"> @Model.Users[i].Name</a>
+                                            <a asp-controller="Account" asp-action="Details" asp-area="" asp-route-id="@Model.Users[i].Id"> @Model.Users[i].Name</a>
                                         </td>
                                         <td>
                                             @Model.Users[i].Surname
@@ -115,7 +115,7 @@
                                                             <a onclick="changePosition('@Model.Users[i].Id')" data-toggle="modal" data-target="#modalPosition">Изменить позицию</a>
                                                         </li>
                                                         <li>
-                                                            <a asp-action="Edit" asp-controller="Account" asp-route-id="@Model.Users[i].Id">Редактировать</a>
+                                                            <a asp-action="Edit" asp-controller="Account" asp-area="" asp-route-id="@Model.Users[i].Id">Редактировать</a>
                                                         </li>
                                                         <li>
                                                             <a type="submit" class="BlockingAjax" id="@Model.Users[i].Id">Отключить</a>
@@ -190,17 +190,17 @@
     <script>       
     
         $(window).load(function(){                                           
-            var oTable = $('#editable-usage').DataTable({
+            let oTable = $('#editable-usage').DataTable({
                 "aoColumnDefs": [
-                    { 'defaultContent': '-', 'bSortable': false, 'aTargets': [ "no_sort" ] }
+                    { 'defaultContent': '-', "targets": "_all", 'bSortable': false, 'aTargets': [ "no_sort" ] }
                 ]
             });                         
-        });               
+        });             
     
 
         $(".BlockingAjax").click(function() {
             var id = $(this).attr("id");
-            $.ajax({url: '@Url.Action("BlockingAjax", "Users")',type : 'POST',data : {'idUser' : id},
+            $.ajax({url: '@Url.Action("BlockingAjax", "UsersManage")',type : 'POST',data : {'idUser' : id},
                 success : function f(data)  {
                     if (data){
                         $("#"+id).html('Отключить');
@@ -215,7 +215,7 @@
         });
         
         function changePosition(userId){
-            $("#modal-body").load('@Url.Action("GetPosition", "Users")', {userId : userId});            
+            $("#modal-body").load('@Url.Action("GetPosition", "UsersManage")', {userId : userId});            
         }
         
         $('#positionButton').click(function(event) { 
@@ -223,7 +223,7 @@
             let positionId = $('#changePositionId').val();
             let userId = $('#userId').val();
             $.ajax({
-                url: '@Url.Action("ChangePosition", "Users")',
+                url: '@Url.Action("ChangePosition", "UsersManage")',
                 type : 'POST',
                 data : {
                     'userId' : userId,
