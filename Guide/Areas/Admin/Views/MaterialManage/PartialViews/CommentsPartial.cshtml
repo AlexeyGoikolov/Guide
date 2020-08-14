@@ -21,14 +21,12 @@
                                 <a asp-controller="Account" asp-action="Details" asp-area="" asp-route-id="@comment.AuthorId">
                                     @comment.Author.UserName
                                 </a>
-                                <span>сделал комментарий :</span>
+
                                 @if (UserManager.GetUserId(User) == comment.AuthorId || User.IsInRole("admin"))
                                 {
-                                    <button class="btn btn-greensea btn-rounded btn-icon-only btn-xs  btn-ef btn-ef-7 btn-ef-7d mb-10 pull-right minimize " 
-                                            onclick="deleteComment('@comment.Id' ,'@comment.PostId')" >
-                                        <i class="fa fa-trash" ></i> Delete
+                                    <button class="btn_commit_del" onclick="deleteComment('@comment.Id','@comment.PostId')" >
+                                        <i class="fa fa-trash" ></i> 
                                     </button>
-                                  
                                 }
                             </strong>
                             <span style="margin:  5px;" class="text-muted pull-right">

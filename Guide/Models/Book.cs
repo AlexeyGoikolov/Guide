@@ -11,6 +11,7 @@ namespace Guide.Models
         public string CoverPath { get; set; }
         public string VirtualPath { get; set; }
         public string PhysicalPath { get; set; }
+        public bool Active { get; set; } = true;
         public string TypeId { get; set; }
         public virtual Type Type { get; set; }
         public string YearOfWriting { get; set; }

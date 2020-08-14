@@ -17,6 +17,7 @@ namespace Guide.Models
         public string CategoryId { get; set; }
         public virtual Category Category { get; set; }
         public string TypeId { get; set; }
+        public bool Active { get; set; } = true;
         public virtual Type Type { get; set; }
         
         

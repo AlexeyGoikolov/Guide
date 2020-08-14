@@ -6,7 +6,7 @@
 }
 <div class="page">
     <div class="pageheader">
-        <h3>Регистрация нового пользователя</h3>
+        <h3>Пригласить сотрудника на выполнение задачи</h3>
         <div class="page-bar">
             <ul class="page-breadcrumb">
                 <li>
@@ -26,7 +26,7 @@
         <form method="post" asp-controller="Account" asp-action="Register" enctype="multipart/form-data" class="form-validation mt-5">
 
             <p class="text-center">
-                Введите данные нового пользователя
+                Введите данные сотрудника :
             </p>
 
             <div class="form-group">
@@ -54,7 +54,7 @@
                 <span asp-validation-for="@Model.User.PasswordConfirm"></span>
             </div>
             <div class="register-form-footer lt wrap-reset mt-20">
-                <input type="submit" class="btn btn-greensea b-0 pull-center" value="Регистрация"/>
+                <input type="submit" class="btn btn-greensea b-0 pull-center" value="Добавить"/>
             </div>
         </form>
     </div>
