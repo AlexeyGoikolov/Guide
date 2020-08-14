@@ -48,6 +48,8 @@
         ================= Application Content ===================
         ===================================================== -->
         <div id="wrap" class="animsition">
+        @if (User.Identity.IsAuthenticated)
+        {
             <!-- ===============================================
             ================= HEADER Content ===================
             ================================================ -->
@@ -250,7 +252,7 @@
                                                 </ul>
                                             </li>
                                         </ul>
-                                        }
+                                    }
                                         <!--/ NAVIGATION Content -->
                                     </div>
                                 </div>
@@ -264,11 +266,18 @@
         ================= CONTENT ===============================
         ===================================================== -->
      <!--/  это рендерит отлично страницу : id="content"-->
-        <section id="content">
+            <section id="content">
+                <div class=" pt-5">
+                    @RenderBody()
+                </div>
+            </section>
+        }
+        else
+        {
             <div class=" pt-5">
-            @RenderBody()
+                @RenderBody()
             </div>
-        </section>
+        }
         <!--/ CONTENT -->
         </div>
     <!--/ Application Content -->

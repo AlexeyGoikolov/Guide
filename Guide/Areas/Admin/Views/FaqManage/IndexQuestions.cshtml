@@ -31,17 +31,11 @@
     }
     else
     {
-        <div class="row border">
-            <div class="col">
-                Вопросы
-            </div>
-        </div>
+        <h4>Вопросы</h4>
         @foreach (var glossery in Model)
         {
-            <div class="row border">
-                <div class="col">
-                    <a asp-action="Preview" asp-controller="FaqManage" asp-route-id="@glossery.Id">@glossery.Question</a>
-                </div>
+            <div class="mb-10">
+                <a asp-action="Preview" asp-controller="FaqManage" asp-route-id="@glossery.Id">@glossery.Question</a>
             </div>
         }
     }

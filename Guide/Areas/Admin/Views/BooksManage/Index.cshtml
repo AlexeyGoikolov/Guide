@@ -58,7 +58,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach (Book book in Model)
+                            @foreach (var book in Model)
                             {
                                 <tr class="even gradeC">
                                     <td>
@@ -67,11 +67,11 @@
                                     <td>@book.Author</td>
                                     <td>@book.YearOfWriting</td>
                                     <td ><a class="btn btn-rounded-20 btn-default btn-sm mr-5" style="width:30px;"
-                                            asp-action="" asp-controller="Books" asp-route-id="@book.Id"><i class="fa fa-pencil"></i></a>
+                                            asp-action="" asp-controller="BooksManage" asp-route-id="@book.Id"><i class="fa fa-pencil"></i></a>
                                         @if (book.Active)
                                         {
                                             <a class="btn btn-rounded-20 btn-default btn-sm mr-5" style="width:30px;" 
-                                             asp-action="Delete" asp-controller="Books" asp-route-id="@book.Id"><i class="fa fa-trash" ></i></a>
+                                             asp-action="Delete" asp-controller="BooksManage" asp-route-id="@book.Id"><i class="fa fa-trash" ></i></a>
                                         }
                                         else
                                         {

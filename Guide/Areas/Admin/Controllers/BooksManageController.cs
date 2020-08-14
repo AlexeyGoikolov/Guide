@@ -29,10 +29,14 @@ namespace Guide.Areas.Admin.Controllers
             _environment = environment;
             _uploadService = uploadService;
         }
-        
-        public IActionResult Index()
+
+        public IActionResult Index(string activ)
         {
-            return View(_db.Books.ToList());
+            if (activ == null)
+            {
+                return View(_db.Books.Where(b => b.Active).ToList());
+            }
+            return View(_db.Books.Where(b => b.Active == false).ToList());
         }
         
         public IActionResult Create()
@@ -68,8 +72,7 @@ namespace Guide.Areas.Admin.Controllers
             Book book = _db.Books.FirstOrDefault(b => b.Id == id);
             return View(book);
         }
-        
-        
+
         private string Load(string id, IFormFile file)
         {
             if (file != null)
@@ -84,6 +87,35 @@ namespace Guide.Areas.Admin.Controllers
                 return filePath;
             }
             return null;
+        }
+        
+        public IActionResult Delete(string id)
+        {
+            if (id != null)
+            {
+                Book book = _db.Books.FirstOrDefault(v => v.Id == id);
+                if (book != null)
+                {
+                    return View(book);
+                }
+            }
+            return NotFound();
+        }
+        [HttpPost]
+        [ActionName("Delete")]
+        public IActionResult ConfirmDelete(string id)
+        {
+            if (id != null)
+            {
+                Book book = _db.Books.FirstOrDefault(v => v.Id == id);
+                if (book != null)
+                {
+                        book.Active = false;
+                    _db.Books.Update(book);
+                    _db.SaveChanges();
+                }
+            }
+            return RedirectToAction("Index" , "BooksManage");
         }
     }
 }

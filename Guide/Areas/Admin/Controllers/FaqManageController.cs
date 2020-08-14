@@ -41,6 +41,8 @@ namespace Guide.Areas.Admin.Controllers
             QuestionAnswersViewModel model = new QuestionAnswersViewModel();
             if (id != null)
                 model.QuestionAnswer = _db.QuestionAnswers.FirstOrDefault(q => q.Id == id);
+            else 
+                model.QuestionAnswer = new QuestionAnswer();
             model.Status = status;
             model.PostId = postId;
             return View(model);
