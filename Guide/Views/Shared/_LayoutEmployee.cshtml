@@ -1,0 +1,221 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject UserManager<User> UserManager
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang=""> <!--<![endif]-->
+    <head>
+     <meta charset="utf-8" />
+     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">    
+          
+     <script src="https://cdn.ckeditor.com/4.14.1/standard/ckeditor.js"></script>
+     <title>Guide</title>
+     <link rel="icon" type="image/ico" href="~/favicon.ico" />
+     <meta name="description" content="">
+       
+ 
+        <!-- ============================================
+        ================= Stylesheets ===================
+        ============================================= -->
+        <!-- vendor css files -->
+        <link rel="stylesheet" href="~/assets/css/vendor/bootstrap.min.css">
+        
+                <link rel="stylesheet" href="assets/css/vendor/animate.css">
+                <link rel="stylesheet" href="assets/css/vendor/font-awesome.min.css">
+                <link rel="stylesheet" href="assets/js/vendor/animsition/css/animsition.min.css">
+                <link rel="stylesheet" href="~/css/style.css">
+                
+                
+
+      
+
+        <!-- project main css files -->
+        <link rel="stylesheet" href="~/assets/css/main.css">
+        <!--/ stylesheets -->
+
+
+
+   
+    </head>
+    <body id="minovate" class="appWrapper">
+    
+    <script src="https://kit.fontawesome.com/26a6781c15.js" crossorigin="anonymous"></script>
+    
+        <!--[if lt IE 8]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+        <!-- ====================================================
+        ================= Application Content ===================
+        ===================================================== -->
+        <div id="wrap" class="animsition">
+            <!-- ===============================================
+            ================= HEADER Content ===================
+            ================================================ -->
+            <section id="header" class="scheme-greensea">
+                <header class="clearfix">
+
+                    <!-- Branding -->
+                    <div class="branding scheme-greensea">
+                        @if (User.Identity.IsAuthenticated)
+                          {
+                            <a class="brand" asp-controller="Account" asp-action="Details" asp-area=""><span><strong>Guide</strong></span></a>
+                            <a href="#" class="offcanvas-toggle visible-xs-inline"><i class="fa fa-bars"></i></a>
+                          }
+                         else
+                          {
+                            <a class="brand" asp-controller="Account" asp-action="Login" asp-area=""><span><strong>Guide</strong></span></a>
+                              <a href="#" class="offcanvas-toggle visible-xs-inline"><i class="fa fa-bars"></i></a>
+                          }
+                    </div>
+                    <!-- Branding end -->
+                <!-- Left-side navigation -->
+                    <ul class="nav-left pull-left list-unstyled list-inline">
+                        <li class="sidebar-collapse divided-right">
+                            <a href="#" class="collapse-sidebar">
+                                <i class="fa fa-outdent"></i>
+                            </a>
+                        </li>
+                    </ul>
+                    <!-- Left-side navigation end -->
+                   <!-- Right-side navigation -->
+                    <ul class="nav-right pull-right list-inline mr-40">
+                      @if (User.Identity.IsAuthenticated)
+                      {
+                        <li class="dropdown nav-profile mr-40">
+                            <a class="dropdown-toggle" data-toggle="dropdown" asp-action="Details" asp-controller="Account" asp-area="">
+                                <span>
+                                    @User.Identity.Name<i class="fa fa-angle-down"></i>
+                                </span>
+                            </a>
+                            <ul class="dropdown-menu animated littleFadeInLeft" role="menu">
+                                <li>
+                                     <a asp-controller="Account" asp-action="Details" asp-area="">
+                                         <i class="fa fa-user"></i>
+                                         Личный кабинет
+                                     </a>
+                                </li>
+                                <li class="divider"></li>
+                                <li>
+                                    <a asp-controller="Account" asp-action="Logout" asp-area="">
+                                        <i class="fa fa-sign-out"></i>
+                                        Выход
+                                    </a>
+                                </li>
+                             </ul>
+                         </li>
+                      }
+                    </ul>
+                    <!-- Right-side navigation end -->
+                </header>
+            </section>
+            <!--/ HEADER Content  -->
+            <!-- =================================================
+            ================= CONTROLS Content ===================
+            ================================================== -->
+            <div id="controls">
+                <!-- ================================================
+                ================= SIDEBAR Content ===================
+                ================================================= -->
+                <aside id="sidebar" class="scheme-greensea">
+                    <div id="sidebar-wrap">
+                        <div class="panel-group slim-scroll" role="tablist">
+                            <div class="panel panel-default">
+                                    <div class="panel-body">
+                                        <!-- ===================================================
+                                    ================= NAVIGATION Content ===================
+                                    ==================================================== -->
+                                    @if (User.Identity.IsAuthenticated)
+                                    {
+                                        <ul id="navigation">
+                                            <li>
+                                                <a asp-controller="" asp-action="" asp-area="">
+                                                    <i class="fa fa-pencil-square-o"></i>
+                                                    <span>Материалы</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                             <a asp-controller="" asp-action="" asp-area="">
+                                                    <i class="fa fa-book"></i>
+                                                    <span>Книги</span>
+                                               </a>
+                                            </li>
+                                            <li>
+                                                <a asp-controller="Glossarys" asp-action="Index" asp-area="">
+                                                    <i class="fa fa-puzzle-piece"></i>
+                                                    <span>Глоссарий</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                 <a asp-controller="" asp-action="" asp-area="">
+                                                  <i class="fa fa-question"></i>
+                                                   <span>Вопрос-ответ</span></a>
+                                                <ul>
+                                                    <li><a asp-action="Index" asp-controller="FaqManage" asp-area="Admin"><i class="fa fa-caret-right"></i>Вопросы с ответами</a></li>
+                                                    <li><a asp-action="Create" asp-controller="FaqManage" asp-area="Admin" asp-route-status="ToQuestion"><i class="fa fa-caret-right"></i>Задать вопрос</a></li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                        }
+                                        <!--/ NAVIGATION Content -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                </aside>
+                <!--/ SIDEBAR Content -->
+                </div>
+            <!--/ CONTROLS Content -->
+        <!-- ====================================================
+        ================= CONTENT ===============================
+        ===================================================== -->
+     <!--/  это рендерит отлично страницу : id="content"-->
+        <section id="content">
+            <div class=" pt-5">
+            @RenderBody()
+            </div>
+        </section>
+        <!--/ CONTENT -->
+        </div>
+    <!--/ Application Content -->
+    
+
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    
+        <!-- ============================================
+        ============== Vendor JavaScripts ===============
+        ============================================= -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="~/assets/js/vendor/jquery/jquery-1.11.2.min.js"><\/script>')</script>
+
+        <script src="~/assets/js/vendor/bootstrap/bootstrap.min.js"></script>
+
+        <script src="~/assets/js/vendor/jRespond/jRespond.min.js"></script>
+
+    <script src="~/assets/js/vendor/sparkline/jquery.sparkline.min.js"></script>
+
+    <script src="~/assets/js/vendor/animsition/js/jquery.animsition.min.js"></script>
+
+    <script src="~/assets/js/vendor/screenfull/screenfull.min.js"></script>
+
+    <script src="~/assets/js/vendor/datatables/js/jquery.dataTables.min.js"></script>
+    <script src="~/assets/js/vendor/datatables/extensions/ColReorder/js/dataTables.colReorder.min.js"></script>
+    <script src="~/assets/js/vendor/datatables/extensions/Responsive/js/dataTables.responsive.min.js"></script>
+    <script src="~/assets/js/vendor/datatables/extensions/ColVis/js/dataTables.colVis.min.js"></script>
+    <script src="~/assets/js/vendor/datatables/extensions/TableTools/js/dataTables.tableTools.min.js"></script>
+    <script src="~/assets/js/vendor/datatables/extensions/dataTables.bootstrap.js"></script>
+
+        <!--/ vendor javascripts -->
+    
+        <!-- ============================================
+        ============== Custom JavaScripts ===============
+        ============================================= -->
+         <script src="~/assets/js/main.js"></script>
+
+        <!--/ custom javascripts -->
+
+        @RenderSection("Scripts", required: false)
+
+    </body>
+</html>

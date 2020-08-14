@@ -13,7 +13,7 @@ using Microsoft.Extensions.Hosting;
 namespace Guide.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    
+    [Authorize(Roles = "admin")]
     public class BooksManageController : Controller
     {
         
