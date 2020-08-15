@@ -215,7 +215,8 @@ namespace Guide.Controllers
             PositionsViewModel model = new PositionsViewModel()
             {
                 User = new RegisterViewModel(),
-                Positions = _db.Positions.ToList()
+                // ReSharper disable once RedundantBoolCompare
+                Positions = _db.Positions.Where(p=>p.Active).ToList()
             };
             
             return PartialView("PartialViews/PositionsPortal", model);
@@ -226,13 +227,13 @@ namespace Guide.Controllers
             Position position = _db.Positions.FirstOrDefault(p => p.Id == id);
             if (position != null)
             {
-                _db.Positions.Remove(position);
+                position.Active = false;
                 _db.SaveChanges();
             }
             PositionsViewModel model = new PositionsViewModel()
             {
                 User = new RegisterViewModel(),
-                Positions = _db.Positions.ToList()
+                Positions = _db.Positions.Where(p=>p.Active).ToList()
             };
             return PartialView("PartialViews/PositionsPortal", model);
         }

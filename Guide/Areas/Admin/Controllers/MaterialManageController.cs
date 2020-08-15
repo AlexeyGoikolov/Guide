@@ -115,7 +115,7 @@ namespace Guide.Areas.Admin.Controllers
             MaterialCategoryViewModel model = new MaterialCategoryViewModel()
             {
                 Material = new MaterialCreateViewModel(),
-                Categories = _db.Categories.ToList(),
+                Categories = _db.Categories.Where(c=> c.Active).ToList(),
             };
 
             return PartialView("PartialViews/CategoriesPartial", model);
@@ -132,7 +132,7 @@ namespace Guide.Areas.Admin.Controllers
             MaterialTypeViewModel model = new MaterialTypeViewModel()
             {
                 Material = new MaterialCreateViewModel(),
-                Types = _db.Types.ToList()
+                Types = _db.Types.Where(t=>t.Active).ToList()
             };
 
             return PartialView("PartialViews/TypesPartial", model);
@@ -143,14 +143,15 @@ namespace Guide.Areas.Admin.Controllers
             Category category = _db.Categories.FirstOrDefault(c => c.Id == id);
             if (category != null)
             {
-                _db.Categories.Remove(category);
+                category.Active = false;
+               
                 _db.SaveChanges();
             }
 
             MaterialCategoryViewModel model = new MaterialCategoryViewModel()
             {
                 Material = new MaterialCreateViewModel(),
-                Categories = _db.Categories.ToList(),
+                Categories = _db.Categories.Where(c=>c.Active).ToList(),
             };
 
             return PartialView("PartialViews/CategoriesPartial", model);
@@ -179,14 +180,14 @@ namespace Guide.Areas.Admin.Controllers
             Type type = _db.Types.FirstOrDefault(t => t.Id == id);
             if (type != null)
             {
-                _db.Types.Remove(type);
+                type.Active = false;
                 _db.SaveChanges();
             }
 
             MaterialTypeViewModel model = new MaterialTypeViewModel()
             {
                 Material = new MaterialCreateViewModel(),
-                Types = _db.Types.ToList()
+                Types = _db.Types.Where(t=> t.Active ).ToList()
             };
 
             return PartialView("PartialViews/TypesPartial", model);

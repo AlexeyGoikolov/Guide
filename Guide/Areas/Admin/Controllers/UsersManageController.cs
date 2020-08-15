@@ -30,7 +30,7 @@ namespace Guide.Areas.Admin.Controllers
             ListUsersViewModel users = new ListUsersViewModel()
             {
                 Users = listUsers,
-                Positions = _db.Positions.ToList()
+                Positions = _db.Positions.Where(p=> p.Active == true).ToList()
             };
             return View(users);
         }
@@ -41,7 +41,7 @@ namespace Guide.Areas.Admin.Controllers
             ListUsersViewModel users = new ListUsersViewModel()
             {
                 Users = listUsers,
-                Positions = _db.Positions.ToList()
+                Positions = _db.Positions.Where(p=>p.Active == true).ToList()
             };
             return View(users);
         }
@@ -82,7 +82,7 @@ namespace Guide.Areas.Admin.Controllers
         public async Task<IActionResult> GetPosition(string userId)
         {
             User user = await _db.Users.FirstOrDefaultAsync(u => u.Id == userId);
-            List<Position> positions = await _db.Positions.ToListAsync();
+            List<Position> positions = await _db.Positions.Where(p=> p.Active).ToListAsync();
             ListUsersViewModel model = new ListUsersViewModel
             {
                 Users = new List<User>{user},
