@@ -121,7 +121,8 @@ namespace Guide.Controllers
                     var result = await passwordValidator.ValidateAsync(_userManager, user, model.NewPassword);
                     if (result.Succeeded)
                     {
-                        user.PasswordHash = passwordHasher.HashPassword(user, model.NewPassword);
+                        if (passwordHasher != null)
+                            user.PasswordHash = passwordHasher.HashPassword(user, model.NewPassword);
                         await _userManager.UpdateAsync(user);
                         return RedirectToAction("Details");
                     }
@@ -221,8 +222,8 @@ namespace Guide.Controllers
             
             return PartialView("PartialViews/PositionsPortal", model);
         }
-        //Удоления должность
-        public IActionResult DeletePositionAjax(string id)
+        //Удаление должности
+        public IActionResult DeletePositionAjax(int id)
         {
             Position position = _db.Positions.FirstOrDefault(p => p.Id == id);
             if (position != null)

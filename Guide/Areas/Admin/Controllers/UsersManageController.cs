@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿#nullable enable
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Guide.Models;
@@ -37,26 +38,26 @@ namespace Guide.Areas.Admin.Controllers
         [HttpPost]
         public  IActionResult ListUsers(ListUsersViewModel usersViewModel)
         {
-            List<User> listUsers = Filter(usersViewModel.Action,usersViewModel.idPosition);
+            List<User> listUsers = Filter(usersViewModel.Action,usersViewModel.IdPosition);
             ListUsersViewModel users = new ListUsersViewModel()
             {
                 Users = listUsers,
-                Positions = _db.Positions.Where(p=>p.Active == true).ToList()
+                Positions = _db.Positions.Where(p=>p.Active).ToList()
             };
             return View(users);
         }
         [NonAction]
-        public List<User> Filter(string? activ, string? idPositions)
+        public List<User> Filter(string? active, int? idPositions)
         {
             IQueryable<User> users = _db.Users.Include(p => p.Position).Where(u => u.Email != "admin@admin.com");
-            if (activ != null)
+            if (active != null)
             {
-                if (activ == "true")
+                if (active == "true")
                     users = users.Where(u => u.Active);
-                if (activ == "false")
+                if (active == "false")
                     users = users.Where(u => u.Active == false);
             }
-            if (idPositions != null)
+            if (idPositions != null && idPositions != 0)
                 users = users.Where(u => u.PositionId == idPositions);
             return users.ToList();
         }
@@ -92,7 +93,7 @@ namespace Guide.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> ChangePosition(string userId, string positionId)
+        public async Task<IActionResult> ChangePosition(string userId, int positionId)
         {
             User user = await _db.Users.FirstOrDefaultAsync(u => u.Id == userId);
             Position position = await _db.Positions.FirstOrDefaultAsync(p => p.Id == positionId);

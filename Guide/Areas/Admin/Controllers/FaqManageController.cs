@@ -21,25 +21,22 @@ namespace Guide.Areas.Admin.Controllers
 
         public IActionResult Index()
         {
-           
-            List<QuestionAnswer> questionAnswer = new List<QuestionAnswer>();
-            questionAnswer = _db.QuestionAnswers
+            List<QuestionAnswer> questionAnswer = _db.QuestionAnswers
                 .Where(q => q.Answer != null).ToList();
             return View(questionAnswer);
         }
 
         public IActionResult IndexQuestions()
         {
-            List<QuestionAnswer> questionAnswer = new List<QuestionAnswer>();
-            questionAnswer = _db.QuestionAnswers
+            List<QuestionAnswer> questionAnswer = _db.QuestionAnswers
                 .Where(q => q.Answer == null).ToList();
             return View(questionAnswer);
         }
         
-        public IActionResult Create(QuestionAnswersStatus status, string id, string postId)
+        public IActionResult Create(QuestionAnswersStatus status, int id, int postId)
         {
             QuestionAnswersViewModel model = new QuestionAnswersViewModel();
-            if (id != null)
+            if (id != 0)
                 model.QuestionAnswer = _db.QuestionAnswers.FirstOrDefault(q => q.Id == id);
             else 
                 model.QuestionAnswer = new QuestionAnswer();
@@ -79,15 +76,15 @@ namespace Guide.Areas.Admin.Controllers
             return RedirectToAction("Index", "FaqManage");
         }
 
-        public IActionResult Preview(string id)
+        public IActionResult Preview(int id)
         {
             QuestionAnswer questionAnswer = _db.QuestionAnswers.FirstOrDefault(q => q.Id == id);
             return View(questionAnswer);
         }
         
-        public IActionResult Delete(QuestionAnswersStatus status, string id)
+        public IActionResult Delete(QuestionAnswersStatus status, int id)
         {
-            if (id != null)
+            if (id != 0)
             {
                 QuestionAnswersViewModel model = new QuestionAnswersViewModel();
                 model.QuestionAnswer = _db.QuestionAnswers.FirstOrDefault(v => v.Id == id);
@@ -105,7 +102,7 @@ namespace Guide.Areas.Admin.Controllers
         [ActionName("Delete")]
         public IActionResult ConfirmDelete(QuestionAnswersViewModel model)
         {
-            if (model.QuestionAnswer.Id != null)
+            if (model.QuestionAnswer.Id != 0)
             {
                 QuestionAnswer questionAnswer = _db.QuestionAnswers.FirstOrDefault(v => v.Id == model.QuestionAnswer.Id);
                 _db.QuestionAnswers.Remove(questionAnswer);
