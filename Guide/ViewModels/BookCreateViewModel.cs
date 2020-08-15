@@ -7,7 +7,7 @@ namespace Guide.ViewModels
 {
     public class BookCreateViewModel
     {
-        public string Id { get; set; } = Guid.NewGuid().ToString();
+        public int Id { get; set; } 
         [Required(ErrorMessage = "Это поле обязательно для заполнения")]
         public string Name { get; set; }
         [Required(ErrorMessage = "Это поле обязательно для заполнения")]

@@ -4,7 +4,7 @@ namespace Guide.Models
 {
     public class Book
     {
-        public string Id { get; set; } = Guid.NewGuid().ToString();
+        public int Id { get; set; }
         public string Name { get; set; }
         public string Author { get; set; }
         public string ISBN { get; set; }

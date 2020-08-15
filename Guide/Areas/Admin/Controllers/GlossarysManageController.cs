@@ -24,7 +24,7 @@ namespace Guide.Areas.Admin.Controllers
             return View(glossaries);
         }
         
-        public IActionResult Preview(string id)
+        public IActionResult Preview(int id)
         {
             Glossary glossary = _db.Glossaries.FirstOrDefault(g => g.Id == id);
             return View(glossary);
@@ -47,9 +47,9 @@ namespace Guide.Areas.Admin.Controllers
             return View(model);
         }
         
-        public IActionResult Delete(string id)
+        public IActionResult Delete(int id)
         {
-            if (id != null)
+            if (id != 0)
             {
                 Glossary glossary = _db.Glossaries.FirstOrDefault(v => v.Id == id);
                 if (glossary != null)
@@ -62,9 +62,9 @@ namespace Guide.Areas.Admin.Controllers
         
         [HttpPost]
         [ActionName("Delete")]
-        public IActionResult ConfirmDelete(string id)
+        public IActionResult ConfirmDelete(int id)
         {
-            if (id != null)
+            if (id != 0)
             {
                 Glossary glossary = _db.Glossaries.FirstOrDefault(v => v.Id == id);
                 if (glossary != null)
@@ -76,12 +76,11 @@ namespace Guide.Areas.Admin.Controllers
             return RedirectToAction("Index" , "GlossarysManage");
         }
 
-        public IActionResult Edit(string id)
+        public IActionResult Edit(int id)
         {
-            if (id != null)
+            if (id != 0)
             {
-                Glossary glossary = new Glossary();
-                glossary = _db.Glossaries.FirstOrDefault(g => g.Id == id);
+                Glossary glossary = _db.Glossaries.FirstOrDefault(g => g.Id == id);
                 return View(glossary);
             }
             return NotFound();

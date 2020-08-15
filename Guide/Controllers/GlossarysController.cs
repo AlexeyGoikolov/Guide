@@ -18,7 +18,7 @@ namespace Guide.Controllers
             List<Glossary> glossaries = _db.Glossaries.OrderBy(g => g.Name).ToList();
             return View(glossaries);
         }
-        public IActionResult Preview(string id)
+        public IActionResult Preview(int id)
         {
             Glossary glossary = _db.Glossaries.FirstOrDefault(g => g.Id == id);
             return View(glossary);

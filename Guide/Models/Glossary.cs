@@ -5,7 +5,7 @@ namespace Guide.Models
 {
     public class Glossary
     {
-        public string Id { get; set; } = Guid.NewGuid().ToString();
+        public int Id { get; set; }
 
         [Required(ErrorMessage = "Поле не заполнено")]
         [MaxLength(25,ErrorMessage = "Максимальная длина названия 25 символов")]

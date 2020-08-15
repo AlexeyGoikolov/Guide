@@ -10,7 +10,7 @@ namespace Guide.ViewModels
 {
     public class MaterialCreateViewModel
     {
-        public string Id { get; set; } = Guid.NewGuid().ToString();
+        public int Id { get; set; } 
         [Required(ErrorMessage = "Необходимо заполнить поле Заголовок")]
         [DataType(DataType.Text)]
         
@@ -24,10 +24,10 @@ namespace Guide.ViewModels
         public string PhysicalPath { get; set; }
          [Required(ErrorMessage = "Необходимо заполнить поле Категория")]
                 [DataType(DataType.Text)]
-        public string CategoryId { get; set; }
+        public int CategoryId { get; set; }
         [Required(ErrorMessage = "Необходимо заполнить поле Тип")]
         [DataType(DataType.Text)]
-        public string TypeId { get; set; }
+        public int TypeId { get; set; }
         
         
     }
