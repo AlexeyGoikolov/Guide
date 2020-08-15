@@ -16,24 +16,8 @@
                 <p class="desc text-default lt mb-20 materiol_content">
                     @Html.Raw(Model.TextContent)
                 </p>
-                <div>
-                    <div>
-                        <textarea id="comment_area" class="form-control textarea_chat" placeholder="Оставить свой комментарий..." rows="3"></textarea>
-                        <br>
-                    </div>
-                    <div style="margin: 5px; margin-left: auto">
-                        <button type="button" class="btn btn-info "
-                                onclick="viewComment('@Model.Id')">
-                            Посмотреть комментарии к этому материалу
-                        </button>
-                        <button type="button" class="btn btn-info pull-right" name="@Model.Id" id="sendCommetnt">Добавить</button>
-                    </div>
-
-                </div>
-                <div >
-                    <div class="panel-heading"></div>
-                    <div id="listComment"></div>
-                </div>
+              
+               
             </div>
             <div class="col-md-3 material_discription" data-lightbox="gallery">
                 @if (Model.Author != null)
@@ -81,7 +65,6 @@
             </div>
         </div>
         <div class="panel panel-info">
-            <div class="panel-heading"></div>
             <div id="listComment"></div>
         </div>
     </div>
