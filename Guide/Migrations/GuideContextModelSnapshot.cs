@@ -22,8 +22,10 @@ namespace Guide.Migrations
 
             modelBuilder.Entity("Guide.Models.Book", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("text");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<bool>("Active")
                         .HasColumnType("boolean");
@@ -49,8 +51,8 @@ namespace Guide.Migrations
                     b.Property<string>("PhysicalPath")
                         .HasColumnType("text");
 
-                    b.Property<string>("TypeId")
-                        .HasColumnType("text");
+                    b.Property<int>("TypeId")
+                        .HasColumnType("integer");
 
                     b.Property<string>("VirtualPath")
                         .HasColumnType("text");
@@ -67,8 +69,10 @@ namespace Guide.Migrations
 
             modelBuilder.Entity("Guide.Models.Category", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("text");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<bool>("Active")
                         .HasColumnType("boolean");
@@ -83,8 +87,10 @@ namespace Guide.Migrations
 
             modelBuilder.Entity("Guide.Models.Comment", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("text");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<string>("AuthorId")
                         .HasColumnType("text");
@@ -95,8 +101,8 @@ namespace Guide.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("text");
 
-                    b.Property<string>("PostId")
-                        .HasColumnType("text");
+                    b.Property<int>("PostId")
+                        .HasColumnType("integer");
 
                     b.Property<string>("SelText")
                         .HasColumnType("text");
@@ -112,8 +118,10 @@ namespace Guide.Migrations
 
             modelBuilder.Entity("Guide.Models.Glossary", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("text");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<string>("Abbreviation")
                         .HasColumnType("text");
@@ -140,8 +148,10 @@ namespace Guide.Migrations
 
             modelBuilder.Entity("Guide.Models.Position", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("text");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<bool>("Active")
                         .HasColumnType("boolean");
@@ -156,8 +166,10 @@ namespace Guide.Migrations
 
             modelBuilder.Entity("Guide.Models.Post", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("text");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<bool>("Active")
                         .HasColumnType("boolean");
@@ -165,8 +177,8 @@ namespace Guide.Migrations
                     b.Property<string>("Author")
                         .HasColumnType("text");
 
-                    b.Property<string>("CategoryId")
-                        .HasColumnType("text");
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("integer");
 
                     b.Property<DateTime>("DateOfCreate")
                         .HasColumnType("timestamp without time zone");
@@ -177,17 +189,14 @@ namespace Guide.Migrations
                     b.Property<string>("PhysicalPath")
                         .HasColumnType("text");
 
-                    b.Property<string>("QuestionAnswerId")
-                        .HasColumnType("text");
-
                     b.Property<string>("TextContent")
                         .HasColumnType("text");
 
                     b.Property<string>("Title")
                         .HasColumnType("text");
 
-                    b.Property<string>("TypeId")
-                        .HasColumnType("text");
+                    b.Property<int>("TypeId")
+                        .HasColumnType("integer");
 
                     b.Property<string>("VirtualPath")
                         .HasColumnType("text");
@@ -196,8 +205,6 @@ namespace Guide.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.HasIndex("QuestionAnswerId");
-
                     b.HasIndex("TypeId");
 
                     b.ToTable("Posts");
@@ -205,8 +212,10 @@ namespace Guide.Migrations
 
             modelBuilder.Entity("Guide.Models.QuestionAnswer", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("text");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<bool>("Active")
                         .HasColumnType("boolean");
@@ -217,8 +226,8 @@ namespace Guide.Migrations
                     b.Property<List<string>>("Links")
                         .HasColumnType("text[]");
 
-                    b.Property<string>("PostId")
-                        .HasColumnType("text");
+                    b.Property<int>("PostId")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Question")
                         .IsRequired()
@@ -233,8 +242,10 @@ namespace Guide.Migrations
 
             modelBuilder.Entity("Guide.Models.Template", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("text");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<string>("ContentTemplate")
                         .HasColumnType("text");
@@ -252,8 +263,10 @@ namespace Guide.Migrations
 
             modelBuilder.Entity("Guide.Models.Type", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("text");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<bool>("Active")
                         .HasColumnType("boolean");
@@ -317,8 +330,8 @@ namespace Guide.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("boolean");
 
-                    b.Property<string>("PositionId")
-                        .HasColumnType("text");
+                    b.Property<int>("PositionId")
+                        .HasColumnType("integer");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("text");
@@ -481,7 +494,9 @@ namespace Guide.Migrations
                 {
                     b.HasOne("Guide.Models.Type", "Type")
                         .WithMany()
-                        .HasForeignKey("TypeId");
+                        .HasForeignKey("TypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Guide.Models.Comment", b =>
@@ -492,36 +507,42 @@ namespace Guide.Migrations
 
                     b.HasOne("Guide.Models.Post", "Post")
                         .WithMany()
-                        .HasForeignKey("PostId");
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Guide.Models.Post", b =>
                 {
                     b.HasOne("Guide.Models.Category", "Category")
                         .WithMany()
-                        .HasForeignKey("CategoryId");
-
-                    b.HasOne("Guide.Models.QuestionAnswer", null)
-                        .WithMany("Posts")
-                        .HasForeignKey("QuestionAnswerId");
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Guide.Models.Type", "Type")
                         .WithMany()
-                        .HasForeignKey("TypeId");
+                        .HasForeignKey("TypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Guide.Models.QuestionAnswer", b =>
                 {
                     b.HasOne("Guide.Models.Post", "Post")
                         .WithMany()
-                        .HasForeignKey("PostId");
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Guide.Models.User", b =>
                 {
                     b.HasOne("Guide.Models.Position", "Position")
                         .WithMany()
-                        .HasForeignKey("PositionId");
+                        .HasForeignKey("PositionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
