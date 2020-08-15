@@ -3,6 +3,26 @@
     ViewBag.Title = "Материал";
     Layout = "_Layout";
 }
+<div class="page">
+ <div class="pageheader">
+
+        <h2>@ViewBag.Title</h2>
+
+        <div class="page-bar">
+
+            <ul class="page-breadcrumb">
+                <li>
+                    <a asp-action="Details" asp-controller="Account"><i class="fa fa-home"></i> Guide</a>
+                </li>
+                <li>
+                    <a asp-action="Index" asp-controller="MaterialManage"> Материалы</a>
+                </li>
+                <li>
+                    <a asp-action="Details" asp-controller="MaterialManage" asp-route-id="@Model.Id">Просмотр</a>
+                </li>
+            </ul>
+        </div>
+    </div>
 <div class="page page-tables-datatables panel-body">
 <section class="tile time-simple">
 
@@ -13,10 +33,9 @@
         <div class="row">
             <div class="col-md-9">
                 <h2 class="custom-font mb-5">@Model.Title </h2>
-                <p class="desc text-default lt mb-20 materiol_content">
-                    @Html.Raw(Model.TextContent)
-                </p>
-              
+                <div class="desc text-default lt mb-20 materiol_content">
+               @Html.Raw(Model.TextContent)
+            </div>
                
             </div>
             <div class="col-md-3 material_discription" data-lightbox="gallery">
@@ -56,11 +75,9 @@
                     <div style="margin: 5px; margin-left: auto">
                         <button type="button" class="btn btn-info "
                                 onclick="viewComment('@Model.Id')">
-                            Посмотреть комментарии к этому материалу
+                            Посмотреть комментарии 
                         </button>
-
                     </div>
-
                 </div>
             </div>
         </div>
@@ -71,7 +88,7 @@
     <!-- /tile body -->
 </section>
 </div>
-
+</div>
 
 <!-- /tile -->
 @section Scripts{
