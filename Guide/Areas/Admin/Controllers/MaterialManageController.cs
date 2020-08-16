@@ -39,7 +39,7 @@ namespace Guide.Areas.Admin.Controllers
             return View(posts);
         }
 
-        public IActionResult Details(string id)
+        public IActionResult Details(int id)
         {
             Post post = _db.Posts.FirstOrDefault(p => p.Id == id);
 
@@ -47,9 +47,9 @@ namespace Guide.Areas.Admin.Controllers
             return View(post);
         }
 
-        public IActionResult ValTemplate(string templatesId)
+        public IActionResult ValTemplate(int templatesId)
         {
-            if (templatesId != null)
+            if (templatesId != 0)
             {
                 Template template = _db.Templates.FirstOrDefault(t => t.Id == templatesId);
                 return Json(template);
@@ -138,7 +138,7 @@ namespace Guide.Areas.Admin.Controllers
             return PartialView("PartialViews/TypesPartial", model);
         }
 
-        public IActionResult DeleteCategoryAjax(string id)
+        public IActionResult DeleteCategoryAjax(int id)
         {
             Category category = _db.Categories.FirstOrDefault(c => c.Id == id);
             if (category != null)
@@ -157,7 +157,7 @@ namespace Guide.Areas.Admin.Controllers
             return PartialView("PartialViews/CategoriesPartial", model);
         }
 
-        public IActionResult DeleteTemplateAjax(string id)
+        public IActionResult DeleteTemplateAjax(int id)
         {
             Template template = _db.Templates.FirstOrDefault(c => c.Id == id);
             if (template != null)
@@ -175,7 +175,7 @@ namespace Guide.Areas.Admin.Controllers
             return PartialView("PartialViews/TemplatesPartial", model);
         }
 
-        public IActionResult DeleteTypeAjax(string id)
+        public IActionResult DeleteTypeAjax(int id)
         {
             Type type = _db.Types.FirstOrDefault(t => t.Id == id);
             if (type != null)
@@ -193,7 +193,7 @@ namespace Guide.Areas.Admin.Controllers
             return PartialView("PartialViews/TypesPartial", model);
         }
 
-        private string Load(string id, IFormFile file)
+        private string Load(int id, IFormFile file)
         {
             if (file != null)
             {
@@ -212,7 +212,7 @@ namespace Guide.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> ViewComment(string id)
+        public async Task<IActionResult> ViewComment(int id)
         {
             List<Comment> comments = _db.Comments.Where(c => c.PostId == id)
                 .OrderByDescending(g => g.DateOfCreate).ToList();
@@ -223,7 +223,7 @@ namespace Guide.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateComment(Comment model)
         {
-            if (model.PostId != null && model.Description != null)
+            if (model.PostId != 0 && model.Description != null)
             {
                 Comment comment = new Comment()
                 {
@@ -231,7 +231,7 @@ namespace Guide.Areas.Admin.Controllers
                     AuthorId = _userManager.GetUserId(User),
                     Description = model.Description,
                 };
-                _db.Comments.AddAsync(comment);
+                await _db.Comments.AddAsync(comment);
                 await _db.SaveChangesAsync();
             }
 
@@ -242,7 +242,7 @@ namespace Guide.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> DeleteComment(string id, string postId)
+        public async Task<IActionResult> DeleteComment(int id, int postId)
         {
             Comment comment = await _db.Comments.FirstOrDefaultAsync(c => c.Id == id);
             if (comment != null)
@@ -257,7 +257,7 @@ namespace Guide.Areas.Admin.Controllers
             return PartialView("PartialViews/CommentsPartial", comments);
         }
 
-        public IActionResult Edit(string id)
+        public IActionResult Edit(int id)
         {
             if (id != null)
             {
@@ -302,7 +302,7 @@ namespace Guide.Areas.Admin.Controllers
             return View(model);
         }
 
-        public IActionResult Delete(string id)
+        public IActionResult Delete(int id)
         {
             if (id != null)
             {
@@ -318,7 +318,7 @@ namespace Guide.Areas.Admin.Controllers
 
         [HttpPost]
         [ActionName("Delete")]
-        public IActionResult ConfirmDeleta(string id)
+        public IActionResult ConfirmDeleta(int id)
         {
             if (id != null)
             {

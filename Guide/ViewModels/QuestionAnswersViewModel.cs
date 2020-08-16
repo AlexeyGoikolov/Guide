@@ -13,7 +13,7 @@ namespace Guide.ViewModels
     {
         public QuestionAnswer QuestionAnswer { get; set; } = new QuestionAnswer();
         public QuestionAnswersStatus Status { get; set; } = QuestionAnswersStatus.Create;
-        public string PostId { get; set; }
-        public  Post Post { get; set; }
+        public int PostId { get; set; }
+        public virtual Post Post { get; set; }
     }
 }

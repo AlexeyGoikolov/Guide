@@ -4,7 +4,7 @@ namespace Guide.Models
 {
     public class Book
     {
-        public string Id { get; set; } = Guid.NewGuid().ToString();
+        public int Id { get; set; }
         public string Name { get; set; }
         public string Author { get; set; }
         public string ISBN { get; set; }
@@ -12,7 +12,7 @@ namespace Guide.Models
         public string VirtualPath { get; set; }
         public string PhysicalPath { get; set; } = null;
         public bool Active { get; set; } = true;
-        public string TypeId { get; set; }
+        public int TypeId { get; set; }
         public virtual Type Type { get; set; }
         public string YearOfWriting { get; set; }
         public DateTime DateCreate { get; set; } = DateTime.Now;

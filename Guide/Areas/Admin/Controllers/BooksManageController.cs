@@ -67,13 +67,13 @@ namespace Guide.Areas.Admin.Controllers
             return View(model);
         }
 
-        public IActionResult Details(string id)
+        public IActionResult Details(int id)
         {
             Book book = _db.Books.FirstOrDefault(b => b.Id == id);
             return View(book);
         }
 
-        private string Load(string id, IFormFile file)
+        private string Load(int id, IFormFile file)
         {
             if (file != null)
             {
@@ -89,9 +89,9 @@ namespace Guide.Areas.Admin.Controllers
             return null;
         }
         
-        public IActionResult Delete(string id)
+        public IActionResult Delete(int id)
         {
-            if (id != null)
+            if (id != 0)
             {
                 Book book = _db.Books.FirstOrDefault(v => v.Id == id);
                 if (book != null)
@@ -103,9 +103,9 @@ namespace Guide.Areas.Admin.Controllers
         }
         [HttpPost]
         [ActionName("Delete")]
-        public IActionResult ConfirmDelete(string id)
+        public IActionResult ConfirmDelete(int id)
         {
-            if (id != null)
+            if (id != 0)
             {
                 Book book = _db.Books.FirstOrDefault(v => v.Id == id);
                 if (book != null)

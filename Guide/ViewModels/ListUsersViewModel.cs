@@ -7,7 +7,7 @@ namespace Guide.ViewModels
     public class ListUsersViewModel
     {
         public string? Action { get; set; }
-        public string? idPosition { get; set; }
+        public int? IdPosition { get; set; }
         public List<User> Users { get; set; }
         public List<Position> Positions { get; set; }
     }

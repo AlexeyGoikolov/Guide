@@ -37,7 +37,7 @@
                     <ul>
                         <form asp-action="ListUsers" asp-controller="UsersManage" method="post">
                             <div class="select-filter">
-                                <select class="form-control my-form" asp-for="idPosition">
+                                <select class="form-control my-form" asp-for="IdPosition">
                                     <option value=@null>Все</option>
                                     @foreach (var position in Model.Positions)
                                     {
