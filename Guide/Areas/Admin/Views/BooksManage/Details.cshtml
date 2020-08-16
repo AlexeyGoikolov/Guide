@@ -18,7 +18,7 @@
                     <a asp-action="Index" asp-controller="BooksManage">Книги</a>
                 </li>
                 <li>
-                    <a asp-action="Create" asp-controller="BooksManage">@Model.Name</a>
+                    <a asp-action="Details" asp-controller="BooksManage" asp-route-id="@Model.Id">@Model.Name</a>
                 </li>
             </ul>
         </div>
@@ -69,7 +69,7 @@
                                 }
                             </div>
                             <div>
-                                <a asp-action="" asp-controller="Books"><i class="fa fa-book"></i> читать книгу </a>
+                              <a asp-action="ReadBook" asp-controller="BooksManage" asp-route-path="~/@Model.VirtualPath"><i class="fa fa-book"></i> читать книгу </a>
                             </div>
                         </div>
 

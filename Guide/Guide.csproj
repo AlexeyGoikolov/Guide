@@ -9,6 +9,8 @@
       <_ContentIncludedByDefault Remove="Views\Home\Privacy.cshtml" />
       <_ContentIncludedByDefault Remove="Views\Account\ChangePassword.cshtml" />
       <_ContentIncludedByDefault Remove="Views\Account\Edit.cshtml" />
+      <_ContentIncludedByDefault Remove="wwwroot\BooksFiles\834896c4-b901-48d3-80ef-4618f70cf658\Джошуа Блох - Java. Эффективное программирование.pdf" />
+      <_ContentIncludedByDefault Remove="wwwroot\BooksFiles\834896c4-b901-48d3-80ef-4618f70cf658\обложка.jpg" />
     </ItemGroup>
 
     <ItemGroup>
@@ -122,7 +124,6 @@
       <Folder Include="Views\Material" />
       <Folder Include="Views\QuestionAnswers" />
       <Folder Include="Views\Users" />
-      <Folder Include="wwwroot\BooksFiles" />
     </ItemGroup>
 
 

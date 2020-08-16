@@ -51,12 +51,12 @@ namespace Guide.Areas.Admin.Controllers
             {
                 Book book = new Book()
                 {
-                    Id = model.Id,
+                    TypeId = 1,
                     Name = model.Name,
                     Author = model.Author,
                     ISBN = model.ISBN,
-                    CoverPath = Load(model.Id, model.CoverPath),
-                    VirtualPath = Load(model.Id, model.VirtualPath),
+                    CoverPath = Load(model.Name, model.CoverPath),
+                    VirtualPath = Load(model.Name, model.VirtualPath),
                     PhysicalPath = model.PhysicalPath,
                     YearOfWriting = model.YearOfWriting
                 };
@@ -73,15 +73,15 @@ namespace Guide.Areas.Admin.Controllers
             return View(book);
         }
 
-        private string Load(int id, IFormFile file)
+        private string Load(string name, IFormFile file)
         {
             if (file != null)
             {
-                string path = Path.Combine(_environment.ContentRootPath + $"\\wwwroot\\BooksFiles\\{id}");
-                string filePath = $"BooksFiles/{id}/{file.FileName}";
-                if (!Directory.Exists($"wwwroot/BooksFiles/{id}"))
+                string path = Path.Combine(_environment.ContentRootPath + $"\\wwwroot\\BooksFiles\\{name}");
+                string filePath = $"/BooksFiles/{name}/{file.FileName}";
+                if (!Directory.Exists($"wwwroot/BooksFiles/{name}"))
                 {
-                    Directory.CreateDirectory($"wwwroot/BooksFiles/{id}");
+                    Directory.CreateDirectory($"wwwroot/BooksFiles/{name}");
                 }
                 _uploadService.Upload(path, file.FileName, file);
                 return filePath;
@@ -116,6 +116,17 @@ namespace Guide.Areas.Admin.Controllers
                 }
             }
             return RedirectToAction("Index" , "BooksManage");
+        }
+
+        public void ReadBook(string path)
+        {
+            if (path != null)
+            {
+                string path1 = "~/wwwroot" + path;
+                 System.Diagnostics.Process.Start(path1);
+            }
+            
+           return;
         }
     }
 }

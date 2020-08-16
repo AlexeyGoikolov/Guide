@@ -1,5 +1,6 @@
 
 using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Guide.Models;
 using Guide.Services;
@@ -30,6 +31,7 @@ namespace Guide
                 logger.LogError(e, "Возникло исключение при инициализации ролей");
             }
             host.Run();
+           
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
