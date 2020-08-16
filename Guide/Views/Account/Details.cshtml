@@ -6,11 +6,14 @@
     Layout = "_LayoutEmployee";
 }
 
-<div class="page">
-    <h3>Добро пожаловать @Model.Name @Model.Surname</h3>
+<div class="page text-center">
+    <h3 style="color: slategray">Добро пожаловать @Model.Name @Model.Surname!</h3>
+    <h5 style="color: #16a085">Ваша позиция: @Model.Position.Name</h5>
     
-    <a asp-action="ChangePassword" asp-route-id="@Model.Id" class="btn btn-outline-danger">Изменить пароль</a>
-    
+    <div class="profile_page_image_wrap">
+        <img class="profile_page_image" src="Image/UserProfilePage/paper-3213924_1920.jpg" alt="Здесь должно быть фото, но что-то пошло не так">
+    </div>
+
 </div>
 
 

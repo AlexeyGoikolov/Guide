@@ -14,9 +14,9 @@ namespace Guide.Models
         public string PhysicalPath { get; set; }
         public DateTime DateOfCreate { get; set; } = DateTime.Now;
         public DateTime DateOfUpdate { get; set; } = DateTime.Now;
-        public int CategoryId { get; set; }
+        public int? CategoryId { get; set; }
         public virtual Category Category { get; set; }
-        public int TypeId { get; set; }
+        public int? TypeId { get; set; }
         public bool Active { get; set; } = true;
         public virtual Type Type { get; set; }
         

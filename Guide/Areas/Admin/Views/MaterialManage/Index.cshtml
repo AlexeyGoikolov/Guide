@@ -71,7 +71,14 @@
                                         <a asp-action="Details" asp-controller="MaterialManage" asp-route-id="@post.Id">@post.Title</a>
                                     </td>
                                     <td>@post.Author</td>
-                                    <td>@post.Category.Name</td>
+                                    @if (post.CategoryId != null)
+                                    {
+                                        <td>@post.Category.Name</td>
+                                    }
+                                    else
+                                    {
+                                        <td></td>  
+                                    }
                                     <td>@post.Type.Name</td>
                                     <td>@post.DateOfCreate</td>
                                     <td >
@@ -103,7 +110,7 @@
                     { 'defaultContent': '-', 'bSortable': false, 'aTargets': [ "no_sort" ] }
                 ]
             });                         
-        }); 
+        });
     </script>
 }
 

@@ -8,8 +8,6 @@ namespace Guide.Models
         public int Id { get; set; }
 
         [Required(ErrorMessage = "Поле не заполнено")]
-        [MaxLength(25,ErrorMessage = "Максимальная длина названия 25 символов")]
-
         public string Name { get; set; }
         [Required(ErrorMessage = "Поле не заполнено")]
         public string Description { get; set; }

@@ -91,11 +91,18 @@
                             </a>
                             <ul class="dropdown-menu animated littleFadeInLeft" role="menu">
                                 <li>
-                                     <a asp-controller="Account" asp-action="Details" asp-area="">
-                                         <i class="fa fa-user"></i>
-                                         Личный кабинет
-                                     </a>
+                                    <a asp-controller="Account" asp-action="Details" asp-area="">
+                                        <i class="fa fa-user"></i>
+                                        Личный кабинет
+                                    </a>
                                 </li>
+                                <li>
+                                    <a asp-action="ChangePassword" asp-controller="Account" asp-area="" asp-route-id="@UserManager.GetUserId(User)">
+                                        <i class="fa fa-pencil"></i>
+                                        Изменить пароль
+                                    </a> 
+                                </li>
+                                
                                 <li class="divider"></li>
                                 <li>
                                     <a asp-controller="Account" asp-action="Logout" asp-area="">
@@ -171,10 +178,8 @@
         ================= CONTENT ===============================
         ===================================================== -->
      <!--/  это рендерит отлично страницу : id="content"-->
-        <section id="content">
-            <div class=" pt-5">
-            @RenderBody()
-            </div>
+        <section id="content">           
+            @RenderBody()           
         </section>
         <!--/ CONTENT -->
         </div>
