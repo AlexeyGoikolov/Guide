@@ -1,0 +1,94 @@
+﻿@model List<Book>
+
+@{
+    ViewBag.Title = "Список книг";
+    Layout = "_LayoutEmployee";
+}
+<div class="page page-tables-datatables">
+    <div class="pageheader">
+    
+        <h2>@ViewBag.Title</h2>
+
+        <div class="page-bar">
+    
+            <ul class="page-breadcrumb">
+                <li>
+                    <a asp-action="Profile" asp-controller="Service"><i class="fa fa-home"></i> Guide</a>
+                </li>
+                <li>
+                    <a asp-action="Index" asp-controller="Books"> Книги</a>
+                </li>
+                <li>
+                    <a asp-action="Index" asp-controller="Books"> Список</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- row -->
+    <div class="row">
+        <!-- col -->
+        <div class="col-md-12">
+            <!-- tile -->
+            <section class="tile">
+                <!-- tile header -->
+                <div class="tile-header dvd dvd-btm">
+                    <h1 class="custom-font">
+                        <strong></strong>
+                    </h1>
+                  
+                   </div>
+                <!-- /tile header -->
+                <!-- tile body -->
+                <div class="tile-body">
+                    <div class="table-responsive">
+                        <table style="width: 100%" class="table table-custom" id="editable-usage">
+                            <thead>
+                            <tr>
+                                <th>Название</th>
+                                <th>Автор</th>
+                                <th>Год издания</th>
+                                <th style="width: 160px;" class="no-sort">Действие</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach (var book in Model)
+                            {
+                                <tr class="even gradeC">
+                                    <td>
+                                        <a asp-action="Details" asp-controller="Books" asp-route-id="@book.Id">@book.Name</a>
+                                    </td>
+                                    <td>@book.Author</td>
+                                    <td>@book.YearOfWriting</td>
+                                    <td >
+                                        
+                                        
+                                    </td>
+                                </tr>
+                            }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            <!-- /tile body -->
+            </section>
+        <!-- /tile -->
+        </div>
+    <!-- /col -->
+    </div>
+<!-- /row -->
+</div>
+
+
+
+@section Scripts
+{
+    <script>
+        $(window).load(function(){                                           
+            let oTable = $('#editable-usage').DataTable({
+                "aoColumnDefs": [
+                    { 'defaultContent': '-', 'bSortable': false, 'aTargets': [ "no_sort" ] }
+                ]
+            });                         
+        });
+    </script>
+}
