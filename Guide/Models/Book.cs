@@ -10,7 +10,7 @@ namespace Guide.Models
         public string ISBN { get; set; }
         public string CoverPath { get; set; }
         public string VirtualPath { get; set; }
-        public string PhysicalPath { get; set; }
+        public string PhysicalPath { get; set; } = null;
         public bool Active { get; set; } = true;
         public string TypeId { get; set; }
         public virtual Type Type { get; set; }

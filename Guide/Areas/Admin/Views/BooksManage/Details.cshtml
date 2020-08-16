@@ -5,8 +5,81 @@
     Layout = "_Layout";
 }
 <div class="page">
-<h2>Книга</h2>
+    <!-- заголовок страницы -->
+    <div class="pageheader">
+        <h2>
+            @ViewBag.Title <br/>@Model.Name</h2>
+        <div class="page-bar">
+            <ul class="page-breadcrumb">
+                <li>
+                    <a asp-action="Profile" asp-controller="Service"><i class="fa fa-home"></i> Guide</a>
+                </li>
+                <li>
+                    <a asp-action="Index" asp-controller="BooksManage">Книги</a>
+                </li>
+                <li>
+                    <a asp-action="Create" asp-controller="BooksManage">@Model.Name</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!--/ заголовок страницы -->
 
+    <div class="row">
 
+        <div class="tile-body">
 
+            <div class="row">
+
+                <div class="col-sm-4 portlets sortable">
+                    <section class="tile portlet col - 6">
+
+                        <!-- tile body -->
+                        <div class="tile-body">
+                            <div style="text-align: center; ">
+                                <img style=" width: auto;height: 100%;-webkit-box-shadow: 14px 14px 28px -6px rgba(53,3,71,0.57);
+                                                                          -moz-box-shadow: 14px 14px 28px -6px rgba(53,3,71,0.57);
+                                                                          box-shadow: 14px 14px 28px -6px rgba(53,3,71,0.57);" src="~/@Model.CoverPath" alt="изображение обложки">
+                            </div>
+                        </div>
+                        <!-- /tile body -->
+
+                    </section>
+                </div>
+                <div class="col-sm-8 portlets sortable">
+                    <section class="tile portlet col - 6">
+                        <!-- tile body -->
+                        <div class="tile-body">
+                            <div style="text-align: right; margin-right: 10px ">@Model.ISBN</div>
+                            <div>
+                                <h4>@Model.Author : </h4>
+                                <h2>" @Model.Name "</h2>
+                            </div>
+                            <div>год издания : @Model.YearOfWriting</div>
+                            <div>дата добавления в систему : @Model.DateCreate</div>
+                            <div>дата последнего исправления : @Model.DateUpdate</div>
+                            <div>
+                                @if (@Model.PhysicalPath == null)
+                                {
+                                    <p>только в электронном виде</p>
+                                }
+                                else
+                                {
+                                    <p>книга находится : @Model.PhysicalPath</p>
+                                }
+                            </div>
+                            <div>
+                                <a asp-action="" asp-controller="Books"><i class="fa fa-book"></i> читать книгу </a>
+                            </div>
+                        </div>
+
+                        <!-- /tile body -->
+
+                    </section>
+                </div>
+            </div>
+        </div>
+        <!-- /tile body -->
+
+    </div>
 </div>
