@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using Guide.Models;
 using Guide.Models.Data;
@@ -118,15 +120,19 @@ namespace Guide.Areas.Admin.Controllers
             return RedirectToAction("Index" , "BooksManage");
         }
 
-        public void ReadBook(string path)
+        public  IActionResult ReadBook(string path, int id)
         {
+
             if (path != null)
             {
-                string path1 = "~/wwwroot" + path;
-                 System.Diagnostics.Process.Start(path1);
+                string commandText = @_environment.ContentRootPath + $"\\wwwroot" + path;
+                var proc = new System.Diagnostics.Process();
+                proc.StartInfo.FileName = commandText;
+                proc.StartInfo.UseShellExecute = true;
+                proc.Start();
             }
-            
-           return;
+
+            return RedirectToAction("Details" , "BooksManage", new {id=id});
         }
     }
 }

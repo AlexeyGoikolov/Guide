@@ -39,7 +39,7 @@
                             <div style="text-align: center; ">
                                 <img style=" width: auto;height: 100%;-webkit-box-shadow: 14px 14px 28px -6px rgba(53,3,71,0.57);
                                                                           -moz-box-shadow: 14px 14px 28px -6px rgba(53,3,71,0.57);
-                                                                          box-shadow: 14px 14px 28px -6px rgba(53,3,71,0.57);" src="~/@Model.CoverPath" alt="изображение обложки">
+                                                                          box-shadow: 14px 14px 28px -6px rgba(53,3,71,0.57);" src="@Model.CoverPath" alt="изображение обложки">
                             </div>
                         </div>
                         <!-- /tile body -->
@@ -50,7 +50,7 @@
                     <section class="tile portlet col - 6">
                         <!-- tile body -->
                         <div class="tile-body">
-                            <div style="text-align: right; margin-right: 10px ">@Model.ISBN</div>
+                            <div style="text-align: right; margin-right: 10px "> ISBN @Model.ISBN</div>
                             <div>
                                 <h4>@Model.Author : </h4>
                                 <h2>" @Model.Name "</h2>
@@ -69,7 +69,7 @@
                                 }
                             </div>
                             <div>
-                              <a asp-action="ReadBook" asp-controller="BooksManage" asp-route-path="~/@Model.VirtualPath"><i class="fa fa-book"></i> читать книгу </a>
+                              <a asp-action="ReadBook" asp-controller="BooksManage" asp-route-path="@Model.VirtualPath" asp-route-id="@Model.Id"><i class="fa fa-book"></i> читать книгу </a>
                             </div>
                         </div>
 
