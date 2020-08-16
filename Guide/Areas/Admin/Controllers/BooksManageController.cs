@@ -76,7 +76,7 @@ namespace Guide.Areas.Admin.Controllers
         }
 
         private string Load(string name, IFormFile file)
-        {
+        {http:
             if (file != null)
             {
                 string path = Path.Combine(_environment.ContentRootPath + $"\\wwwroot\\BooksFiles\\{name}");
@@ -122,17 +122,19 @@ namespace Guide.Areas.Admin.Controllers
 
         public  IActionResult ReadBook(string path, int id)
         {
-
+            
             if (path != null)
             {
-                string commandText = @_environment.ContentRootPath + $"\\wwwroot" + path;
-                var proc = new System.Diagnostics.Process();
-                proc.StartInfo.FileName = commandText;
-                proc.StartInfo.UseShellExecute = true;
-                proc.Start();
+                string ext=path.Substring(path.LastIndexOf('.'));
+                if (ext == ".pdf")
+                {
+                    Book book = _db.Books.FirstOrDefault(b => b.Id == id);
+                    return View(book) ;
+                }
+                
             }
 
-            return RedirectToAction("Details" , "BooksManage", new {id=id});
+            return NotFound() ;
         }
     }
 }
