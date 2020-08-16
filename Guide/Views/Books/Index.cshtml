@@ -60,7 +60,7 @@
                                     <td>@book.Author</td>
                                     <td>@book.YearOfWriting</td>
                                     <td >
-                                        
+                                       <a asp-action="ReadBook" asp-controller="Books" asp-route-path="@book.VirtualPath" asp-route-id="@book.Id"><i class="fa fa-book"></i> читать </a>  
                                         
                                     </td>
                                 </tr>
