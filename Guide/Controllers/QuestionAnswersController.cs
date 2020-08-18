@@ -28,17 +28,20 @@ namespace Guide.Controllers
             QuestionAnswer questionAnswer = _db.QuestionAnswers.FirstOrDefault(q => q.Id == id);
             return View(questionAnswer);
         }
-
-        [HttpPost]
-        public IActionResult Create(QuestionAnswer model)
+        
+        public async Task<IActionResult> Create(string question)
         {
-            if (ModelState.IsValid)
+            if (question != null)
             {
-                _db.QuestionAnswers.Add(model);
+                QuestionAnswer model = new QuestionAnswer
+                {
+                    Question = question
+                };
+                await _db.QuestionAnswers.AddAsync(model);
                 _db.SaveChanges();
+                return Json(true);
             }
-
-            return RedirectToAction("Details", "Account");
+            return Json(false);
         }
 
         public async Task<IActionResult> AddQuestionAjax()

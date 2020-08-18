@@ -33,7 +33,7 @@ namespace Guide.Areas.Admin.Controllers
             return View(questionAnswer);
         }
         
-        public IActionResult Create(QuestionAnswersStatus status, int id, int postId)
+        public IActionResult Create(QuestionAnswersStatus status, int id, int? postId)
         {
             QuestionAnswersViewModel model = new QuestionAnswersViewModel();
             if (id != 0)

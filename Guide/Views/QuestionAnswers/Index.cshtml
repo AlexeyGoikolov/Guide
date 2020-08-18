@@ -68,10 +68,30 @@
                 }
             });          
         });
-        $('#questionButton').click(function(event) {
+        
+        $(document).on("click", "#questionButton", function(event) {  
             event.preventDefault();
-            let question = $('#questionInput').val();  
-        })
+            let question = $('#questionInput').val();          
+            $.ajax({               
+                url: '@Url.Action("Create", "QuestionAnswers", new {area = ""})',
+                type: 'GET',
+                data: {'question': question},           
+                success: function(data) {
+                    if (data === true){
+                       $('.page').html("<h2 class='text-green'>Вопрос успешно отправлен</h2>");
+                       setTimeout(redirect, 1500);                      
+                    }    
+                    else{
+                        $('.page').html("<h2 class='text-danger'>Вопрос не добавлен, повторите попытку</h2>");
+                        location.reload();
+                    }
+                }
+            });          
+        });
+        
+        function redirect() {
+          window.location.href = "@Url.Action("Details","Account")"
+        }
         
     </script>
 }

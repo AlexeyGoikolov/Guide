@@ -2,9 +2,8 @@
 
 <div class="question-form m-auto">
     <h3>Не нашли необходимый ответ? Задайте вопрос в форме ниже</h3>
-    <form asp-action="Create" asp-controller="QuestionAnswers" asp-area="" method="post" enctype="multipart/form-data" asp-antiforgery="true">
-        <input id="questionInput" class="form-control" type="text" asp-for="Question" placeholder="Введите свой вопрос">
-        <br/><span class="validationError" asp-validation-for="Question"></span>
-        <button id="questionButton" type="submit" class="btn btn-sm text-white" style="background: #138a72">Отправить вопрос</button>
+    <form asp-action="Create" asp-controller="QuestionAnswers" asp-area="">
+        <input id="questionInput" class="form-control" type="text" placeholder="Введите свой вопрос">
+        <button id="questionButton" type="submit" class="btn btn-sm text-white mt-10" style="background: #138a72">Отправить вопрос</button>
     </form>
 </div>
