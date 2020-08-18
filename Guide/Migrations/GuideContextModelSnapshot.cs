@@ -45,6 +45,9 @@ namespace Guide.Migrations
                     b.Property<string>("ISBN")
                         .HasColumnType("text");
 
+                    b.Property<bool>("IsRecipe")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
