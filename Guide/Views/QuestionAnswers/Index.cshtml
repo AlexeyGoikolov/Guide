@@ -47,7 +47,7 @@
                 </div>
             </div>
         }
-        <div id="questionForm">
+        <div id="questionForm" class="text-center">
             
         </div>
     }
@@ -83,7 +83,9 @@
                     }    
                     else{
                         $('.page').html("<h2 class='text-danger'>Вопрос не добавлен, повторите попытку</h2>");
-                        location.reload();
+                        setTimeout(function() {
+                            location.reload();
+                        }, 1000);                      
                     }
                 }
             });          
