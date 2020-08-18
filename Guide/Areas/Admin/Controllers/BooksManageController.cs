@@ -58,6 +58,7 @@ namespace Guide.Areas.Admin.Controllers
                     Author = model.Author,
                     IsRecipe = model.IsRecipe,
                     ISBN = model.ISBN,
+                    Edition = model.Edition,
                     CategoryId = model.CategoryId,
                     CoverPath = Load(model.Name, model.CoverPath),
                     VirtualPath = Load(model.Name, model.VirtualPath),

@@ -33,7 +33,7 @@ namespace Guide.Migrations
                     b.Property<string>("Author")
                         .HasColumnType("text");
 
-                    b.Property<int?>("CategoryId")
+                    b.Property<int>("CategoryId")
                         .HasColumnType("integer");
 
                     b.Property<string>("CoverPath")
@@ -44,6 +44,9 @@ namespace Guide.Migrations
 
                     b.Property<DateTime>("DateUpdate")
                         .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("Edition")
+                        .HasColumnType("text");
 
                     b.Property<string>("ISBN")
                         .HasColumnType("text");
@@ -501,7 +504,9 @@ namespace Guide.Migrations
                 {
                     b.HasOne("Guide.Models.Category", "Category")
                         .WithMany()
-                        .HasForeignKey("CategoryId");
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Guide.Models.Type", "Type")
                         .WithMany()

@@ -26,8 +26,9 @@
                 </div>
                 <div >
                     <label>Год издания<span class="text-danger">*</span></label>
+                         <br/><span class="validationError" asp-validation-for="YearOfWriting"></span>
                     <input placeholder="0000" class="form-control" type="text" asp-for="YearOfWriting" value="@Model.YearOfWriting">
-                    <br/><span class="validationError" asp-validation-for="YearOfWriting"></span>
+               
                 </div>
 
             </div> 
@@ -38,7 +39,12 @@
         <section class="tile portlet col - 6">
             <!-- tile body -->
             <div class="tile-body">
-                 <div id="categories-row" class="form-group" style="justify-content: center;"></div>
+                <div id="categories-row" class="form-group" style="justify-content: center;"></div>
+                <div >
+                    <label>В какой редакции :</label>
+                    <input class="form-control" type="text" asp-for="Edition" value="@Model.Edition">
+
+                </div>
                 <div >
                     <label>Физическое место нахождения</label>
                     <input class="form-control" type="text" asp-for="PhysicalPath" value="@Model.PhysicalPath">
