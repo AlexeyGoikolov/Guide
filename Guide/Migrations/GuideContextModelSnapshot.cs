@@ -225,7 +225,7 @@ namespace Guide.Migrations
                     b.Property<List<string>>("Links")
                         .HasColumnType("text[]");
 
-                    b.Property<int>("PostId")
+                    b.Property<int?>("PostId")
                         .HasColumnType("integer");
 
                     b.Property<string>("Question")
@@ -526,9 +526,7 @@ namespace Guide.Migrations
                 {
                     b.HasOne("Guide.Models.Post", "Post")
                         .WithMany()
-                        .HasForeignKey("PostId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("PostId");
                 });
 
             modelBuilder.Entity("Guide.Models.User", b =>

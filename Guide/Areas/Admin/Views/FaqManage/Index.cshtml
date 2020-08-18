@@ -1,7 +1,7 @@
 ﻿@model List<QuestionAnswer>
 
 @{
-    ViewBag.Title = "Список с ответами";
+    ViewBag.Title = "Часто задаваемые вопросы";
     Layout = "_Layout";
 }
 
@@ -19,7 +19,7 @@
                     <a asp-action="Index" asp-controller="FaqManage"> Вопрос-ответ</a>
                 </li>
                 <li>
-                    <a asp-action="Index" asp-controller="FaqManage"> Список с ответами</a>
+                    <a asp-action="Index" asp-controller="FaqManage"> @ViewBag.Title</a>
                 </li>
             </ul>
         </div>
@@ -36,11 +36,11 @@
                 Вопросы
             </div>
         </div>
-        @foreach (var glossery in Model)
+        @foreach (var question in Model)
         {
             <div>
                 <div class="col">
-                    <a asp-action="Preview" asp-controller="FaqManage" asp-route-id="@glossery.Id">@glossery.Question</a>
+                    <a asp-action="Preview" asp-controller="FaqManage" asp-route-id="@question.Id">@question.Question</a>
                 </div>
             </div>
         }

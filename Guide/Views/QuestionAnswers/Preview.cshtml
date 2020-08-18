@@ -1,0 +1,30 @@
+﻿@model QuestionAnswer
+
+@{
+    ViewBag.Title = "Подробный ответ";
+    Layout = "_LayoutEmployee";
+}
+
+<div class="page">
+    <div class="pageheader">
+
+        <h2>@Model.Question</h2>
+
+        <div class="page-bar">
+            <ul class="page-breadcrumb">
+                <li style="background: #138a72">
+                    <a asp-action="Details" asp-controller="Account" asp-area=""><i class="fa fa-home"></i> Guide</a>
+                </li>
+                <li>
+                    <a asp-action="Index" asp-controller="QuestionAnswers" asp-area=""> Вопрос-ответ</a>
+                </li>
+                <li>
+                    <a asp-action="Preview" asp-controller="QuestionAnswers" asp-area="" asp-route-id="@Model.Id"> @ViewBag.Title</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="pt-3">
+        @Model.Answer
+    </div>
+</div>

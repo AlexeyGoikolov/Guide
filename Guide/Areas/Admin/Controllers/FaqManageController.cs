@@ -62,7 +62,6 @@ namespace Guide.Areas.Admin.Controllers
                 }
                 else
                 {
-                    questionAnswer.Id = model.QuestionAnswer.Id;
                     questionAnswer.Question = model.QuestionAnswer.Question;
                     questionAnswer.Answer = model.QuestionAnswer.Answer;
                     questionAnswer.PostId= model.PostId;

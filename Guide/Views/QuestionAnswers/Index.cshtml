@@ -1,0 +1,77 @@
+﻿@model List<QuestionAnswer>
+
+@{
+    ViewBag.Title = "Часто задаваемые вопросы";
+    Layout = "_LayoutEmployee";
+}
+
+<div class="page">
+    <div class="pageheader">
+
+        <h2>@ViewBag.Title</h2>
+
+        <div class="page-bar">
+            <ul class="page-breadcrumb">
+                <li style="background: #138a72">
+                    <a asp-action="Details" asp-controller="Account"><i class="fa fa-home"></i> Guide</a>
+                </li>
+                <li>
+                    <a asp-action="Index" asp-controller="QuestionAnswers" asp-area=""> Вопрос-ответ</a>
+                </li>
+                <li>
+                    <a asp-action="Index" asp-controller="QuestionAnswers" asp-area=""> @ViewBag.Title</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    @if (Model.Count == 0)
+    {
+        <p>Список пуст</p>
+        <div id="questionForm" class="text-center">
+            
+        </div>
+    }
+    else
+    {
+        <div>
+            <div class="col">
+                Вопросы
+            </div>
+        </div>
+        @foreach (var question in Model)
+        {
+            <div>
+                <div class="col">
+                    <a asp-action="Preview" asp-controller="QuestionAnswers" asp-area="" asp-route-id="@question.Id">@question.Question</a>
+                </div>
+            </div>
+        }
+        <div id="questionForm">
+            
+        </div>
+    }
+
+</div>
+
+
+@section Scripts
+{
+    <script>
+                                               
+        $(document).ready(function(){           
+            $.ajax({               
+                url: '@Url.Action("AddQuestionAjax", "QuestionAnswers", new {area = ""})',
+                type: 'GET',               
+                success: function(data) {
+                    $('#questionForm').html(data)
+                }
+            });          
+        });
+        $('#questionButton').click(function(event) {
+            event.preventDefault();
+            let question = $('#questionInput').val();  
+        })
+        
+    </script>
+}
