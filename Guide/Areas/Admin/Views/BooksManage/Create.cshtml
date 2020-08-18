@@ -33,8 +33,40 @@
     </div>
 </div>
 
-@section Scripts{
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
+@{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+
+     
+@section Scripts
+{
+    
+    <script >
+          
+        var loadCategories = function(){
+            var catInput = $('#catInput').val();
+            $("#categories-row").load('@Url.Action("CreateCategoryAjax", "MaterialManage")',{Name: catInput});
+        };
+       
+        var deleteCategory = function(categoryId){
+            $("#categories-row").load('@Url.Action("DeleteCategoryAjax", "MaterialManage")', {Id: categoryId});
+        };
+               
+        
+        $(document).ready(function(){
+        
+            loadCategories();
+          
+            $('body').on('click','#catButton',function(event){
+                 event.preventDefault();
+                 setTimeout(loadCategories, 200)
+            });
+           
+           
+            $('body').on('click','.buttonDeleteCat',function(event){
+                 event.preventDefault();
+                 setTimeout(function() {deleteCategory(event.currentTarget.value)}, 200)
+            });
+            
+           
+        })
+    </script>
 }
