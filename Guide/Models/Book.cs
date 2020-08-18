@@ -12,6 +12,7 @@ namespace Guide.Models
         public string VirtualPath { get; set; }
         public string PhysicalPath { get; set; } = null;
         public bool Active { get; set; } = true;
+        public bool IsRecipe { get; set; } = false;
         public int TypeId { get; set; }
         public virtual Type Type { get; set; }
         public string YearOfWriting { get; set; }
