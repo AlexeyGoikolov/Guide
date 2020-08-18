@@ -13,6 +13,7 @@ namespace Guide.ViewModels
         [Required(ErrorMessage = "Это поле обязательно для заполнения")]
         public string Author { get; set; }
         public string ISBN { get; set; }
+        public bool IsRecipe { get; set; } = false;
         public IFormFile CoverPath { get; set; }
         [Required(ErrorMessage = "Файл не прекреплен")]
         public IFormFile VirtualPath { get; set; }
@@ -20,7 +21,8 @@ namespace Guide.ViewModels
         [Required(ErrorMessage = "Это поле обязательно для заполнения")]
         [Remote("CheckYear","Validation", "", ErrorMessage = "Некорректное значение")]
         public string YearOfWriting { get; set; }
-        
+        public int CategoryId { get; set; }
+        public string Edition { get; set; }
     }
     
    

@@ -1,41 +1,72 @@
 ﻿@model BookCreateViewModel
+<div style="text-align: center">
+    <span class="validationError">@Html.ValidationMessage("CustomError")</span>
+</div>
+<div class="row">
+    <div class="col-sm-6 portlets sortable">
+        <section class="tile portlet col - 6">
 
-<div style="margin: 0 0 0 280px; width: 48%">
-    <label>Код книги(ISBN)</label>
-    <input class="form-control" type="text" asp-for="ISBN" value="@Model.ISBN">
-    <br/><span class="validationError" asp-validation-for="ISBN"></span>
+            <!-- tile body -->
+            <div class="tile-body">
+                <div style="text-align: right">
+                    <label>Присвоить статус "Рецепт" ? </label>
+                    <input type="checkbox" asp-for="IsRecipe" value="true"><Br>
+                </div>
+                <div >
+                    <label>Код книги(ISBN)</label> <br/><span class="validationError" asp-validation-for="ISBN"></span>
+                    <input class="form-control" type="text" asp-for="ISBN" value="@Model.ISBN">
+                </div>
+                <div >
+                    <label>Автор<span class="text-danger">*</span></label> <br/><span class="validationError" asp-validation-for="Author"></span>
+                    <input class="form-control" type="text" asp-for="Author" value="@Model.Author">
+                </div>
+                <div >
+                    <label>Название<span class="text-danger">*</span></label> <br/><span class="validationError" asp-validation-for="Name"></span>
+                    <input class="form-control" type="text" asp-for="Name" value="@Model.Author">
+                </div>
+                <div >
+                    <label>Год издания<span class="text-danger">*</span></label>
+                         <br/><span class="validationError" asp-validation-for="YearOfWriting"></span>
+                    <input placeholder="0000" class="form-control" type="text" asp-for="YearOfWriting" value="@Model.YearOfWriting">
+               
+                </div>
+
+            </div> 
+            <!-- /tile body -->
+        </section>
+    </div>
+    <div class="col-sm-6 portlets sortable">
+        <section class="tile portlet col - 6">
+            <!-- tile body -->
+            <div class="tile-body">
+                <div id="categories-row" class="form-group" style="justify-content: center;"></div>
+                <div >
+                    <label>В какой редакции :</label>
+                    <input class="form-control" type="text" asp-for="Edition" value="@Model.Edition">
+
+                </div>
+                <div >
+                    <label>Физическое место нахождения</label>
+                    <input class="form-control" type="text" asp-for="PhysicalPath" value="@Model.PhysicalPath">
+                </div>
+              
+                <div class="col">
+                    <span>Обложка</span>
+                    <input class="btn" type="file" asp-for="CoverPath">
+                </div>
+                <div class="col">
+                    <span>Цифровая версия книги в формате .pdf</span> <span class="validationError" asp-validation-for="VirtualPath"></span>
+                    <input class="btn" type="file" asp-for="VirtualPath">
+                </div>
 </div>
-<div style="display:flex; justify-content: space-between">
-    <div style="width: 48%;">
-        <label>Автор<span class="text-danger">*</span></label>
-        <input class="form-control" type="text" asp-for="Author" value="@Model.Author">
-        <br/><span class="validationError" asp-validation-for="Author"></span>
-    </div>
-    <div style="width: 48%;">
-        <label>Название<span class="text-danger">*</span></label>
-        <input class="form-control" type="text" asp-for="Name" value="@Model.Author">
-        <br/><span class="validationError" asp-validation-for="Author"></span>
+           
+            <!-- /tile body -->
+
+        </section>
     </div>
 </div>
-<div style="display:flex; justify-content: space-between">
-    <div style="width: 48%;">
-        <label>Год издания<span class="text-danger">*</span></label>
-        <input placeholder="0000" class="form-control" type="text" asp-for="YearOfWriting" value="@Model.YearOfWriting">
-        <br/><span class="validationError" asp-validation-for="YearOfWriting"></span>
-    </div>
-    <div style="width: 48%;">
-        <label>Физическое место нахождения</label>
-        <input class="form-control" type="text" asp-for="PhysicalPath" value="@Model.PhysicalPath">
-    </div>
-</div>
-<div style="display:flex; justify-content: space-between">
-    <div style="width: 48%;">
-        <label>Обложка</label>
-        <input class="form-control" type="file" asp-for="CoverPath">
-    </div>
-    <div style="width: 48%;">
-        <label>Цифровая версия книги в формате .pdf</label>
-        <input class="form-control" type="file" asp-for="VirtualPath">
-        <span class="validationError" asp-validation-for="VirtualPath"></span>
-    </div>
-</div>
+
+
+
+
+

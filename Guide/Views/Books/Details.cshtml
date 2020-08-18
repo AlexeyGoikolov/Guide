@@ -50,12 +50,19 @@
                     <section class="tile portlet ">
                         <!-- tile body -->
                         <div class="tile-body">
-                            <div style="text-align: right; margin-right: 10px "> ISBN @Model.ISBN</div>
+                            <div style="text-align: right; margin-right: 10px ">
+                                @if (@Model.IsRecipe)
+                                {
+                                    <span>является Рецептом</span>
+                                }
+                                ISBN @Model.ISBN
+                            </div>
                             <div>
                                 <h4>@Model.Author : </h4>
                                 <h2>" @Model.Name "</h2>
                             </div>
                             <div>год издания : @Model.YearOfWriting</div>
+                            <div>в редакции : : @Model.Edition</div>
                             <div>дата добавления в систему : @Model.DateCreate</div>
                             <div>дата последнего исправления : @Model.DateUpdate</div>
                             <div>
