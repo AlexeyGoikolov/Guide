@@ -33,6 +33,9 @@ namespace Guide.Migrations
                     b.Property<string>("Author")
                         .HasColumnType("text");
 
+                    b.Property<int?>("CategoryId")
+                        .HasColumnType("integer");
+
                     b.Property<string>("CoverPath")
                         .HasColumnType("text");
 
@@ -64,6 +67,8 @@ namespace Guide.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
 
                     b.HasIndex("TypeId");
 
@@ -494,6 +499,10 @@ namespace Guide.Migrations
 
             modelBuilder.Entity("Guide.Models.Book", b =>
                 {
+                    b.HasOne("Guide.Models.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId");
+
                     b.HasOne("Guide.Models.Type", "Type")
                         .WithMany()
                         .HasForeignKey("TypeId")

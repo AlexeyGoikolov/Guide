@@ -21,6 +21,7 @@ namespace Guide.ViewModels
         [Required(ErrorMessage = "Это поле обязательно для заполнения")]
         [Remote("CheckYear","Validation", "", ErrorMessage = "Некорректное значение")]
         public string YearOfWriting { get; set; }
+        public int? CategoryId { get; set; }
         
     }
     
