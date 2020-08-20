@@ -4,15 +4,17 @@ using System.Collections.Generic;
 using Guide.Models.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Guide.Migrations
 {
     [DbContext(typeof(GuideContext))]
-    partial class GuideContextModelSnapshot : ModelSnapshot
+    [Migration("20200820200810_addTypeContents")]
+    partial class addTypeContents
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -205,17 +207,8 @@ namespace Guide.Migrations
                     b.Property<string>("Title")
                         .HasColumnType("text");
 
-                    b.Property<int?>("TypeContentId")
-                        .HasColumnType("integer");
-
                     b.Property<int?>("TypeId")
                         .HasColumnType("integer");
-
-                    b.Property<int?>("TypeStateId")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("text");
 
                     b.Property<string>("VirtualPath")
                         .HasColumnType("text");
@@ -224,13 +217,7 @@ namespace Guide.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.HasIndex("TypeContentId");
-
                     b.HasIndex("TypeId");
-
-                    b.HasIndex("TypeStateId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Posts");
                 });
@@ -246,9 +233,6 @@ namespace Guide.Migrations
                         .HasColumnType("boolean");
 
                     b.Property<string>("Answer")
-                        .HasColumnType("text");
-
-                    b.Property<string>("AskingId")
                         .HasColumnType("text");
 
                     b.Property<string>("AskingId")
@@ -270,15 +254,6 @@ namespace Guide.Migrations
                     b.Property<int>("State")
                         .HasColumnType("integer");
 
-                    b.HasKey("Id");
-
-                    b.HasIndex("AskingId");
-
-                    b.HasIndex("PostId");
-
-                    b.HasIndex("ResponderId");
-
-                    b.ToTable("QuestionAnswers");
                     b.HasKey("Id");
 
                     b.HasIndex("AskingId");
@@ -365,24 +340,6 @@ namespace Guide.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("TypeContents");
-                });
-
-            modelBuilder.Entity("Guide.Models.TypeState", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<bool>("Active")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("TypeStates");
                 });
 
             modelBuilder.Entity("Guide.Models.User", b =>
@@ -633,21 +590,9 @@ namespace Guide.Migrations
                         .WithMany()
                         .HasForeignKey("CategoryId");
 
-                    b.HasOne("Guide.Models.TypeContent", "TypeContent")
-                        .WithMany()
-                        .HasForeignKey("TypeContentId");
-
                     b.HasOne("Guide.Models.Type", "Type")
                         .WithMany()
                         .HasForeignKey("TypeId");
-
-                    b.HasOne("Guide.Models.TypeState", "TypeState")
-                        .WithMany()
-                        .HasForeignKey("TypeStateId");
-
-                    b.HasOne("Guide.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("Guide.Models.QuestionAnswer", b =>
@@ -656,13 +601,6 @@ namespace Guide.Migrations
                         .WithMany()
                         .HasForeignKey("AskingId");
 
-                    b.HasOne("Guide.Models.Post", "Post")
-                        .WithMany()
-                        .HasForeignKey("PostId");
-
-                    b.HasOne("Guide.Models.User", "Responder")
-                        .WithMany()
-                        .HasForeignKey("ResponderId");
                     b.HasOne("Guide.Models.Post", "Post")
                         .WithMany()
                         .HasForeignKey("PostId");

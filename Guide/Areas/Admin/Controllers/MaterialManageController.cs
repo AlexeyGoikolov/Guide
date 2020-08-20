@@ -12,7 +12,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
-
 namespace Guide.Areas.Admin.Controllers
 {
     [Area("Admin")]
@@ -68,6 +67,7 @@ namespace Guide.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
+                
                 Post post = new Post()
                 {
                     Id = model.Id,
@@ -75,9 +75,12 @@ namespace Guide.Areas.Admin.Controllers
                     Author = model.Author,
                     TextContent = model.TextContent,
                     CategoryId = model.CategoryId,
+                    TypeContentId = model.TypeContentId,
+                    TypeStateId = model.TypeStateId,
                     TypeId = model.TypeId,
                     PhysicalPath = model.PhysicalPath,
-                    VirtualPath = Load(model.Id, model.VirtualPath)
+                    VirtualPath = Load(model.Id, model.VirtualPath),
+                    UserId = _userManager.GetUserId(User)
                 };
                 _db.Posts.Add(post);
                 _db.SaveChanges();
@@ -119,6 +122,72 @@ namespace Guide.Areas.Admin.Controllers
             };
 
             return PartialView("PartialViews/CategoriesPartial", model);
+        }
+        public IActionResult CreateTypeStateAjax(TypeState typeState)
+        {
+            if (typeState.Name != null)
+            {
+                _db.TypeStates.Add(typeState);
+                _db.SaveChanges();
+            }
+            MaterialTypeStateViewModel model = new MaterialTypeStateViewModel()
+            {
+                Material = new MaterialCreateViewModel(),
+                TypeStates = _db.TypeStates.Where(c=> c.Active).ToList(),
+            };
+            return PartialView("PartialViews/TypeStatesPartial", model);
+        }
+        public IActionResult DeleteTypeStateAjax(int id)
+        {
+            TypeState typeContent = _db.TypeStates.FirstOrDefault(c => c.Id == id);
+            if (typeContent != null)
+            {
+                typeContent.Active = false;
+                _db.SaveChanges();
+            }
+
+            MaterialTypeStateViewModel model = new MaterialTypeStateViewModel()
+            {
+                Material = new MaterialCreateViewModel(),
+                TypeStates = _db.TypeStates.Where(c=> c.Active).ToList(),
+            };
+
+            return PartialView("PartialViews/TypeStatesPartial", model);
+        }
+
+        
+        public IActionResult CreateTypeContentAjax(TypeContent typeContent)
+        {
+            if (typeContent.Name != null)
+            {
+                _db.TypeContents.Add(typeContent);
+                _db.SaveChanges();
+            }
+
+            MaterialTypeContentViewModel model = new MaterialTypeContentViewModel()
+            {
+                Material = new MaterialCreateViewModel(),
+                TypeContents = _db.TypeContents.Where(c=> c.Active).ToList(),
+            };
+
+            return PartialView("PartialViews/TypeContentPartial", model);
+        }
+        public IActionResult DeleteTypeContentAjax(int id)
+        {
+            TypeContent typeContent = _db.TypeContents.FirstOrDefault(c => c.Id == id);
+            if (typeContent != null)
+            {
+                typeContent.Active = false;
+                _db.SaveChanges();
+            }
+
+            MaterialTypeContentViewModel model = new MaterialTypeContentViewModel()
+            {
+                Material = new MaterialCreateViewModel(),
+                TypeContents = _db.TypeContents.Where(c=> c.Active).ToList(),
+            };
+
+            return PartialView("PartialViews/TypeContentPartial", model);
         }
 
         public IActionResult CreateTypeAjax(Type type)

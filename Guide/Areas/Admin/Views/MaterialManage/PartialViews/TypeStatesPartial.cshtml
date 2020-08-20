@@ -1,0 +1,42 @@
+﻿@model MaterialTypeStateViewModel
+
+<label>Состояния</label>
+  <span class="validationError" asp-validation-for="@Model.Material.TypeContentId"></span>
+<div style="display: flex">
+    <select class="form-control" name="TypeStateId" asp-for="@Model.Material.TypeStateId">
+        @foreach (var typeState in Model.TypeStates)
+        {
+            <option value="@typeState.Id">@typeState.Name</option>
+        }
+    </select>
+
+    <div class="input-group-append" >
+        <button class="btn btn-outline-secondary" type="button" data-toggle="modal" data-target="#modalTypeState">
+            <i class="fas fa-plus"></i>
+        </button>
+    </div>
+</div>
+
+<div style="z-index:1040 !important;" class="modal fade" data-backdrop="true" id="modalTypeState" tabindex="0" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="text-align: center">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Добавить новую Тип Контента</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="input-group mb-3" style="justify-content: center">
+                    <input type="text" id="typeStateInput" class="input-register" style="width: 460px;">
+                    <button class="btn btn-outline-secondary" data-dismiss="modal" type="button" id="typeStateButton" style="margin:0 0 5px 17px;">Добавить</button>
+                </div>
+                @foreach (var typeState in Model.TypeStates)
+                {
+                    <p style="text-align: right; ">- @typeState.Name <button data-dismiss="modal" type="button" value="@typeState.Id" class="btn buttonDeleteTypeState"><i class="fas fa-trash-alt"></i></button></p>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+        
