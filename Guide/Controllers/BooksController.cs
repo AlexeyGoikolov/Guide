@@ -31,7 +31,6 @@ namespace Guide.Controllers
         }
         
        
-
         public IActionResult Details(int id)
         {
             Book book = _db.Books.FirstOrDefault(b => b.Id == id);
