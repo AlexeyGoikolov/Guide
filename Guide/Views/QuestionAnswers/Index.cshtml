@@ -35,36 +35,20 @@
                     <h1 class="custom-font">
                         <strong>Список часто задаваемых вопросов</strong>
                     </h1>
-                    <ul class="controls">
-                        <li>
-                            <a role="button" tabindex="0" target="_blank" asp-action="" asp-controller=""><i class="fa fa-plus mr-5"></i>Добавить</a>
-                        </li>
-                        <li>
-                            <a role="button" tabindex="0" target="_blank" asp-action="" asp-controller=""><i class="fa fa-eye mr-5"></i>Вид пользователя</a>
-                        </li>
-                    </ul>
+                   
                 </div>
                 <!-- /tile header -->
 
                 <!-- tile body -->
                 <div class="tile-body" style="display: block">
                     <div class="table-responsive">
-                        @if (Model.Count == 0)
-                        {
-                            <p>Список пуст</p>
-                            <div id="questionForm" class="text-center">
-
-                            </div>
-                        }
-                        else
-                        {
-                            <table class="table table-custom" id="editable-usage">
+                         
+                       <table class="table table-custom" id="editable-usage">
                                 <thead>
                                 <tr>
                                     <th>Вопрос</th>
                                     <th>Кто задал</th>
-                                    <th style="width: 160px;" class="no-sort">Действие</th>
-                                </tr>
+                                   </tr>
                                 </thead>
                                 <tbody>
                                 @foreach (var question in Model)
@@ -74,15 +58,11 @@
                                             <a asp-action="Preview" asp-controller="QuestionAnswers" asp-area="" asp-route-id="@question.Id">@question.Question</a>
                                         </td>
                                         <td>@question.Asking.Name @question.Asking.Surname</td>
-                                        <td >
-                                            <a role="button" asp-action="" asp-controller="" asp-route-id="@question.Id" tabindex="0" class="edit text-primary text-uppercase text-strong text-sm mr-10">Изменить</a>
-                                            <a role="button" tabindex="0" class="delete text-danger text-uppercase text-strong text-sm mr-10" asp-action="" asp-controller="" asp-route-id="@question.Id">Удалить</a>
-                                        </td>
-                                    </tr>
+                                        </tr>
                                 }
                                 </tbody>
                             </table>
-                        }
+                        
                     </div>
                 </div>
                 <!-- /tile body -->
@@ -101,10 +81,20 @@
 @section Scripts
 {
     <script>
-                                               
+             
+                   
+                      $(window).load(function(){                                           
+                          let oTable = $('#editable-usage').DataTable({
+                              "aoColumnDefs": [
+                                  { 'defaultContent': '-', 'bSortable': false, 'aTargets': [ "no_sort" ] }
+                              ]
+                          });                         
+                      });
+                 
+                                             
         $(document).ready(function(){           
             $.ajax({               
-                url: '@Url.Action("AddQuestionAjax", "QuestionAnswers", new {area = ""})',
+                url: '@Url.Action("Create", "QuestionAnswers", new {area = ""})',
                 type: 'GET',               
                 success: function(data) {
                     $('#questionForm').html(data)

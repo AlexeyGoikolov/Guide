@@ -89,4 +89,15 @@
 
 
    
-  
+  @section Scripts
+  {
+      <script> 
+          $(window).load(function(){                                           
+              let oTable = $('#editable-usage').DataTable({
+                  "aoColumnDefs": [
+                      { 'defaultContent': '-', 'bSortable': false, 'aTargets': [ "no_sort" ] }
+                  ]
+              });                         
+          });
+      </script>
+  }

@@ -120,7 +120,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Views\Material" />
       <Folder Include="Views\Users" />
       <Folder Include="wwwroot\Image" />
     </ItemGroup>
