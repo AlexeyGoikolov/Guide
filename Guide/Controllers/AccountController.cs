@@ -32,12 +32,20 @@ namespace Guide.Controllers
         
 
         [Authorize]
-        public IActionResult Details(string id = null)
+        public IActionResult Details(string id)
         {
-            User user = _userManager.GetUserAsync(User).Result;
-            if (User.IsInRole("admin"))
+            User user = new User();
+            if (id == null)
+                user = _userManager.GetUserAsync(User).Result;
+            else
+                user = _db.Users.FirstOrDefault(u => u.Id == id);
+
+            if (User.IsInRole("admin") && id == null)
                 return RedirectToAction("Profile", "Service", new {area = "Admin", id});
-            return View(user);
+            UserDetailsViewModel model = new UserDetailsViewModel();
+            model.User = user;
+            model.Task = _db.TaskUsers.FirstOrDefault(t => t.UserId == user.Id);
+            return View(model);
         }
 
         

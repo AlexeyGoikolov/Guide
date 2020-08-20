@@ -1,5 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Identity
-@model User
+@model UserDetailsViewModel
 @inject UserManager<User> UserManager
 @{
     ViewBag.Title = "Профиль пользователя";
@@ -10,7 +10,7 @@
 
                     <div class="pageheader">
 
-                        <h2 style="color: #16a085">Ваша позиция: @Model.Position.Name</h2>
+                        <h2 style="color: #16a085">Ваша позиция: @Model.User.Position.Name</h2>
 
                         <div class="page-bar">
 
@@ -44,21 +44,21 @@
                                     <div class="tile-widget p-30 text-center">
 
                                         <div class="thumb thumb-xl">
-@*                                             @if (Model.Avatar != null) *@
-@*                                             { *@
-@*                                             <img class="img-circle" src="~\@Model.Avatar" alt=""> *@
-@*                                             } *@
-@*                                             else *@
-@*                                             { *@
+                                             @if (Model.User.Avatar != null) 
+                                            { 
+                                             <img class="img-circle" src="~\@Model.User.Avatar" alt=""> 
+                                             } 
+                                             else 
+                                             { 
                                                 <img class="img-circle" src="~/Image/Avatar/none.jpg" alt="">
-                                            @* } *@
+                                             } 
                                             
                                         </div>
-                                        <h4 class="mb-0"><strong>@Model.Name</strong> @Model.Surname</h4>
-                                        <span class="text-muted">@Model.Position.Name</span>
-                                        <span class="text-muted">дата назначения - @Model.DateCreate</span>
+                                        <h4 class="mb-0"><strong>@Model.User.Name</strong> @Model.User.Surname</h4>
+                                        <span class="text-muted">@Model.User.Position.Name</span><br>
+                                        <span class="text-muted">дата назначения - @Model.User.DateCreate</span>
                                         <div class="mt-10">
-                                            @if (Model.Id != UserManager.GetUserId(User))
+                                            @if (Model.User.Id != UserManager.GetUserId(User))
                                             {
                                                 <button class="btn btn-rounded-20 btn-sm btn-lightred">Написать сообщения</button>
                                             }
@@ -82,14 +82,32 @@
                                     <div class="tile-body p-0">
 
                                         <div role="tabpanel">
-
-                                            <div>
-                                                <label>Задача<span class="text-danger">*</span></label>
-                                                <textarea  name="ContentTemplate" type="templateContent"></textarea>
-                                            </div>
-
+                                            @if (User.IsInRole("admin"))
+                                            {
+                                                <div class="tascUsersDescription">
+                                                    <form asp-action="Creat" asp-controller="TaskUsers">
+                                                        <br><br><label>Задача</label><br>
+                                                        <textarea  name="Task">@if (Model.Task != null)
+                                                                               {@Model.Task.Task
+                                                                               }</textarea>
+                                                        <input type="hidden" value="@Model.User.Id" name="UserId">
+                                                        <button type="submit" class="btn btn-info float-right" style=" width: 31%;">Добавить</button>
+                                                    </form>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                
+                                                <div class="tascUsersDescription">
+                                                    <div class="tascUsersDescription_tatl">
+                                                       <h3>Задачи</h3>
+                                                    </div>
+                                                    <div>
+                                                        @Html.Raw(Model.Task.Task)
+                                                    </div>
+                                                </div>
+                                            }
                                         </div>
-
                                     </div>
                                     <!-- /tile body -->
 
@@ -106,3 +124,11 @@
                     <!-- /page content -->
 
                 </div>
+
+@section Scripts
+{
+    <script>
+        CKEDITOR.replace('Task');
+    </script>
+    
+}
