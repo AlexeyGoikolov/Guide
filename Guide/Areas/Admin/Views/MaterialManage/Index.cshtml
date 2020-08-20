@@ -39,9 +39,6 @@
                         <li>
                             <a role="button" tabindex="0" target="_blank" asp-action="Create" asp-controller="MaterialManage"><i class="fa fa-plus mr-5"></i>Добавить</a>
                         </li>
-                        <li>
-                            <a role="button" tabindex="0" target="_blank" asp-action="Index" asp-controller="Material"><i class="fa fa-eye mr-5"></i>Вид пользователя</a>
-                        </li>
                     </ul>
                 </div>
                 <!-- /tile header -->
@@ -79,8 +76,12 @@
                                     <td>@post.Type.Name</td>
                                     <td>@post.DateOfCreate</td>
                                     <td >
-                                        <a role="button" asp-action="Edit" asp-controller="MaterialManage" asp-route-id="@post.Id" tabindex="0" class="edit text-primary text-uppercase text-strong text-sm mr-10">Изменить</a>
-                                        <a role="button" tabindex="0" class="delete text-danger text-uppercase text-strong text-sm mr-10" asp-action="Delete" asp-controller="MaterialManage" asp-route-id="@post.Id">Удалить</a>
+                                        <a class="btn btn-rounded-20 btn-default btn-sm mr-5 p-5" style="width:30px;" role="button" tabindex="0" target="_blank" 
+                                           title="Вид пользователя" asp-action="Index" asp-controller="Material" asp-area=""><i class="fa fa-eye"></i></a>
+                                        <a class="btn btn-rounded-20 btn-default btn-sm mr-5 p-5" style="width:30px;" role="button" asp-action="Edit" 
+                                           asp-controller="MaterialManage" asp-route-id="@post.Id" tabindex="0" title="Изменить"><i class="fa fa-pencil"></i></a>
+                                        <a class="btn btn-rounded-20 btn-default btn-sm mr-5 p-5" style="width:30px;" role="button" tabindex="0" 
+                                           title="Удалить" asp-action="Delete" asp-controller="MaterialManage" asp-route-id="@post.Id"><i class="fa fa-trash"></i></a>
                                     </td>
                                 </tr>
                             }

@@ -45,9 +45,6 @@
                         <li>
                             <a role="button" tabindex="0" asp-action="Index" asp-controller="BooksManage" asp-route-activ="false">Удаленные</a>
                         </li>
-                        <li>
-                            <a role="button" tabindex="0" target="_blank" asp-action="Index" asp-controller="Books"><i class="fa fa-eye mr-5"></i>Вид пользователя</a>
-                        </li>
                     </ul>
                 </div>
                 <!-- /tile header -->
@@ -72,19 +69,23 @@
                                     </td>
                                     <td>@book.Author</td>
                                     <td>@book.YearOfWriting</td>
-                                    <td ><a class="btn btn-rounded-20 btn-default btn-sm mr-5" style="width:30px;"
-                                            asp-action="" asp-controller="BooksManage" asp-route-id="@book.Id"><i class="fa fa-pencil"></i></a>
+                                    <td >
+                                        <a class="btn btn-rounded-20 btn-default btn-sm mr-5 p-5" style="width:30px;" role="button" tabindex="0" 
+                                           target="_blank" title="Вид пользователя" asp-action="Index" asp-controller="Books" asp-area=""><i class="fa fa-eye"></i></a>
+                                        <a class="btn btn-rounded-20 btn-default btn-sm mr-5 p-5" style="width:30px;"
+                                           asp-action="" asp-controller="BooksManage" asp-route-id="@book.Id"><i class="fa fa-pencil"></i></a>
+
                                         @if (book.Active)
                                         {
-                                            <a class="btn btn-rounded-20 btn-default btn-sm mr-5" style="width:30px;" 
-                                             asp-action="Delete" asp-controller="BooksManage" asp-route-id="@book.Id"><i class="fa fa-trash" ></i></a>
+                                            <a class="btn btn-rounded-20 btn-default btn-sm mr-5 p-5" style="width:30px;"
+                                               asp-action="Delete" asp-controller="BooksManage" asp-route-id="@book.Id"><i class="fa fa-trash"></i></a>
                                         }
                                         else
                                         {
-                                            <a class="btn btn-rounded-20 btn-default btn-sm mr-5" style="width:30px;" 
+                                            <a class="btn btn-rounded-20 btn-default btn-sm mr-5 p-5" style="width:30px;"
                                                asp-action="" asp-controller="" asp-route-id="@book.Id"><i class="reply"></i></a>
                                         }
-                                        
+
                                     </td>
                                 </tr>
                             }
