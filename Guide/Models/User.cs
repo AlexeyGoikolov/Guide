@@ -7,11 +7,10 @@ namespace Guide.Models
     {
         public string Name { get; set; }
         public string Surname { get; set; }
-        
         public int PositionId { get; set; }
         public virtual Position Position { get; set; }
 
-        // public string Avatar { get; set; }
+        public string Avatar { get; set; }
         public bool Active { get; set; } = true;
         
         public DateTime DateCreate { get; set; } = DateTime.Now;

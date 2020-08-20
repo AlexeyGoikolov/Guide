@@ -15,6 +15,7 @@ namespace Guide.Models.Data
         public DbSet<Position> Positions { get; set; }
         public DbSet<Book> Books { get; set; }
         public DbSet<Template> Templates { get; set; }
+        public DbSet<TaskUser> TaskUsers { get; set; }
 
         public GuideContext(DbContextOptions<GuideContext> options) : base(options) {}
     }
