@@ -6,16 +6,103 @@
     Layout = "_LayoutEmployee";
 }
 
-<div class="page text-center">
-    <h3 style="color: slategray">Добро пожаловать @Model.Name @Model.Surname!</h3>
-    <h5 style="color: #16a085">Ваша позиция: @Model.Position.Name</h5>
-    
-    <div class="profile_page_image_wrap">
-        <img class="profile_page_image" src="Image/UserProfilePage/paper-3213924_1920.jpg" alt="Здесь должно быть фото, но что-то пошло не так">
-    </div>
+                <div class="page page-profile">
 
-</div>
+                    <div class="pageheader">
 
+                        <h2 style="color: #16a085">Ваша позиция: @Model.Position.Name</h2>
 
+                        <div class="page-bar">
 
+                            <ul class="page-breadcrumb">
+                                <li>
+                                    <a href="index.html"><i class="fa fa-home"></i> Minovate</a>
+                                </li>
+                                <li>
+                                    <a href="#">Extra Pages</a>
+                                </li>
+                                <li>
+                                    <a href="profile.html">Profile Page</a>
+                                </li>
+                            </ul>
+                            
+                        </div>
 
+                    </div>
+                <!-- page content -->
+                    <div class="pagecontent">
+                        <!-- row -->
+                        <div class="row">
+
+                            <!-- col -->
+                            <div class="col-md-4">
+
+                                <!-- tile -->
+                                <section class="tile tile-simple">
+
+                                    <!-- tile widget -->
+                                    <div class="tile-widget p-30 text-center">
+
+                                        <div class="thumb thumb-xl">
+@*                                             @if (Model.Avatar != null) *@
+@*                                             { *@
+@*                                             <img class="img-circle" src="~\@Model.Avatar" alt=""> *@
+@*                                             } *@
+@*                                             else *@
+@*                                             { *@
+                                                <img class="img-circle" src="~/Image/Avatar/none.jpg" alt="">
+                                            @* } *@
+                                            
+                                        </div>
+                                        <h4 class="mb-0"><strong>@Model.Name</strong> @Model.Surname</h4>
+                                        <span class="text-muted">@Model.Position.Name</span>
+                                        <span class="text-muted">дата назначения - @Model.DateCreate</span>
+                                        <div class="mt-10">
+                                            @if (Model.Id != UserManager.GetUserId(User))
+                                            {
+                                                <button class="btn btn-rounded-20 btn-sm btn-lightred">Написать сообщения</button>
+                                            }
+                                        </div>
+
+                                    </div>
+                                    <!-- /tile widget -->
+                                </section>
+                                <!-- /tile -->
+
+                            </div>
+                            <!-- /col -->
+
+                            <!-- col -->
+                            <div class="col-md-8">
+
+                                <!-- tile -->
+                                <section class="tile tile-simple">
+
+                                    <!-- tile body -->
+                                    <div class="tile-body p-0">
+
+                                        <div role="tabpanel">
+
+                                            <div>
+                                                <label>Задача<span class="text-danger">*</span></label>
+                                                <textarea  name="ContentTemplate" type="templateContent"></textarea>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                    <!-- /tile body -->
+
+                                </section>
+                                <!-- /tile -->
+
+                            </div>
+                            <!-- /col -->
+
+                        </div>
+                        <!-- /row -->
+
+                    </div>
+                    <!-- /page content -->
+
+                </div>
