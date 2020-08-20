@@ -60,7 +60,7 @@
                     <div class="branding">
                         @if (User.Identity.IsAuthenticated)
                           {
-                            <a class="brand" asp-controller="Account" asp-action="Details" asp-area=""><span><strong>Guide</strong></span></a>
+                            <a class="brand" asp-controller="Account" asp-action="Details" asp-route-id="" asp-area=""><span><strong>Guide</strong></span></a>
                             <a href="#" class="offcanvas-toggle visible-xs-inline"><i class="fa fa-bars"></i></a>
                           }
                          else
@@ -163,7 +163,7 @@
                             </a>
                             <ul class="dropdown-menu animated littleFadeInLeft" role="menu">
                                 <li>
-                                     <a asp-controller="Account" asp-action="Details" asp-area="">
+                                     <a asp-controller="Account" asp-action="Details" asp-route-id="" asp-area="">
                                          <i class="fa fa-user"></i>
                                          Личный кабинет
                                      </a>

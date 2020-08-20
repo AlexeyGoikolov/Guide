@@ -35,13 +35,13 @@ namespace Guide.Controllers
         public IActionResult Details(string id)
         {
             User user = new User();
+            if (User.IsInRole("admin") && id == null)
+                return RedirectToAction("Profile", "Service", new {area = "Admin"});
+            
             if (id == null)
                 user = _userManager.GetUserAsync(User).Result;
             else
                 user = _db.Users.FirstOrDefault(u => u.Id == id);
-
-            if (User.IsInRole("admin") && id == null)
-                return RedirectToAction("Profile", "Service", new {area = "Admin", id});
             UserDetailsViewModel model = new UserDetailsViewModel();
             model.User = user;
             model.Task = _db.TaskUsers.FirstOrDefault(t => t.UserId == user.Id);

@@ -3,29 +3,52 @@
 @inject UserManager<User> UserManager
 @{
     ViewBag.Title = "Профиль пользователя";
-    Layout = "_LayoutEmployee";
+    if (User.IsInRole("admin"))
+    {
+        Layout = "_Layout";
+    }
+    else
+    {
+        Layout = "_LayoutEmployee";
+    }
 }
 
                 <div class="page page-profile">
 
                     <div class="pageheader">
-
-                        <h2 style="color: #16a085">Ваша позиция: @Model.User.Position.Name</h2>
-
+                        @if (User.IsInRole("admin"))
+                        {
+                            <h2 style="color: #51445f">Позиция сотрудника: @Model.User.Position.Name</h2>
+                        }
+                        else
+                        {
+                            <h2 style="color: #16a085">Ваша позиция: @Model.User.Position.Name</h2>
+                        }
                         <div class="page-bar">
 
                             <ul class="page-breadcrumb">
+                                @if (User.IsInRole("admin"))
+                                {
+                                    <li>
+                                        <a asp-action="Details" asp-controller="Account" asp-area=""><i class="fa fa-home"></i> Guide</a>
+                                    </li>
+                                    <li>
+                                        <a asp-action="ListUsers" asp-controller="UsersManage" asp-area="Admin"> Список сотрудников</a>
+                                    </li>
+                                    
+                                }
+                                else
+                                {
+                                    <li style="background: #138a72">
+                                        <a asp-action="Details" asp-controller="Account" asp-area=""><i class="fa fa-home"></i> Guide</a>
+                                    </li>
+                                }
+
                                 <li>
-                                    <a href="index.html"><i class="fa fa-home"></i> Minovate</a>
-                                </li>
-                                <li>
-                                    <a href="#">Extra Pages</a>
-                                </li>
-                                <li>
-                                    <a href="profile.html">Profile Page</a>
+                                    <a asp-action="Details" asp-controller="Account" asp-area=""> Профиль пользователя</a>
                                 </li>
                             </ul>
-                            
+
                         </div>
 
                     </div>
@@ -99,12 +122,16 @@
                                             {
                                                 
                                                 <div class="tascUsersDescription">
-                                                    <div class="tascUsersDescription_tatl">
-                                                       <h3>Задачи</h3>
-                                                    </div>
-                                                    <div>
-                                                        @Html.Raw(Model.Task.Task)
-                                                    </div>
+                                                    @if (Model.Task != null)
+                                                    {
+                                                        <div class="tascUsersDescription_tatl">
+                                                            <h3>Задачи</h3>
+                                                        </div>
+
+                                                        <div>
+                                                            @Html.Raw(Model.Task.Task)
+                                                        </div>
+                                                    }
                                                 </div>
                                             }
                                         </div>
