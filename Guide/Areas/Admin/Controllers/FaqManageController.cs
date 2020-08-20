@@ -4,6 +4,7 @@ using Guide.Models;
 using Guide.Models.Data;
 using Guide.ViewModels;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Guide.Areas.Admin.Controllers
@@ -13,10 +14,12 @@ namespace Guide.Areas.Admin.Controllers
     public class FaqManageController : Controller
     {
         private readonly GuideContext _db;
+        private readonly UserManager<User> _userManager;
 
-        public FaqManageController(GuideContext db)
+        public FaqManageController(GuideContext db, UserManager<User> userManager)
         {
             _db = db;
+            _userManager = userManager;
         }
 
         public IActionResult Index()
@@ -57,14 +60,19 @@ namespace Guide.Areas.Admin.Controllers
                     questionAnswer.Question = model.QuestionAnswer.Question;
                     questionAnswer.Answer = model.QuestionAnswer.Answer;
                     questionAnswer.PostId= model.PostId;
+                    questionAnswer.ResponderId= _userManager.GetUserId(User);
                     
                     _db.QuestionAnswers.Update(questionAnswer);
                 }
                 else
                 {
+                    model.QuestionAnswer.State = State.ответили;
                     questionAnswer.Question = model.QuestionAnswer.Question;
                     questionAnswer.Answer = model.QuestionAnswer.Answer;
                     questionAnswer.PostId= model.PostId;
+                    questionAnswer.AskingId=  _userManager.GetUserId(User);
+                    questionAnswer.State= model.QuestionAnswer.State;
+                    
                     _db.QuestionAnswers.Add(questionAnswer);
                 }
                 _db.SaveChanges();
@@ -78,6 +86,7 @@ namespace Guide.Areas.Admin.Controllers
         public IActionResult Preview(int id)
         {
             QuestionAnswer questionAnswer = _db.QuestionAnswers.FirstOrDefault(q => q.Id == id);
+           
             return View(questionAnswer);
         }
         
