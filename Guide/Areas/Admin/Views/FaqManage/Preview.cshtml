@@ -8,7 +8,7 @@
 <div class="page">
     <div class="pageheader">
 
-        <h2>@Model.Question</h2>
+     
 
         <div class="page-bar">
             <ul class="page-breadcrumb">
@@ -25,7 +25,10 @@
         </div>
     </div>
     <div class="pt-3">
+           <h2>@Model.Question</h2>
+        <h3>ответ от @Model.Responder.Name @Model.Responder.Surname :</h3>
         @Model.Answer
+
     </div>
 
     <div>
