@@ -17,7 +17,7 @@
                     <textarea  name="textContent" type="text" asp-for="TextContent" value="@Model.TextContent"></textarea>
                 </div>
             </div>
-
+            <button type="submit" class="btn btn-info float-right" style=" width: 100%;">Создать</button>
             <!-- /tile body -->
 
         </section>
@@ -36,8 +36,8 @@
                     <input class="form-control" type="text" asp-for="Author" value="@Model.Author">
                 </div>
                 <div>
-                    <label>Физическое место нахождения</label>
-                    <input class="form-control" type="text" asp-for="PhysicalPath" value="@Model.PhysicalPath">
+                    <label>Дополнительное информация</label>
+                    <textarea class="form-control" type="text" asp-for="PhysicalPath" value="@Model.PhysicalPath"></textarea>
                 </div>
                 <div>
                     <label >Загрузить файл</label>

@@ -5,7 +5,7 @@ namespace Guide.Models.Data
 {
     public class GuideContext : IdentityDbContext<User>
     {
-        public DbSet<User> Users { get; set; }
+        public override DbSet<User> Users { get; set; }
         public DbSet<Post> Posts { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Type> Types { get; set; }

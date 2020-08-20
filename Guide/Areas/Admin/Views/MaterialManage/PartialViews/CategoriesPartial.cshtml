@@ -1,6 +1,6 @@
 ﻿@model MaterialCategoryViewModel
 
-<label>Выберите категорию<span class="text-danger">*</span></label>
+<label>Категория<span class="text-danger">*</span></label>
   <span class="validationError" asp-validation-for="@Model.Material.CategoryId"></span>
 <div style="display: flex">
     <select class="form-control" name="CategoryId" asp-for="@Model.Material.CategoryId">

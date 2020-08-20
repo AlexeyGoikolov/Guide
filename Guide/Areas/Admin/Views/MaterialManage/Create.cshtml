@@ -34,7 +34,7 @@
             <form class="create-form" asp-action="Create" asp-controller="MaterialManage" method="post" enctype="multipart/form-data">
                 <div asp-validation-summary="ModelOnly"></div>
                 @{ Html.RenderPartial("PartialViews/FormPartial", Model); }
-                <button type="submit" class="btn btn-info float-right" style=" width: 31%;">Создать</button>
+                
                 <input type="hidden" value="@Model.Id" id="postId" asp-for="Id">
             </form>
         </div>

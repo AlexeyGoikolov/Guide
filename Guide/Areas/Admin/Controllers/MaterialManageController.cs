@@ -67,6 +67,7 @@ namespace Guide.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
+                
                 Post post = new Post()
                 {
                     Id = model.Id,
@@ -74,10 +75,12 @@ namespace Guide.Areas.Admin.Controllers
                     Author = model.Author,
                     TextContent = model.TextContent,
                     CategoryId = model.CategoryId,
-                    
+                    TypeContentId = model.TypeContentId,
+                    TypeStateId = model.TypeStateId,
                     TypeId = model.TypeId,
                     PhysicalPath = model.PhysicalPath,
-                    VirtualPath = Load(model.Id, model.VirtualPath)
+                    VirtualPath = Load(model.Id, model.VirtualPath),
+                    UserId = _userManager.GetUserId(User)
                 };
                 _db.Posts.Add(post);
                 _db.SaveChanges();
