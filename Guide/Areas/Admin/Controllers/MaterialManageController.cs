@@ -120,6 +120,38 @@ namespace Guide.Areas.Admin.Controllers
 
             return PartialView("PartialViews/CategoriesPartial", model);
         }
+        public IActionResult CreateTypeStateAjax(TypeState typeState)
+        {
+            if (typeState.Name != null)
+            {
+                _db.TypeStates.Add(typeState);
+                _db.SaveChanges();
+            }
+            MaterialTypeStateViewModel model = new MaterialTypeStateViewModel()
+            {
+                Material = new MaterialCreateViewModel(),
+                TypeStates = _db.TypeStates.Where(c=> c.Active).ToList(),
+            };
+            return PartialView("PartialViews/TypeStatesPartial", model);
+        }
+        public IActionResult DeleteTypeStateAjax(int id)
+        {
+            TypeState typeContent = _db.TypeStates.FirstOrDefault(c => c.Id == id);
+            if (typeContent != null)
+            {
+                typeContent.Active = false;
+                _db.SaveChanges();
+            }
+
+            MaterialTypeStateViewModel model = new MaterialTypeStateViewModel()
+            {
+                Material = new MaterialCreateViewModel(),
+                TypeStates = _db.TypeStates.Where(c=> c.Active).ToList(),
+            };
+
+            return PartialView("PartialViews/TypeStatesPartial", model);
+        }
+
         
         public IActionResult CreateTypeContentAjax(TypeContent typeContent)
         {
