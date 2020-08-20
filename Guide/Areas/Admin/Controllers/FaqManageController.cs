@@ -66,11 +66,11 @@ namespace Guide.Areas.Admin.Controllers
                 }
                 else
                 {
-                    model.QuestionAnswer.State = State.ответили;
+                    model.QuestionAnswer.State = State.Ответили;
                     questionAnswer.Question = model.QuestionAnswer.Question;
                     questionAnswer.Answer = model.QuestionAnswer.Answer;
                     questionAnswer.PostId= model.PostId;
-                    questionAnswer.AskingId=  _userManager.GetUserId(User);
+                    questionAnswer.ResponderId = _userManager.GetUserId(User);
                     questionAnswer.State= model.QuestionAnswer.State;
                     
                     _db.QuestionAnswers.Add(questionAnswer);

@@ -42,28 +42,27 @@
                 <!-- tile body -->
                 <div class="tile-body" style="display: block">
                     <div class="table-responsive">
-                         
-                       <table class="table table-custom" id="editable-usage">
-                                <thead>
-                                <tr>
-                                    <th>Вопрос</th>
-                                    <th>Кто задал</th>
-                                   </tr>
-                                </thead>
-                                <tbody>
-                                @foreach (var question in Model)
-                                {
-                                    <tr class="odd gradeX">
-                                        <td>
-                                            <a asp-action="Preview" asp-controller="QuestionAnswers" asp-area="" asp-route-id="@question.Id">@question.Question</a>
-                                        </td>
-                                        <td>@question.Asking.Name @question.Asking.Surname</td>
-                                        </tr>
-                                }
-                                </tbody>
-                            </table>
+
+                        <table class="table table-custom" id="editable-usage">
+                            <thead>
+                            <tr>
+                                <th>Вопрос</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach (var question in Model)
+                            {
+                                <tr class="odd gradeX">
+                                    <td>
+                                        <a asp-action="Preview" asp-controller="QuestionAnswers" asp-area="" asp-route-id="@question.Id">@question.Question</a>
+                                    </td>
+                                </tr>
+                            }
+                            </tbody>
+                        </table>
                         
                     </div>
+                    
                 </div>
                 <!-- /tile body -->
             </section>
@@ -73,7 +72,9 @@
         <!-- /col -->
     </div>
     <!-- /row -->
+    <div id="questionForm" class="text-center">
 
+    </div>
 </div>  
    
 
@@ -83,24 +84,24 @@
     <script>
              
                    
-                      $(window).load(function(){                                           
-                          let oTable = $('#editable-usage').DataTable({
-                              "aoColumnDefs": [
-                                  { 'defaultContent': '-', 'bSortable': false, 'aTargets': [ "no_sort" ] }
-                              ]
-                          });                         
-                      });
+    $(window).load(function(){                                           
+        let oTable = $('#editable-usage').DataTable({
+            "aoColumnDefs": [
+                { 'defaultContent': '-', 'bSortable': false, 'aTargets': [ "no_sort" ] }
+            ]
+        });                         
+    });
                  
                                              
-        $(document).ready(function(){           
-            $.ajax({               
-                url: '@Url.Action("Create", "QuestionAnswers", new {area = ""})',
-                type: 'GET',               
-                success: function(data) {
-                    $('#questionForm').html(data)
-                }
-            });          
-        });
+    $(document).ready(function(){           
+        $.ajax({               
+            url: '@Url.Action("AddQuestionAjax", "QuestionAnswers", new {area = ""})',
+            type: 'GET',               
+            success: function(data) {
+                $('#questionForm').html(data)
+            }
+        });          
+    });
         
         $(document).on("click", "#questionButton", function(event) {  
             event.preventDefault();

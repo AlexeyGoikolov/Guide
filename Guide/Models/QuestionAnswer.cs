@@ -6,9 +6,9 @@ namespace Guide.Models
 {
     public enum State
     {
-        новый,
-        ответили,
-        прочитан
+        Новый,
+        Ответили,
+        Прочитан
     }
     public class QuestionAnswer
     {
@@ -17,7 +17,7 @@ namespace Guide.Models
         [Required(ErrorMessage = "Поле не заполнено")]
         public string Question { get; set; }
         public string Answer { get; set; }
-        public State State { get; set; } = State.новый;
+        public State State { get; set; } = State.Новый;
         // тот ,кто задал вопрос
         public string AskingId{ get; set; }
         public virtual User Asking{ get; set; }
