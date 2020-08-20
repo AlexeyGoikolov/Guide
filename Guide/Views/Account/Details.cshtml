@@ -1,21 +1,134 @@
 ﻿@using Microsoft.AspNetCore.Identity
-@model User
+@model UserDetailsViewModel
 @inject UserManager<User> UserManager
 @{
     ViewBag.Title = "Профиль пользователя";
     Layout = "_LayoutEmployee";
 }
 
-<div class="page text-center">
-    <h3 style="color: slategray">Добро пожаловать @Model.Name @Model.Surname!</h3>
-    <h5 style="color: #16a085">Ваша позиция: @Model.Position.Name</h5>
+                <div class="page page-profile">
+
+                    <div class="pageheader">
+
+                        <h2 style="color: #16a085">Ваша позиция: @Model.User.Position.Name</h2>
+
+                        <div class="page-bar">
+
+                            <ul class="page-breadcrumb">
+                                <li>
+                                    <a href="index.html"><i class="fa fa-home"></i> Minovate</a>
+                                </li>
+                                <li>
+                                    <a href="#">Extra Pages</a>
+                                </li>
+                                <li>
+                                    <a href="profile.html">Profile Page</a>
+                                </li>
+                            </ul>
+                            
+                        </div>
+
+                    </div>
+                <!-- page content -->
+                    <div class="pagecontent">
+                        <!-- row -->
+                        <div class="row">
+
+                            <!-- col -->
+                            <div class="col-md-4">
+
+                                <!-- tile -->
+                                <section class="tile tile-simple">
+
+                                    <!-- tile widget -->
+                                    <div class="tile-widget p-30 text-center">
+
+                                        <div class="thumb thumb-xl">
+                                             @if (Model.User.Avatar != null) 
+                                            { 
+                                             <img class="img-circle" src="~\@Model.User.Avatar" alt=""> 
+                                             } 
+                                             else 
+                                             { 
+                                                <img class="img-circle" src="~/Image/Avatar/none.jpg" alt="">
+                                             } 
+                                            
+                                        </div>
+                                        <h4 class="mb-0"><strong>@Model.User.Name</strong> @Model.User.Surname</h4>
+                                        <span class="text-muted">@Model.User.Position.Name</span><br>
+                                        <span class="text-muted">дата назначения - @Model.User.DateCreate</span>
+                                        <div class="mt-10">
+                                            @if (Model.User.Id != UserManager.GetUserId(User))
+                                            {
+                                                <button class="btn btn-rounded-20 btn-sm btn-lightred">Написать сообщения</button>
+                                            }
+                                        </div>
+
+                                    </div>
+                                    <!-- /tile widget -->
+                                </section>
+                                <!-- /tile -->
+
+                            </div>
+                            <!-- /col -->
+
+                            <!-- col -->
+                            <div class="col-md-8">
+
+                                <!-- tile -->
+                                <section class="tile tile-simple">
+
+                                    <!-- tile body -->
+                                    <div class="tile-body p-0">
+
+                                        <div role="tabpanel">
+                                            @if (User.IsInRole("admin"))
+                                            {
+                                                <div class="tascUsersDescription">
+                                                    <form asp-action="Creat" asp-controller="TaskUsers">
+                                                        <br><br><label>Задача</label><br>
+                                                        <textarea  name="Task">@if (Model.Task != null)
+                                                                               {@Model.Task.Task
+                                                                               }</textarea>
+                                                        <input type="hidden" value="@Model.User.Id" name="UserId">
+                                                        <button type="submit" class="btn btn-info float-right" style=" width: 31%;">Добавить</button>
+                                                    </form>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                
+                                                <div class="tascUsersDescription">
+                                                    <div class="tascUsersDescription_tatl">
+                                                       <h3>Задачи</h3>
+                                                    </div>
+                                                    <div>
+                                                        @Html.Raw(Model.Task.Task)
+                                                    </div>
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                    <!-- /tile body -->
+
+                                </section>
+                                <!-- /tile -->
+
+                            </div>
+                            <!-- /col -->
+
+                        </div>
+                        <!-- /row -->
+
+                    </div>
+                    <!-- /page content -->
+
+                </div>
+
+@section Scripts
+{
+    <script>
+        CKEDITOR.replace('Task');
+    </script>
     
-    <div class="profile_page_image_wrap">
-        <img class="profile_page_image" src="Image/UserProfilePage/paper-3213924_1920.jpg" alt="Здесь должно быть фото, но что-то пошло не так">
-    </div>
-
-</div>
-
-
-
-
+}

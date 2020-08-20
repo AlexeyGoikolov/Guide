@@ -4,15 +4,17 @@ using System.Collections.Generic;
 using Guide.Models.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Guide.Migrations
 {
     [DbContext(typeof(GuideContext))]
-    partial class GuideContextModelSnapshot : ModelSnapshot
+    [Migration("20200820153913_deletTaskUser_PostId")]
+    partial class deletTaskUser_PostId
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -33,9 +35,6 @@ namespace Guide.Migrations
                     b.Property<string>("Author")
                         .HasColumnType("text");
 
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("integer");
-
                     b.Property<string>("CoverPath")
                         .HasColumnType("text");
 
@@ -45,14 +44,8 @@ namespace Guide.Migrations
                     b.Property<DateTime>("DateUpdate")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<string>("Edition")
-                        .HasColumnType("text");
-
                     b.Property<string>("ISBN")
                         .HasColumnType("text");
-
-                    b.Property<bool>("IsRecipe")
-                        .HasColumnType("boolean");
 
                     b.Property<string>("Name")
                         .HasColumnType("text");
@@ -70,8 +63,6 @@ namespace Guide.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CategoryId");
 
                     b.HasIndex("TypeId");
 
@@ -236,7 +227,7 @@ namespace Guide.Migrations
                     b.Property<List<string>>("Links")
                         .HasColumnType("text[]");
 
-                    b.Property<int?>("PostId")
+                    b.Property<int>("PostId")
                         .HasColumnType("integer");
 
                     b.Property<string>("Question")
@@ -525,12 +516,6 @@ namespace Guide.Migrations
 
             modelBuilder.Entity("Guide.Models.Book", b =>
                 {
-                    b.HasOne("Guide.Models.Category", "Category")
-                        .WithMany()
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Guide.Models.Type", "Type")
                         .WithMany()
                         .HasForeignKey("TypeId")
@@ -566,7 +551,9 @@ namespace Guide.Migrations
                 {
                     b.HasOne("Guide.Models.Post", "Post")
                         .WithMany()
-                        .HasForeignKey("PostId");
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Guide.Models.TaskUser", b =>
