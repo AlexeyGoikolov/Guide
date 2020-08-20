@@ -10,6 +10,9 @@ namespace Guide.Models.Data
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Type> Types { get; set; }
         public DbSet<TypeContent> TypeContents { get; set; }
+        
+        public DbSet<TypeState> TypeStates { get; set; }
+        
         public DbSet<Category> Categories { get; set; }
         public DbSet<QuestionAnswer> QuestionAnswers { get; set; }
         public DbSet<Glossary> Glossaries { get; set; }

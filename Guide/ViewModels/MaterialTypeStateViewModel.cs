@@ -3,9 +3,9 @@ using Guide.Models;
 
 namespace Guide.ViewModels
 {
-    public class MaterialTypeContentViewModel
+    public class MaterialTypeStateViewModel
     {
         public MaterialCreateViewModel Material { get; set; }
-        public List<TypeContent> TypeContents { get; set; }
+        public List<TypeState> TypeContents { get; set; }
     }
 }
