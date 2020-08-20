@@ -113,11 +113,15 @@
         <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
         <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       </Content>
+      <Content Update="Views\Account\Profil.cshtml">
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </Content>
     </ItemGroup>
 
     <ItemGroup>
       <Folder Include="Views\Users" />
-      <Folder Include="wwwroot\Image" />
+      <Folder Include="wwwroot\Image\Avatar" />
     </ItemGroup>
 
 
