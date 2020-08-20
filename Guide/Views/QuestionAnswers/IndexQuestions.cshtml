@@ -2,7 +2,7 @@
 
 @{
     ViewBag.Title = "Список без ответов";
-    Layout = "_Layout";
+    Layout = "_LayoutEmployee";
 }
 
 <div class="page">
@@ -16,10 +16,10 @@
                     <a asp-action="Details" asp-controller="Account" asp-area=""><i class="fa fa-home"></i> Guide</a>
                 </li>
                 <li>
-                    <a asp-action="Index" asp-controller="FaqManage"> Вопрос-ответ</a>
+                    <a asp-action="Index" asp-controller="QuestionAnswers"> Вопрос-ответ</a>
                 </li>
                 <li>
-                    <a asp-action="IndexQuestions" asp-controller="FaqManage"> Список без ответов</a>
+                    <a asp-action="IndexQuestions" asp-controller="QuestionAnswers"> Список без ответов</a>
                 </li>
             </ul>
         </div>
@@ -32,10 +32,10 @@
     else
     {
         <h4>Вопросы</h4>
-        @foreach (var questionAnswer in Model)
+        @foreach (var glossery in Model)
         {
             <div class="mb-10">
-                <a asp-action="Create" asp-controller="FaqManage" asp-route-id="@questionAnswer.Id">@questionAnswer.Question</a>
+                <a asp-action="Preview" asp-controller="FaqManage" asp-route-id="@glossery.Id">@glossery.Question</a>
             </div>
         }
     }

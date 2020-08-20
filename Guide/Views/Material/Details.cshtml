@@ -1,0 +1,147 @@
+﻿@model Post
+
+@{
+    
+    Layout = "_LayoutEmployee";
+}
+
+<div class="page">
+ <div class="pageheader">
+
+        <h2>@ViewBag.Title</h2>
+
+        <div class="page-bar">
+
+            <ul class="page-breadcrumb">
+                <li style="background: #138a72">
+                    <a asp-action="Details" asp-controller="Account" asp-area=""><i class="fa fa-home"></i> Guide</a>
+                </li>
+                <li>
+                    <a asp-action="Index" asp-controller="Material"> Материалы</a>
+                </li>
+                <li>
+                    <a asp-action="Details" asp-controller="Material" asp-route-id="@Model.Id">Просмотр</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+<div class="page page-tables-datatables panel-body">
+<section class="tile time-simple">
+
+    <!-- tile body -->
+    <div class="tile-body">
+
+        <!-- row -->
+        <div class="row">
+            <div class="col-md-9">
+                <h2 class="custom-font mb-5">@Model.Title </h2>
+                <div class="desc text-default lt mb-20 material_content">
+               @Html.Raw(Model.TextContent)
+            </div>
+               
+            </div>
+            <div class="col-md-3 material_discription" data-lightbox="gallery">
+                @if (Model.Author != null)
+                {
+                    <h5>Автор : @Model.Author</h5>
+                }
+                @if (Model.PhysicalPath != null)
+                {
+                    <div>Место нахождения - @Model.PhysicalPath</div>
+                }
+                <div>Дата добавления - @Model.DateOfCreate</div>
+                @if (Model.DateOfUpdate < Model.DateOfCreate)
+                {
+                    <div>Дата обновления - @Model.DateOfUpdate</div>
+                }
+                <div>Категория - @Model.Category.Name</div>
+                <div>Тип - @Model.Type.Name</div>
+
+                <div style="margin: 10px;">
+                    @if (Model.VirtualPath != null)
+                    {
+                        <a class="btn btn-blue" src="~/@Model.VirtualPath">ссылка</a>
+                    }
+                </div>
+                <div style="margin: 5px; margin-left: auto">
+                    <a asp-action="Create" asp-controller="QuestionAnswers" class="btn btn-info" asp-route-status="ToQuestion" asp-route-postId="@Model.Id">Задать вопрос</a>
+
+                </div>
+                <div>
+                    <div class="panel-body">
+                        <textarea id="comment_area" class="form-control textarea_chat" placeholder="Оставить свой комментарий..." rows="3"></textarea>
+                        <br>
+                        <button type="button" class="btn btn-info pull-right" name="@Model.Id" id ="sendComment">Добавить</button>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div style="margin: 5px; margin-left: auto">
+                        <button type="button" class="btn btn-info "
+                                onclick="viewComment('@Model.Id')">
+                            Посмотреть комментарии 
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-info">
+            <div id="listComment"></div>
+        </div>
+    </div>
+    <!-- /tile body -->
+</section>
+</div>
+</div>
+
+<!-- /tile -->
+@section Scripts{
+   
+    <script >
+    $('#sendComment').click(function(event) {
+        event.preventDefault();
+        let id = $('#sendComment').attr('name');
+        let comment = $('#comment_area').val();
+        reset();        
+        $.ajax({
+            url: '@Url.Action("CreateComment", "Material")',
+            type: 'POST',
+            data: { 
+                'PostId': id, 
+                'Description': comment  },
+            success: function(data) {
+                $('#listComment').html(data); 
+            },
+        });  
+    });
+    
+    let reset = function() {
+        $('#comment_area').val("");               
+    };
+    
+    function deleteComment(Id, PostId) {
+        $.ajax({
+            url: '@Url.Action("DeleteComment", "Material")',
+            type: 'GET',
+            data: { 
+                'id': Id,
+                'postId': PostId, 
+            },
+            success: function(data) {
+                $('#listComment').html(data); 
+            },
+        });   
+    }
+          
+    function viewComment(id) {
+                          
+        $.ajax({
+            url: '@Url.Action("ViewComment", "Material")',
+            type: 'GET',
+            data: { 'id': id },
+            success: function(data) {
+            $('#listComment').html(data); 
+            },
+        });   
+    }
+    </script>
+}
+

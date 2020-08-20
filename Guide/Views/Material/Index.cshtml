@@ -1,29 +1,29 @@
-﻿@model List<Book>
+﻿@model List<Post>
 
 @{
-    ViewBag.Title = "Список книг";
+    ViewBag.Title = "Список материалов";
     Layout = "_LayoutEmployee";
 }
+        
 <div class="page page-tables-datatables">
+
     <div class="pageheader">
-    
-        <h2>@ViewBag.Title</h2>
-
+        <h2>Материалы</h2>
         <div class="page-bar">
-
             <ul class="page-breadcrumb">
                 <li style="background: #138a72">
                     <a asp-action="Details" asp-controller="Account" asp-area=""><i class="fa fa-home"></i> Guide</a>
                 </li>
                 <li>
-                    <a asp-action="Index" asp-controller="Books"> Книги</a>
+                    <a asp-action="Index" asp-controller="MaterialManage">Материалы</a>
                 </li>
                 <li>
-                    <a asp-action="Index" asp-controller="Books"> Список</a>
+                    <a asp-action="Index" asp-controller="MaterialManage">Список</a>
                 </li>
             </ul>
         </div>
     </div>
+
     <!-- row -->
     <div class="row">
         <!-- col -->
@@ -33,56 +33,63 @@
                 <!-- tile header -->
                 <div class="tile-header dvd dvd-btm">
                     <h1 class="custom-font">
-                        <strong></strong>
+                        <strong>Список материалов</strong>
                     </h1>
-                  
-                   </div>
+                    
+                </div>
                 <!-- /tile header -->
+
                 <!-- tile body -->
-                <div class="tile-body">
+                <div class="tile-body" style="display: block">
                     <div class="table-responsive">
-                        <table style="width: 100%" class="table table-custom" id="editable-usage">
+                        <table class="table table-custom" id="editable-usage">
                             <thead>
                             <tr>
                                 <th>Название</th>
                                 <th>Автор</th>
-                                <th>Год издания</th>
-                                <th style="width: 160px;" class="no-sort">Действие</th>
+                                <th>Категория</th>
+                                <th>Тип</th>
+                                <th>Дата создания</th>
+                               
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach (var book in Model)
+                            @foreach (var post in Model)
                             {
-                                <tr class="even gradeC">
+                                <tr class="odd gradeX">
                                     <td>
-                                        <a asp-action="Details" asp-controller="Books" asp-route-id="@book.Id">@book.Name</a>
+                                        <a asp-action="Details" asp-controller="Material" asp-route-id="@post.Id">@post.Title</a>
                                     </td>
-                                    <td>@book.Author</td>
-                                    <td>@book.YearOfWriting</td>
-                                    <td >
-                                       <a asp-action="ReadBook" asp-controller="Books" asp-route-path="@book.VirtualPath" asp-route-id="@book.Id"><i class="fa fa-book"></i> читать </a>  
-                                        
-                                    </td>
+                                    <td>@post.Author</td>
+                                    @if (post.CategoryId != null)
+                                    {
+                                        <td>@post.Category.Name</td>
+                                    }
+                                    else
+                                    {
+                                        <td></td>  
+                                    }
+                                    <td>@post.Type.Name</td>
+                                    <td>@post.DateOfCreate</td>
+                                  
                                 </tr>
                             }
                             </tbody>
                         </table>
                     </div>
                 </div>
-            <!-- /tile body -->
+                <!-- /tile body -->
             </section>
-        <!-- /tile -->
+            <!-- /tile -->
+            <!-- tile -->
         </div>
-    <!-- /col -->
+        <!-- /col -->
     </div>
-<!-- /row -->
-</div>
-
-
-
+    <!-- /row -->
+</div>      
 @section Scripts
 {
-    <script>
+    <script> 
         $(window).load(function(){                                           
             let oTable = $('#editable-usage').DataTable({
                 "aoColumnDefs": [
