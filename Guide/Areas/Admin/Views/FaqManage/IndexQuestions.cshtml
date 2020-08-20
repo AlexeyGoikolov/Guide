@@ -32,10 +32,10 @@
     else
     {
         <h4>Вопросы</h4>
-        @foreach (var glossery in Model)
+        @foreach (var questionAnswer in Model)
         {
             <div class="mb-10">
-                <a asp-action="Preview" asp-controller="FaqManage" asp-route-id="@glossery.Id">@glossery.Question</a>
+                <a asp-action="Create" asp-controller="FaqManage" asp-route-id="@questionAnswer.Id">@questionAnswer.Question</a>
             </div>
         }
     }

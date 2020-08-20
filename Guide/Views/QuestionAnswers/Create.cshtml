@@ -26,21 +26,21 @@
 
         <div class="page-bar">
             <ul class="page-breadcrumb">
-                <li>
-                    <a asp-action="Details" asp-controller="Account"><i class="fa fa-home"></i> Guide</a>
+                <li style="background: #138a72">
+                    <a asp-action="Details" asp-controller="Account" asp-area=""><i class="fa fa-home"></i> Guide</a>
                 </li>
                 <li>
                     <a asp-action="Index" asp-controller="QuestionAnswers"> Вопрос-ответ</a>
                 </li>
                 <li>
-                    <a> @ViewBag.Title</a> 
+                    <a> @ViewBag.Title</a>
                 </li>
             </ul>
         </div>
     </div>
     <div class="card" style="width:100%;margin:auto;">
         <div class="card-body">
-            <form asp-action="Create" asp-controller="FaqManage" asp-area="Admin" method="post" enctype="multipart/form-data" asp-antiforgery="true">
+            <form asp-action="Create" asp-controller="QuestionAnswers" asp-area="" method="post" enctype="multipart/form-data" asp-antiforgery="true">
                 @{ Html.RenderPartial("PartialViews/QuestionAnswers", Model); }
                 <input type="hidden" value="@Model.QuestionAnswer.Id" asp-for="QuestionAnswer.Id">
                 <input type="hidden" value="@Model.Status" asp-for="@Model.Status">
