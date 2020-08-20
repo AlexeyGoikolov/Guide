@@ -22,6 +22,7 @@ namespace Guide.ViewModels
         public IFormFile VirtualPath { get; set; }
         public string _virtualPath { get; set; }
         public string PhysicalPath { get; set; }
+        public int? TypeContentId { get; set; }
         public int? CategoryId { get; set; }
         [Required(ErrorMessage = "Необходимо заполнить поле Тип")]
         public int? TypeId { get; set; }

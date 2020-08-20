@@ -101,10 +101,14 @@
                 },                  
             });
         }    
-        var loadCategories = function(){
-            var catInput = $('#catInput').val();
-            $("#categories-row").load('@Url.Action("CreateCategoryAjax", "MaterialManage")',{Name: catInput});
+        var loadTypeContent = function(){
+            var typeContentInput = $('#typeContentInput').val();
+            $("#typeContent-row").load('@Url.Action("CreateTypeContentAjax", "MaterialManage")',{Name: typeContentInput});
         };
+        var loadCategories = function(){
+                    var catInput = $('#catInput').val();
+                    $("#categories-row").load('@Url.Action("CreateCategoryAjax", "MaterialManage")',{Name: catInput});
+                };
         var loadTemplate = function(){
             var templateTitle = $('#templateTitle').val();
             var templateContent = CKEDITOR.instances['ContentTemplate'].getData();
@@ -115,19 +119,28 @@
             var typeInput = $('#typeInput').val();
             $("#types-row").load('@Url.Action("CreateTypeAjax", "MaterialManage")',{Name: typeInput});
         };
+        
+        var deleteTypeContent = function(typeContentId){
+                    $("#typeContent-row").load('@Url.Action("DeleteTypeContentAjax", "MaterialManage")', {Id: typeContentId});
+                };
         var deleteCategory = function(categoryId){
             $("#categories-row").load('@Url.Action("DeleteCategoryAjax", "MaterialManage")', {Id: categoryId});
         };
-                var deleteTemplate = function(templateId){
-                    $("#template-row").load('@Url.Action("DeleteTemplateAjax", "MaterialManage")', {Id: templateId});
-                };
+        var deleteTemplate = function(templateId){
+            $("#template-row").load('@Url.Action("DeleteTemplateAjax", "MaterialManage")', {Id: templateId});
+        };
         var deleteType = function(typeId){
             $("#types-row").load('@Url.Action("DeleteTypeAjax", "MaterialManage")', {Id: typeId});
         };
         $(document).ready(function(){
+            loadTypeContent();
             loadTemplate();
             loadCategories();
             loadTypes();
+            $('body').on('click','#typeContentButton',function(event){
+                 event.preventDefault();
+                 setTimeout(loadTypeContent, 200)
+            });
             $('body').on('click','#catButton',function(event){
                  event.preventDefault();
                  setTimeout(loadCategories, 200)
@@ -140,6 +153,10 @@
                  event.preventDefault();
                  setTimeout(loadTypes, 200)
             });
+            $('body').on('click','.buttonDeleteTypeContent',function(event){
+                             event.preventDefault();
+                             setTimeout(function() {deleteTypeContent(event.currentTarget.value)}, 200)
+                        });
             $('body').on('click','.buttonDeleteCat',function(event){
                  event.preventDefault();
                  setTimeout(function() {deleteCategory(event.currentTarget.value)}, 200)

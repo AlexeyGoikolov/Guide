@@ -75,6 +75,7 @@ namespace Guide.Areas.Admin.Controllers
                     Author = model.Author,
                     TextContent = model.TextContent,
                     CategoryId = model.CategoryId,
+                    
                     TypeId = model.TypeId,
                     PhysicalPath = model.PhysicalPath,
                     VirtualPath = Load(model.Id, model.VirtualPath)
@@ -119,6 +120,40 @@ namespace Guide.Areas.Admin.Controllers
             };
 
             return PartialView("PartialViews/CategoriesPartial", model);
+        }
+        
+        public IActionResult CreateTypeContentAjax(TypeContent typeContent)
+        {
+            if (typeContent.Name != null)
+            {
+                _db.TypeContents.Add(typeContent);
+                _db.SaveChanges();
+            }
+
+            MaterialTypeContentViewModel model = new MaterialTypeContentViewModel()
+            {
+                Material = new MaterialCreateViewModel(),
+                TypeContents = _db.TypeContents.Where(c=> c.Active).ToList(),
+            };
+
+            return PartialView("PartialViews/TypeContentPartial", model);
+        }
+        public IActionResult DeleteTypeContentAjax(int id)
+        {
+            TypeContent typeContent = _db.TypeContents.FirstOrDefault(c => c.Id == id);
+            if (typeContent != null)
+            {
+                typeContent.Active = false;
+                _db.SaveChanges();
+            }
+
+            MaterialTypeContentViewModel model = new MaterialTypeContentViewModel()
+            {
+                Material = new MaterialCreateViewModel(),
+                TypeContents = _db.TypeContents.Where(c=> c.Active).ToList(),
+            };
+
+            return PartialView("PartialViews/TypeContentPartial", model);
         }
 
         public IActionResult CreateTypeAjax(Type type)
