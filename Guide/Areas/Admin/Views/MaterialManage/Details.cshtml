@@ -23,7 +23,7 @@
             </ul>
         </div>
     </div>
-<div class="page page-tables-datatables panel-body">
+<div class="page-tables-datatables panel-body p-0">
 <section class="tile time-simple">
 
     <!-- tile body -->
@@ -32,8 +32,8 @@
         <!-- row -->
         <div class="row">
             <div class="col-md-9">
-                <h2 class="custom-font mb-5">@Model.Title </h2>
-                <div class="desc text-default lt mb-20 material_content">
+                <h2 class="custom-font mt-0 mb-5">@Model.Title </h2>
+                <div class="desc text-default lt mb-20 mt-20 material_content">
                @Html.Raw(Model.TextContent)
             </div>
                
@@ -58,7 +58,7 @@
                 <div style="margin: 10px;">
                     @if (Model.VirtualPath != null)
                     {
-                        <a class="btn btn-blue" src="~/@Model.VirtualPath">ссылка</a>
+                        <a class="btn btn-blue" target="_blank" href="../../../@Model.VirtualPath">ссылка</a>
                     }
                 </div>
                 <div style="margin: 5px; margin-left: auto">
@@ -66,10 +66,9 @@
 
                 </div>
                 <div>
-                    <div class="panel-body">
+                    <div class="">
                         <textarea id="comment_area" class="form-control textarea_chat" placeholder="Оставить свой комментарий..." rows="3"></textarea>
-                        <br>
-                        <button type="button" class="btn btn-info pull-right" name="@Model.Id" id ="sendComment">Добавить</button>
+                        <button type="button" class="btn btn-info mt-10" name="@Model.Id" id ="sendComment">Добавить</button>
                         <div class="clearfix"></div>
                     </div>
                     <div style="margin: 5px; margin-left: auto">
