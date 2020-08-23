@@ -34,7 +34,7 @@
             <form class="create-form" asp-action="Create" asp-controller="MaterialManage" method="post" enctype="multipart/form-data">
                 <div asp-validation-summary="ModelOnly"></div>
                 @{ Html.RenderPartial("PartialViews/FormPartial", Model); }
-                <button type="submit" class="btn btn-info float-right" style=" width: 31%;">Создать</button>
+                
                 <input type="hidden" value="@Model.Id" id="postId" asp-for="Id">
             </form>
         </div>
@@ -101,6 +101,14 @@
                 },                  
             });
         }    
+        var loadTypeContent = function(){
+            var typeContentInput = $('#typeContentInput').val();
+            $("#typeContent-row").load('@Url.Action("CreateTypeContentAjax", "MaterialManage")',{Name: typeContentInput});
+        };
+         var loadTypeState = function(){
+             var typeStateInput = $('#typeStateInput').val();
+             $("#typeState-row").load('@Url.Action("CreateTypeStateAjax", "MaterialManage")',{Name: typeStateInput});
+        };
         var loadCategories = function(){
             var catInput = $('#catInput').val();
             $("#categories-row").load('@Url.Action("CreateCategoryAjax", "MaterialManage")',{Name: catInput});
@@ -115,19 +123,37 @@
             var typeInput = $('#typeInput').val();
             $("#types-row").load('@Url.Action("CreateTypeAjax", "MaterialManage")',{Name: typeInput});
         };
+        
+        var deleteTypeContent = function(typeContentId){
+            $("#typeContent-row").load('@Url.Action("DeleteTypeContentAjax", "MaterialManage")', {Id: typeContentId});
+        };
+        var deleteTypeState = function(typeStateId){
+            $("#typeContent-row").load('@Url.Action("DeleteTypeStateAjax", "MaterialManage")', {Id: typeStateId});
+        };
         var deleteCategory = function(categoryId){
             $("#categories-row").load('@Url.Action("DeleteCategoryAjax", "MaterialManage")', {Id: categoryId});
         };
-                var deleteTemplate = function(templateId){
-                    $("#template-row").load('@Url.Action("DeleteTemplateAjax", "MaterialManage")', {Id: templateId});
-                };
+        var deleteTemplate = function(templateId){
+            $("#template-row").load('@Url.Action("DeleteTemplateAjax", "MaterialManage")', {Id: templateId});
+        };
         var deleteType = function(typeId){
             $("#types-row").load('@Url.Action("DeleteTypeAjax", "MaterialManage")', {Id: typeId});
         };
         $(document).ready(function(){
+            loadTypeState();
+            loadTypeContent();
             loadTemplate();
             loadCategories();
             loadTypes();
+            
+            $('body').on('click','#typeContentButton',function(event){
+                 event.preventDefault();
+                 setTimeout(loadTypeContent, 200)
+            });
+             $('body').on('click','#typeStateButton',function(event){
+                  event.preventDefault();
+                  setTimeout(loadTypeState, 200)
+                        });
             $('body').on('click','#catButton',function(event){
                  event.preventDefault();
                  setTimeout(loadCategories, 200)
@@ -140,6 +166,14 @@
                  event.preventDefault();
                  setTimeout(loadTypes, 200)
             });
+            $('body').on('click','.buttonDeleteTypeContent',function(event){
+                 event.preventDefault();
+                  setTimeout(function() {deleteTypeContent(event.currentTarget.value)}, 200)
+            });
+            $('body').on('click','.buttonDeleteTypeState',function(event){
+                 event.preventDefault();
+                 setTimeout(function() {deleteTypeState(event.currentTarget.value)}, 200)
+             });
             $('body').on('click','.buttonDeleteCat',function(event){
                  event.preventDefault();
                  setTimeout(function() {deleteCategory(event.currentTarget.value)}, 200)

@@ -4,15 +4,17 @@ using System.Collections.Generic;
 using Guide.Models.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Guide.Migrations
 {
     [DbContext(typeof(GuideContext))]
-    partial class GuideContextModelSnapshot : ModelSnapshot
+    [Migration("20200820213540_addPost_UserId_SId_CId")]
+    partial class addPost_UserId_SId_CId
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -251,9 +253,6 @@ namespace Guide.Migrations
                     b.Property<string>("AskingId")
                         .HasColumnType("text");
 
-                    b.Property<string>("AskingId")
-                        .HasColumnType("text");
-
                     b.Property<List<string>>("Links")
                         .HasColumnType("text[]");
 
@@ -270,15 +269,6 @@ namespace Guide.Migrations
                     b.Property<int>("State")
                         .HasColumnType("integer");
 
-                    b.HasKey("Id");
-
-                    b.HasIndex("AskingId");
-
-                    b.HasIndex("PostId");
-
-                    b.HasIndex("ResponderId");
-
-                    b.ToTable("QuestionAnswers");
                     b.HasKey("Id");
 
                     b.HasIndex("AskingId");
@@ -656,13 +646,6 @@ namespace Guide.Migrations
                         .WithMany()
                         .HasForeignKey("AskingId");
 
-                    b.HasOne("Guide.Models.Post", "Post")
-                        .WithMany()
-                        .HasForeignKey("PostId");
-
-                    b.HasOne("Guide.Models.User", "Responder")
-                        .WithMany()
-                        .HasForeignKey("ResponderId");
                     b.HasOne("Guide.Models.Post", "Post")
                         .WithMany()
                         .HasForeignKey("PostId");
