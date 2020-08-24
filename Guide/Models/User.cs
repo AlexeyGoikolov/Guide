@@ -10,7 +10,7 @@ namespace Guide.Models
         public int PositionId { get; set; }
         public virtual Position Position { get; set; }
 
-        public string Avatar { get; set; }
+        public string Avatar { get; set; } = null;
         public bool Active { get; set; } = true;
         
         public DateTime DateCreate { get; set; } = DateTime.Now;

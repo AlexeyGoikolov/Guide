@@ -35,7 +35,11 @@
                 <h2 class="custom-font mt-0 mb-5">@Model.Title </h2>
                 <div class="desc text-default lt mb-20 mt-20 material_content">
                @Html.Raw(Model.TextContent)
-               <iframe width="100%" height="400" src="~/@Model.VirtualPath"></iframe>
+               @if (@Model.VirtualPath != null)
+               {
+                    <iframe width="100%" height="400" src="~/@Model.VirtualPath"></iframe>
+               }
+              
             </div>
                
             </div>
