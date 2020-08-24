@@ -11,8 +11,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Guide.Migrations
 {
     [DbContext(typeof(GuideContext))]
-    [Migration("20200820213540_addPost_UserId_SId_CId")]
-    partial class addPost_UserId_SId_CId
+    [Migration("20200824140929_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
