@@ -10,7 +10,7 @@
 @if (Model.Status != QuestionAnswersStatus.ToQuestion)
 {
     <div>
-        <label>Ответ</label>
+        <label>Решение ситуации</label>
         <textarea name="ckeditor"  type="text" asp-for="QuestionAnswer.Answer" value="@Model.QuestionAnswer.Answer"></textarea>
     </div>
 }
