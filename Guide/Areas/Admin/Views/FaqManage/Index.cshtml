@@ -52,8 +52,6 @@
                             <thead>
                             <tr>
                                 <th>Название</th>
-                                <th>Автор</th>
-                               
                                 <th style="width: 160px;" class="no-sort">Действие</th>
                             </tr>
                             </thead>
@@ -64,14 +62,12 @@
                                     <td>
                                         <a asp-action="Preview" asp-controller="FaqManage" asp-route-id="@question.Id">@question.Question</a>
                                     </td>
-                                    <td>@question.Asking.Name  @question.Asking.Surname</td>
-                                   
-                                   
-                                    <td >
+                                    
+                                    <td>
                                         <a role="button" asp-action="Preview" asp-controller="QuestionAnswers" asp-area="" asp-route-id="@question.Id"
                                            target="_blank" tabindex="0" class="edit text-green text-uppercase text-strong text-sm mr-10">Вид пользователя</a>
                                         <a role="button" asp-action="" asp-controller="FaqManage" asp-route-id="@question.Id" tabindex="0" class="edit text-primary text-uppercase text-strong text-sm mr-10">Изменить</a>
-                                        <a role="button" tabindex="0" class="delete text-danger text-uppercase text-strong text-sm mr-10" asp-action="Delete" asp-controller="MaterialManage" asp-route-id="@question.Id">Удалить</a>
+                                        <a role="button" tabindex="0" class="delete text-danger text-uppercase text-strong text-sm mr-10" asp-action="Delete" asp-controller="FaqManage" asp-route-id="@question.Id">Удалить</a>
                                     </td>
                                 </tr>
                             }
