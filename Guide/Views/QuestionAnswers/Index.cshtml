@@ -1,7 +1,7 @@
 ﻿@model List<QuestionAnswer>
 
 @{
-    ViewBag.Title = "Часто задаваемые вопросы";
+    ViewBag.Title = "Список";
     Layout = "_LayoutEmployee";
 }
 
@@ -16,7 +16,7 @@
                     <a asp-action="Details" asp-controller="Account"><i class="fa fa-home"></i> Guide</a>
                 </li>
                 <li>
-                    <a asp-action="Index" asp-controller="QuestionAnswers" asp-area=""> Вопрос-ответ</a>
+                    <a asp-action="Index" asp-controller="QuestionAnswers" asp-area=""> Ситуационная база</a>
                 </li>
                 <li>
                     <a asp-action="Index" asp-controller="QuestionAnswers" asp-area=""> @ViewBag.Title</a>
@@ -33,7 +33,7 @@
                 <!-- tile header -->
                 <div class="tile-header dvd dvd-btm">
                     <h1 class="custom-font">
-                        <strong>Список часто задаваемых вопросов</strong>
+                        <strong>Список Беспроблемных ситуаций</strong>
                     </h1>
                    
                 </div>

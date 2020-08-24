@@ -30,7 +30,7 @@
                     <a asp-action="Details" asp-controller="Account"><i class="fa fa-home"></i> Guide</a>
                 </li>
                 <li>
-                    <a asp-action="Index" asp-controller="FaqManage"> Вопрос-ответ</a>
+                    <a asp-action="Index" asp-controller="FaqManage"> Ситуационная база</a>
                 </li>
                 <li>
                     <a> @ViewBag.Title</a> 
@@ -40,35 +40,42 @@
     </div>
     <div class="card" style="width:100%;margin:auto;">
         <div class="card-body">
-            <form asp-action="Create" asp-controller="FaqManage" asp-area="Admin" method="post" enctype="multipart/form-data" asp-antiforgery="true">
+           
+            <form class="create-form" asp-action="Create" asp-controller="FaqManage" 
+                  asp-area="Admin" method="post" enctype="multipart/form-data" >
                 @{ Html.RenderPartial("PartialViews/QuestionAnswers", Model); }
                 <input type="hidden" value="@Model.QuestionAnswer.Id" asp-for="QuestionAnswer.Id">
                 <input type="hidden" value="@Model.Status" asp-for="@Model.Status">
                 <input type="hidden" value="@Model.PostId" asp-for="@Model.PostId">
-                    @if (Model.Status == QuestionAnswersStatus.Create)
-                    {
-                        <button type="submit" class="btn btn-info" style="margin:  20px 0 0;" >Добавить</button>
-                    }
-                    else if  (Model.Status == QuestionAnswersStatus.Edit)
-                    {
-                        <button type="submit" class="btn btn-info" style="margin:  20px 0 0;" >Сохранить</button>
-                    }
-                    else if  (Model.Status == QuestionAnswersStatus.ToAnswer)
-                    {
-                        <button type="submit" class="btn btn-info" style="margin:  20px 0 0;" >Ответить</button>
-                    }
-                    else if  (Model.Status == QuestionAnswersStatus.ToQuestion)
-                    {
-                        <button type="submit" class="btn btn-info" style="margin:  20px 0 0;" >Отправить</button>
-                    }
-                    <a asp-action="Index" asp-controller="FaqManage" class="btn btn-info" style="margin:  20px 0 0;" >Отменить</a>
+                @if (Model.Status == QuestionAnswersStatus.Create)
+                {
+                    <button type="submit" class="btn btn-info" style="margin:  20px 0 0;">Добавить</button>
+                }
+                else if (Model.Status == QuestionAnswersStatus.Edit)
+                {
+                    <button type="submit" class="btn btn-info" style="margin:  20px 0 0;">Сохранить</button>
+                }
+                else if (Model.Status == QuestionAnswersStatus.ToAnswer)
+                {
+                    <button type="submit" class="btn btn-info" style="margin:  20px 0 0;">Ответить</button>
+                }
+                else if (Model.Status == QuestionAnswersStatus.ToQuestion)
+                {
+                    <button type="submit" class="btn btn-info" style="margin:  20px 0 0;">Отправить</button>
+                }
+                <a asp-action="Index" asp-controller="FaqManage" class="btn btn-info" style="margin:  20px 0 0;">Отменить</a>
             </form>
         </div>
     </div>
 </div>
-@section Scripts
-{
-    @{
+ @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+
+@section Scripts
+{
+   
+     <script>
+            CKEDITOR.replace('ckeditor');
+        </script>
 }

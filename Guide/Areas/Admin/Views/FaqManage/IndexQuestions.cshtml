@@ -16,28 +16,75 @@
                     <a asp-action="Details" asp-controller="Account" asp-area=""><i class="fa fa-home"></i> Guide</a>
                 </li>
                 <li>
-                    <a asp-action="Index" asp-controller="FaqManage"> Вопрос-ответ</a>
+                    <a asp-action="Index" asp-controller="FaqManage"> Ситуационная база</a>
                 </li>
                 <li>
-                    <a asp-action="IndexQuestions" asp-controller="FaqManage"> Список без ответов</a>
+                    <a asp-action="IndexQuestions" asp-controller="FaqManage"> Проблемные ситуации</a>
                 </li>
             </ul>
         </div>
     </div>
+      <!-- row -->
+        <div class="row">
+            <!-- col -->
+            <div class="col-md-12">
+                <!-- tile -->
+                <section class="tile">
+                    <!-- tile header -->
+                    <div class="tile-header dvd dvd-btm">
+                        <h1 class="custom-font">
+                            <strong>Проблемные  ситуации</strong>
+                        </h1>
+                        <ul class="controls">
+                            <li>
+                                <a role="button" tabindex="0" target="_blank" asp-action="" asp-controller="FaqManage"><i class="fa fa-plus mr-5"></i>Добавить</a>
+                            </li>
+                            <li>
+                                <a role="button" tabindex="0" target="_blank" asp-action="Index" asp-controller="QuestionAnswers"><i class="fa fa-eye mr-5"></i>Вид пользователя</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- /tile header -->
     
-    @if (Model.Count == 0)
-    {
-        <p>Список пуст</p>
-    }
-    else
-    {
-        <h4>Вопросы</h4>
-        @foreach (var questionAnswer in Model)
-        {
-            <div class="mb-10">
-                <a asp-action="Create" asp-controller="FaqManage" asp-route-id="@questionAnswer.Id">@questionAnswer.Question</a>
+                    <!-- tile body -->
+                    <div class="tile-body" style="display: block">
+                        <div class="table-responsive">
+                            <table class="table table-custom" id="editable-usage">
+                                <thead>
+                                <tr>
+                                    <th>Название</th>
+                                   <th style="width: 160px;" class="no-sort">Действие</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach (var question in Model)
+                                {
+                                    <tr class="odd gradeX">
+                                        <td>
+                                            <a asp-action="Create" asp-controller="FaqManage" asp-route-id="@question.Id">@question.Question</a>
+                                        </td>
+                                       
+                                        <td>
+                                            <a class="btn btn-rounded-20 btn-default btn-sm mr-5 p-5" style="width:30px;" role="button" tabindex="0" target="_blank"
+                                               title="Вид пользователя" asp-action="Preview" asp-controller="QuestionAnswers" asp-area="" asp-route-id="@question.Id">
+                                                <i class="fa fa-eye"></i>
+                                            </a>
+                                            
+                                        </td>
+                                    </tr>
+                                }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <!-- /tile body -->
+                </section>
+                <!-- /tile -->
+                <!-- tile -->
             </div>
-        }
-    }
+            <!-- /col -->
+        </div>
+        <!-- /row -->
+   
 
 </div>
