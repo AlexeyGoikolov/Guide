@@ -35,6 +35,7 @@
                 <h2 class="custom-font mt-0 mb-5">@Model.Title </h2>
                 <div class="desc text-default lt mb-20 mt-20 material_content">
                @Html.Raw(Model.TextContent)
+               <iframe width="100%" height="400" src="~/@Model.VirtualPath"></iframe>
             </div>
                
             </div>
@@ -54,13 +55,7 @@
                 }
                 <div>Категория - @Model.Category.Name</div>
                 <div>Тип - @Model.Type.Name</div>
-
-                <div style="margin: 10px;">
-                    @if (Model.VirtualPath != null)
-                    {
-                        <a class="btn btn-blue" target="_blank" href="../../../@Model.VirtualPath">ссылка</a>
-                    }
-                </div>
+                
                 <div style="margin: 5px; margin-left: auto">
                     <a asp-action="Create" asp-controller="FaqManage" class="btn btn-info" asp-route-status="ToQuestion" asp-route-postId="@Model.Id">Задать вопрос</a>
 

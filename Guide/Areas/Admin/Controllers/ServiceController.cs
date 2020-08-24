@@ -27,7 +27,7 @@ namespace Guide.Areas.Admin.Controllers
         {
             User user;
             if (id == null)
-                user = _db.Users.FirstOrDefault(u => u.Id == _userManager.GetUserId(User));
+                 user = _userManager.GetUserAsync(User).Result;
             else
                 user = _db.Users.FirstOrDefault(u => u.Id == id);
 
