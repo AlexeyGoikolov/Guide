@@ -11,8 +11,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Guide.Migrations
 {
     [DbContext(typeof(GuideContext))]
-    [Migration("20200820203957_addTypeState")]
-    partial class addTypeState
+    [Migration("20200824140929_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -207,8 +207,17 @@ namespace Guide.Migrations
                     b.Property<string>("Title")
                         .HasColumnType("text");
 
+                    b.Property<int?>("TypeContentId")
+                        .HasColumnType("integer");
+
                     b.Property<int?>("TypeId")
                         .HasColumnType("integer");
+
+                    b.Property<int?>("TypeStateId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("text");
 
                     b.Property<string>("VirtualPath")
                         .HasColumnType("text");
@@ -217,7 +226,13 @@ namespace Guide.Migrations
 
                     b.HasIndex("CategoryId");
 
+                    b.HasIndex("TypeContentId");
+
                     b.HasIndex("TypeId");
+
+                    b.HasIndex("TypeStateId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Posts");
                 });
@@ -608,9 +623,21 @@ namespace Guide.Migrations
                         .WithMany()
                         .HasForeignKey("CategoryId");
 
+                    b.HasOne("Guide.Models.TypeContent", "TypeContent")
+                        .WithMany()
+                        .HasForeignKey("TypeContentId");
+
                     b.HasOne("Guide.Models.Type", "Type")
                         .WithMany()
                         .HasForeignKey("TypeId");
+
+                    b.HasOne("Guide.Models.TypeState", "TypeState")
+                        .WithMany()
+                        .HasForeignKey("TypeStateId");
+
+                    b.HasOne("Guide.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("Guide.Models.QuestionAnswer", b =>

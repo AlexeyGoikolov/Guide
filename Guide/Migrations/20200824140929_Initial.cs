@@ -84,6 +84,20 @@ namespace Guide.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "TypeContents",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(nullable: true),
+                    Active = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TypeContents", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Types",
                 columns: table => new
                 {
@@ -95,6 +109,20 @@ namespace Guide.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Types", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TypeStates",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(nullable: true),
+                    Active = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TypeStates", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -140,6 +168,7 @@ namespace Guide.Migrations
                     Name = table.Column<string>(nullable: true),
                     Surname = table.Column<string>(nullable: true),
                     PositionId = table.Column<int>(nullable: false),
+                    Avatar = table.Column<string>(nullable: true),
                     Active = table.Column<bool>(nullable: false),
                     DateCreate = table.Column<DateTime>(nullable: false)
                 },
@@ -190,40 +219,6 @@ namespace Guide.Migrations
                         principalTable: "Types",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Posts",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Title = table.Column<string>(nullable: true),
-                    Author = table.Column<string>(nullable: true),
-                    TextContent = table.Column<string>(nullable: true),
-                    VirtualPath = table.Column<string>(nullable: true),
-                    PhysicalPath = table.Column<string>(nullable: true),
-                    DateOfCreate = table.Column<DateTime>(nullable: false),
-                    DateOfUpdate = table.Column<DateTime>(nullable: false),
-                    CategoryId = table.Column<int>(nullable: true),
-                    TypeId = table.Column<int>(nullable: true),
-                    Active = table.Column<bool>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Posts", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Posts_Categories_CategoryId",
-                        column: x => x.CategoryId,
-                        principalTable: "Categories",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Posts_Types_TypeId",
-                        column: x => x.TypeId,
-                        principalTable: "Types",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -309,6 +304,81 @@ namespace Guide.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Posts",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Title = table.Column<string>(nullable: true),
+                    Author = table.Column<string>(nullable: true),
+                    TextContent = table.Column<string>(nullable: true),
+                    VirtualPath = table.Column<string>(nullable: true),
+                    TypeContentId = table.Column<int>(nullable: true),
+                    TypeStateId = table.Column<int>(nullable: true),
+                    UserId = table.Column<string>(nullable: true),
+                    PhysicalPath = table.Column<string>(nullable: true),
+                    DateOfCreate = table.Column<DateTime>(nullable: false),
+                    DateOfUpdate = table.Column<DateTime>(nullable: false),
+                    CategoryId = table.Column<int>(nullable: true),
+                    TypeId = table.Column<int>(nullable: true),
+                    Active = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Posts", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Posts_Categories_CategoryId",
+                        column: x => x.CategoryId,
+                        principalTable: "Categories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Posts_TypeContents_TypeContentId",
+                        column: x => x.TypeContentId,
+                        principalTable: "TypeContents",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Posts_Types_TypeId",
+                        column: x => x.TypeId,
+                        principalTable: "Types",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Posts_TypeStates_TypeStateId",
+                        column: x => x.TypeStateId,
+                        principalTable: "TypeStates",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Posts_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TaskUsers",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    UserId = table.Column<string>(nullable: true),
+                    Task = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TaskUsers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_TaskUsers_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -446,9 +516,24 @@ namespace Guide.Migrations
                 column: "CategoryId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Posts_TypeContentId",
+                table: "Posts",
+                column: "TypeContentId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Posts_TypeId",
                 table: "Posts",
                 column: "TypeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Posts_TypeStateId",
+                table: "Posts",
+                column: "TypeStateId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Posts_UserId",
+                table: "Posts",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_QuestionAnswers_AskingId",
@@ -464,6 +549,11 @@ namespace Guide.Migrations
                 name: "IX_QuestionAnswers_ResponderId",
                 table: "QuestionAnswers",
                 column: "ResponderId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TaskUsers_UserId",
+                table: "TaskUsers",
+                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -496,25 +586,34 @@ namespace Guide.Migrations
                 name: "QuestionAnswers");
 
             migrationBuilder.DropTable(
+                name: "TaskUsers");
+
+            migrationBuilder.DropTable(
                 name: "Templates");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
                 name: "Posts");
-
-            migrationBuilder.DropTable(
-                name: "Positions");
 
             migrationBuilder.DropTable(
                 name: "Categories");
 
             migrationBuilder.DropTable(
+                name: "TypeContents");
+
+            migrationBuilder.DropTable(
                 name: "Types");
+
+            migrationBuilder.DropTable(
+                name: "TypeStates");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Positions");
         }
     }
 }

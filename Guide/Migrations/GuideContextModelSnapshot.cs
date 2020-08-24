@@ -251,9 +251,6 @@ namespace Guide.Migrations
                     b.Property<string>("AskingId")
                         .HasColumnType("text");
 
-                    b.Property<string>("AskingId")
-                        .HasColumnType("text");
-
                     b.Property<List<string>>("Links")
                         .HasColumnType("text[]");
 
@@ -270,15 +267,6 @@ namespace Guide.Migrations
                     b.Property<int>("State")
                         .HasColumnType("integer");
 
-                    b.HasKey("Id");
-
-                    b.HasIndex("AskingId");
-
-                    b.HasIndex("PostId");
-
-                    b.HasIndex("ResponderId");
-
-                    b.ToTable("QuestionAnswers");
                     b.HasKey("Id");
 
                     b.HasIndex("AskingId");
@@ -656,13 +644,6 @@ namespace Guide.Migrations
                         .WithMany()
                         .HasForeignKey("AskingId");
 
-                    b.HasOne("Guide.Models.Post", "Post")
-                        .WithMany()
-                        .HasForeignKey("PostId");
-
-                    b.HasOne("Guide.Models.User", "Responder")
-                        .WithMany()
-                        .HasForeignKey("ResponderId");
                     b.HasOne("Guide.Models.Post", "Post")
                         .WithMany()
                         .HasForeignKey("PostId");
