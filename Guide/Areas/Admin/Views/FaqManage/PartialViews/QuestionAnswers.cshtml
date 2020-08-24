@@ -3,7 +3,7 @@
 <div style="text-align: center">
 </div>
 <div>
-    <label>Вопрос<span class="text-danger">*</span></label>
+    <label>Ситуация<span class="text-danger">*</span></label>
     <input class="form-control" type="text" asp-for="QuestionAnswer.Question" value="@Model.QuestionAnswer.Question">
     <br/><span class="validationError" asp-validation-for="QuestionAnswer.Question"></span>
 </div>
@@ -11,7 +11,6 @@
 {
     <div>
         <label>Ответ</label>
-        <textarea class="form-control" type="text" asp-for="QuestionAnswer.Answer" value="@Model.QuestionAnswer.Answer"></textarea>
-        <br/><span class="validationError" asp-validation-for="QuestionAnswer.Answer"></span>
+        <textarea name="ckeditor"  type="text" asp-for="QuestionAnswer.Answer" value="@Model.QuestionAnswer.Answer"></textarea>
     </div>
 }

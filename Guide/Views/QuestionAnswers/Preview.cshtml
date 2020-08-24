@@ -1,7 +1,7 @@
 ﻿@model QuestionAnswer
 
 @{
-    ViewBag.Title = "Подробный ответ";
+    ViewBag.Title = "Ситуация";
     Layout = "_LayoutEmployee";
 }
 
@@ -13,7 +13,7 @@
                     <a asp-action="Details" asp-controller="Account" asp-area=""><i class="fa fa-home"></i> Guide</a>
                 </li>
                 <li>
-                    <a asp-action="Index" asp-controller="QuestionAnswers" asp-area=""> Вопрос-ответ</a>
+                    <a asp-action="Index" asp-controller="QuestionAnswers" asp-area=""> Ситуационная база</a>
                 </li>
                 <li>
                     <a asp-action="Preview" asp-controller="QuestionAnswers" asp-area="" asp-route-id="@Model.Id"> @ViewBag.Title</a>
@@ -21,9 +21,13 @@
             </ul>
         </div>
     </div>
+    
     <div class="pt-3">
         <h2>@Model.Question</h2>
         <h6>ответ от @Model.Responder.Name @Model.Responder.Surname :</h6>
-        <h4>@Model.Answer</h4>
+        <div>
+           @Html.Raw(Model.Answer) 
+        </div> 
+     
     </div>
 </div>
