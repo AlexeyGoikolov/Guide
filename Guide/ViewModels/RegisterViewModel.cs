@@ -29,5 +29,6 @@ namespace Guide.ViewModels
         [Compare("Password", ErrorMessage = "Пароли не совпадают")]
         [DataType(DataType.Password)]
         public string PasswordConfirm { get; set; }
+        public Roles Role { get; set; }
     }
 }

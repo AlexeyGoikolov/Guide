@@ -165,6 +165,9 @@ namespace Guide.Controllers
                 var result = await _userManager.CreateAsync(user, model.User.Password);
                 if (result.Succeeded)
                 {
+                    string role = Convert.ToString(model.User.Role);
+                    await _userManager.AddToRoleAsync(user,role);
+                    await _signInManager.SignInAsync(user, false);
                     return RedirectToAction("Details", "Account");
                 }
                 foreach (var error in result.Errors)

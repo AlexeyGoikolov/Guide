@@ -1,22 +1,19 @@
 ﻿@model QuestionAnswer
 
 @{
-    ViewBag.Title = "Подробный ответ";
+    ViewBag.Title = "Ситуация и ее решение";
     Layout = "_Layout";
 }
 
 <div class="page">
     <div class="pageheader">
-
-     
-
         <div class="page-bar">
             <ul class="page-breadcrumb">
                 <li>
                     <a asp-action="Details" asp-controller="Account" asp-area=""><i class="fa fa-home"></i> Guide</a>
                 </li>
                 <li>
-                    <a asp-action="Index" asp-controller="FaqManage"> Вопрос-ответ</a>
+                    <a asp-action="Index" asp-controller="FaqManage">Ситуационная база</a>
                 </li>
                 <li>
                     <a asp-action="Preview" asp-controller="FaqManage" asp-route-id="@Model.Id"> @ViewBag.Title</a>
@@ -24,13 +21,23 @@
             </ul>
         </div>
     </div>
-    <div class="pt-3">
-           <h2>@Model.Question</h2>
-        <h3>ответ от @Model.Responder.Name @Model.Responder.Surname :</h3>
-        @Model.Answer
 
-    </div>
+    <h2>Ситуация :"@Model.Question"</h2>
+    <h4>решение ситуации от @Model.Responder.Name @Model.Responder.Surname :</h4>
+    <div class="row">
 
+        <div class="col-sm-12 portlets sortable">
+            <section class="tile portlet ">
+
+                <!-- tile body -->
+                <div class="tile-body">
+                    <p> @Html.Raw(Model.Answer)</p>
+                </div>
+                <!-- /tile body -->
+
+            </section>
+        </div>
+      </div>
     <div>
         @if (Model.Answer != null)
         {
