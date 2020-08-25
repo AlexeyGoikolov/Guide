@@ -3,7 +3,7 @@
 @{
    @if (Model.Status == QuestionAnswersStatus.Create)
     {
-        ViewBag.Title = "Добавление";
+        ViewBag.Title = "Добавить ситуацию";
     }
     else if  (Model.Status == QuestionAnswersStatus.Edit)
     {
@@ -11,11 +11,11 @@
     }
     else if (Model.Status == QuestionAnswersStatus.ToAnswer)
     {
-        ViewBag.Title = "Ответить";
+        ViewBag.Title = "Создать решение ситуации";
     }
     else
     {
-        ViewBag.Title = "Отправить вопрос";
+        ViewBag.Title = "Создать Проблемную ситуацию";
     }
     Layout = "_Layout";
 }
@@ -76,6 +76,6 @@
 {
    
      <script>
-            CKEDITOR.replace('ckeditor');
+            CKEDITOR.replace('QuestionAnswer.Answer');
         </script>
 }

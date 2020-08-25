@@ -1,7 +1,7 @@
 ﻿@model List<QuestionAnswer>
 
 @{
-    ViewBag.Title = "Список без ответов";
+    ViewBag.Title = "Проблемные ситуации";
     Layout = "_Layout";
 }
 
@@ -37,11 +37,9 @@
                         </h1>
                         <ul class="controls">
                             <li>
-                                <a role="button" tabindex="0" target="_blank" asp-action="" asp-controller="FaqManage"><i class="fa fa-plus mr-5"></i>Добавить</a>
+                                <a role="button" tabindex="0" target="_blank" asp-action="Create" asp-controller="FaqManage"><i class="fa fa-plus mr-5"></i>Добавить</a>
                             </li>
-                            <li>
-                                <a role="button" tabindex="0" target="_blank" asp-action="Index" asp-controller="QuestionAnswers"><i class="fa fa-eye mr-5"></i>Вид пользователя</a>
-                            </li>
+                           
                         </ul>
                     </div>
                     <!-- /tile header -->
@@ -63,13 +61,17 @@
                                         <td>
                                             <a asp-action="Create" asp-controller="FaqManage" asp-route-id="@question.Id">@question.Question</a>
                                         </td>
-                                       
+
                                         <td>
-                                            <a class="btn btn-rounded-20 btn-default btn-sm mr-5 p-5" style="width:30px;" role="button" tabindex="0" target="_blank"
-                                               title="Вид пользователя" asp-action="Preview" asp-controller="QuestionAnswers" asp-area="" asp-route-id="@question.Id">
-                                                <i class="fa fa-eye"></i>
+                                            <a class="btn btn-rounded-20 btn-default btn-sm mr-5 p-5" style="width:30px;" role="button" asp-action="Create"
+                                               asp-controller="FaqManage" asp-route-id="@question.Id" tabindex="0" title="Изменить">
+                                                <i class="fa fa-pencil"></i>
                                             </a>
-                                            
+                                            <a class="btn btn-rounded-20 btn-default btn-sm mr-5 p-5" style="width:30px;" role="button" tabindex="0"
+                                               title="Удалить" asp-action="Delete" asp-controller="FaqManage" asp-route-id="@question.Id">
+                                                <i class="fa fa-trash"></i>
+                                            </a>
+
                                         </td>
                                     </tr>
                                 }

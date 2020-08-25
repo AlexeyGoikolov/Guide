@@ -22,12 +22,20 @@
         </div>
     </div>
     
-    <div class="pt-3">
-        <h2>@Model.Question</h2>
-        <h6>ответ от @Model.Responder.Name @Model.Responder.Surname :</h6>
-        <div>
-           @Html.Raw(Model.Answer) 
-        </div> 
-     
-    </div>
+     <h2>Ситуация :"@Model.Question"</h2>
+       <h4>решение ситуации от @Model.Responder.Name @Model.Responder.Surname :</h4>
+       <div class="row">
+   
+           <div class="col-sm-12 portlets sortable">
+               <section class="tile portlet ">
+   
+                   <!-- tile body -->
+                   <div class="tile-body">
+                       <p> @Html.Raw(Model.Answer)</p>
+                   </div>
+                   <!-- /tile body -->
+   
+               </section>
+           </div>
+         </div>
 </div>
