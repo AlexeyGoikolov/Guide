@@ -3,6 +3,12 @@ using System.Threading.Tasks;
 using Guide.Models;
 using Microsoft.AspNetCore.Identity;
 
+public enum Roles
+{
+    admin,
+    user
+}
+
 namespace Guide.Services
 {
     public class RoleInitializer
