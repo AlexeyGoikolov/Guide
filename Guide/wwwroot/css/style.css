@@ -48,3 +48,22 @@
 .tascUsersDescription_tatl{
     padding-bottom: 30px;
 }
+.steps {
+    overflow: scroll; /* Добавляем полосы прокрутки */
+    margin-top: 10px;
+    height: 50vh; /* Высота блока */
+    padding: 5px; /* Поля вокруг текста */
+    border: solid 1px #aaaaaa; /* Параметры рамки */
+}
+.list{
+    border: 1px dashed #aaaaaa;
+    background: #f3f3f3;
+    min-height: 80vh;
+}
+.trashbin{
+    position: absolute;
+    height: 55px;
+    width: 92%;
+    top: 0;
+}
+

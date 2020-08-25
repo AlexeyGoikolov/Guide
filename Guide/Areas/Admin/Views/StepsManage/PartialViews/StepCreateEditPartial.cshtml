@@ -1,0 +1,50 @@
+﻿@model Step
+
+
+<div class="row">
+    <div class="col-sm-8 portlets sortable">
+        <section class="tile portlet col - 9">
+
+            <!-- tile body -->
+            <div class="tile-body">
+                <div >
+                    <label>Заголовок<span class="text-danger">*</span></label>
+                    <br/><span class="validationError" asp-validation-for="Name"></span>
+                    <input class="form-control" type="text" asp-for="Name" value="@Model.Name">
+                </div>
+                <div>
+                    <label>Содержание<span class="text-danger">*</span></label>
+                    <textarea name="stepDescription" type="text" asp-for="StepDescription" value="@Model.StepDescription">@Model.StepDescription</textarea>
+                </div>
+            </div>
+            <!-- /tile body -->
+        </section>
+    </div>
+    <div class="col-sm-4 portlets sortable">
+        <section class="tile portlet col - 3">
+            <!-- tile body -->
+            <div class="tile-body">
+                <div>
+                    <label>Автор<span class="text-danger">*</span></label>
+                    <br/><span class="validationError" asp-validation-for="Author"></span>
+                    <input class="form-control" type="text" asp-for="Author" value="@Model.Author">
+                    @if (Model.Id == 0)
+                    {
+                        <button type="submit" class="btn btn-info mt-10" style=" width: 100%;">Создать</button> 
+                    }
+                    else
+                    {
+                        <button type="submit" class="btn btn-info mt-10" style=" width: 100%;">Редактировать</button>
+                    }
+                    
+                </div>
+            </div>
+            
+            <!-- /tile body -->
+
+        </section>
+    </div>
+</div>
+<div style="text-align: center">
+    <span class="validationError">@Html.ValidationMessage("CustomError")</span>
+</div>

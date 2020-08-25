@@ -10,9 +10,9 @@ namespace Guide.Models.Data
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Type> Types { get; set; }
         public DbSet<TypeContent> TypeContents { get; set; }
-        
+
         public DbSet<TypeState> TypeStates { get; set; }
-        
+
         public DbSet<Category> Categories { get; set; }
         public DbSet<QuestionAnswer> QuestionAnswers { get; set; }
         public DbSet<Glossary> Glossaries { get; set; }
@@ -20,7 +20,32 @@ namespace Guide.Models.Data
         public DbSet<Book> Books { get; set; }
         public DbSet<Template> Templates { get; set; }
         public DbSet<TaskUser> TaskUsers { get; set; }
+        public DbSet<Issue> Issues { get; set; }
+        public DbSet<Step> Steps { get; set; }
+        public DbSet<IssueStep> IssueStep { get; set; }
+        
+        
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<IssueStep>()
+                .HasKey(t => new {t.Id});
 
-        public GuideContext(DbContextOptions<GuideContext> options) : base(options) {}
+            modelBuilder.Entity<IssueStep>()
+                .HasOne(isc => isc.Issue)
+                .WithMany(i => i.IssueSteps)
+                .HasForeignKey(isc => isc.IssueId);
+
+            modelBuilder.Entity<IssueStep>()
+                .HasOne(isc => isc.Step)
+                .WithMany(s => s.IssueSteps)
+                .HasForeignKey(isc => isc.StepId);
+        }
+        public GuideContext(DbContextOptions<GuideContext> options) : base(options)
+        {
+        }
+
+        
     }
 }
+

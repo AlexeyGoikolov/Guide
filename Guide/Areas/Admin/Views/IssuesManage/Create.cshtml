@@ -1,0 +1,49 @@
+﻿@model Issue
+
+@{
+    ViewBag.Title = "Новая задача";
+    Layout = "_Layout";
+}
+
+<div class="page page-ui-portlets">
+    <div class="pageheader">
+
+        <h2>@ViewBag.Title</h2>
+
+        <div class="page-bar">
+
+            <ul class="page-breadcrumb">
+                <li>
+                    <a asp-action="Details" asp-controller="Account"><i class="fa fa-home"></i> Guide</a>
+                </li>
+                <li>
+                    <a asp-action="Index" asp-controller="IssuesManage"> Задачи</a>
+                </li>
+                <li>
+                    <a asp-action="Create" asp-controller="IssuesManage"> Добавить</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        <div class="tile-body">
+            <form class="create-form" asp-action="Create" asp-controller="IssuesManage" asp-area="Admin" method="post" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly"></div>
+                @{ Html.RenderPartial("PartialViews/IssueCreateEditPartial", Model); }
+                <div class="text-center" style="width: 100%">
+                    <button type="submit" class="btn btn-info" style="width: 49%;">Создать</button>
+                    <button type="submit" class="btn btn-info" style="width: 49%;">Добавить шаги</button>
+                </div>
+                
+            </form>
+        </div>
+
+    </div>
+</div>
+
+@section Scripts
+{
+    <script>
+        CKEDITOR.replace('issueDescription');
+    </script>
+}

@@ -373,7 +373,7 @@ namespace Guide.Areas.Admin.Controllers
 
         public IActionResult Delete(int id)
         {
-            if (id != null)
+            if (id != 0)
             {
                 Post post = _db.Posts.FirstOrDefault(v => v.Id == id);
                 if (post != null)
@@ -387,7 +387,7 @@ namespace Guide.Areas.Admin.Controllers
 
         [HttpPost]
         [ActionName("Delete")]
-        public IActionResult ConfirmDeleta(int id)
+        public IActionResult ConfirmDelete(int id)
         {
             if (id != null)
             {

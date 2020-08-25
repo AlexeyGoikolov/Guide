@@ -1,0 +1,129 @@
+﻿@model Step
+
+@{
+    ViewBag.Title = "Содержание шага";
+    Layout = "_Layout";
+}
+
+<div class="page">
+    <div class="pageheader">
+
+        <h2>@ViewBag.Title</h2>
+
+        <div class="page-bar">
+
+            <ul class="page-breadcrumb">
+                <li>
+                    <a asp-action="Details" asp-controller="Account"><i class="fa fa-home"></i> Guide</a>
+                </li>
+                <li>
+                    <a asp-action="Index" asp-controller="StepsManage"> Шаги</a>
+                </li>
+                <li>
+                    <a asp-action="Details" asp-controller="StepsManage" asp-route-id="@Model.Id">@ViewBag.Title</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="page-tables-datatables panel-body p-0">
+        <section class="tile time-simple">
+
+            <!-- tile body -->
+            <div class="tile-body">
+
+                <!-- row -->
+                <div class="row">
+                    <div class="col-md-9">
+                        <h2 class="custom-font mt-0 mb-5">@Model.Name </h2>
+                        <div class="desc text-default lt mb-20 mt-20 material_content">
+                            @Html.Raw(Model.StepDescription)
+                        </div>
+
+                    </div>
+                    <div class="col-md-3 material_discription" data-lightbox="gallery">
+                        @if (Model.Author != null)
+                        {
+                            <h5>Автор : @Model.Author</h5>
+                        }
+                        <div>Дата добавления - @Model.CreatedAt</div>
+                        <div>Тип - @Model.Type</div>
+
+                        <div style="margin: 5px; margin-left: auto">
+                            <a asp-action="Create" asp-controller="FaqManage" class="btn btn-info" asp-route-status="ToQuestion" asp-route-postId="@Model.Id">Задать вопрос</a>
+                        </div>
+                        <div>
+                            <div class="">
+                                <textarea id="comment_area" class="form-control textarea_chat" placeholder="Оставить свой комментарий..." rows="3"></textarea>
+                                <button type="button" class="btn btn-info mt-10" name="@Model.Id" id="sendComment">Добавить</button>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div style="margin: 5px; margin-left: auto">
+                                <button type="button" class="btn btn-info "
+                                        onclick="viewComment('@Model.Id')">
+                                    Посмотреть комментарии
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-info">
+                    <div id="listComment"></div>
+                </div>
+            </div>
+            <!-- /tile body -->
+        </section>
+    </div>
+</div>
+
+<!-- /tile -->
+@section Scripts{
+   
+    <script >
+    $('#sendComment').click(function(event) {
+        event.preventDefault();
+        let id = $('#sendComment').attr('name');
+        let comment = $('#comment_area').val();
+        reset();        
+        $.ajax({
+            url: '@Url.Action("CreateComment", "MaterialManage")',
+            type: 'POST',
+            data: { 
+                'PostId': id, 
+                'Description': comment  },
+            success: function(data) {
+                $('#listComment').html(data); 
+            },
+        });  
+    });
+    
+    let reset = function() {
+        $('#comment_area').val("");               
+    };
+    
+    function deleteComment(Id, PostId) {
+        $.ajax({
+            url: '@Url.Action("DeleteComment", "MaterialManage")',
+            type: 'GET',
+            data: { 
+                'id': Id,
+                'postId': PostId, 
+            },
+            success: function(data) {
+                $('#listComment').html(data); 
+            },
+        });   
+    }
+          
+    function viewComment(id) {
+                          
+        $.ajax({
+            url: '@Url.Action("ViewComment", "MaterialManage")',
+            type: 'GET',
+            data: { 'id': id },
+            success: function(data) {
+            $('#listComment').html(data); 
+            },
+        });   
+    }
+    </script>
+}

@@ -1,0 +1,25 @@
+﻿@model Issue
+
+<div class="row">
+    <div class="col-sm-12 portlets sortable">
+        <section class="tile portlet col-12">
+
+            <!-- tile body -->
+            <div class="tile-body">
+                <div >
+                    <label>Заголовок<span class="text-danger">*</span></label>
+                    <br/><span class="validationError" asp-validation-for="@Model.Name"></span>
+                    <input class="form-control" type="text" asp-for="@Model.Name" value="@Model.Name">
+                </div>
+                <div>
+                    <label>Содержание<span class="text-danger">*</span></label>
+                    <textarea name="issueDescription" type="text" asp-for="@Model.IssueDescription" value="@Model.IssueDescription">@Model.IssueDescription</textarea>
+                </div>
+            </div>
+            <!-- /tile body -->
+        </section>
+    </div>
+</div>
+<div style="text-align: center">
+    <span class="validationError">@Html.ValidationMessage("CustomError")</span>
+</div>

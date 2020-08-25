@@ -1,0 +1,14 @@
+﻿@model Step
+
+@{
+    ViewBag.Title = "ПОдтверждение удаления";
+    Layout = "_Layout";
+}
+
+<div class="page">
+    <h2>Вы уверены что хотите удалить @Model.Name</h2>
+    <form asp-action="Delete" asp-controller="StepsManage" asp-area="Admin" method="post" asp-route-id="@Model.Id">
+        <button type="submit">Подтвердить</button>
+    </form>
+    <a asp-action="Index" asp-controller="StepsManage" asp-area="Admin">Отменить</a>
+</div>

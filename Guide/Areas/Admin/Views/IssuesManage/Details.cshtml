@@ -1,0 +1,61 @@
+﻿@model IssueStepsViewModel
+
+@{
+    ViewBag.Title = "Подробно о задаче";
+    Layout = "_Layout";
+}
+
+<div class="page">
+    <div class="pageheader">
+
+        <h2>@ViewBag.Title</h2>
+
+        <div class="page-bar">
+
+            <ul class="page-breadcrumb">
+                <li>
+                    <a asp-action="Details" asp-controller="Account"><i class="fa fa-home"></i> Guide</a>
+                </li>
+                <li>
+                    <a asp-action="Index" asp-controller="IssuesManage"> Задачи</a>
+                </li>
+                <li>
+                    <a asp-action="Details" asp-controller="IssuesManage" asp-route-id="@Model.Issue.Id">Подробно</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="page-tables-datatables panel-body p-0">
+        <section class="tile time-simple">
+
+            <!-- tile body -->
+            <div class="tile-body">
+
+                <!-- row -->
+                <div class="row">
+                    <div class="col-md-10">
+                        <h2 class="custom-font mt-0 mb-5">@Model.Issue.Name </h2>
+                        <div class="desc text-default lt mb-20 mt-20 material_content">
+                            @Html.Raw(Model.Issue.IssueDescription)
+                            @if (Model.DesignatedSteps.Count > 0)
+                            {
+                                @foreach (var step in Model.DesignatedSteps)
+                                {
+                                    <h3>
+                                        <a asp-action="Details" asp-controller="StepsManage" asp-route-id="@step.Id">@step.Name</a>
+                                    </h3>
+                                }
+                            }
+                        </div>
+
+                    </div>
+                    <div class="col-md-2">
+                        <a class="btn btn-info" asp-action="Edit" asp-controller="IssuesManage" asp-area="Admin" asp-route-id="@Model.Issue.Id">Редактировать</a>
+                    </div>
+                </div>
+            </div>
+            <!-- /tile body -->
+            
+        </section>
+    </div>
+</div>

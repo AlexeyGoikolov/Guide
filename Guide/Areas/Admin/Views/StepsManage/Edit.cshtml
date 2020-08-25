@@ -1,0 +1,44 @@
+﻿@model Step
+
+@{
+    ViewBag.Title = "Редактирование шага";
+    Layout = "_Layout";
+}
+
+<div class="page page-ui-portlets">
+    <div class="pageheader">
+
+        <h2>@ViewBag.Title</h2>
+
+        <div class="page-bar">
+
+            <ul class="page-breadcrumb">
+                <li>
+                    <a asp-action="Details" asp-controller="Account"><i class="fa fa-home"></i> Guide</a>
+                </li>
+                <li>
+                    <a asp-action="Index" asp-controller="StepsManage"> Шаги</a>
+                </li>
+                <li>
+                    <a asp-action="Edit" asp-controller="StepsManage" asp-route-id="@Model.Id"> Редактировать</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        <div class="tile-body">
+            <form class="create-form" asp-action="Edit" asp-controller="StepsManage" method="post" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly"></div>
+                @{ await Html.RenderPartialAsync("PartialViews/StepCreateEditPartial", Model); }
+            </form>
+        </div>
+
+    </div>
+</div>
+
+@section Scripts
+{
+    <script>
+        CKEDITOR.replace('stepDescription');
+    </script>
+}

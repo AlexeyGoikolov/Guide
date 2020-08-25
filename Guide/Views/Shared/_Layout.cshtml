@@ -20,13 +20,11 @@
         <!-- vendor css files -->
         <link rel="stylesheet" href="~/assets/css/vendor/bootstrap.min.css">
         
-                <link rel="stylesheet" href="assets/css/vendor/animate.css">
-                <link rel="stylesheet" href="assets/css/vendor/font-awesome.min.css">
-                <link rel="stylesheet" href="assets/js/vendor/animsition/css/animsition.min.css">
+                <link rel="stylesheet" href="~/assets/css/vendor/animate.css">
+                <link rel="stylesheet" href="~/assets/css/vendor/font-awesome.min.css">
+                <link rel="stylesheet" href="~/assets/js/vendor/animsition/css/animsition.min.css">
                 <link rel="stylesheet" href="~/css/style.css">
                 
-                
-
       
 
         <!-- project main css files -->
@@ -222,6 +220,12 @@
                                                 </ul>
                                             </li>
                                             <li>
+                                                <a asp-controller="IssuesManage" asp-action="Index" asp-area="Admin"><i class="fa fa-tasks"></i>Задачи</a>
+                                            </li>
+                                            <li>
+                                                <a asp-controller="StepsManage" asp-action="Index" asp-area="Admin"><i class="fa fa-tasks"></i>Шаги</a>
+                                            </li>
+                                            <li>
                                                  <a>
                                                   <i class="fa fa-puzzle-piece"></i>
                                                   <span>Глоссарий</span></a>
@@ -307,6 +311,8 @@
     <script src="~/assets/js/vendor/datatables/extensions/ColVis/js/dataTables.colVis.min.js"></script>
     <script src="~/assets/js/vendor/datatables/extensions/TableTools/js/dataTables.tableTools.min.js"></script>
     <script src="~/assets/js/vendor/datatables/extensions/dataTables.bootstrap.js"></script>
+
+    <script src="~/assets/js/vendor/jquery-ui/jquery-ui.min.js"></script>
 
         <!--/ vendor javascripts -->
     
