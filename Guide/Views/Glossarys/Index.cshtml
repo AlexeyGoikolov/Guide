@@ -48,9 +48,6 @@
                             <thead>
                             <tr>
                                 <th>Название</th>
-                                <th>Описание</th>
-                                <th>Аббревиатура  </th>
-                                <th>Источник  </th>
                             </tr>
                             </thead>
                             <tbody>
@@ -60,15 +57,6 @@
                                     <div class="row border">
                                         <td>
                                             <a asp-action="Preview" asp-controller="Glossarys" asp-route-id="@glossery.Id">@glossery.Name</a>
-                                        </td>
-                                        <td>
-                                            @Html.Raw(glossery.Description)
-                                        </td>
-                                        <td>
-                                            @glossery.Abbreviation
-                                        </td>
-                                        <td>
-                                            @glossery.Source
                                         </td>
                                     </div>
                                 </tr>

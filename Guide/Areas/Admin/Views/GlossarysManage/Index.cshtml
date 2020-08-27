@@ -51,33 +51,27 @@
                             <thead>
                             <tr>
                                 <th>Название</th>
-                                <th>Аббревиатура  </th>
-                                <th>Источник  </th>
                                 <th>Действия</th>
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach (var glossery in Model)
+                            @foreach (var glossary in Model)
                             {
-                                <tr class="odd gradeX">
-                                    <div class="row border">
-                                        <td>
-                                            <a asp-action="Preview" asp-controller="GlossarysManage" asp-route-id="@glossery.Id">@glossery.Name</a>
-                                        </td>
-                                        <td>
-                                            @glossery.Abbreviation
-                                        </td>
-                                        <td>
-                                            @glossery.Source
-                                        </td>
-                                        <td>
-                                            <a role="button" asp-action="Edit" asp-controller="GlossarysManage" asp-route-id="@glossery.Id" tabindex="0" class="edit d-block text-primary text-uppercase text-strong text-sm mr-10">Редактировать</a>
-                                            <a role="button" tabindex="0" class="delete d-block text-danger text-uppercase text-strong text-sm mr-10" asp-action="Delete" asp-controller="GlossarysManage" asp-route-id="@glossery.Id">Удалить</a>
-                                        </td>
-                                    </div>
-                                </tr>
+                                if (glossary.Active==true)
+                                {
+                                    <tr class="odd gradeX">
+                                        <div class="row border">
+                                            <td>
+                                                <a asp-action="Preview" asp-controller="GlossarysManage" asp-route-id="@glossary.Id">@glossary.Name</a>
+                                            </td>
+                                            <td>
+                                                <a role="button" asp-action="Edit" asp-controller="GlossarysManage" asp-route-id="@glossary.Id" tabindex="0" class="edit d-block text-primary text-uppercase text-strong text-sm mr-10">Редактировать</a>
+                                                <a role="button" tabindex="0" class="delete d-block text-danger text-uppercase text-strong text-sm mr-10" asp-action="Delete" asp-controller="GlossarysManage" asp-route-id="@glossary.Id">Удалить</a>
+                                            </td>
+                                        </div>
+                                    </tr>
+                                }
                             }
-
                             </tbody>
                         </table>
                     </div>

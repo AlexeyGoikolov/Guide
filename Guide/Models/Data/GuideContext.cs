@@ -23,7 +23,7 @@ namespace Guide.Models.Data
         public DbSet<Issue> Issues { get; set; }
         public DbSet<Step> Steps { get; set; }
         public DbSet<IssueStep> IssueStep { get; set; }
-        
+        public DbSet<Interpretation> Interpretations { get; set; }
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

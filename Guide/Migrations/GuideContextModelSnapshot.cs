@@ -134,6 +134,24 @@ namespace Guide.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
+                    b.Property<bool>("Active")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Glossaries");
+                });
+
+            modelBuilder.Entity("Guide.Models.Interpretation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
                     b.Property<string>("Abbreviation")
                         .HasColumnType("text");
 
@@ -144,16 +162,17 @@ namespace Guide.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<int>("GlossaryId")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Source")
                         .HasColumnType("text");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Glossaries");
+                    b.HasIndex("GlossaryId");
+
+                    b.ToTable("Interpretations");
                 });
 
             modelBuilder.Entity("Guide.Models.Issue", b =>
@@ -684,6 +703,15 @@ namespace Guide.Migrations
                     b.HasOne("Guide.Models.Post", "Post")
                         .WithMany()
                         .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Guide.Models.Interpretation", b =>
+                {
+                    b.HasOne("Guide.Models.Glossary", null)
+                        .WithMany("Interpretations")
+                        .HasForeignKey("GlossaryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

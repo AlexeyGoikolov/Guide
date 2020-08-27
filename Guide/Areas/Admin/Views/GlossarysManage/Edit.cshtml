@@ -1,4 +1,4 @@
-﻿@model Glossary
+﻿@model GlossaryViewModel
 
 @{
     ViewBag.Title = "Редактировать описание термина";
@@ -32,6 +32,7 @@
             <form class="create-form" asp-action="Edit" asp-controller="GlossarysManage" asp-area="Admin" method="post" enctype="multipart/form-data" asp-antiforgery="true">
                 @{ Html.RenderPartial("PartialViews/Glossary", Model); }
                 <input type="hidden" value="@Model.Id" asp-for="Id">
+                <input type="hidden" value="@Model.InterpretationId" asp-for="InterpretationId">
             </form>
         </div>
     </div>

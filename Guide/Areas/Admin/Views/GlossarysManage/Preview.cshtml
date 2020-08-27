@@ -26,15 +26,26 @@
         </div>
     </div>
     <div class="pt-3">
-        @Html.Raw(Model.Description)
+        @foreach (var interpretation in @Model.Interpretations)
+        {
+            if (interpretation.Active==true)
+            {
+                @Html.Raw(interpretation.Description)
+                <div>
+                    <a asp-action="Edit" asp-controller="GlossarysManage" asp-route-id="@Model.Id" asp-route-intrId="@interpretation.Id">Редактировать</a>
+                    <a asp-action="Delete" asp-controller="GlossarysManage" asp-route-id="@Model.Id" asp-route-intrId="@interpretation.Id">Удалить</a>
+                </div>
+                <hr/>
+            }
+        }
     </div>
 
     <div>
         <div>
-            <a asp-action="Edit" asp-controller="GlossarysManage" asp-route-id="@Model.Id">Редактировать</a>
+            <a asp-action="Delete" asp-controller="GlossarysManage" asp-route-id="@Model.Id">Удалить</a>
         </div>
         <div>
-            <a asp-action="Delete" asp-controller="GlossarysManage" asp-route-id="@Model.Id">Удалить</a>
+            <a asp-action="Create" asp-controller="GlossarysManage" asp-route-id="@Model.Id">Добавить описание</a>
         </div>
     </div>
 </div>
