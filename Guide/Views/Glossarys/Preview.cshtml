@@ -25,7 +25,10 @@
             </ul>
         </div>
     </div>
-    <div class="pt-3">
-        @Html.Raw(Model.Description)
-    </div>
+    @foreach (var interpretation in @Model.Interpretations)
+    {
+        <div class="pt-3">
+            @Html.Raw(interpretation.Description)
+        </div>
+    }
 </div>
