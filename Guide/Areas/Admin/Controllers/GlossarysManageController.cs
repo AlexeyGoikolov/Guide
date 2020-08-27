@@ -49,11 +49,12 @@ namespace Guide.Areas.Admin.Controllers
         {
             if (ModelState.IsValid )
             {
-                Glossary glossary = _db.Glossaries.FirstOrDefault(g => g.Name == model.Name);
+                Glossary glossary = _db.Glossaries.FirstOrDefault(g => g.Name == model.Name && g.Active==true);
                 if (glossary == null)
                 {
                       glossary = new Glossary() {Name = model.Name};
                       _db.Glossaries.Add(glossary);
+                      _db.SaveChanges();
                       Interpretation interpretation = new Interpretation()
                       {
                           GlossaryId = glossary.Id,
@@ -76,7 +77,7 @@ namespace Guide.Areas.Admin.Controllers
                     };
                     _db.Interpretations.Add(interpretation);
                     _db.SaveChanges();
-                    return View("~/Areas/Admin/Views/GlossarysManage/Preview.cshtml", _db.Glossaries.FirstOrDefault(g => g.Id == model.Id));
+                    return View("~/Areas/Admin/Views/GlossarysManage/Preview.cshtml", glossary);
                 }
             }
             return View(model);
