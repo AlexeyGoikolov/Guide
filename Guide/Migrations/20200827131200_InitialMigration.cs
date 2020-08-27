@@ -43,10 +43,7 @@ namespace Guide.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Name = table.Column<string>(nullable: false),
-                    Description = table.Column<string>(nullable: false),
-                    Abbreviation = table.Column<string>(nullable: true),
-                    Source = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(nullable: true),
                     Active = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
@@ -175,6 +172,29 @@ namespace Guide.Migrations
                         name: "FK_AspNetRoleClaims_AspNetRoles_RoleId",
                         column: x => x.RoleId,
                         principalTable: "AspNetRoles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Interpretations",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    GlossaryId = table.Column<int>(nullable: false),
+                    Description = table.Column<string>(nullable: false),
+                    Abbreviation = table.Column<string>(nullable: true),
+                    Source = table.Column<string>(nullable: true),
+                    Active = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Interpretations", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Interpretations_Glossaries_GlossaryId",
+                        column: x => x.GlossaryId,
+                        principalTable: "Glossaries",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -570,6 +590,11 @@ namespace Guide.Migrations
                 column: "PostId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Interpretations_GlossaryId",
+                table: "Interpretations",
+                column: "GlossaryId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_IssueStep_IssueId",
                 table: "IssueStep",
                 column: "IssueId");
@@ -649,7 +674,7 @@ namespace Guide.Migrations
                 name: "Comments");
 
             migrationBuilder.DropTable(
-                name: "Glossaries");
+                name: "Interpretations");
 
             migrationBuilder.DropTable(
                 name: "IssueStep");
@@ -665,6 +690,9 @@ namespace Guide.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "Glossaries");
 
             migrationBuilder.DropTable(
                 name: "Issues");
