@@ -1,4 +1,4 @@
-﻿@model Glossary
+﻿@model GlossaryViewModel
 
 @{
     ViewBag.Title = "Добавить термин с описанием";
@@ -6,19 +6,49 @@
 }
 <div class="page page-ui-portlets">
     <div class="pageheader">
-        <h2>@ViewBag.Title</h2>
+        @if (Model.Action=="AddInterpretation")
+        {
+            <h2>Добавить новое описание</h2>
+        }
+        else
+        {
+            <h2>@ViewBag.Title</h2>
+        }
         <div class="page-bar">
-            <ul class="page-breadcrumb">
-                <li>
-                    <a asp-action="Profile" asp-controller="Service"><i class="fa fa-home"></i> Guide</a>
-                </li>
-                <li>
-                    <a asp-action="Index" asp-controller="GlossarysManage">Глоссарий</a>
-                </li>
-                <li>
-                    <a asp-action="Create" asp-controller="GlossarysManage">Добавить</a>
-                </li>
-            </ul>
+            @if (Model.Action=="AddInterpretation")
+            {
+                <ul class="page-breadcrumb">
+                    <li>
+                        <a asp-action="Profile" asp-controller="Service"><i class="fa fa-home"></i> Guide</a>
+                    </li>
+                    <li>
+                        <a asp-action="Index" asp-controller="GlossarysManage">Глоссарий</a>
+                    </li>
+                    <li>
+                        <a asp-action="Index" asp-controller="GlossarysManage">Список</a>
+                    </li>
+                    <li>
+                        <a asp-action="Preview" asp-controller="GlossarysManage" asp-route-id="@Model.Id">@Model.Name</a>
+                    </li>
+                    <li>
+                        <a asp-action="Create" asp-controller="GlossarysManage">Добавить интерпритацию</a>
+                    </li>
+                </ul>
+            }
+            else
+            {
+                <ul class="page-breadcrumb">
+                     <li>
+                         <a asp-action="Profile" asp-controller="Service"><i class="fa fa-home"></i> Guide</a>
+                     </li>
+                     <li>
+                         <a asp-action="Index" asp-controller="GlossarysManage">Глоссарий</a>
+                     </li>
+                     <li>
+                         <a asp-action="Create" asp-controller="GlossarysManage">Добавить</a>
+                     </li>
+                 </ul>
+            }
         </div>
     </div>
     <div class="row">
@@ -26,7 +56,6 @@
             <form class="create-form" asp-action="Create" asp-controller="GlossarysManage" asp-area="Admin" method="post" enctype="multipart/form-data" asp-antiforgery="true">
                 @{ Html.RenderPartial("PartialViews/Glossary", Model); }
                 <input type="hidden" value="@Model.Id" asp-for="Id">
-                
             </form>
         </div>
     </div>

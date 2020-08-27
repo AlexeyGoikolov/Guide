@@ -1,4 +1,4 @@
-﻿@model Glossary
+﻿@model GlossaryViewModel
 
 <div class="row">
     <div class="col-sm-8 portlets">
@@ -6,7 +6,15 @@
             <div class="tile-body">
                 <div>
                     <label>Название термина<span class="text-danger">*</span></label>
-                    <input class="form-control" type="text" asp-for="Name" value="@Model.Name">
+                    @if (Model.Action == "AddInterpretation")
+                    {
+                        <input class="form-control" disabled="disabled" type="text" value="@Model.Name">
+                        <input class="form-control" type="hidden" asp-for="Name" value="@Model.Name">
+                    }
+                    else
+                    {
+                        <input class="form-control" type="text" asp-for="Name" value="@Model.Name">
+                    }
                     <br/><span class="validationError" asp-validation-for="Name"></span>
                 </div>
                 <div>
