@@ -167,7 +167,7 @@ namespace Guide.Controllers
                 {
                     string role = Convert.ToString(model.User.Role);
                     await _userManager.AddToRoleAsync(user,role);
-                    string id = user.Id;
+                    string id = null;
                     return Redirect($"~/Account/Details/{id}");
                     
                 }
