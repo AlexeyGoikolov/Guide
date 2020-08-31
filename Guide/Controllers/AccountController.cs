@@ -123,7 +123,6 @@ namespace Guide.Controllers
             model.Positions = _db.Positions.ToList();
             return View(model);
         }
-
         [Authorize]
         public async Task<IActionResult> ChangePassword(string id)
         {
@@ -187,7 +186,7 @@ namespace Guide.Controllers
                 User user = new User
                 {
                     Email = model.User.Email,
-                    UserName = model.User.Email,
+                    UserName = model.User.Name +" "+ model.User.Surname,
                     Name = model.User.Name,
                     Surname = model.User.Surname,
                     PositionId = model.User.PositionsId
@@ -246,7 +245,7 @@ namespace Guide.Controllers
         }
         
         //добавления должность
-        public IActionResult CreatePositionAjax(Position position)
+        public IActionResult CreatePositionAjax(Position position, PositionsViewModel data)
         {
             if (position.Name != null)
             {
@@ -258,9 +257,14 @@ namespace Guide.Controllers
                 User = new RegisterViewModel(),
                 // ReSharper disable once RedundantBoolCompare
                 Positions = _db.Positions.Where(p=>p.Active).ToList()
+                
             };
-            
+            if (data != null)
+            {
+                model.UserEdit = data.UserEdit;
+            }
             return PartialView("PartialViews/PositionsPortal", model);
+            
         }
         //Удаление должности
         public IActionResult DeletePositionAjax(int id)
