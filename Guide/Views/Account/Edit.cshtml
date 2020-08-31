@@ -1,28 +1,92 @@
-﻿@model User
+﻿@model PositionsViewModel
 @{
-    ViewBag.Title = "Профиль пользователя";
+    ViewBag.Title = "Редактировать";
     Layout = "_Layout";
 }
-<div class="container">
-<h2>Редактирование профиля</h2>
+<div class="page">
+    <div class="pageheader">
+        <h3>Редактировать</h3>
+        <div class="page-bar">
+            <ul class="page-breadcrumb">
+                <li>
+                    <a asp-action="Details" asp-controller="Account"><i class="fa fa-home"></i> Guide</a>
+                </li>
+                <li>
+                    <a asp-action="ListUsers" asp-controller="UsersManage" asp-area="Admin">Пользователи</a>
+                </li>
+                <li>
+                    <a asp-action="Edit" asp-controller="Account" asp-route-id="@Model.UserEdit.Id">Редактировать</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="container w-420 p-15 bg-white mt-40 text-center">
+        
+        <form method="post" asp-controller="Account" asp-action="Edit" enctype="multipart/form-data" class="form-validation mt-5">
 
-
-<div class="row">
-    <div class="col-md-5">
-        <form asp-action="Edit" method="post">
+            <p class="text-center">
+                Редактировать данные сотрудника :
+            </p>
             <div class="form-group">
-                <label asp-for="UserName">Имя пользователя</label>
-                <input class="form-control" asp-for="UserName" type="text">
-                <span asp-validation-for="UserName"></span>
+                <label asp-for="@Model.UserEdit.Role">Уревень доступа</label><br/>
+                <select asp-for="@Model.UserEdit.Role">
+                    @if (Model.UserEdit.Role == Roles.admin)
+                    {
+                        <option value="@Roles.admin">Администратор</option>
+                        <option value="@Roles.user">Пользователь</option>
+                    }
+                    else
+                    {
+                        <option value="@Roles.user">Пользователь</option>
+                        <option value="@Roles.admin">Администратор</option>
+                    }
+                </select>
             </div>
             <div class="form-group">
-                <label asp-for="Email">Почта</label>
-                <input class="form-control" asp-for="Email" type="text">
-                <span asp-validation-for="Email"></span>
+                <input type="email" class="form-control underline-input" asp-for="@Model.UserEdit.Email" value="@Model.UserEdit.Email" placeholder="Почта">
             </div>
-            <input type="hidden" value="@Model.Id"/>
-            <input type="submit" value="Изменить" class="btn btn-outline-dark">
+
+            <div class="form-group">
+                <input type="text" class="form-control underline-input" asp-for="@Model.UserEdit.Name" value="@Model.UserEdit.Name" placeholder="Имя">
+                <span asp-validation-for="@Model.UserEdit.Name"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="text" class="form-control underline-input" asp-for="@Model.UserEdit.Surname" value="@Model.UserEdit.Surname" placeholder="Фамилия">
+                <span asp-validation-for="@Model.UserEdit.Surname"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.UserEdit.Role">Должность</label><br/>
+                <select type="text" class="form-control" asp-for="@Model.UserEdit.PositionsId">
+                    @for (int i = 0; i < Model.Positions.Count; i++)
+                    {
+                        @if (Model.UserEdit.PositionsId == Model.Positions[i].Id)
+                        {
+                            <option value="@Model.UserEdit.PositionsId"> @Model.Positions[i].Name</option>
+                        }
+                    }
+                    @foreach (var position in Model.Positions)
+                    {
+                        <option value="@position.Id">@position.Name</option>
+                    }
+                </select>
+                <span asp-validation-for="@Model.UserEdit.PositionsId"></span>
+            </div>
+             <div class="form-group">
+                 <input class="form-control" asp-for="@Model.UserEdit.Password" placeholder="Новый Пароль"/>
+                 <span asp-validation-for="@Model.UserEdit.Password"></span>
+             </div>
+            <div class="form-group">
+                <input class="form-control" asp-for="@Model.UserEdit.PasswordConfirm" placeholder="Подтвердите пароль"/>
+                <span asp-validation-for="@Model.UserEdit.PasswordConfirm"></span>
+            </div>
+            <input class="form-control" asp-for="@Model.UserEdit.Id" type="hidden" value="@Model.UserEdit.Id"/>
+            <div class="register-form-footer lt wrap-reset mt-20">
+                <input type="submit" class="btn btn-greensea b-0 pull-center" value="Сохранить"/>
+            </div>
         </form>
     </div>
 </div>
-</div>
+@{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+    
+
