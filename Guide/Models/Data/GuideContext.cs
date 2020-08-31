@@ -26,6 +26,10 @@ namespace Guide.Models.Data
         public DbSet<Interpretation> Interpretations { get; set; }
         public DbSet<DesiredResult> DesiredResults { get; set; }
         public DbSet<DesiredResultIssue> DesiredResultIssue { get; set; }
+        public DbSet<BusinessProcess> BusinessProcesses { get; set; }
+        public DbSet<BusinessProcessIssue> BusinessProcessIssues { get; set; }
+        
+        
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

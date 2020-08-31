@@ -78,6 +78,49 @@ namespace Guide.Migrations
                     b.ToTable("Books");
                 });
 
+            modelBuilder.Entity("Guide.Models.BusinessProcess", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Type")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("BusinessProcesses");
+                });
+
+            modelBuilder.Entity("Guide.Models.BusinessProcessIssue", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<int>("BusinessProcessId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("IssueId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BusinessProcessId");
+
+                    b.HasIndex("IssueId");
+
+                    b.ToTable("BusinessProcessIssues");
+                });
+
             modelBuilder.Entity("Guide.Models.Category", b =>
                 {
                     b.Property<int>("Id")
@@ -730,6 +773,21 @@ namespace Guide.Migrations
                     b.HasOne("Guide.Models.Type", "Type")
                         .WithMany()
                         .HasForeignKey("TypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Guide.Models.BusinessProcessIssue", b =>
+                {
+                    b.HasOne("Guide.Models.BusinessProcess", "BusinessProcess")
+                        .WithMany()
+                        .HasForeignKey("BusinessProcessId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Guide.Models.Issue", "Issue")
+                        .WithMany()
+                        .HasForeignKey("IssueId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
