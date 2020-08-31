@@ -17,8 +17,6 @@ namespace Guide.Controllers
         private readonly SignInManager<User> _signInManager;
         private readonly GuideContext _db;
         
-
-
         public AccountController(
             UserManager<User> userManager,
             SignInManager<User> signInManager,
@@ -64,41 +62,66 @@ namespace Guide.Controllers
         
         
         [Authorize(Roles = "admin")]
-        public IActionResult Edit(string id = null)
+        public async Task<IActionResult> Edit(string id = null)
         {
-            User user = new User();
-            if (User.IsInRole("admin"))
+            User user = await _userManager.FindByIdAsync(id);
+            PositionsViewModel model = new PositionsViewModel();
+            model.Positions = _db.Positions.Where(p => p.Active).ToList();
+            model.UserEdit = new EditUserViewModel();
+            if (user != null)
             {
-                user = id == null? _userManager.GetUserAsync(User).Result : _userManager.FindByIdAsync(id).Result;
+                model.UserEdit.Id = user.Id;
+                model.UserEdit.Name = user.Name;
+                model.UserEdit.Email = user.Email;
+                model.UserEdit.PositionsId = user.PositionId;
+                model.UserEdit.Surname = user.Surname;
+                if (await _userManager.IsInRoleAsync(user, "admin"))
+                    model.UserEdit.Role = Roles.admin;
+                else
+                    model.UserEdit.Role = Roles.user;
+                model.UserEdit.Id = user.Id;
             }
-            else
-            {
-                user = _userManager.FindByIdAsync(id).Result;
-            }
-            return View(user);
+            return View(model);
         }
 
         [HttpPost]
         [Authorize(Roles = "admin")]
-        public async Task<IActionResult> Edit(User userModel)
+        public async Task<IActionResult> Edit(PositionsViewModel model)
         {
             if (ModelState.IsValid)
             {
-                User user = await _userManager.FindByIdAsync(userModel.Id);
+                User user = await _userManager.FindByIdAsync(model.UserEdit.Id);
                 if (user != null)
                 {
-                    user.Email = userModel.Email;
+                    user.Name = model.UserEdit.Name;
+                    user.Surname = model.UserEdit.Surname;
+                    user.PositionId = model.UserEdit.PositionsId;
+                    user.Email = model.UserEdit.Email;
+                    user.UserName = model.UserEdit.Name + " " + model.UserEdit.Surname;
+                    if (model.UserEdit.Password != null)
+                    {
+                        await ChangePasswordUsers(user, model.UserEdit.Password);
+                    }
                     
-                    var result = await _userManager.UpdateAsync(user);
-                    if (result.Succeeded)
-                        return RedirectToAction("Details");
-                    foreach (var error in result.Errors)
-                        ModelState.AddModelError("", error.Description);
+                    string role = Convert.ToString(model.UserEdit.Role);
+                    if (role == "admin")
+                    {
+                        await _userManager.AddToRoleAsync(user, role);
+                        await _userManager.RemoveFromRoleAsync(user, "user");
+                    }
+                    if (role == "user")
+                    {
+                        await _userManager.AddToRoleAsync(user, role);
+                        await _userManager.RemoveFromRoleAsync(user, "admin");
+                    }
+                    await _userManager.UpdateAsync(user);
+                    await _db.SaveChangesAsync();
+                    
+                    return Redirect($"~/Account/Details/{user.Id}");
                 }
             }
-
-            return View();
-
+            model.Positions = _db.Positions.ToList();
+            return View(model);
         }
 
         [Authorize]
@@ -124,23 +147,30 @@ namespace Guide.Controllers
                 User user = await _userManager.FindByIdAsync(model.Id);
                 if (user != null)
                 {
-                    var passwordValidator = HttpContext.RequestServices.GetService(typeof(IPasswordValidator<User>)) as IPasswordValidator<User>;
-                    var passwordHasher = HttpContext.RequestServices.GetService(typeof(IPasswordHasher<User>)) as IPasswordHasher<User>;
-                    var result = await passwordValidator.ValidateAsync(_userManager, user, model.NewPassword);
-                    if (result.Succeeded)
-                    {
-                        if (passwordHasher != null)
-                            user.PasswordHash = passwordHasher.HashPassword(user, model.NewPassword);
-                        await _userManager.UpdateAsync(user);
-                        return RedirectToAction("Details");
-                    }
-                    foreach (var error in result.Errors)
-                        ModelState.AddModelError("NewPassword", error.Description);
+                    await ChangePasswordUsers(user, model.NewPassword);
+                    return Redirect($"~/Account/Details/{user.Id}");
                 }
                 ModelState.AddModelError("", "Пользователь не существует");
             }
-
             return View(model);
+        }
+
+        private async Task ChangePasswordUsers(User user, string password)
+        {
+            var passwordValidator = HttpContext.RequestServices.GetService(typeof(IPasswordValidator<User>)) as IPasswordValidator<User>;
+            var passwordHasher = HttpContext.RequestServices.GetService(typeof(IPasswordHasher<User>)) as IPasswordHasher<User>;
+            var result = await passwordValidator.ValidateAsync(_userManager, user, password);
+            if (result.Succeeded)
+            {
+                if (passwordHasher != null)
+                    user.PasswordHash = passwordHasher.HashPassword(user, password);
+                await _userManager.UpdateAsync(user);
+            }
+            else
+            {
+                foreach (var error in result.Errors)
+                    ModelState.AddModelError("NewPassword", error.Description);
+            }
         }
         
         [Authorize(Roles = "admin")]
@@ -167,9 +197,7 @@ namespace Guide.Controllers
                 {
                     string role = Convert.ToString(model.User.Role);
                     await _userManager.AddToRoleAsync(user,role);
-                    string id = null;
-                    return Redirect($"~/Account/Details/{id}");
-                    
+                    return Redirect($"~/Account/Details/{user.Id}");
                 }
                 foreach (var error in result.Errors)
                     ModelState.AddModelError(String.Empty, error.Description);
