@@ -30,11 +30,24 @@
             <form class="create-form" asp-action="Edit" asp-controller="IssuesManage" asp-area="Admin" method="post" enctype="multipart/form-data">
                 <div asp-validation-summary="ModelOnly"></div>
                 @{ Html.RenderPartial("PartialViews/IssueCreateEditPartial", Model); }
-                <div class="text-center" style="width: 100%">
-                    <button type="submit" class="btn btn-info" style="width: 49%">Редактировать</button>
-                    <button type="submit" class="btn btn-info" style="width: 49%">Изменить шаги</button>
+                <div class="row">
+                    <div class="col-sm-2">
+                        <h5>Выберите действие из списка :</h5>
+                    </div>
+                    <div class="col-sm-6">
+                        <select name="choice" style="width: 100%">
+                            <option type="submit" value="1">Сохранить изменения</option>
+                            <option type="submit" value="2">Изменить Шаги</option>
+                            <option type="submit" value="3">Изменить ЖР</option>
+                        </select>
+                    </div>
+                    <div>
+                        <div class="col-sm-4">
+                            <button type="submit" class="btn btn-info fade-out-left-lg">Исполнить</button>
+                        </div>
+                    </div>
                 </div>
-                
+
             </form>
         </div>
 
