@@ -11,6 +11,8 @@
       <_ContentIncludedByDefault Remove="Views\Account\Edit.cshtml" />
       <_ContentIncludedByDefault Remove="wwwroot\BooksFiles\834896c4-b901-48d3-80ef-4618f70cf658\Джошуа Блох - Java. Эффективное программирование.pdf" />
       <_ContentIncludedByDefault Remove="wwwroot\BooksFiles\834896c4-b901-48d3-80ef-4618f70cf658\обложка.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\BooksFiles\Running Lean(Рационализация стартапа)\Book_Running lean Рационализация стартапа.pdf" />
+      <_ContentIncludedByDefault Remove="wwwroot\BooksFiles\Running Lean(Рационализация стартапа)\Обложка Running Lean.jpg" />
     </ItemGroup>
 
     <ItemGroup>
@@ -142,7 +144,9 @@
 
     <ItemGroup>
       <Folder Include="Views\Users" />
+      <Folder Include="wwwroot\BooksFiles" />
       <Folder Include="wwwroot\Image\Avatar" />
+      <Folder Include="wwwroot\PostsFiles" />
     </ItemGroup>
 
 

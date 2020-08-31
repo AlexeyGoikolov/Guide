@@ -68,5 +68,52 @@ namespace Guide.Areas.Admin.Controllers
             }
             return NotFound();
         }
+
+        public IActionResult AddIssues(int id)
+        {
+            if (id != 0)
+            {
+                BusinessProcessIssuesViewModel model = new BusinessProcessIssuesViewModel
+                {
+                    BusinessProcess = _db.BusinessProcesses.FirstOrDefault(b => b.Id == id),
+                    AllIssue = _db.Issues.OrderByDescending(i => i.CreatedAt).ToList(),
+                    DesignatedIssues = _db.BusinessProcessIssues.OrderBy(b => b.Id)
+                        .Where(b => b.BusinessProcessId == id).Select(b => b.Issue)
+                        .ToList()
+                };
+                return View(model);
+            }
+
+            return NotFound();
+        }
+
+        public IActionResult AddBusinessProcessIssuesConnection(int businessId, int[] issuesId)
+        {
+            if (businessId != 0)
+            {
+                var deleteBusinessProcessIssues =
+                    from business in _db.BusinessProcessIssues
+                    where business.BusinessProcessId == businessId
+                    select business;
+
+                foreach (var business in deleteBusinessProcessIssues)
+                {
+                    _db.BusinessProcessIssues.Remove(business);
+                }
+
+                foreach (var issue in issuesId)
+                {
+                    BusinessProcessIssue model = new BusinessProcessIssue
+                    {
+                        BusinessProcessId = businessId,
+                        IssueId = issue
+                    };
+                    _db.BusinessProcessIssues.Add(model);
+                }
+
+                _db.SaveChanges();
+            }
+            return RedirectToAction("Details", "BusinessProcessManage", new {area = "Admin", id = businessId});
+        }
     }
 }

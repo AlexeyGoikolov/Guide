@@ -1,0 +1,163 @@
+﻿@model BusinessProcessIssuesViewModel
+
+@{
+    ViewBag.Title = "Добавление задач к бизнес-процессу";
+    Layout = "_Layout";
+}
+
+<div class="page">
+    <div class="pageheader">
+
+        <h2>@ViewBag.Title - @Model.BusinessProcess.Name</h2>
+
+        <div class="page-bar">
+
+            <ul class="page-breadcrumb">
+                <li>
+                    <a asp-action="Details" asp-controller="Account"><i class="fa fa-home"></i> Guide</a>
+                </li>
+                <li>
+                    <a asp-action="Index" asp-controller="BusinessProcessManage"> Бизнес-процессы</a>
+                </li>
+                <li>
+                    <a asp-action="Edit" asp-controller="BusinessProcessManage" asp-route-id="@Model.BusinessProcess.Id"> Создание бизнес-процесса</a>
+                </li>
+                <li>
+                    <a asp-action="AddIssues" asp-controller="BusinessProcessManage" asp-route-id="@Model.BusinessProcess.Id"> Добавление задач к бизнес-процессу</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="page-tables-datatables panel-body p-0">
+        <section class="tile time-simple">
+
+            <!-- tile body -->
+            <div class="tile-body" data-business="@Model.BusinessProcess.Id">
+                <div class="row">
+                    <div class="col-md-7">
+                        <a class="btn btn-info btn-save" style="width: 100%" href="#">Сохранить</a>
+                    </div>
+                    <div class="col-md-5" style="height: 70px; float: right;">
+                        <div style="border: 1px dashed #aaa; text-align: center; height: 80%;">
+                            <i class="fa fa-trash " style="font-size: 48px; margin-top: 3px; 
+                            color: #aaa; display: flex; justify-content: center"></i>
+                            <div class="trashbin"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- row -->
+                <div class="row">
+                    <div class="col-md-7" style="height: 100%">
+                        <h3>Перенесите необходимые задачи в таблицу ниже</h3>
+                        <div id="list" class="list">
+                            @if (Model.DesignatedIssues.Count > 0)
+                            {
+                                @foreach (var issue in Model.DesignatedIssues){
+                                    <li class="list-group-item" style="width: 100% !important; cursor: pointer;">
+                                        <input class="mb-0" type="hidden" name="id[]" value="@issue.Id">
+                                        <p class="mb-0">Название : @issue.Name</p>
+                                    </li>
+                                }
+                            } 
+                        </div>
+                    </div>
+                    <div class="col-md-5" style="height: 100%">
+                        <h3>Таблица задач</h3>
+                        <div style="border: 1px solid #aaa">
+                            <input class="form-control" type="text" name="searchKey" id="search" 
+                                   placeholder="Поиск по названию шага">
+                        </div>
+                        <div id="issue" class="issues">
+                            @if (Model.AllIssue.Count > 0)
+                            {
+                                <ul class="list-group" style="cursor: pointer;">
+                                    @foreach (var issue in Model.AllIssue)
+                                    {
+                                        <li class="list-group-item" style="width: 100%">
+                                            <input class="mb-0" type="hidden" name="id[]" value="@issue.Id">
+                                            <p class="mb-0">Название : @issue.Name</p>
+                                        </li>
+                                    }
+                                </ul>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <a class="btn btn-info mt-20 btn-save" style="width: 100%" href="#">Сохранить</a>
+                </div>
+                
+            </div>
+            <!-- /tile body -->
+        </section>
+    </div>
+</div>
+@section Scripts
+{
+    <script>
+    $(window).load(() => {        
+        $('#search').keyup(function() {
+            search();            
+        });
+        
+        dragAndDrop();
+        function search() {
+            let searchKey = $('#search').val();           
+            $.get('@Url.Action("AjaxStepSearch", "IssuesManage", new {area="Admin"})',  { word : searchKey}, function(data) {
+            if (data == false)
+                $('#issue').html('<p class="text-danger">Поиск не дал результатов</p>');
+            else
+                $('#issue').html(data);
+                dragAndDrop()
+            });
+        }
+    });
+    function dragAndDrop() {
+        var currentChildren;
+        
+        $('#list').sortable({
+            revert: true,
+            connectWith: '.trashbin',
+            activate: function (event, ui) {
+                currentChildren: $(this).children();
+            },
+            receive: function(event, ui) {
+                let obj = $(this).children().not(currentChildren);               
+            }
+        });
+        
+        $('#issue li').draggable({
+            connectToSortable: '#list',
+            helper: 'clone',
+            revert: 'invalid'
+        });
+        
+        $('.trashbin').sortable({
+            receive: function(even, ui) {
+                $(this).children('li').remove();
+            }
+        });
+        
+        
+        $('.btn-save').click(function (event) {
+            event.preventDefault();
+            let arrayId = [];
+            $("#list li input").each(function(items) {                
+                arrayId.push($(this).val());
+            });
+            let issueId = $('.tile-body').data('business');                                  
+            $.ajax({
+                url: '@Url.Action("AddBusinessProcessIssuesConnection", "BusinessProcessManage", new {area = "Admin"})',                    
+                type: 'GET',  
+                traditional: true,                  
+                data: {businessId: issueId, issuesId: arrayId},
+                success: function() {
+                  window.location.href = "@Url.Action("Details","BusinessProcessManage", new {id = Model.BusinessProcess.Id})"
+                }                                                        
+            });                   
+        });          
+    }    
+
+    </script>
+}
