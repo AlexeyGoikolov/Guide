@@ -48,7 +48,7 @@
 .tascUsersDescription_tatl{
     padding-bottom: 30px;
 }
-.steps
+.steps,
 .issues{
     overflow: scroll; /* Добавляем полосы прокрутки */
     margin-top: 10px;

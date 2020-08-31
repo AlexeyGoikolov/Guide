@@ -68,6 +68,19 @@ namespace Guide.Areas.Admin.Controllers
             }
             return NotFound();
         }
+        
+        [HttpPost]
+        public IActionResult Edit(BusinessProcess model)
+        {
+            if (ModelState.IsValid)
+            {
+                _db.BusinessProcesses.Update(model);
+                _db.SaveChanges();
+                return RedirectToAction("AddIssues", "BusinessProcessManage", new {id = model.Id});;
+            }
+
+            return View(model);
+        }
 
         public IActionResult AddIssues(int id)
         {
@@ -114,6 +127,24 @@ namespace Guide.Areas.Admin.Controllers
                 _db.SaveChanges();
             }
             return RedirectToAction("Details", "BusinessProcessManage", new {area = "Admin", id = businessId});
+        }
+        
+        public IActionResult AjaxIssueSearch(string word)
+        {
+            if (string.IsNullOrEmpty(word))
+            {
+                List<Issue> model = _db.Issues.OrderByDescending(i => i.CreatedAt).ToList();
+                return PartialView("PartialViews/FilterIssuesPartial", model);
+            }
+            
+            string filterWord = word.ToUpper();
+            var issues = _db.Issues.Where(i => 
+                i.Name.ToUpper().Contains(filterWord)).OrderByDescending(i => i.CreatedAt).ToList();
+            if (issues.Count > 0)
+            {
+                return PartialView("PartialViews/FilterIssuesPartial", issues);
+            }
+            return Json(false);
         }
     }
 }
