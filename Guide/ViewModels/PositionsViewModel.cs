@@ -7,5 +7,7 @@ namespace Guide.ViewModels
     {
         public RegisterViewModel User { get; set; }
         public List<Position> Positions { get; set; }
+        public EditUserViewModel UserEdit { get; set; }
+        
     }
 }
