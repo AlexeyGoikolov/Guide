@@ -20,7 +20,7 @@
                     <a asp-action="Index" asp-controller="IssuesManage"> Задачи</a>
                 </li>
                 <li>
-                    <a asp-action="Details" asp-controller="IssuesManage" asp-route-id="@Model.Issue.Id">Подробно</a>
+                 <a asp-action="Details" asp-controller="IssuesManage" asp-route-id="@Model.Issue.Id">Подробно</a>
                 </li>
             </ul>
         </div>
@@ -46,6 +46,17 @@
                                     </h3>
                                 }
                             }
+                          <h2>Желаемые результаты выполнения задачи:</h2>
+                            @if (Model.DesiredResults.Count > 0)
+                            {
+                                @foreach (var dr in Model.DesiredResults)
+                                {
+                                    <h3>
+                                        <a asp-action="" asp-controller="DesiredResult" asp-route-id="@dr.Id">@dr.Name</a>
+                                    </h3>
+                                }
+                            }
+                            
                         </div>
 
                     </div>
