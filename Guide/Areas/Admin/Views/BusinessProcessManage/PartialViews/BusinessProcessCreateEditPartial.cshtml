@@ -1,0 +1,27 @@
+﻿@model BusinessProcess
+
+<div class="row">
+    <div class="col-sm-12 portlets sortable">
+        <section class="tile portlet col-12">
+
+            <!-- tile body -->
+            <div class="tile-body">
+                <div >
+                    <label>Название<span class="text-danger">*</span></label>
+                    <br/><span class="validationError" asp-validation-for="@Model.Name"></span>
+                    <input class="form-control" type="text" asp-for="@Model.Name" value="@Model.Name">
+                </div>
+                <div>
+                    <label>Описание<span class="text-danger">*</span></label>
+                    <textarea name="BPDescription" type="text" asp-for="@Model.Description" value="@Model.Description">@Model.Description</textarea>
+                </div>
+                
+            </div>
+            
+            <!-- /tile body -->
+        </section>
+    </div>
+</div>
+<div style="text-align: center">
+    <span class="validationError">@Html.ValidationMessage("CustomError")</span>
+</div>
