@@ -34,14 +34,20 @@ namespace Guide.Areas.Admin.Controllers
         }
         
         [HttpPost]
-        public IActionResult Create(Issue issue)
+        public IActionResult Create(Issue issue, int choice)
         {
             if (ModelState.IsValid)
             {
                 _db.Issues.Add(issue);
                 _db.SaveChanges();
-                Issue issue1 = _db.Issues.FirstOrDefault(i => i.Name == issue.Name && i.IssueDescription == issue.IssueDescription);
-                return RedirectToAction("AddSteps", "IssuesManage", new {id = issue1.Id});
+                 Issue issue1 = _db.Issues.FirstOrDefault(i => i.Name == issue.Name 
+                                                               && i.IssueDescription == issue.IssueDescription);
+                     //переходит на добавление шага
+                if (choice == 2)
+                    return RedirectToAction("AddSteps", "IssuesManage", new {id = issue1.Id});
+                        // переходит на добавление ЖР
+                if (choice==3)
+                       return RedirectToAction("Create", "DesiredResult", new {issuesId = issue.Id});
             }
 
             return View(issue);
@@ -69,8 +75,11 @@ namespace Guide.Areas.Admin.Controllers
             IssueStepsViewModel model = new IssueStepsViewModel
             {
                 Issue = _db.Issues.FirstOrDefault(i => i.Id == id),
-                DesignatedSteps = _db.IssueStep.OrderBy(i => i.Id).Where(i => i.IssueId == id).Select(s => s.Step).ToList(),
-                AllSteps = new List<Step>()
+                DesignatedSteps = _db.IssueStep.OrderBy(i => i.Id).Where(i => i.IssueId == id).
+                    Select(s => s.Step).ToList(),
+                AllSteps = new List<Step>(),
+                DesiredResults = _db.DesiredResultIssue.OrderBy(d=>d.Id).Where(d=>d.IssueId==id).
+                    Select(s=>s.DesiredResult).ToList()
             };
             return View(model);
         }
