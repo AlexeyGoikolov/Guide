@@ -40,7 +40,7 @@ namespace Guide.Areas.Admin.Controllers
                 _db.SaveChanges();
                 BusinessProcess business = _db.BusinessProcesses.FirstOrDefault(b => b.Name == model.Name 
                                                                                      && b.Description == model.Description);
-                return RedirectToAction("AddIssues", "BusinessProcessManage", new {id = business.Id});
+                return RedirectToAction("AddIssues", "BusinessProcessManage", new {id = business.Id, type = "create"});
             }
 
             return View(model);
@@ -82,7 +82,7 @@ namespace Guide.Areas.Admin.Controllers
             return View(model);
         }
 
-        public IActionResult AddIssues(int id)
+        public IActionResult AddIssues(int id, string type)
         {
             if (id != 0)
             {
@@ -94,6 +94,8 @@ namespace Guide.Areas.Admin.Controllers
                         .Where(b => b.BusinessProcessId == id).Select(b => b.Issue)
                         .ToList()
                 };
+                if (type == "create")
+                    model.Action = "create";
                 return View(model);
             }
 
@@ -145,6 +147,37 @@ namespace Guide.Areas.Admin.Controllers
                 return PartialView("PartialViews/FilterIssuesPartial", issues);
             }
             return Json(false);
+        }
+
+        public IActionResult Delete(int id)
+        {
+            if (id != 0)
+            {
+                BusinessProcess businessProcess = _db.BusinessProcesses.FirstOrDefault(b => b.Id == id);
+                if (businessProcess != null)
+                {
+                    return View(businessProcess);
+                }
+            }
+
+            return NotFound();
+        }
+
+        [HttpPost]
+        [ActionName("Delete")]
+        public IActionResult ConfirmDelete(int id)
+        {
+            if (id != 0)
+            {
+                BusinessProcess businessProcess = _db.BusinessProcesses.FirstOrDefault(b => b.Id == id);
+                if (businessProcess != null)
+                {
+                    _db.BusinessProcesses.Remove(businessProcess);
+                    _db.SaveChanges();
+                }
+            }
+
+            return RedirectToAction("Index", "BusinessProcessManage");
         }
     }
 }

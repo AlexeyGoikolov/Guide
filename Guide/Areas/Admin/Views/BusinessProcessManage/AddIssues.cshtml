@@ -19,9 +19,19 @@
                 <li>
                     <a asp-action="Index" asp-controller="BusinessProcessManage"> Бизнес-процессы</a>
                 </li>
-                <li>
-                    <a asp-action="Edit" asp-controller="BusinessProcessManage" asp-route-id="@Model.BusinessProcess.Id"> Создание бизнес-процесса</a>
-                </li>
+                @if (Model.Action == "create")
+                {
+                    <li>
+                        <a asp-action="Edit" asp-controller="BusinessProcessManage" asp-route-id="@Model.BusinessProcess.Id"> Создание бизнес-процесса</a>
+                    </li>    
+                }
+                else
+                {
+                    <li>
+                        <a asp-action="Edit" asp-controller="BusinessProcessManage" asp-route-id="@Model.BusinessProcess.Id"> Редактирование бизнес-процесса</a>
+                    </li>   
+                }
+                
                 <li>
                     <a asp-action="AddIssues" asp-controller="BusinessProcessManage" asp-route-id="@Model.BusinessProcess.Id"> Добавление задач к бизнес-процессу</a>
                 </li>

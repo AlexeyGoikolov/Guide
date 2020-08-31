@@ -44,7 +44,7 @@ namespace Guide.Areas.Admin.Controllers
                                                                && i.IssueDescription == issue.IssueDescription);
                      //переходит на добавление шага
                 if (choice == 2)
-                    return RedirectToAction("AddSteps", "IssuesManage", new {id = issue1.Id});
+                    return RedirectToAction("AddSteps", "IssuesManage", new {id = issue1.Id, type = "create"});
                         // переходит на добавление ЖР
                 if (choice==3)
                        return RedirectToAction("Create", "DesiredResult", new {issuesId = issue.Id});
@@ -53,7 +53,7 @@ namespace Guide.Areas.Admin.Controllers
             return View(issue);
         }
 
-        public IActionResult AddSteps(int id)
+        public IActionResult AddSteps(int id, string type)
         {
             if (id != 0)
             {
@@ -64,6 +64,8 @@ namespace Guide.Areas.Admin.Controllers
                     AllSteps = _db.Steps.OrderByDescending(s => s.CreatedAt).ToList(),
                     DesignatedSteps = _db.IssueStep.OrderBy(i => i.Id).Where(i => i.IssueId == id).Select(s => s.Step).ToList()
                 };
+                if (type == "create")
+                    model.Action = "create";
                 return View(model);
             }
 
@@ -155,6 +157,37 @@ namespace Guide.Areas.Admin.Controllers
             }
 
             return RedirectToAction("Details", "IssuesManage", new {area = "Admin", id = issueId});
+        }
+
+        public IActionResult Delete(int id)
+        {
+            if (id != 0)
+            {
+                Issue issue = _db.Issues.FirstOrDefault(i => i.Id == id);
+                if (issue != null)
+                {
+                    return View(issue);
+                }
+            }
+
+            return NotFound();
+        }
+
+        [HttpPost]
+        [ActionName("Delete")]
+        public IActionResult ConfirmDelete(int id)
+        {
+            if (id != 0)
+            {
+                Issue issue = _db.Issues.FirstOrDefault(i => i.Id == id);
+                if (issue != null)
+                {
+                    _db.Issues.Remove(issue);
+                    _db.SaveChanges();
+                }
+            }
+
+            return RedirectToAction("Index", "IssuesManage");
         }
     }
 }

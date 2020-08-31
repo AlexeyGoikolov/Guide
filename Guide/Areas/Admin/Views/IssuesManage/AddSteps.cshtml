@@ -19,9 +19,18 @@
                 <li>
                     <a asp-action="Index" asp-controller="IssuesManage"> Задачи</a>
                 </li>
-                <li>
-                    <a asp-action="Edit" asp-controller="IssuesManage" asp-route-id="@Model.Issue.Id"> Создание задачи</a>
-                </li>
+                @if (Model.Action == "create")
+                {
+                    <li>
+                        <a asp-action="Edit" asp-controller="IssuesManage" asp-route-id="@Model.Issue.Id"> Создание задачи</a>
+                    </li> 
+                }
+                else
+                {
+                    <li>
+                        <a asp-action="Edit" asp-controller="IssuesManage" asp-route-id="@Model.Issue.Id"> Редактирование задачи</a>
+                    </li>  
+                }
                 <li>
                     <a asp-action="AddSteps" asp-controller="IssuesManage" asp-route-id="@Model.Issue.Id"> Добавление шагов к задаче</a>
                 </li>

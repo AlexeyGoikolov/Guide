@@ -1,7 +1,7 @@
-﻿@model Step
+﻿@model BusinessProcess
 
 @{
-    ViewBag.Title = "Удаление шага";
+    ViewBag.Title = "Удаление бизнес-процесса";
     Layout = "_Layout";
 }
 
@@ -15,25 +15,25 @@
                     <a asp-action="Details" asp-controller="Account" asp-area=""><i class="fa fa-home"></i> Guide</a>
                 </li>
                 <li>
-                    <a asp-action="Index" asp-controller="StepsManage">Шаги</a>
+                    <a asp-action="Index" asp-controller="BusinessProcessManage">Бизнес-процессы</a>
                 </li>
                 <li>
-                    <a asp-action="Delete" asp-controller="StepsManage" asp-route-id="@Model.Id">Удаление шага</a>
+                    <a asp-action="Delete" asp-controller="BusinessProcessManage" asp-route-id="@Model.Id">Удаление бизнес-процесса</a>
                 </li>
             </ul>
         </div>
     </div>
 
     <div class="page">
-        <h2>Вы уверены что хотите удалить шаг - @Model.Name</h2>
+        <h2>Вы уверены что хотите удалить бизнес-процесс - @Model.Name</h2>
         <div>
             <div style="display: inline-block">
-                <form asp-action="Delete" asp-controller="StepsManage" asp-area="Admin" method="post" asp-route-id="@Model.Id">
+                <form asp-action="Delete" asp-controller="BusinessProcessManage" asp-area="Admin" method="post" asp-route-id="@Model.Id">
                     <button class="btn btn-danger" type="submit">Подтвердить</button>
                 </form>
             </div>
             <div style="display: inline-block">
-                <a class="btn btn-info" asp-action="Index" asp-controller="StepsManage" asp-area="Admin">Отменить</a>
+                <a class="btn btn-info" asp-action="Index" asp-controller="BusinessProcessManage" asp-area="Admin">Отменить</a>
             </div>
         </div>
     </div>

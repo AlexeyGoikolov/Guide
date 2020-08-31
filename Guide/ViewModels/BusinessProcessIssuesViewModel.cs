@@ -8,5 +8,6 @@ namespace Guide.ViewModels
         public BusinessProcess BusinessProcess { get; set; }
         public List<Issue> DesignatedIssues { get; set; }
         public List<Issue> AllIssue { get; set; }
+        public string Action { get; set; }
     }
 }
