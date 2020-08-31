@@ -127,7 +127,7 @@ namespace Guide.Migrations
                     b.ToTable("Comments");
                 });
 
-            modelBuilder.Entity("Guide.Models.DesiredResult", b =>
+            modelBuilder.Entity("Guide.Models.DesResult", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -749,7 +749,7 @@ namespace Guide.Migrations
 
             modelBuilder.Entity("Guide.Models.DesiredResultIssue", b =>
                 {
-                    b.HasOne("Guide.Models.DesiredResult", "DesiredResult")
+                    b.HasOne("Guide.Models.DesResult", "DesResult")
                         .WithMany()
                         .HasForeignKey("DesiredResultId")
                         .OnDelete(DeleteBehavior.Cascade)
