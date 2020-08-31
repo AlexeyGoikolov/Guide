@@ -127,6 +127,46 @@ namespace Guide.Migrations
                     b.ToTable("Comments");
                 });
 
+            modelBuilder.Entity("Guide.Models.DesiredResult", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.Property<int>("Number")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("DesiredResults");
+                });
+
+            modelBuilder.Entity("Guide.Models.DesiredResultIssue", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<int>("DesiredResultId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("IssueId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DesiredResultId");
+
+                    b.HasIndex("IssueId");
+
+                    b.ToTable("DesiredResultIssue");
+                });
+
             modelBuilder.Entity("Guide.Models.Glossary", b =>
                 {
                     b.Property<int>("Id")
@@ -703,6 +743,21 @@ namespace Guide.Migrations
                     b.HasOne("Guide.Models.Post", "Post")
                         .WithMany()
                         .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Guide.Models.DesiredResultIssue", b =>
+                {
+                    b.HasOne("Guide.Models.DesiredResult", "DesiredResult")
+                        .WithMany()
+                        .HasForeignKey("DesiredResultId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Guide.Models.Issue", "Issue")
+                        .WithMany("DesiredResultIssues")
+                        .HasForeignKey("IssueId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

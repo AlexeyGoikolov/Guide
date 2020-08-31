@@ -1,0 +1,97 @@
+﻿@model List<DesiredResult>
+
+@{
+    ViewBag.Title = "ЖР - желаемый результат";
+    Layout = "_Layout";
+}
+
+
+<div class="page page-tables-datatables">
+
+    <div class="pageheader">
+        <h2>@ViewBag.Title</h2>
+        <div class="page-bar">
+            <ul class="page-breadcrumb">
+                <li>
+                    <a asp-action="Details" asp-controller="Account" asp-area=""><i class="fa fa-home"></i> Guide</a>
+                </li>
+                <li>
+                    <a asp-action="Index" asp-controller="DesiredResult">Желаемый результат</a>
+                </li>
+                <li>
+                    <a asp-action="" asp-controller="">Список</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- row -->
+    <div class="row">
+        <!-- col -->
+        <div class="col-md-12">
+            <!-- tile -->
+            <section class="tile">
+                <!-- tile header -->
+                <div class="tile-header dvd dvd-btm">
+                    <h1 class="custom-font">
+                        <strong>ЖР - желаемый результат</strong>
+                    </h1>
+                    <ul class="controls">
+                        <li>
+                            <a role="button" tabindex="0" target="_blank" asp-action="Create" asp-controller="DesiredResult"><i class="fa fa-plus mr-5"></i>Добавить</a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- /tile header -->
+
+                <!-- tile body -->
+                <div class="tile-body" style="display: block">
+                    <div class="table-responsive">
+                        <table class="table table-custom" id="editable-usage">
+                            <thead>
+                            <tr>
+                                <th>Номер</th>
+                                <th>Название</th>
+                               <th style="width: 160px;" class="no-sort">Действие</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach (var desiredResult in Model)
+                            {
+                                <tr class="odd gradeX">
+                                    <td>@desiredResult.Number</td>
+                                    <td>@desiredResult.Name</td>
+                                   <td >
+                                       <a class="btn btn-rounded-20 btn-default btn-sm mr-5 p-5" style="width:30px;" role="button" asp-action="" 
+                                           asp-controller="DesiredResult" asp-route-id="@desiredResult.Id" tabindex="0" title="Изменить"><i class="fa fa-pencil"></i></a>
+                                        <a class="btn btn-rounded-20 btn-default btn-sm mr-5 p-5" style="width:30px;" role="button" tabindex="0" 
+                                           title="Удалить" asp-action="" asp-controller="DesiredResult" asp-route-id="@desiredResult.Id"><i class="fa fa-trash"></i></a>
+                                    </td>
+                                </tr>
+                            }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- /tile body -->
+            </section>
+            <!-- /tile -->
+            <!-- tile -->
+        </div>
+        <!-- /col -->
+    </div>
+    <!-- /row -->
+</div>      
+@section Scripts
+{
+    <script> 
+        $(window).load(function(){                                           
+            let oTable = $('#editable-usage').DataTable({
+                "aoColumnDefs": [
+                    { 'defaultContent': '-', 'bSortable': false, 'aTargets': [ "no_sort" ] }
+                ]
+            });                         
+        });
+    </script>
+}
+

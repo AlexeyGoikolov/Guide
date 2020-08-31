@@ -24,6 +24,8 @@ namespace Guide.Models.Data
         public DbSet<Step> Steps { get; set; }
         public DbSet<IssueStep> IssueStep { get; set; }
         public DbSet<Interpretation> Interpretations { get; set; }
+        public DbSet<DesiredResult> DesiredResults { get; set; }
+        public DbSet<DesiredResultIssue> DesiredResultIssue { get; set; }
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -11,10 +11,12 @@ namespace Guide.Models
         public string Type { get; set; } = "Задача";
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         public virtual List<IssueStep> IssueSteps { get; set; }
+        public virtual List< DesiredResultIssue>  DesiredResultIssues { get; set; }
 
         public Issue()
         {
             IssueSteps = new List<IssueStep>();
+            DesiredResultIssues= new List<DesiredResultIssue>();
         }
     }
 }
