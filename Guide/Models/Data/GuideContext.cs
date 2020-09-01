@@ -29,6 +29,7 @@ namespace Guide.Models.Data
         public DbSet<DesiredResultStep> DesiredResultStep { get; set; }
         public DbSet<BusinessProcess> BusinessProcesses { get; set; }
         public DbSet<BusinessProcessIssue> BusinessProcessIssues { get; set; }
+        public DbSet<UserIssue> UserIssues { get; set; }
         
         
         

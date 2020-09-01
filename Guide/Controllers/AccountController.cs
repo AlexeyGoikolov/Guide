@@ -43,6 +43,9 @@ namespace Guide.Controllers
             UserDetailsViewModel model = new UserDetailsViewModel();
             model.User = user;
             model.Task = _db.TaskUsers.FirstOrDefault(t => t.UserId == user.Id);
+            model.Issues = _db.UserIssues.OrderBy(d => d.Id)
+                .Where(d => d.UserId == user.Id).
+                Select(s => s.Issue).ToList();
             return View(model);
         }
 
@@ -186,7 +189,7 @@ namespace Guide.Controllers
                 User user = new User
                 {
                     Email = model.User.Email,
-                    UserName = model.User.Name +" "+ model.User.Surname,
+                    UserName = model.User.Email,
                     Name = model.User.Name,
                     Surname = model.User.Surname,
                     PositionId = model.User.PositionsId

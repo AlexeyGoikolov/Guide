@@ -196,5 +196,31 @@ namespace Guide.Areas.Admin.Controllers
 
             return RedirectToAction("Index", "IssuesManage");
         }
+        
+        public IActionResult AddForUser(string id)
+        {
+            AddForUserViewModel model = new AddForUserViewModel();
+            model.UserId = id;
+            model.Issues=_db.Issues.ToList();
+            
+            return View(model);
+        }
+        [HttpPost]
+        public IActionResult AddForUser(AddForUserViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                foreach (var issueId in model.IssuesId)
+                {
+                    UserIssue userIssue = new UserIssue();
+                    userIssue.UserId = model.UserId;
+                    userIssue.IssueId = issueId;
+                    _db.UserIssues.Add(userIssue);
+                    _db.SaveChanges();
+                }
+            }
+            return RedirectToAction("Details", "Account",new {id=model.UserId});
+            
+        }
     }
 }

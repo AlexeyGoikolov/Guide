@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Guide.Models
 {
@@ -9,5 +11,7 @@ namespace Guide.Models
         public string Description { get; set; }
         public string Type { get; set; } = "Бизнес-процесс";
         public DateTime CreatedAt { get; set; } = DateTime.Now;
+        [NotMapped]
+        public virtual List<Issue> Issues{ get; set; }
     }
 }

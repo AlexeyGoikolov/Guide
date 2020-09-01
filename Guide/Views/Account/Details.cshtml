@@ -105,6 +105,20 @@
                                     <div class="tile-body p-0">
 
                                         <div role="tabpanel">
+                                            <div>
+                                                @if (@Model.Issues.Count > 0)
+                                                {
+                                                    int i = 0;
+                                                    <h2>Вам назначены задачи:</h2>
+                                                    @foreach (var issue in @Model.Issues)
+                                                    {
+                                                        i++;
+                                                        <h4>
+                                                            @i . <a asp-action="Details" asp-controller="IssuesManage" asp-route-id="@issue.Id">@issue.Name</a>
+                                                        </h4>
+                                                    }
+                                                }
+                                            </div>
                                             @if (User.IsInRole("admin"))
                                             {
                                                 <div class="tascUsersDescription">
@@ -120,7 +134,7 @@
                                             }
                                             else
                                             {
-                                                
+
                                                 <div class="tascUsersDescription">
                                                     @if (Model.Task != null)
                                                     {
@@ -131,6 +145,7 @@
                                                         <div>
                                                             @Html.Raw(Model.Task.Task)
                                                         </div>
+
                                                     }
                                                 </div>
                                             }

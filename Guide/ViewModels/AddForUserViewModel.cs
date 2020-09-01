@@ -3,10 +3,10 @@ using Guide.Models;
 
 namespace Guide.ViewModels
 {
-    public class UserDetailsViewModel
+    public class AddForUserViewModel
     {
-        public User User { get; set; }
-        public TaskUser Task { get; set; }
+        public string UserId { get; set; }
         public List<Issue> Issues{ get; set; }
+        public List<int> IssuesId{ get; set; }
     }
 }

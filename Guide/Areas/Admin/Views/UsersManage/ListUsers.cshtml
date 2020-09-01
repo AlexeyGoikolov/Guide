@@ -117,6 +117,9 @@
                                                         <li>
                                                             <a type="submit" class="BlockingAjax" id="@Model.Users[i].Id">Отключить</a>
                                                         </li>
+                                                        <li>
+                                                            <a asp-action="AddForUser" asp-controller="IssuesManage"  asp-route-id="@Model.Users[i].Id">Добавить Задачи к исполнению</a>
+                                                        </li>
                                                     </ul>
                                                 </div>
                                             </td>
