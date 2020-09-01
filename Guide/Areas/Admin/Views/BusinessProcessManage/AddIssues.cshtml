@@ -120,7 +120,7 @@
         dragAndDrop();
         function search() {
             let searchKey = $('#search').val();           
-            $.get('@Url.Action("AjaxStepSearch", "IssuesManage", new {area="Admin"})',  { word : searchKey}, function(data) {
+            $.get('@Url.Action("AjaxIssueSearch", "BusinessProcessManage", new {area="Admin"})',  { word : searchKey}, function(data) {
             if (data == false)
                 $('#issue').html('<p class="text-danger">Поиск не дал результатов</p>');
             else
@@ -158,16 +158,16 @@
         
         $('.btn-save').click(function (event) {
             event.preventDefault();
-            let arrayId = [];
+            let arrayIssueId = [];
             $("#list li input").each(function(items) {                
-                arrayId.push($(this).val());
+                arrayIssueId.push($(this).val());
             });
-            let issueId = $('.tile-body').data('business');                                  
+            let businessId = $('.tile-body').data('business');                                  
             $.ajax({
                 url: '@Url.Action("AddBusinessProcessIssuesConnection", "BusinessProcessManage", new {area = "Admin"})',                    
                 type: 'GET',  
                 traditional: true,                  
-                data: {businessId: issueId, issuesId: arrayId},
+                data: {businessId: businessId, issuesId: arrayIssueId},
                 success: function() {
                   window.location.href = "@Url.Action("Details","BusinessProcessManage", new {id = Model.BusinessProcess.Id})"
                 }                                                        
