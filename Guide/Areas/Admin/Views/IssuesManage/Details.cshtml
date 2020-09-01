@@ -37,23 +37,28 @@
                         <h2 class="custom-font mt-0 mb-5">@Model.Issue.Name </h2>
                         <div class="desc text-default lt mb-20 mt-20 material_content">
                             @Html.Raw(Model.Issue.IssueDescription)
+                            <h2 style="color: #0c5460">Шаги для выполнения задачи :</h2>
                             @if (Model.DesignatedSteps.Count > 0)
                             {
+                                int i = 0;
                                 @foreach (var step in Model.DesignatedSteps)
                                 {
+                                    i++;
                                     <h3>
-                                        <a asp-action="Details" asp-controller="StepsManage" asp-route-id="@step.Id">@step.Name</a>
+                                        <a asp-action="Details" asp-controller="StepsManage" asp-route-id="@step.Id">
+                                            @i - @step.Name
+                                        </a>
                                     </h3>
                                 }
                             }
-                          <h2>Желаемые результаты выполнения задачи:</h2>
+                          <h2 style="color: #0c5460">Желаемые результаты выполнения задачи:</h2>
                             @if (Model.DesiredResults.Count > 0)
                             {
                                 @foreach (var dr in Model.DesiredResults)
                                 {
-                                    <h3>
-                                        <a asp-action="" asp-controller="DesiredResult" asp-route-id="@dr.Id">@dr.Name</a>
-                                    </h3>
+                                    <h4>
+                                       # @dr.Number  -  @dr.Name
+                                    </h4>
                                 }
                             }
                             

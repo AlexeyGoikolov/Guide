@@ -180,6 +180,9 @@ namespace Guide.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
+                    b.Property<bool>("Active")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
@@ -198,6 +201,9 @@ namespace Guide.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
+                    b.Property<bool>("Active")
+                        .HasColumnType("boolean");
+
                     b.Property<int>("DesiredResultId")
                         .HasColumnType("integer");
 
@@ -211,6 +217,31 @@ namespace Guide.Migrations
                     b.HasIndex("IssueId");
 
                     b.ToTable("DesiredResultIssue");
+                });
+
+            modelBuilder.Entity("Guide.Models.DesiredResultStep", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<bool>("Active")
+                        .HasColumnType("boolean");
+
+                    b.Property<int>("DesiredResultId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("StepId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DesiredResultId");
+
+                    b.HasIndex("StepId");
+
+                    b.ToTable("DesiredResultStep");
                 });
 
             modelBuilder.Entity("Guide.Models.Glossary", b =>
@@ -819,6 +850,21 @@ namespace Guide.Migrations
                     b.HasOne("Guide.Models.Issue", "Issue")
                         .WithMany("DesiredResultIssues")
                         .HasForeignKey("IssueId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Guide.Models.DesiredResultStep", b =>
+                {
+                    b.HasOne("Guide.Models.DesiredResult", "DesiredResult")
+                        .WithMany()
+                        .HasForeignKey("DesiredResultId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Guide.Models.Step", "Step")
+                        .WithMany()
+                        .HasForeignKey("StepId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

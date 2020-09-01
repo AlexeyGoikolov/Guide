@@ -1,11 +1,10 @@
 ﻿@model List<DesiredResult>
 
 @{
-    ViewBag.Title = "ЖР - желаемый результат";
+    ViewBag.Title = "title";
     Layout = "_Layout";
 }
-
-
+  <h2>Надо додумать</h2>
 <div class="page page-tables-datatables">
 
     <div class="pageheader">
@@ -16,7 +15,10 @@
                     <a asp-action="Details" asp-controller="Account" asp-area=""><i class="fa fa-home"></i> Guide</a>
                 </li>
                 <li>
-                    <a asp-action="Index" asp-controller="DesiredResult"> Желаемый результат</a>
+                    <a asp-action="Index" asp-controller="DesiredResult">Желаемый результат</a>
+                </li>
+                <li>
+                    <a asp-action="" asp-controller="">Список</a>
                 </li>
             </ul>
         </div>
@@ -33,11 +35,7 @@
                     <h1 class="custom-font">
                         <strong>ЖР - желаемый результат</strong>
                     </h1>
-                    <ul class="controls">
-                        <li>
-                            <a role="button" tabindex="0" target="_blank" asp-action="Create" asp-controller="DesiredResult"><i class="fa fa-plus mr-5"></i>Добавить</a>
-                        </li>
-                    </ul>
+                    
                 </div>
                 <!-- /tile header -->
 

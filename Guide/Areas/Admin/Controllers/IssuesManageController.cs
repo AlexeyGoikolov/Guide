@@ -81,7 +81,7 @@ namespace Guide.Areas.Admin.Controllers
                     Select(s => s.Step).ToList(),
                 AllSteps = new List<Step>(),
                 DesiredResults = _db.DesiredResultIssue.OrderBy(d=>d.Id).Where(d=>d.IssueId==id).
-                    Select(s=>s.DesiredResult).ToList()
+                    Select(s=>s.DesiredResult).Where(s=>s.Active).ToList()
             };
             return View(model);
         }
@@ -117,13 +117,20 @@ namespace Guide.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit(Issue issue)
+        public IActionResult Edit(Issue issue, int choice)
         {
             if (ModelState.IsValid)
             {
                 _db.Issues.Update(issue);
                 _db.SaveChanges();
-                return RedirectToAction("AddSteps", "IssuesManage", new {id = issue.Id});;
+               
+                //переходит на редактирование списка Шагов
+                if (choice == 2)
+                    return RedirectToAction("AddSteps", "IssuesManage", new {id = issue.Id});
+                // переходит на редактирование списка ЖР
+                if (choice==3)
+                    return RedirectToAction("Edit", "DesiredResult", new {issuesId = issue.Id});
+                
             }
 
             return View(issue);

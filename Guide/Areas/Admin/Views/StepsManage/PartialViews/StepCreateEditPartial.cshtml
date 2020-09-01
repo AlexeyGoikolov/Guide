@@ -30,6 +30,8 @@
                     <input class="form-control" type="text" asp-for="Author" value="@Model.Author">
                     @if (Model.Id == 0)
                     {
+                        
+                        <button type="submit" class="btn btn-cyan mt-10" style=" width: 100%;">Добавить ЖР</button> 
                         <button type="submit" class="btn btn-info mt-10" style=" width: 100%;">Создать</button> 
                     }
                     else
@@ -38,6 +40,7 @@
                     }
                     
                 </div>
+                
             </div>
             
             <!-- /tile body -->

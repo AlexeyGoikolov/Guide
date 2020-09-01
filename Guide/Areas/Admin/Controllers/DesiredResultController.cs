@@ -20,7 +20,7 @@ namespace Guide.Areas.Admin.Controllers
         }
         public IActionResult Index()
         {
-            List< DesiredResult> desiredResults = _db.DesiredResults.ToList();
+            List< DesiredResult> desiredResults = _db.DesiredResults.Where(d=>d.Active).ToList();
             return View(desiredResults);
         }
         // GET
@@ -28,7 +28,7 @@ namespace Guide.Areas.Admin.Controllers
         {
             CreateDesiredResultViewModel model = new CreateDesiredResultViewModel();
 
-           model.Results = _db.DesiredResults.ToList();
+           model.Results = _db.DesiredResults.Where(d=>d.Active).ToList();
            model.IssueId = issuesId;
             return View(model);
         }
@@ -70,6 +70,42 @@ namespace Guide.Areas.Admin.Controllers
             }
 
             return NotFound();
+        }
+        public IActionResult Delete(int id)
+        {
+            if (id != 0)
+            {
+               DesiredResult desiredResult = _db.DesiredResults.FirstOrDefault(s => s.Id == id);
+                if (desiredResult != null)
+                {
+                    return View(desiredResult);
+                }
+            }
+            return NotFound();
+        }
+        
+        [HttpPost]
+        [ActionName("Delete")]
+        public IActionResult ConfirmDelete(int id)
+        {
+            if (id != 0)
+            {
+                DesiredResult desiredResult = _db.DesiredResults.FirstOrDefault(s => s.Id == id);
+                if (desiredResult != null)
+                {
+                    desiredResult.Active = false;
+                    _db.SaveChanges();
+                }
+            }
+            return RedirectToAction("Index", "DesiredResult");
+        }
+
+        public IActionResult Edit(int issuesid)
+        {
+            List<DesiredResult> desiredResults = _db.DesiredResultIssue.OrderBy(d => d.Id).
+                Where(d => d.IssueId == issuesid)
+                .Select(s => s.DesiredResult).ToList();
+            return View(desiredResults);
         }
     }
 }
