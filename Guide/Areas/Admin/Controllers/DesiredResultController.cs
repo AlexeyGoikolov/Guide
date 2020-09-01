@@ -69,7 +69,7 @@ namespace Guide.Areas.Admin.Controllers
                         _db.DesiredResultIssue.Add(desiredResultIssue);
                         _db.SaveChanges();
                     }
-                    return RedirectToAction("Details", "IssuesManage", new {id = model.IssueId});
+                    return RedirectToAction("AddSteps", "IssuesManage", new {id = model.IssueId});
                 }
 
                 if (model.StepId != 0) //добавляем данные в таблицу связи Шаг и ЖР , если выбрали из списка
