@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Guide.Models
 {
@@ -12,8 +13,9 @@ namespace Guide.Models
         public string Type { get; set; } = "Шаг";
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         public virtual List<IssueStep> IssueSteps { get; set; }
-
-        public Step()
+        [NotMapped]
+        public List<DesiredResult> DesiredResults { get; set; }
+       public Step()
         {
             IssueSteps = new List<IssueStep>();
         }

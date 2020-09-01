@@ -39,7 +39,7 @@ namespace Guide.Areas.Admin.Controllers
             {
                 _db.Steps.Add(step);
                 _db.SaveChanges();
-                return RedirectToAction("Index", "StepsManage", new {area = "Admin"});
+                return RedirectToAction("Create", "DesiredResult", new {stepId = step.Id});
             }
 
             return NotFound();
@@ -49,6 +49,9 @@ namespace Guide.Areas.Admin.Controllers
         public IActionResult Details(int id)
         {
             Step step = _db.Steps.FirstOrDefault(s => s.Id == id);
+            step.DesiredResults = _db.DesiredResultStep.OrderBy(d => d.Id)
+                .Where(d => d.StepId == id)
+                .Select(s => s.DesiredResult).Where(s => s.Active).ToList();
             return View(step);
         }
 

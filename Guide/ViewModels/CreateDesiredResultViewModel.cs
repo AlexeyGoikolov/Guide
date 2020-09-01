@@ -10,6 +10,7 @@ namespace Guide.ViewModels
         public DesiredResult DesResult { get; set; }= new DesiredResult();
         public List<DesiredResult> Results { get; set; } = null;
         public int IssueId{ get; set; }
+        public int StepId{ get; set; }
         //список ЖР, которые выбрали
         public List<int> DesiredResultId{ get; set; }
     }

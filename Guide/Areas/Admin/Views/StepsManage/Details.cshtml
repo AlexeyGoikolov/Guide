@@ -37,6 +37,16 @@
                         <h2 class="custom-font mt-0 mb-5">@Model.Name </h2>
                         <div class="desc text-default lt mb-20 mt-20 material_content">
                             @Html.Raw(Model.StepDescription)
+                            <h2 style="color: #0c5460">Желаемые результаты выполнения шага:</h2>
+                            @if (Model.DesiredResults.Count > 0)
+                            {
+                                @foreach (var dr in Model.DesiredResults)
+                                {
+                                    <h4>
+                                        # @dr.Number - @dr.Name
+                                    </h4>
+                                }
+                            }
                         </div>
 
                     </div>

@@ -24,50 +24,89 @@ namespace Guide.Areas.Admin.Controllers
             return View(desiredResults);
         }
         // GET
-        public IActionResult Create(int issuesId)
+        public IActionResult Create(int issuesId, int stepId)
         {
             CreateDesiredResultViewModel model = new CreateDesiredResultViewModel();
 
            model.Results = _db.DesiredResults.Where(d=>d.Active).ToList();
            model.IssueId = issuesId;
+           model.StepId = stepId;
             return View(model);
         }
 
         [HttpPost]
-        public IActionResult Create( CreateDesiredResultViewModel model)
+        public IActionResult Create(CreateDesiredResultViewModel model)
         {
             if (ModelState.IsValid)
             {
-                //добавляем данные в таблицу связи Задачи и ЖР , если выбрали из списка
-                if (model.DesiredResultId.Count != 0)
+                if (model.IssueId != 0) //добавляем данные в таблицу связи Задачи и ЖР , если выбрали из списка
                 {
-                    foreach (var rezult in model.DesiredResultId)
-                    { 
-                        DesiredResultIssue desiredResultIssue= new DesiredResultIssue();
-                    desiredResultIssue.IssueId = model.IssueId;
-                    desiredResultIssue.DesiredResultId = rezult;
-                    _db.DesiredResultIssue.Add(desiredResultIssue);
-                    _db.SaveChanges();
+                    if (model.DesiredResultId.Count != 0)
+                    {
+                        foreach (var rezult in model.DesiredResultId)
+                        {
+                            DesiredResultIssue desiredResultIssue = new DesiredResultIssue();
+                            desiredResultIssue.IssueId = model.IssueId;
+                            desiredResultIssue.DesiredResultId = rezult;
+                            _db.DesiredResultIssue.Add(desiredResultIssue);
+                            _db.SaveChanges();
+                        }
                     }
+
+
+                    //создает новый ЖР
+                    if (model.DesResult != null)
+                    {
+                        DesiredResult desiredResult = new DesiredResult();
+                        desiredResult.Number = model.DesResult.Number;
+                        desiredResult.Name = model.DesResult.Name;
+                        _db.DesiredResults.Add(desiredResult);
+                        _db.SaveChanges();
+                        // теперь в общую таблицу добавляем новый ЖР в связи с Задачей
+                        DesiredResultIssue desiredResultIssue = new DesiredResultIssue();
+                        desiredResultIssue.IssueId = model.IssueId;
+                        desiredResultIssue.DesiredResultId = desiredResult.Id;
+                        _db.DesiredResultIssue.Add(desiredResultIssue);
+                        _db.SaveChanges();
+                    }
+                    return RedirectToAction("Details", "IssuesManage", new {id = model.IssueId});
                 }
 
-                if (model.DesResult != null)
-                {
-                    DesiredResult desiredResult = new DesiredResult();
-                    desiredResult.Number = model.DesResult.Number;
-                    desiredResult.Name = model.DesResult.Name;
-                   _db.DesiredResults.Add(desiredResult);
-                     _db.SaveChanges();
-                       // теперь в общую таблицу добавляем новый ЖР в связи с Задачей
-                       DesiredResultIssue desiredResultIssue= new DesiredResultIssue();
-                       desiredResultIssue.IssueId = model.IssueId;
-                       desiredResultIssue.DesiredResultId = desiredResult.Id;
-                       _db.DesiredResultIssue.Add(desiredResultIssue);
-                       _db.SaveChanges();
+                if (model.StepId != 0) //добавляем данные в таблицу связи Шаг и ЖР , если выбрали из списка
+                    {
+                        if (model.DesiredResultId.Count != 0)
+                        {
+                            foreach (var rezult in model.DesiredResultId)
+                            {
+                                DesiredResultStep desiredResultStep = new DesiredResultStep();
+                                desiredResultStep.StepId = model.StepId;
+                                desiredResultStep.DesiredResultId = rezult;
+                                _db.DesiredResultStep.Add(desiredResultStep);
+                                _db.SaveChanges();
+                            }
+                        }
+
+
+                        //создает новый ЖР
+                        if (model.DesResult != null)
+                        {
+                            DesiredResult desiredResult = new DesiredResult();
+                            desiredResult.Number = model.DesResult.Number;
+                            desiredResult.Name = model.DesResult.Name;
+                            _db.DesiredResults.Add(desiredResult);
+                            _db.SaveChanges();
+                            // теперь в общую таблицу добавляем новый ЖР в связи с Шагом
+                            DesiredResultStep desiredResultStep = new DesiredResultStep();
+                            desiredResultStep.StepId = model.StepId;
+                            desiredResultStep.DesiredResultId = desiredResult.Id;
+                            _db.DesiredResultStep.Add(desiredResultStep);
+                            _db.SaveChanges();
+                        }
+                        return RedirectToAction("Details", "StepsManage", new {id = model.StepId});
+                    }
+
                    
                 }
-                return RedirectToAction("Details", "IssuesManage", new  {id = model.IssueId});
-            }
 
             return NotFound();
         }
