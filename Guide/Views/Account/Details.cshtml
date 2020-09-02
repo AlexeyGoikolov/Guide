@@ -114,12 +114,6 @@
                                                     {
                                                         i++;
                                                         <h4>
-                                                            @i . <a asp-action="Details" asp-controller="Issues" asp-route-id="@issue.Id">@issue.Name</a>
-                                                            <span onclick="viewStep('@issue.Id')">
-                                                                <i class="fa fa-plus" aria-hidden="true"></i>
-                                                            </span>
-
-                                                            <div id="step-@issue.Id" class="form-group" style="justify-content: left; "></div>
                                                             @if (User.IsInRole("admin"))
                                                             {
                                                                 <a class="btn btn-rounded-20 btn-default btn-sm mr-5 p-5" style="width:30px;" role="button" tabindex="0"
@@ -128,6 +122,12 @@
                                                                     <i class="fa fa-trash"></i>
                                                                 </a>
                                                             }
+                                                            @i . <a asp-action="Details" asp-controller="Issues" asp-route-id="@issue.Id">@issue.Name</a>
+                                                            <span onclick="viewStep('@issue.Id')">
+                                                                <i class="fa fa-plus" aria-hidden="true"></i>
+                                                            </span>
+                                                           
+                                                            <div id="step-@issue.Id" class="form-group" style="justify-content: left; "></div>
                                                         </h4>
                                                     }
                                                 }

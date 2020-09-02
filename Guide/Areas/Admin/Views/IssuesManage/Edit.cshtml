@@ -29,7 +29,31 @@
         <div class="tile-body">
             <form class="create-form" asp-action="Edit" asp-controller="IssuesManage" asp-area="Admin" method="post" enctype="multipart/form-data">
                 <div asp-validation-summary="ModelOnly"></div>
-                @{ Html.RenderPartial("PartialViews/IssueCreateEditPartial", @Model.Issue); }
+                
+               <div class="row">
+                   <div class="col-sm-12 portlets sortable">
+                       <section class="tile portlet col-12">
+               
+                           <!-- tile body -->
+                           <div class="tile-body">
+                               <div >
+                                   <label>Заголовок<span class="text-danger">*</span></label>
+                                   <br/><span class="validationError" asp-validation-for="@Model.Issue.Name"></span>
+                                   <input class="form-control" type="text" asp-for="@Model.Issue.Name" value="@Model.Issue.Name">
+                               </div>
+                               <div>
+                                   <label>Содержание<span class="text-danger">*</span></label>
+                                   <textarea name="issueDescription" type="text" 
+                                    asp-for="@Model.Issue.IssueDescription" 
+                                    value="@Model.Issue.IssueDescription">@Model.Issue.IssueDescription</textarea>
+                               </div>
+                               
+                           </div>
+                           
+                           <!-- /tile body -->
+                       </section>
+                   </div>
+               </div>
                 <div class="col-sm-12 portlets sortable">
                     <section class="tile portlet col-12">
 
@@ -89,9 +113,6 @@
                     </div>
                     <div>
                         <div class="col-sm-4">
-                            <input type="hidden" value="@Model.Issue.Id" asp-for-issueId="@Model.Issue.Id">
-                            <input type="hidden" value="@Model.Issue.Name" asp-for-issueId="@Model.Issue.Name">
-                            <input type="hidden" value="@Model.Issue.DesiredResultIssues" asp-for-issueId="@Model.Issue.DesiredResultIssues">
                             <button type="submit" class="btn btn-info fade-out-left-lg">Исполнить</button>
                         </div>
                     </div>

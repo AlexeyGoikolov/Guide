@@ -237,7 +237,7 @@ namespace Guide.Areas.Admin.Controllers
                     _db.SaveChanges();
                 }
             }
-            return RedirectToAction("Details", "Account",new {id=model.UserId});
+            return RedirectToAction("ListUsers", "UsersManage");
             
         }
     }
