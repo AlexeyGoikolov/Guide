@@ -92,8 +92,10 @@
                             }
                         </div>
                         <div>
+                            <a asp-action="Create" asp-controller="DesiredResult" asp-area="Admin" asp-route-issuesId="@Model.Issue.Id" 
+                               class="btn btn-info mt-20" style="width: 100%" target="_blank">Добавить ЖР</a>
                             <a asp-action="Create" asp-controller="StepsManage" asp-area="Admin" 
-                               class="btn btn-info mt-20" style="width: 100%" target="_blank">Создать новый шаг</a>
+                                                           class="btn btn-info mt-20" style="width: 100%" target="_blank">Создать новый шаг</a>
                         </div>
                     </div>
                 </div>
