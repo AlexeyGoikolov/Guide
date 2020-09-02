@@ -3,6 +3,7 @@
 @{
     ViewBag.Title = "Глоссарий";
     Layout = "_Layout";
+    bool first = true;
 }
 
 <div class="page">
@@ -23,29 +24,51 @@
                     <a asp-action="Preview" asp-controller="GlossarysManage" asp-route-id="@Model.Id">@Model.Name</a>
                 </li>
             </ul>
+            
         </div>
     </div>
     <div class="pt-3">
+         
         @foreach (var interpretation in @Model.Interpretations)
         {
-            if (interpretation.Active==true)
+            if (interpretation.Active == true)
             {
-                @Html.Raw(interpretation.Description)
-                <div>
-                    <a asp-action="Edit" asp-controller="GlossarysManage" asp-route-id="@Model.Id" asp-route-intrId="@interpretation.Id">Редактировать</a>
-                    <a asp-action="Delete" asp-controller="GlossarysManage" asp-route-id="@Model.Id" asp-route-intrId="@interpretation.Id">Удалить</a>
+                <div class="tile time-simple">
+                    @if (first == true)
+                    {
+                        <div class="tile-header dvd dvd-btm">
+                            <h1 class="custom-font">
+                                <strong>@Model.Name (сокращенно @interpretation.Abbreviation)</strong>
+                            </h1>
+                            <ul class="controls">
+                                <li>
+                                    <a role="button" tabindex="0" target="_blank" asp-action="Create" asp-controller="GlossarysManage" asp-route-id="@Model.Id"><i class="fa fa-plus mr-5"></i>Добавить описание</a>
+                                </li>
+                                <li>
+                                    <a role="button" tabindex="0" target="_blank" asp-action="Delete" asp-controller="GlossarysManage" asp-route-id="@Model.Id"><i class="fa fa-trash mr-5"></i>Удалить термин</a>
+                                </li>
+                                <li>
+                                    <a role="button" tabindex="0" target="_blank" asp-controller="GlossarysManage" asp-route-id="@Model.Id"><i class="fa fa-eye mr-5"></i>Вид пользователя</a>
+                                </li>
+                            </ul>
+                        </div>
+                        first = false;
+                    }
+                    <div class="tile-body">
+                        @Html.Raw(interpretation.Description)
+                        <hr/>
+                        <div style="display:flex; justify-content: space-between">
+                            <p>Источник: @interpretation.Source</p>
+                            <div>
+                                <a class="btn btn-rounded-20 btn-default btn-sm mr-5 p-5" style="width:30px;" role="button" tabindex="0" target="_blank"
+                                   title="Вид пользователя" asp-action="Edit" asp-controller="GlossarysManage" asp-route-id="@Model.Id" asp-route-intrId="@interpretation.Id"><i class="fa fa-pencil"></i></a>
+                                <a class="btn btn-rounded-20 btn-default btn-sm mr-5 p-5" style="width:30px;" role="button" tabindex="0" target="_blank"
+                                   title="Вид пользователя" asp-action="Delete" asp-controller="GlossarysManage" asp-route-id="@Model.Id" asp-route-intrId="@interpretation.Id"><i class="fa fa-trash"></i></a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <hr/>
             }
         }
-    </div>
-
-    <div>
-        <div>
-            <a asp-action="Delete" asp-controller="GlossarysManage" asp-route-id="@Model.Id">Удалить</a>
-        </div>
-        <div>
-            <a asp-action="Create" asp-controller="GlossarysManage" asp-route-id="@Model.Id">Добавить описание</a>
-        </div>
     </div>
 </div>
