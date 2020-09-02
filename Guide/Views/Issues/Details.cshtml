@@ -17,10 +17,10 @@
                     <a asp-action="Details" asp-controller="Account"><i class="fa fa-home"></i> Guide</a>
                 </li>
                 <li>
-                    <a asp-action="Index" asp-controller="IssuesManage"> Задачи</a>
+                    <a asp-action="Details" asp-controller="Account" >Личный кабинет</a>
                 </li>
                 <li>
-                 <a asp-action="Details" asp-controller="IssuesManage" asp-route-id="@Model.Issue.Id">Подробно</a>
+                 <a asp-action="Details" asp-controller="Issues" asp-route-id="@Model.Issue.Id">Подробно о Задаче</a>
                 </li>
             </ul>
         </div>
@@ -45,7 +45,7 @@
                                 {
                                     i++;
                                     <h3>
-                                        <a asp-action="Details" asp-controller="StepsManage" asp-route-id="@step.Id">
+                                        <a asp-action="Details" asp-controller="Steps" asp-route-id="@step.Id">
                                             @i - @step.Name
                                         </a>
                                     </h3>
