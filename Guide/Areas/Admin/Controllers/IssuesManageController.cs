@@ -32,7 +32,7 @@ namespace Guide.Areas.Admin.Controllers
         {
             return View(new Issue());
         }
-        
+
         [HttpPost]
         public IActionResult Create(Issue issue, int choice)
         {
@@ -40,14 +40,14 @@ namespace Guide.Areas.Admin.Controllers
             {
                 _db.Issues.Add(issue);
                 _db.SaveChanges();
-                 Issue issue1 = _db.Issues.FirstOrDefault(i => i.Name == issue.Name 
-                                                               && i.IssueDescription == issue.IssueDescription);
-                     //переходит на добавление шага
+                Issue issue1 = _db.Issues.FirstOrDefault(i => i.Name == issue.Name
+                                                              && i.IssueDescription == issue.IssueDescription);
+                //переходит на добавление шага
                 if (choice == 2)
                     return RedirectToAction("AddSteps", "IssuesManage", new {id = issue1.Id, type = "create"});
-                        // переходит на добавление ЖР
-                if (choice==3)
-                       return RedirectToAction("Create", "DesiredResult", new {issuesId = issue.Id});
+                // переходит на добавление ЖР
+                if (choice == 3)
+                    return RedirectToAction("Create", "DesiredResult", new {issuesId = issue.Id});
             }
 
             return View(issue);
@@ -57,12 +57,13 @@ namespace Guide.Areas.Admin.Controllers
         {
             if (id != 0)
             {
-                
+
                 IssueStepsViewModel model = new IssueStepsViewModel
                 {
                     Issue = _db.Issues.FirstOrDefault(i => i.Id == id),
                     AllSteps = _db.Steps.OrderByDescending(s => s.CreatedAt).ToList(),
-                    DesignatedSteps = _db.IssueStep.OrderBy(i => i.Id).Where(i => i.IssueId == id).Select(s => s.Step).ToList()
+                    DesignatedSteps = _db.IssueStep.OrderBy(i => i.Id).Where(i => i.IssueId == id).Select(s => s.Step)
+                        .ToList()
                 };
                 if (type == "create")
                     model.Action = "create";
@@ -71,17 +72,19 @@ namespace Guide.Areas.Admin.Controllers
 
             return NotFound();
         }
-        
+
         public IActionResult Details(int id)
         {
             IssueStepsViewModel model = new IssueStepsViewModel
             {
                 Issue = _db.Issues.FirstOrDefault(i => i.Id == id),
-                DesignatedSteps = _db.IssueStep.OrderBy(i => i.Id).Where(i => i.IssueId == id).
-                    Select(s => s.Step).ToList(),
+                DesignatedSteps = _db.IssueStep.OrderBy(i => i.Id).
+                    Where(i => i.IssueId == id).
+                    Select(s => s.Step)
+                    .ToList(),
                 AllSteps = new List<Step>(),
-                DesiredResults = _db.DesiredResultIssue.OrderBy(d=>d.Id).Where(d=>d.IssueId==id).
-                    Select(s=>s.DesiredResult).Where(s=>s.Active).ToList()
+                DesiredResults = _db.DesiredResultIssue.OrderBy(d => d.Id).Where(d => d.IssueId == id)
+                    .Select(s => s.DesiredResult).Where(s => s.Active).ToList()
             };
             return View(model);
         }
@@ -93,14 +96,15 @@ namespace Guide.Areas.Admin.Controllers
                 List<Step> model = _db.Steps.OrderByDescending(s => s.CreatedAt).ToList();
                 return PartialView("PartialViews/FilterStepsPartial", model);
             }
-            
+
             string filterWord = word.ToUpper();
-            var steps = _db.Steps.Where(s => 
+            var steps = _db.Steps.Where(s =>
                 s.Name.ToUpper().Contains(filterWord)).OrderByDescending(s => s.CreatedAt).ToList();
             if (steps.Count > 0)
             {
                 return PartialView("PartialViews/FilterStepsPartial", steps);
             }
+
             return Json(false);
         }
 
@@ -109,34 +113,48 @@ namespace Guide.Areas.Admin.Controllers
         {
             if (id != 0)
             {
-                Issue issue = _db.Issues.FirstOrDefault(s => s.Id == id);
-                if (issue != null)
-                    return View(issue);
+                IssueStepsViewModel model = new IssueStepsViewModel
+                {
+                    Issue = _db.Issues.FirstOrDefault(i => i.Id == id),
+                    DesignatedSteps = _db.IssueStep.OrderBy(i => i.Id).Where(i => i.IssueId == id).Select(s => s.Step)
+                        .ToList(),
+                    AllSteps = new List<Step>(),
+                    DesiredResults = _db.DesiredResultIssue.OrderBy(d => d.Id).Where(d => d.IssueId == id)
+                        .Select(s => s.DesiredResult).Where(s => s.Active).ToList()
+                };
+                return View(model);
             }
+
             return NotFound();
         }
 
         [HttpPost]
-        public IActionResult Edit(Issue issue, int choice)
+        public IActionResult Edit(IssueStepsViewModel model, int choice)
         {
             if (ModelState.IsValid)
             {
+                Issue issue = _db.Issues.FirstOrDefault(i => i.Id == model.Issue.Id);
+                issue.Name = model.Issue.Name;
+                issue.IssueDescription = model.Issue.IssueDescription;
                 _db.Issues.Update(issue);
                 _db.SaveChanges();
-               
+                _db.Issues.Update(issue);
+                _db.SaveChanges();
+
                 //переходит на редактирование списка Шагов
                 if (choice == 2)
                     return RedirectToAction("AddSteps", "IssuesManage", new {id = issue.Id});
                 // переходит на редактирование списка ЖР
-                if (choice==3)
+                if (choice == 3)
                     return RedirectToAction("Edit", "DesiredResult", new {issuesId = issue.Id});
-                
             }
-
-            return View(issue);
+            return View(model);
         }
-        
-        
+
+
+
+
+
         public IActionResult AddIssueStepConnection(int issueId, int[] stepsId)
         {
             if (issueId != 0)

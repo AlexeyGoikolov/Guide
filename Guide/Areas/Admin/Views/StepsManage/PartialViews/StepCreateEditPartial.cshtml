@@ -28,14 +28,15 @@
                     <label>Автор<span class="text-danger">*</span></label>
                     <br/><span class="validationError" asp-validation-for="Author"></span>
                     <input class="form-control" type="text" asp-for="Author" value="@Model.Author">
+                    
                     @if (Model.Id == 0)
                     {
-                        
                         <button type="submit" class="btn btn-cyan mt-10" style=" width: 100%;">Добавить ЖР</button> 
                         <button type="submit" class="btn btn-info mt-10" style=" width: 100%;">Создать</button> 
                     }
                     else
                     {
+                        <a asp-action="Create" asp-controller="DesiredResult" asp-route-stepId="@Model.Id"  type="submit" class="btn btn-cyan mt-10" style=" width: 100%;">Добавить ЖР</a> 
                         <button type="submit" class="btn btn-info mt-10" style=" width: 100%;">Редактировать</button>
                     }
                     
