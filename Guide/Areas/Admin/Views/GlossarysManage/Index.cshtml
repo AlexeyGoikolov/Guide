@@ -65,8 +65,12 @@
                                                 <a asp-action="Preview" asp-controller="GlossarysManage" asp-route-id="@glossary.Id">@glossary.Name</a>
                                             </td>
                                             <td>
-                                                <a role="button" asp-action="Edit" asp-controller="GlossarysManage" asp-route-id="@glossary.Id" tabindex="0" class="edit d-block text-primary text-uppercase text-strong text-sm mr-10">Редактировать</a>
-                                                <a role="button" tabindex="0" class="delete d-block text-danger text-uppercase text-strong text-sm mr-10" asp-action="Delete" asp-controller="GlossarysManage" asp-route-id="@glossary.Id">Удалить</a>
+                                                <a class="btn btn-rounded-20 btn-default btn-sm mr-5 p-5" style="width:30px;" tabindex="0" target="_blank"
+                                                   title="Вид пользователя" role="button" asp-action="Edit" asp-controller="GlossarysManage" asp-route-id="@glossary.Id"><i class="fa fa-pencil"></i></a>
+                                                <a class="btn btn-rounded-20 btn-default btn-sm mr-5 p-5" style="width:30px;" role="button" tabindex="0" target="_blank"
+                                                   title="Вид пользователя" asp-action="Delete" asp-controller="GlossarysManage" asp-route-id="@glossary.Id"><i class="fa fa-trash"></i></a>
+                                                <a class="btn btn-rounded-20 btn-default btn-sm mr-5 p-5" style="width:30px;" role="button" tabindex="0" target="_blank"
+                                                   title="Вид пользователя" asp-action="Preview" asp-controller="GlossarysManage" asp-route-id="@glossary.Id"><i class="fa fa-eye"></i></a>
                                             </td>
                                         </div>
                                     </tr>
