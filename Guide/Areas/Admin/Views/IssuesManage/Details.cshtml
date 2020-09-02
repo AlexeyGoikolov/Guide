@@ -45,19 +45,28 @@
                                 {
                                     i++;
                                     <h3>
-                                        <a asp-action="Details" asp-controller="StepsManage" asp-route-id="@step.Id">
+                                        <a asp-action="Edit" asp-controller="StepsManage" asp-route-id="@step.Id">
                                             @i - @step.Name
+                                        </a>
+                                        <a class="btn btn-rounded-20 btn-default btn-sm mr-5 p-5" style="width:30px;" role="button" tabindex="0"
+                                           title="Удалить" asp-action="Delete" asp-controller="StepsManage" asp-route-id="@step.Id">
+                                            <i class="fa fa-trash"></i>
                                         </a>
                                     </h3>
                                 }
                             }
-                          <h2 style="color: #0c5460">Желаемые результаты выполнения задачи:</h2>
+                            <h2 style="color: #0c5460">Желаемые результаты выполнения задачи:</h2>
                             @if (Model.DesiredResults.Count > 0)
                             {
                                 @foreach (var dr in Model.DesiredResults)
                                 {
                                     <h4>
-                                       # @dr.Number  -  @dr.Name
+                                        # @dr.Number - @dr.Name
+                                        <a class="btn btn-rounded-20 btn-default btn-sm mr-5 p-5" style="width:30px;" role="button" tabindex="0"
+                                           title="Удалить" asp-action="DeleteFromIssue"
+                                           asp-controller="DesiredResult" asp-route-drId="@dr.Id" asp-route-issueid="@Model.Issue.Id">
+                                            <i class="fa fa-trash"></i>
+                                        </a>
                                     </h4>
                                 }
                             }

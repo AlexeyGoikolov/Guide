@@ -146,5 +146,14 @@ namespace Guide.Areas.Admin.Controllers
                 .Select(s => s.DesiredResult).ToList();
             return View(desiredResults);
         }
+
+        public IActionResult DeleteFromIssue(int issueid, int drId)
+        {
+
+            DesiredResultIssue d = _db.DesiredResultIssue.FirstOrDefault(d => d.IssueId == issueid && d.DesiredResultId == drId);
+            _db.DesiredResultIssue.Remove(d);
+            _db.SaveChanges();
+            return RedirectToAction("Details", "Issues", new {id = issueid});
+        }
     }
 }

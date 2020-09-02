@@ -1,4 +1,4 @@
-﻿@model Issue
+﻿@model IssueStepsViewModel
 
 @{
     ViewBag.Title = "Редактирование задачи";
@@ -20,7 +20,7 @@
                     <a asp-action="Index" asp-controller="IssuesManage"> Задачи</a>
                 </li>
                 <li>
-                    <a asp-action="Edit" asp-controller="IssuesManage" asp-route-id="@Model.Id"> Редактирование задачи</a>
+                    <a asp-action="Edit" asp-controller="IssuesManage" asp-route-id="@Model.Issue.Id"> Редактирование задачи</a>
                 </li>
             </ul>
         </div>
@@ -29,20 +29,69 @@
         <div class="tile-body">
             <form class="create-form" asp-action="Edit" asp-controller="IssuesManage" asp-area="Admin" method="post" enctype="multipart/form-data">
                 <div asp-validation-summary="ModelOnly"></div>
-                @{ Html.RenderPartial("PartialViews/IssueCreateEditPartial", Model); }
+                @{ Html.RenderPartial("PartialViews/IssueCreateEditPartial", @Model.Issue); }
+                <div class="col-sm-12 portlets sortable">
+                    <section class="tile portlet col-12">
+
+                        <!-- tile body -->
+                        <div class="tile-body">
+                            <h4 style="color: #0c5460">Шаги для выполнения задачи :</h4>
+                            @if (Model.DesignatedSteps.Count > 0)
+                            {
+                                int i = 0;
+                                @foreach (var step in Model.DesignatedSteps)
+                                {
+                                    i++;
+                                    <h3>
+                                        <a asp-action="Edit" asp-controller="StepsManage" asp-route-id="@step.Id">
+                                            @i - @step.Name
+                                        </a>
+                                        <a class="btn btn-rounded-20 btn-default btn-sm mr-5 p-5" style="width:30px;" role="button" tabindex="0"
+                                           title="" asp-action="Delete" asp-controller="StepsManage" asp-route-id="@step.Id">
+                                            <i class="fa fa-trash"></i>
+                                        </a>
+                                    </h3>
+                                }
+                            }
+                            <h4 style="color: #0c5460">Желаемые результаты выполнения задачи:</h4>
+                            @if (Model.DesiredResults.Count > 0)
+                            {
+                                @foreach (var dr in Model.DesiredResults)
+                                {
+                                    <h4>
+                                        # @dr.Number - @dr.Name
+                                        <a class="btn btn-rounded-20 btn-default btn-sm mr-5 p-5" style="width:30px;" role="button" tabindex="0"
+                                           title="Удалить" asp-action="DeleteFromIssue"
+                                           asp-controller="DesiredResult" asp-route-drId="@dr.Id" asp-route-issueid="@Model.Issue.Id">
+                                            <i class="fa fa-trash"></i>
+                                        </a>
+                                    </h4>
+                                }
+                            }
+
+                        </div>
+
+                        <!-- /tile body -->
+                    </section>
+                </div>
+
+
                 <div class="row">
                     <div class="col-sm-2">
-                        <h5>Выберите действие из списка :</h5>
+                        <h4>Выберите действие из списка :</h4>
                     </div>
                     <div class="col-sm-6">
                         <select name="choice" style="width: 100%">
                             <option type="submit" value="1">Сохранить изменения</option>
-                            <option type="submit" value="2">Изменить Шаги</option>
-                            <option type="submit" value="3">Изменить ЖР</option>
+                            <option type="submit" value="2">Добавить Шаги</option>
+                            <option type="submit" value="3">Добавить ЖР</option>
                         </select>
                     </div>
                     <div>
                         <div class="col-sm-4">
+                            <input type="hidden" value="@Model.Issue.Id" asp-for-issueId="@Model.Issue.Id">
+                            <input type="hidden" value="@Model.Issue.Name" asp-for-issueId="@Model.Issue.Name">
+                            <input type="hidden" value="@Model.Issue.DesiredResultIssues" asp-for-issueId="@Model.Issue.DesiredResultIssues">
                             <button type="submit" class="btn btn-info fade-out-left-lg">Исполнить</button>
                         </div>
                     </div>
