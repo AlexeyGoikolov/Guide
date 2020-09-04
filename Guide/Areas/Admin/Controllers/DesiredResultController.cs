@@ -55,7 +55,7 @@ namespace Guide.Areas.Admin.Controllers
 
 
                     //создает новый ЖР
-                    if (model.DesResult != null)
+                    if (model.DesResult.Name != null)
                     {
                         DesiredResult desiredResult = new DesiredResult();
                         desiredResult.Number = model.DesResult.Number;
@@ -69,44 +69,57 @@ namespace Guide.Areas.Admin.Controllers
                         _db.DesiredResultIssue.Add(desiredResultIssue);
                         _db.SaveChanges();
                     }
+
                     return RedirectToAction("AddSteps", "IssuesManage", new {id = model.IssueId});
                 }
 
                 if (model.StepId != 0) //добавляем данные в таблицу связи Шаг и ЖР , если выбрали из списка
+                {
+                    if (model.DesiredResultId.Count != 0)
                     {
-                        if (model.DesiredResultId.Count != 0)
+                        foreach (var rezult in model.DesiredResultId)
                         {
-                            foreach (var rezult in model.DesiredResultId)
-                            {
-                                DesiredResultStep desiredResultStep = new DesiredResultStep();
-                                desiredResultStep.StepId = model.StepId;
-                                desiredResultStep.DesiredResultId = rezult;
-                                _db.DesiredResultStep.Add(desiredResultStep);
-                                _db.SaveChanges();
-                            }
-                        }
-
-
-                        //создает новый ЖР
-                        if (model.DesResult != null)
-                        {
-                            DesiredResult desiredResult = new DesiredResult();
-                            desiredResult.Number = model.DesResult.Number;
-                            desiredResult.Name = model.DesResult.Name;
-                            _db.DesiredResults.Add(desiredResult);
-                            _db.SaveChanges();
-                            // теперь в общую таблицу добавляем новый ЖР в связи с Шагом
                             DesiredResultStep desiredResultStep = new DesiredResultStep();
                             desiredResultStep.StepId = model.StepId;
-                            desiredResultStep.DesiredResultId = desiredResult.Id;
+                            desiredResultStep.DesiredResultId = rezult;
                             _db.DesiredResultStep.Add(desiredResultStep);
                             _db.SaveChanges();
                         }
-                        return RedirectToAction("Details", "StepsManage", new {id = model.StepId});
                     }
 
-                   
+
+                    //создает новый ЖР
+                    if (model.DesResult.Name != null)
+                    {
+                        DesiredResult desiredResult = new DesiredResult();
+                        desiredResult.Number = model.DesResult.Number;
+                        desiredResult.Name = model.DesResult.Name;
+                        _db.DesiredResults.Add(desiredResult);
+                        _db.SaveChanges();
+                        // теперь в общую таблицу добавляем новый ЖР в связи с Шагом
+                        DesiredResultStep desiredResultStep = new DesiredResultStep();
+                        desiredResultStep.StepId = model.StepId;
+                        desiredResultStep.DesiredResultId = desiredResult.Id;
+                        _db.DesiredResultStep.Add(desiredResultStep);
+                        _db.SaveChanges();
+                    }
+
+                    return RedirectToAction("Details", "StepsManage", new {id = model.StepId});
                 }
+
+                if (model.StepId == 0 && model.StepId == 0)
+                {
+                    if (model.DesResult.Name != null)
+                    {
+                        DesiredResult desiredResult = new DesiredResult();
+                        desiredResult.Number = model.DesResult.Number;
+                        desiredResult.Name = model.DesResult.Name;
+                        _db.DesiredResults.Add(desiredResult);
+                        _db.SaveChanges();
+                    }
+
+                }
+            }
 
             return NotFound();
         }

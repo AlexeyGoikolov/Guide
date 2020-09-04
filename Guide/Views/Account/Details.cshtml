@@ -58,45 +58,11 @@
                         <div class="row">
 
                             <!-- col -->
-                            <div class="col-md-4">
-
-                                <!-- tile -->
-                                <section class="tile tile-simple">
-
-                                    <!-- tile widget -->
-                                    <div class="tile-widget p-30 text-center">
-
-                                        <div class="thumb thumb-xl">
-                                             @if (Model.User.Avatar != null) 
-                                            { 
-                                             <img class="img-circle" src="~\@Model.User.Avatar" alt=""> 
-                                             } 
-                                             else 
-                                             { 
-                                                <img class="img-circle" src="~/Image/Avatar/none.jpg" alt="">
-                                             } 
-                                            
-                                        </div>
-                                        <h4 class="mb-0"><strong>@Model.User.Name</strong> @Model.User.Surname</h4>
-                                        <span class="text-muted">@Model.User.Position.Name</span><br>
-                                        <span class="text-muted">дата назначения - @Model.User.DateCreate</span>
-                                        <div class="mt-10">
-                                            @if (Model.User.Id != UserManager.GetUserId(User))
-                                            {
-                                                <button class="btn btn-rounded-20 btn-sm btn-lightred">Написать сообщения</button>
-                                            }
-                                        </div>
-
-                                    </div>
-                                    <!-- /tile widget -->
-                                </section>
-                                <!-- /tile -->
-
-                            </div>
+                           
                             <!-- /col -->
 
                             <!-- col -->
-                            <div class="col-md-8">
+                            <div class="col-md-12">
 
                                 <!-- tile -->
                                 <section class="tile tile-simple">
