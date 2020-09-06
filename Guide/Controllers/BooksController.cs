@@ -1,4 +1,5 @@
-﻿﻿using System.IO;
+﻿﻿using System.Collections.Generic;
+ using System.IO;
 using System.Linq;
 using Guide.Models;
 using Guide.Models.Data;
@@ -21,13 +22,48 @@ namespace Guide.Controllers
   }
 
 
-  public IActionResult Index(string activ)
+  public IActionResult Index()
         {
-            if (activ == null)
+            List<Post> posts = _db.Posts.Where(p => p.Active).ToList();
+            List<Book> books = _db.Books.Where(b => b.Active).ToList();
+            List<LibraryListViewModel> models = new List<LibraryListViewModel>();
+            foreach (var post in posts)
             {
-                return View(_db.Books.Where(b => b.Active).ToList());
+                models.Add(new LibraryListViewModel()
+                {
+                    Id = post.Id,
+                    Author = post.Author,
+                    Name = post.Title,
+                    Category = post.Category,
+                    Type = post.Type,
+                    TypeContent = post.TypeContent,
+                    TypeState = post.TypeState,
+                    DateCreate = post.DateOfCreate,
+                    Active = post.Active
+                });
             }
-            return View(_db.Books.Where(b => b.Active == false).ToList());
+            foreach (var book in books)
+            {
+                string s = book.VirtualPath;
+                string[] parts = s.Split('.');
+                s = parts[parts.Length - 1];
+                models.Add(new LibraryListViewModel()
+                {
+                    Id = book.Id,
+                    Author = book.Author,
+                    Name = book.Name,
+                    Category = book.Category,
+                    Type = new Type() {Name = s},
+                    TypeContent = new TypeContent() {Name = "Книга"},
+                    TypeState = book.IsRecipe ? new TypeState() {Name = "Рецепт"} : new TypeState() {Name = ""},
+                    DateCreate = book.DateCreate,
+                    Active = book.Active
+                    
+                    
+                });
+            }
+            
+            return View(models);
         }
         
        

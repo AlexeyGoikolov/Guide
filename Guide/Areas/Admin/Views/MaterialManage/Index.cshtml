@@ -1,12 +1,10 @@
-﻿@model List<Post>
+﻿@model  List<LibraryListViewModel>
 
 @{
     ViewBag.Title = "Список материалов";
     Layout = "_Layout";
 }
-        
 <div class="page page-tables-datatables">
-
     <div class="pageheader">
         <h2>Источники</h2>
         <div class="page-bar">
@@ -15,12 +13,11 @@
                     <a asp-action="Details" asp-controller="Account" asp-area=""><i class="fa fa-home"></i> Guide</a>
                 </li>
                 <li>
-                    <a asp-action="Index" asp-controller="MaterialManage">Источники</a>
+                    <a asp-action="Index" asp-controller="MaterialManage">Библиотека</a>
                 </li>
             </ul>
         </div>
     </div>
-
     <!-- row -->
     <div class="row">
         <!-- col -->
@@ -36,6 +33,15 @@
                         <li>
                             <a role="button" tabindex="0" target="_blank" asp-action="Create" asp-controller="MaterialManage"><i class="fa fa-plus mr-5"></i>Добавить</a>
                         </li>
+                        <li>
+                            <a role="button" tabindex="0" target="_blank" asp-action="Create" asp-controller="BooksManage"><i class="fa fa-plus mr-5"></i>Добавить Книгу</a>
+                        </li>
+                        <li>
+                            <a role="button" tabindex="0" asp-action="Index" asp-controller="MaterialManage">Активные</a>
+                        </li>
+                        <li>
+                            <a role="button" tabindex="0" asp-action="Index" asp-controller="MaterialManage" asp-route-activ="false">Удаленные</a>
+                        </li>
                     </ul>
                 </div>
                 <!-- /tile header -->
@@ -46,10 +52,11 @@
                         <table class="table table-custom" id="editable-usage">
                             <thead>
                             <tr>
-                                <th>Название</th>
+                                <th style="width: 30%">Название</th>
                                 <th>Автор</th>
+                                <th>Тип Контента</th>
                                 <th>Категория</th>
-                                <th>Тип</th>
+                                <th>Тип файла</th>
                                 <th>Дата создания</th>
                                 <th style="width: 160px;" class="no-sort">Действие</th>
                             </tr>
@@ -58,28 +65,73 @@
                             @foreach (var post in Model)
                             {
                                 <tr class="odd gradeX">
-                                    <td>
-                                        <a asp-action="Details" asp-controller="MaterialManage" asp-route-id="@post.Id">@post.Title</a>
-                                    </td>
+                                    @if (post.TypeContent.Name == "Книга")
+                                    {
+                                        <td>
+                                            <a asp-action="Details" asp-controller="BooksManage" asp-route-id="@post.Id">@post.Name</a>
+                                        </td>
+                                    }
+                                     else
+                                     {
+                                         <td>
+                                             <a asp-action="Details" asp-controller="MaterialManage" asp-route-id="@post.Id">@post.Name</a>
+                                         </td>
+                                     }
+                                    
                                     <td>@post.Author</td>
-                                    @if (post.CategoryId != null)
+                                    <td>@post.TypeContent.Name</td>
+                                    @if (post.Category != null)
                                     {
                                         <td>@post.Category.Name</td>
                                     }
                                     else
                                     {
-                                        <td></td>  
+                                        <td></td>
                                     }
                                     <td>@post.Type.Name</td>
-                                    <td>@post.DateOfCreate</td>
-                                    <td >
-                                        <a class="btn btn-rounded-20 btn-default btn-sm mr-5 p-5" style="width:30px;" role="button" tabindex="0" target="_blank" 
-                                           title="Вид пользователя" asp-action="Details" asp-controller="Material" asp-area="" asp-route-id="@post.Id"><i class="fa fa-eye"></i></a>
-                                        <a class="btn btn-rounded-20 btn-default btn-sm mr-5 p-5" style="width:30px;" role="button" asp-action="Edit" 
-                                           asp-controller="MaterialManage" asp-route-id="@post.Id" tabindex="0" title="Изменить"><i class="fa fa-pencil"></i></a>
-                                        <a class="btn btn-rounded-20 btn-default btn-sm mr-5 p-5" style="width:30px;" role="button" tabindex="0" 
-                                           title="Удалить" asp-action="Delete" asp-controller="MaterialManage" asp-route-id="@post.Id"><i class="fa fa-trash"></i></a>
-                                    </td>
+                                    <td>@post.DateCreate</td>
+                                    @if (post.TypeContent.Name != "Книга")
+                                    {
+                                        <td >
+                                            <a class="btn btn-rounded-20 btn-default btn-sm mr-5 p-5" style="width:30px;" role="button" tabindex="0" target="_blank"
+                                               title="Вид пользователя" asp-action="Details" asp-controller="Material" asp-area="" asp-route-id="@post.Id"><i class="fa fa-eye"></i></a>
+                                            <a class="btn btn-rounded-20 btn-default btn-sm mr-5 p-5" style="width:30px;" role="button" asp-action="Edit"
+                                               asp-controller="MaterialManage" asp-route-id="@post.Id" tabindex="0" title="Изменить"><i class="fa fa-pencil"></i></a>
+                                           
+                                            @if (post.Active)
+                                            {
+                                                <a class="btn btn-rounded-20 btn-default btn-sm mr-5 p-5" style="width:30px;" role="button" tabindex="0"
+                                                   title="Удалить" asp-action="Delete" asp-controller="MaterialManage" asp-route-id="@post.Id"><i class="fa fa-trash"></i></a>
+                                            }
+                                            else
+                                            {
+                                                <a class="btn btn-rounded-20 btn-default btn-sm mr-5 p-5" style="width:30px;"
+                                                   asp-action="" asp-controller="" title="Восстановить" asp-route-id="@post.Id">
+                                                    <i class="reply"></i>
+                                                </a>
+                                            }
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td >
+                                            <a class="btn btn-rounded-20 btn-default btn-sm mr-5 p-5" style="width:30px;" role="button" tabindex="0" 
+                                               target="_blank" title="Вид пользователя" asp-action="Details" asp-controller="Books" asp-area="" asp-route-id="@post.Id"><i class="fa fa-eye"></i></a>
+                                            <a class="btn btn-rounded-20 btn-default btn-sm mr-5 p-5" style="width:30px;"
+                                               asp-action="" asp-controller="BooksManage" asp-route-id="@post.Id"><i class="fa fa-pencil"></i></a>
+
+                                            @if (post.Active)
+                                            {
+                                                <a class="btn btn-rounded-20 btn-default btn-sm mr-5 p-5" style="width:30px;"
+                                                   asp-action="Delete" asp-controller="BooksManage" asp-route-id="@post.Id"><i class="fa fa-trash"></i></a>
+                                            }
+                                            else
+                                            {
+                                                <a class="btn btn-rounded-20 btn-default btn-sm mr-5 p-5" style="width:30px;"
+                                                   asp-action="" asp-controller="" asp-route-id="@post.Id" title="Восстановить"><i class="reply"></i></a>
+                                            }
+                                        </td>
+                                    }
                                 </tr>
                             }
                             </tbody>

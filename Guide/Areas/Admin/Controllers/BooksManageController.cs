@@ -32,16 +32,7 @@ namespace Guide.Areas.Admin.Controllers
             _uploadService = uploadService;
         }
 
-        public IActionResult Index(string activ)
-        {
-            if (activ == null)
-            {
-                return View(_db.Books.Where(b => b.Active).ToList());
-            }
-            return View(_db.Books.Where(b => b.Active == false).ToList());
-        }
-        
-        public IActionResult Create()
+      public IActionResult Create()
         {
             return View(new BookCreateViewModel());
         }
@@ -67,7 +58,7 @@ namespace Guide.Areas.Admin.Controllers
                 };
                 _db.Books.Add(book);
                 _db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index" , "MaterialManage");
             }
             return View(model);
         }
@@ -120,7 +111,7 @@ namespace Guide.Areas.Admin.Controllers
                     _db.SaveChanges();
                 }
             }
-            return RedirectToAction("Index" , "BooksManage");
+            return RedirectToAction("Index" , "MaterialManage");
         }
 
         public  IActionResult ReadBook(string path, int id)

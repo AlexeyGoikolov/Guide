@@ -1,4 +1,4 @@
-﻿@model List<Book>
+﻿@model  List<LibraryListViewModel>
 
 @{
     ViewBag.Title = "Библиотека";
@@ -6,17 +6,14 @@
 }
 <div class="page page-tables-datatables">
     <div class="pageheader">
-    
-        <h2>@ViewBag.Title</h2>
-
+        <h2>Источники</h2>
         <div class="page-bar">
-
             <ul class="page-breadcrumb">
                 <li style="background: #138a72">
                     <a asp-action="Details" asp-controller="Account" asp-area=""><i class="fa fa-home"></i> Guide</a>
                 </li>
-               <li>
-                    <a asp-action="Index" asp-controller="Books"> Список</a>
+                <li>
+                    <a asp-action="Index" asp-controller="Books">Библиотека</a>
                 </li>
             </ul>
         </div>
@@ -30,55 +27,72 @@
                 <!-- tile header -->
                 <div class="tile-header dvd dvd-btm">
                     <h1 class="custom-font">
-                        <strong></strong>
+                        <strong>Список источников</strong>
                     </h1>
-                  
-                   </div>
+                </div>
                 <!-- /tile header -->
+
                 <!-- tile body -->
-                <div class="tile-body">
+                <div class="tile-body" style="display: block">
                     <div class="table-responsive">
-                        <table style="width: 100%" class="table table-custom" id="editable-usage">
+                        <table class="table table-custom" id="editable-usage">
                             <thead>
                             <tr>
-                                <th>Название</th>
+                                <th style="width: 30%">Название</th>
                                 <th>Автор</th>
-                                <th>Год издания</th>
-                                <th style="width: 160px;" class="no-sort">Действие</th>
+                                <th>Тип Контента</th>
+                                <th>Категория</th>
+                                <th>Тип файла</th>
+                                <th>Дата создания</th>
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach (var book in Model)
+                            @foreach (var post in Model)
                             {
-                                <tr class="even gradeC">
-                                    <td>
-                                        <a asp-action="Details" asp-controller="Books" asp-route-id="@book.Id">@book.Name</a>
-                                    </td>
-                                    <td>@book.Author</td>
-                                    <td>@book.YearOfWriting</td>
-                                    <td >
-                                       <a asp-action="ReadBook" asp-controller="Books" asp-area="" asp-route-path="@book.VirtualPath" asp-route-id="@book.Id" target="_blank"><i class="fa fa-book"></i> Читать </a>
-                                    </td>
+                                <tr class="odd gradeX">
+                                    @if (post.TypeContent.Name == "Книга")
+                                    {
+                                        <td>
+                                            <a asp-action="Details" asp-controller="BooksManage" asp-route-id="@post.Id">@post.Name</a>
+                                        </td>
+                                    }
+                                     else
+                                     {
+                                         <td>
+                                             <a asp-action="Details" asp-controller="MaterialManage" asp-route-id="@post.Id">@post.Name</a>
+                                         </td>
+                                     }
+                                    
+                                    <td>@post.Author</td>
+                                    <td>@post.TypeContent.Name</td>
+                                    @if (post.Category != null)
+                                    {
+                                        <td>@post.Category.Name</td>
+                                    }
+                                    else
+                                    {
+                                        <td></td>
+                                    }
+                                    <td>@post.Type.Name</td>
+                                    <td>@post.DateCreate</td>
                                 </tr>
                             }
                             </tbody>
                         </table>
                     </div>
                 </div>
-            <!-- /tile body -->
+                <!-- /tile body -->
             </section>
-        <!-- /tile -->
+            <!-- /tile -->
+            <!-- tile -->
         </div>
-    <!-- /col -->
+        <!-- /col -->
     </div>
-<!-- /row -->
-</div>
-
-
-
+    <!-- /row -->
+</div>      
 @section Scripts
 {
-    <script>
+    <script> 
         $(window).load(function(){                                           
             let oTable = $('#editable-usage').DataTable({
                 "aoColumnDefs": [
