@@ -31,11 +31,60 @@ namespace Guide.Areas.Admin.Controllers
             _environment = environment;
             _uploadService = uploadService;
         }
-
-        public IActionResult Index()
+        public IActionResult Index(string activ)
         {
-            List<Post> posts = _db.Posts.ToList();
-            return View(posts);
+            List<Post> posts;
+            List<Book> books;
+            
+            if (activ == null)
+            {
+                posts = _db.Posts.Where(p => p.Active).ToList();
+                books = _db.Books.Where(b => b.Active).ToList();
+            }
+            else
+            {
+                posts = _db.Posts.Where(p => p.Active == false).ToList();
+                books = _db.Books.Where(b => b.Active == false).ToList();
+            }
+
+            List<LibraryListViewModel> models = new List<LibraryListViewModel>();
+            foreach (var post in posts)
+            {
+                models.Add(new LibraryListViewModel()
+                {
+                    Id = post.Id,
+                    Author = post.Author,
+                    Name = post.Title,
+                    Category = post.Category,
+                    Type = post.Type,
+                    TypeContent = post.TypeContent,
+                    TypeState = post.TypeState,
+                    DateCreate = post.DateOfCreate,
+                    Active = post.Active
+                });
+            }
+            foreach (var book in books)
+            {
+                string s = book.VirtualPath;
+                string[] parts = s.Split('.');
+                s = parts[parts.Length - 1];
+                models.Add(new LibraryListViewModel()
+                {
+                    Id = book.Id,
+                    Author = book.Author,
+                    Name = book.Name,
+                    Category = book.Category,
+                    Type = new Type() {Name = s},
+                    TypeContent = new TypeContent() {Name = "Книга"},
+                    TypeState = book.IsRecipe ? new TypeState() {Name = "Рецепт"} : new TypeState() {Name = ""},
+                    DateCreate = book.DateCreate,
+                    Active = book.Active
+                    
+                    
+                });
+            }
+            
+            return View(models);
         }
 
         public IActionResult Details(int id)
@@ -394,7 +443,8 @@ namespace Guide.Areas.Admin.Controllers
                 Post post = _db.Posts.FirstOrDefault(v => v.Id == id);
                 if (post != null)
                 {
-                    _db.Posts.Remove(post);
+                    post.Active = false;
+                    _db.Posts.Update(post);
                     _db.SaveChanges();
                 }
             }

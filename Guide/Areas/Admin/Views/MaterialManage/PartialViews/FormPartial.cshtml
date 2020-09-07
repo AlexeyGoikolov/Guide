@@ -17,9 +17,15 @@
                     <textarea  name="textContent" type="text" asp-for="TextContent" value="@Model.TextContent"></textarea>
                 </div>
             </div>
-            <button type="submit" class="btn btn-info float-right" style=" width: 100%;">Создать</button>
+            @if (ViewBag.Title == "Новый источник")
+            {
+                <button type="submit" class="btn btn-info float-right" style=" width: 100%;">Создать</button>
+            }
+            else
+            {
+                <button type="submit" class="btn btn-info float-right" style=" width: 100%;">Сохранить</button>
+            }
             <!-- /tile body -->
-
         </section>
     </div>
     <div class="col-sm-4 portlets sortable">

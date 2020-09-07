@@ -8,10 +8,6 @@
 
             <!-- tile body -->
             <div class="tile-body">
-                <div style="text-align: right">
-                    <label>Присвоить статус "Рецепт" ? </label>
-                    <input type="checkbox" asp-for="IsRecipe" value="true"><Br>
-                </div>
                 <div >
                     <label>Код книги(ISBN)</label> <br/><span class="validationError" asp-validation-for="ISBN"></span>
                     <input class="form-control" type="text" asp-for="ISBN" value="@Model.ISBN">
