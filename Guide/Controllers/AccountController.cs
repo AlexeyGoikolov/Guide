@@ -3,10 +3,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using Guide.Models;
 using Guide.Models.Data;
+using Guide.Services;
 using Guide.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace Guide.Controllers
@@ -15,20 +17,15 @@ namespace Guide.Controllers
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
-        private readonly GuideContext _db;
+        private UserRepository _db;
         
-        public AccountController(
-            UserManager<User> userManager,
-            SignInManager<User> signInManager,
-            GuideContext db
-            )
+        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, UserRepository db)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _db = db;
         }
         
-
         [Authorize]
         public IActionResult Details(string id)
         {
@@ -39,13 +36,11 @@ namespace Guide.Controllers
             if (id == null)
                 user = _userManager.GetUserAsync(User).Result;
             else
-                user = _db.Users.FirstOrDefault(u => u.Id == id);
+                user = _db.GetUser(id);
             UserDetailsViewModel model = new UserDetailsViewModel();
             model.User = user;
-            model.Task = _db.TaskUsers.FirstOrDefault(t => t.UserId == user.Id);
-            model.Issues = _db.UserIssues.OrderBy(d => d.Id)
-                .Where(d => d.UserId == user.Id).
-                Select(s => s.Issue).ToList();
+            model.Task = _db.GetUserTask(user.Id);
+            model.Issues = _db.GetUserIssues(user.Id);
             return View(model);
         }
 
@@ -53,12 +48,12 @@ namespace Guide.Controllers
         [Authorize(Roles = "admin")]
         public IActionResult Delete(string id)
         {
-            User user = _db.Users.FirstOrDefault(u => u.Id == id);
+            User user = _db.GetUser(id);
             if (user!=null)
             {
                 user.Active = false;
-                _db.Users.Update(user);
-                _db.SaveChanges();
+                _db.Update(user);
+                _db.Save();
             }
             return RedirectToAction("Details");
         }
@@ -69,7 +64,7 @@ namespace Guide.Controllers
         {
             User user = await _userManager.FindByIdAsync(id);
             PositionsViewModel model = new PositionsViewModel();
-            model.Positions = _db.Positions.Where(p => p.Active).ToList();
+            model.Positions = _db.GetActivePositions();
             model.UserEdit = new EditUserViewModel();
             if (user != null)
             {
@@ -118,12 +113,12 @@ namespace Guide.Controllers
                         await _userManager.RemoveFromRoleAsync(user, "admin");
                     }
                     await _userManager.UpdateAsync(user);
-                    await _db.SaveChangesAsync();
+                    _db.SaveAsync();
                     
                     return Redirect($"~/Account/Details/{user.Id}");
                 }
             }
-            model.Positions = _db.Positions.ToList();
+            model.Positions = _db.GetAllPositions();
             return View(model);
         }
         [Authorize]
@@ -252,15 +247,14 @@ namespace Guide.Controllers
         {
             if (position.Name != null)
             {
-                _db.Positions.Add(position);
-                _db.SaveChanges();
+                _db.AddPosition(position);
+                _db.Save();
             }
             PositionsViewModel model = new PositionsViewModel()
             {
                 User = new RegisterViewModel(),
                 // ReSharper disable once RedundantBoolCompare
-                Positions = _db.Positions.Where(p=>p.Active).ToList()
-                
+                Positions = _db.GetActivePositions()
             };
             if (data != null)
             {
@@ -272,16 +266,16 @@ namespace Guide.Controllers
         //Удаление должности
         public IActionResult DeletePositionAjax(int id)
         {
-            Position position = _db.Positions.FirstOrDefault(p => p.Id == id);
+            Position position = _db.GetPosition(id);
             if (position != null)
             {
                 position.Active = false;
-                _db.SaveChanges();
+                _db.Save();
             }
             PositionsViewModel model = new PositionsViewModel()
             {
                 User = new RegisterViewModel(),
-                Positions = _db.Positions.Where(p=>p.Active).ToList()
+                Positions = _db.GetActivePositions()
             };
             return PartialView("PartialViews/PositionsPortal", model);
         }

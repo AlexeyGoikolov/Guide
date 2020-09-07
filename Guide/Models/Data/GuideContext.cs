@@ -6,30 +6,30 @@ namespace Guide.Models.Data
     public class GuideContext : IdentityDbContext<User>
     {
         public override DbSet<User> Users { get; set; }
-        public DbSet<Post> Posts { get; set; }
-        public DbSet<Comment> Comments { get; set; }
-        public DbSet<Type> Types { get; set; }
-        public DbSet<TypeContent> TypeContents { get; set; }
+        public virtual DbSet<Post> Posts { get; set; }
+        public virtual DbSet<Comment> Comments { get; set; }
+        public virtual DbSet<Type> Types { get; set; }
+        public virtual DbSet<TypeContent> TypeContents { get; set; }
 
-        public DbSet<TypeState> TypeStates { get; set; }
+        public virtual DbSet<TypeState> TypeStates { get; set; }
 
-        public DbSet<Category> Categories { get; set; }
-        public DbSet<QuestionAnswer> QuestionAnswers { get; set; }
-        public DbSet<Glossary> Glossaries { get; set; }
-        public DbSet<Position> Positions { get; set; }
-        public DbSet<Book> Books { get; set; }
-        public DbSet<Template> Templates { get; set; }
-        public DbSet<TaskUser> TaskUsers { get; set; }
-        public DbSet<Issue> Issues { get; set; }
-        public DbSet<Step> Steps { get; set; }
-        public DbSet<IssueStep> IssueStep { get; set; }
-        public DbSet<Interpretation> Interpretations { get; set; }
-        public DbSet<DesiredResult> DesiredResults { get; set; }
-        public DbSet<DesiredResultIssue> DesiredResultIssue { get; set; }
-        public DbSet<DesiredResultStep> DesiredResultStep { get; set; }
-        public DbSet<BusinessProcess> BusinessProcesses { get; set; }
-        public DbSet<BusinessProcessIssue> BusinessProcessIssues { get; set; }
-        public DbSet<UserIssue> UserIssues { get; set; }
+        public virtual DbSet<Category> Categories { get; set; }
+        public virtual DbSet<QuestionAnswer> QuestionAnswers { get; set; }
+        public virtual DbSet<Glossary> Glossaries { get; set; }
+        public virtual DbSet<Position> Positions { get; set; }
+        public virtual DbSet<Book> Books { get; set; }
+        public virtual DbSet<Template> Templates { get; set; }
+        public virtual DbSet<TaskUser> TaskUsers { get; set; }
+        public virtual DbSet<Issue> Issues { get; set; }
+        public virtual DbSet<Step> Steps { get; set; }
+        public virtual DbSet<IssueStep> IssueStep { get; set; }
+        public virtual DbSet<Interpretation> Interpretations { get; set; }
+        public virtual DbSet<DesiredResult> DesiredResults { get; set; }
+        public virtual DbSet<DesiredResultIssue> DesiredResultIssue { get; set; }
+        public virtual DbSet<DesiredResultStep> DesiredResultStep { get; set; }
+        public virtual DbSet<BusinessProcess> BusinessProcesses { get; set; }
+        public virtual DbSet<BusinessProcessIssue> BusinessProcessIssues { get; set; }
+        public virtual DbSet<UserIssue> UserIssues { get; set; }
         
         
         
@@ -52,7 +52,6 @@ namespace Guide.Models.Data
         public GuideContext(DbContextOptions<GuideContext> options) : base(options)
         {
         }
-
         
     }
 }

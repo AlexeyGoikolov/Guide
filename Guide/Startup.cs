@@ -29,6 +29,8 @@ namespace Guide
             services.AddLocalization(options => options.ResourcesPath = "Resources");
             services.AddControllersWithViews().AddViewLocalization();
             string connection = Configuration.GetConnectionString("DefaultConnection");
+            services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<UserRepository>();
             services.AddTransient<UploadService>();
             services.AddDbContext<GuideContext>(options =>
                     options.UseLazyLoadingProxies()
