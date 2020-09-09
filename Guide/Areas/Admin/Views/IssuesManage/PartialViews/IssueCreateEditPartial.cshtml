@@ -7,13 +7,13 @@
             <!-- tile body -->
             <div class="tile-body">
                 <div >
-                    <label>Заголовок<span class="text-danger">*</span></label>
+                    <label>Заголовок</label>
                     <br/><span class="validationError" asp-validation-for="@Model.Name"></span>
                     <input class="form-control" type="text" asp-for="@Model.Name" value="@Model.Name">
                 </div>
                 <div>
-                    <label>Содержание<span class="text-danger">*</span></label>
-                    <textarea name="issueDescription" type="text" asp-for="@Model.IssueDescription" value="@Model.IssueDescription">@Model.IssueDescription</textarea>
+                    <label>Содержание</label>
+                    <textarea name="issueDescription" type="text" asp-for="@Model.IssueDescription">@Model.IssueDescription</textarea>
                 </div>
                 
             </div>

@@ -37,15 +37,14 @@
                            <!-- tile body -->
                            <div class="tile-body">
                                <div >
-                                   <label>Заголовок<span class="text-danger">*</span></label>
+                                   <label>Заголовок</label>
                                    <br/><span class="validationError" asp-validation-for="@Model.Issue.Name"></span>
-                                   <input class="form-control" type="text" asp-for="@Model.Issue.Name" value="@Model.Issue.Name">
+                                   <input class="form-control" type="text" asp-for="Issue.Name" value="@Model.Issue.Name">
                                </div>
                                <div>
-                                   <label>Содержание<span class="text-danger">*</span></label>
-                                   <textarea name="issueDescription" type="text" 
-                                    asp-for="@Model.Issue.IssueDescription" 
-                                    value="@Model.Issue.IssueDescription">@Model.Issue.IssueDescription</textarea>
+                                   <label>Содержание</label>
+                                   <textarea name="issue.issueDescription" type="text" asp-for="Issue.IssueDescription" 
+                                    >@Model.Issue.IssueDescription</textarea>
                                </div>
                                
                            </div>
@@ -113,6 +112,7 @@
                     </div>
                     <div>
                         <div class="col-sm-4">
+                            <input type="hidden" asp-for="Issue.Id" value="@Model.Issue.Id">
                             <button type="submit" class="btn btn-info fade-out-left-lg">Исполнить</button>
                         </div>
                     </div>
@@ -127,6 +127,6 @@
 @section Scripts
 {
     <script>
-        CKEDITOR.replace('issueDescription');
+        CKEDITOR.replace('issue.issueDescription');
     </script>
 }

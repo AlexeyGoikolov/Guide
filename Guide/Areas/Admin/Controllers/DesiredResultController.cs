@@ -118,6 +118,7 @@ namespace Guide.Areas.Admin.Controllers
                         _db.SaveChanges();
                     }
 
+                    return RedirectToAction("Create");
                 }
             }
 

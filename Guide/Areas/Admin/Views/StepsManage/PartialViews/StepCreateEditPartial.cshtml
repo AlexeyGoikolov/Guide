@@ -8,12 +8,12 @@
             <!-- tile body -->
             <div class="tile-body">
                 <div >
-                    <label>Заголовок<span class="text-danger">*</span></label>
+                    <label>Заголовок</label>
                     <br/><span class="validationError" asp-validation-for="Name"></span>
                     <input class="form-control" type="text" asp-for="Name" value="@Model.Name">
                 </div>
                 <div>
-                    <label>Содержание<span class="text-danger">*</span></label>
+                    <label>Содержание</label>
                     <textarea name="stepDescription" type="text" asp-for="StepDescription" value="@Model.StepDescription">@Model.StepDescription</textarea>
                 </div>
             </div>
@@ -25,7 +25,7 @@
             <!-- tile body -->
             <div class="tile-body">
                 <div>
-                    <label>Автор<span class="text-danger">*</span></label>
+                    <label>Автор</label>
                     <br/><span class="validationError" asp-validation-for="Author"></span>
                     <input class="form-control" type="text" asp-for="Author" value="@Model.Author">
                     

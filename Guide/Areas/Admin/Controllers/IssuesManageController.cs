@@ -138,8 +138,6 @@ namespace Guide.Areas.Admin.Controllers
                 issue.IssueDescription = model.Issue.IssueDescription;
                 _db.Issues.Update(issue);
                 _db.SaveChanges();
-                _db.Issues.Update(issue);
-                _db.SaveChanges();
 
                 //переходит на редактирование списка Шагов
                 if (choice == 2)

@@ -38,7 +38,11 @@ namespace Guide.Services
 
         public virtual TaskUser GetUserTask(string userId)
         {
-            return _db.TaskUsers.FirstOrDefault(t => t.UserId == userId);
+            TaskUser taskUser = _db.TaskUsers.FirstOrDefault(t => t.UserId == userId);
+            if (taskUser != null)
+                return taskUser;
+            taskUser = new TaskUser();
+            return taskUser;
         }
 
         public virtual List<Issue> GetUserIssues(string userId)

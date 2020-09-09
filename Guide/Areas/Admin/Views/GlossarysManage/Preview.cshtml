@@ -29,12 +29,12 @@
     </div>
     <div class="pt-3">
          
-        @foreach (var interpretation in @Model.Interpretations)
+        @foreach (var interpretation in Model.Interpretations)
         {
-            if (interpretation.Active == true)
+            if (interpretation.Active)
             {
                 <div class="tile time-simple">
-                    @if (first == true)
+                    @if (first)
                     {
                         <div class="tile-header dvd dvd-btm">
                             <h1 class="custom-font">

@@ -35,7 +35,7 @@
                 <h2 class="custom-font mt-0 mb-5">@Model.Title </h2>
                 <div class=" ">
                @Html.Raw(Model.TextContent)
-               @if (@Model.VirtualPath != null)
+               @if (Model.VirtualPath != null)
                {
                     <iframe width="100%" height="400" src="~/@Model.VirtualPath"></iframe>
                }

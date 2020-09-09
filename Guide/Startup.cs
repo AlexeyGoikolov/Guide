@@ -1,11 +1,9 @@
-using System.Globalization;
 using Guide.Models;
 using Guide.Models.Data;
 using Guide.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -26,8 +24,7 @@ namespace Guide
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddLocalization(options => options.ResourcesPath = "Resources");
-            services.AddControllersWithViews().AddViewLocalization();
+            services.AddControllersWithViews();
             string connection = Configuration.GetConnectionString("DefaultConnection");
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<UserRepository>();
@@ -43,18 +40,6 @@ namespace Guide
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            var supportedCultures = new[]
-            {
-                new CultureInfo("ru"),
-            };
-
-            app.UseRequestLocalization(new RequestLocalizationOptions
-            {
-                DefaultRequestCulture = new RequestCulture("de"),
-                SupportedCultures = supportedCultures,
-                SupportedUICultures = supportedCultures
-            });
-            
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

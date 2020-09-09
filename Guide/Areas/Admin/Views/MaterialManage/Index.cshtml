@@ -31,10 +31,10 @@
                     </h1>
                     <ul class="controls">
                         <li>
-                            <a role="button" tabindex="0" target="_blank" asp-action="Create" asp-controller="MaterialManage"><i class="fa fa-plus mr-5"></i>Добавить</a>
+                            <a role="button" tabindex="0" asp-action="Create" asp-controller="MaterialManage"><i class="fa fa-plus mr-5"></i>Добавить</a>
                         </li>
                         <li>
-                            <a role="button" tabindex="0" target="_blank" asp-action="Create" asp-controller="BooksManage"><i class="fa fa-plus mr-5"></i>Добавить Книгу</a>
+                            <a role="button" tabindex="0" asp-action="Create" asp-controller="BooksManage"><i class="fa fa-plus mr-5"></i>Добавить Книгу</a>
                         </li>
                         <li>
                             <a role="button" tabindex="0" asp-action="Index" asp-controller="MaterialManage">Активные</a>
@@ -122,7 +122,7 @@
 
                                             @if (post.Active)
                                             {
-                                                <a class="btn btn-rounded-20 btn-default btn-sm mr-5 p-5" style="width:30px;"
+                                                <a class="btn btn-rounded-20 btn-default btn-sm mr-5 p-5" title="Удалить" style="width:30px;"
                                                    asp-action="Delete" asp-controller="BooksManage" asp-route-id="@post.Id"><i class="fa fa-trash"></i></a>
                                             }
                                             else

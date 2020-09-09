@@ -10,12 +10,10 @@ namespace Guide.ViewModels
 {
     public class MaterialCreateViewModel
     {
-        public int Id { get; set; } 
-        [Required(ErrorMessage = "Необходимо заполнить поле Заголовок")]
+        public int Id { get; set; }
         [DataType(DataType.Text)]
         
         public string Title { get; set; }
-        [Required(ErrorMessage = "Необходимо заполнить информацию об Авторе")]
         [DataType(DataType.Text)]
         public string Author { get; set; }
         public string TextContent { get; set; }
@@ -25,7 +23,6 @@ namespace Guide.ViewModels
         public int? TypeContentId { get; set; }
         public int? TypeStateId { get; set; }
         public int? CategoryId { get; set; }
-        [Required(ErrorMessage = "Необходимо заполнить поле Тип")]
         public int? TypeId { get; set; }
         
         

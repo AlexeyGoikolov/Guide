@@ -1,10 +1,10 @@
 ﻿@model MaterialTypeViewModel
 
-<label>Тип файла<span class="text-danger">*</span></label>
+<label>Тип файла</label>
 <span class="validationError" asp-validation-for="@Model.Material.TypeId"></span>
 <div style="display: flex">
     <select class="form-control" name="TypeId" asp-for="@Model.Material.TypeId">
-        @foreach (var type in @Model.Types)
+        @foreach (var type in Model.Types)
         {
             <option value="@type.Id">@type.Name</option>
         }
@@ -30,7 +30,7 @@
                     <input type="text" id="typeInput" class="input-register" style="width: 460px;" >
                    <button class="btn btn-outline-secondary" data-dismiss="modal" type="button" id="typeButton" style="margin:0 0 5px 17px;">Добавить</button>
                     </div>
-                @foreach (var type in @Model.Types)
+                @foreach (var type in Model.Types)
                 {
                     <p style="text-align: right; " >- @type.Name <button data-dismiss="modal" type="button" value="@type.Id" class="btn buttonDeleteType"><i class="fas fa-trash-alt"></i></button></p>
                 }

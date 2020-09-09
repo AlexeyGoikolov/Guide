@@ -1,10 +1,20 @@
 ﻿using System;
+using System.Linq;
+using Guide.Models;
+using Guide.Models.Data;
 using Microsoft.AspNetCore.Mvc;
-
 namespace Guide.Controllers
 {
     public class ValidationController : Controller
     {
+
+        private readonly GuideContext _db;
+
+        public ValidationController(GuideContext db)
+        {
+            _db = db;
+        }
+
         public bool CheckYear(string YearOfWriting)
         {
             try
@@ -21,6 +31,15 @@ namespace Guide.Controllers
                 return false;
             }
             
+        }
+
+        public bool CheckEmail(string email)
+        {
+            string emailUpper = email.ToUpper();
+            User user = _db.Users.FirstOrDefault(u => u.NormalizedEmail == emailUpper);
+            if (user != null)
+                return false;
+            return true;
         }
     }
 }

@@ -33,10 +33,7 @@
                     </h1>
                     <ul class="controls">
                         <li>
-                            <a role="button" tabindex="0" target="_blank" asp-action="Create" asp-controller="GlossarysManage"><i class="fa fa-plus mr-5"></i>Добавить</a>
-                        </li>
-                        <li>
-                            <a role="button" tabindex="0" target="_blank" asp-action="Index" asp-controller="Glossarys" asp-area=""><i class="fa fa-eye mr-5"></i>Вид пользователя</a>
+                            <a role="button" tabindex="0" asp-action="Create" asp-controller="GlossarysManage"><i class="fa fa-plus mr-5"></i>Добавить</a>
                         </li>
                     </ul>
                 </div>
@@ -54,7 +51,7 @@
                             <tbody>
                             @foreach (var glossary in Model)
                             {
-                                if (glossary.Active==true)
+                                if (glossary.Active)
                                 {
                                     <tr class="odd gradeX">
                                         <div class="row border">
@@ -62,12 +59,12 @@
                                                 <a asp-action="Preview" asp-controller="GlossarysManage" asp-route-id="@glossary.Id">@glossary.Name</a>
                                             </td>
                                             <td>
-                                                <a class="btn btn-rounded-20 btn-default btn-sm mr-5 p-5" style="width:30px;" tabindex="0" target="_blank"
-                                                   title="Вид пользователя" role="button" asp-action="Edit" asp-controller="GlossarysManage" asp-route-id="@glossary.Id"><i class="fa fa-pencil"></i></a>
-                                                <a class="btn btn-rounded-20 btn-default btn-sm mr-5 p-5" style="width:30px;" role="button" tabindex="0" target="_blank"
-                                                   title="Вид пользователя" asp-action="Delete" asp-controller="GlossarysManage" asp-route-id="@glossary.Id"><i class="fa fa-trash"></i></a>
                                                 <a class="btn btn-rounded-20 btn-default btn-sm mr-5 p-5" style="width:30px;" role="button" tabindex="0" target="_blank"
                                                    title="Вид пользователя" asp-action="Preview" asp-controller="GlossarysManage" asp-route-id="@glossary.Id"><i class="fa fa-eye"></i></a>
+                                                <a class="btn btn-rounded-20 btn-default btn-sm mr-5 p-5" style="width:30px;" tabindex="0" 
+                                                   title="Редактировать" role="button" asp-action="Edit" asp-controller="GlossarysManage" asp-route-id="@glossary.Id"><i class="fa fa-pencil"></i></a>
+                                                <a class="btn btn-rounded-20 btn-default btn-sm mr-5 p-5" style="width:30px;" role="button" tabindex="0" 
+                                                   title="Удалить" asp-action="Delete" asp-controller="GlossarysManage" asp-route-id="@glossary.Id"><i class="fa fa-trash"></i></a>
                                             </td>
                                         </div>
                                     </tr>
