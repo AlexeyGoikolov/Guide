@@ -52,23 +52,23 @@ namespace Guide.Areas.Admin.Controllers
                             _db.SaveChanges();
                         }
                     }
-
-
-                    //создает новый ЖР
-                    if (model.DesResult.Name != null)
-                    {
-                        DesiredResult desiredResult = new DesiredResult();
-                        desiredResult.Number = model.DesResult.Number;
-                        desiredResult.Name = model.DesResult.Name;
-                        _db.DesiredResults.Add(desiredResult);
-                        _db.SaveChanges();
-                        // теперь в общую таблицу добавляем новый ЖР в связи с Задачей
-                        DesiredResultIssue desiredResultIssue = new DesiredResultIssue();
-                        desiredResultIssue.IssueId = model.IssueId;
-                        desiredResultIssue.DesiredResultId = desiredResult.Id;
-                        _db.DesiredResultIssue.Add(desiredResultIssue);
-                        _db.SaveChanges();
-                    }
+                    
+                        
+                        if ( model.DesResult.Name != null)//создает новый ЖР
+                        {
+                            DesiredResult desiredResult  =new DesiredResult();
+                            desiredResult.Number = model.DesResult.Number;
+                            desiredResult.Name = model.DesResult.Name;
+                            _db.DesiredResults.Add(desiredResult);
+                            _db.SaveChanges();
+                            // теперь в общую таблицу добавляем новый ЖР в связи с Задачей
+                            DesiredResultIssue desiredResultIssue = new DesiredResultIssue();
+                            desiredResultIssue.IssueId = model.IssueId;
+                            desiredResultIssue.DesiredResultId = desiredResult.Id;
+                            _db.DesiredResultIssue.Add(desiredResultIssue);
+                            _db.SaveChanges();
+                        }
+                    
 
                     return RedirectToAction("AddSteps", "IssuesManage", new {id = model.IssueId});
                 }
@@ -85,23 +85,23 @@ namespace Guide.Areas.Admin.Controllers
                             _db.DesiredResultStep.Add(desiredResultStep);
                             _db.SaveChanges();
                         }
-                    }
 
 
-                    //создает новый ЖР
-                    if (model.DesResult.Name != null)
-                    {
-                        DesiredResult desiredResult = new DesiredResult();
-                        desiredResult.Number = model.DesResult.Number;
-                        desiredResult.Name = model.DesResult.Name;
-                        _db.DesiredResults.Add(desiredResult);
-                        _db.SaveChanges();
-                        // теперь в общую таблицу добавляем новый ЖР в связи с Шагом
-                        DesiredResultStep desiredResultStep = new DesiredResultStep();
-                        desiredResultStep.StepId = model.StepId;
-                        desiredResultStep.DesiredResultId = desiredResult.Id;
-                        _db.DesiredResultStep.Add(desiredResultStep);
-                        _db.SaveChanges();
+                        //создает новый ЖР
+                        if (model.DesResult.Name != null)
+                        {
+                            DesiredResult desiredResult = new DesiredResult();
+                            desiredResult.Number = model.DesResult.Number;
+                            desiredResult.Name = model.DesResult.Name;
+                            _db.DesiredResults.Add(desiredResult);
+                            _db.SaveChanges();
+                            // теперь в общую таблицу добавляем новый ЖР в связи с Шагом
+                            DesiredResultStep desiredResultStep = new DesiredResultStep();
+                            desiredResultStep.StepId = model.StepId;
+                            desiredResultStep.DesiredResultId = desiredResult.Id;
+                            _db.DesiredResultStep.Add(desiredResultStep);
+                            _db.SaveChanges();
+                        }
                     }
 
                     return RedirectToAction("Details", "StepsManage", new {id = model.StepId});
@@ -119,16 +119,17 @@ namespace Guide.Areas.Admin.Controllers
                     }
 
                     return RedirectToAction("Create");
-                }
+                }// просто новый ЖР
             }
 
             return NotFound();
         }
+
         public IActionResult Delete(int id)
         {
             if (id != 0)
             {
-               DesiredResult desiredResult = _db.DesiredResults.FirstOrDefault(s => s.Id == id);
+                DesiredResult desiredResult = _db.DesiredResults.FirstOrDefault(s => s.Id == id);
                 if (desiredResult != null)
                 {
                     return View(desiredResult);
