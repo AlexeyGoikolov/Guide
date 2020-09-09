@@ -38,7 +38,15 @@
                     {
                         <div class="tile-header dvd dvd-btm">
                             <h1 class="custom-font">
-                                <strong>@Model.Name (сокращенно @interpretation.Abbreviation)</strong>
+                                @if (interpretation.Abbreviation != null)
+                                {
+                                    <strong>@Model.Name (Аббревиатура: @interpretation.Abbreviation)</strong>
+                                }
+                                else
+                                {
+                                    <strong>@Model.Name</strong>
+                                }
+                                
                             </h1>
                             <ul class="controls">
                                 <li>

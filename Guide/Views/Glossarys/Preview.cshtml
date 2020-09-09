@@ -25,9 +25,18 @@
             </ul>
         </div>
     </div>
-    @foreach (var interpretation in @Model.Interpretations)
+    @foreach (var interpretation in Model.Interpretations)
     {
-        <div class="pt-3">
+        <div class="mb-10" style="border: 1px solid #16a085">
+            @if (interpretation.Abbreviation != null)
+            {
+                <strong>Аббревиатура:  @interpretation.Abbreviation</strong>
+                @if (interpretation.Source != null)
+                {
+                    <span class="ml-20">Источник: @interpretation.Source</span>
+                }
+                <br/>
+            }
             @Html.Raw(interpretation.Description)
         </div>
     }
