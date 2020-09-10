@@ -42,7 +42,7 @@
                                 @foreach (var issue in Model.DesignatedIssues)
                                 {
                                     <h3>
-                                        <a asp-action="Details" asp-controller="IssuesManage" asp-route-id="@issue.Id">@issue.Name</a>
+                                        <a asp-action="Details" asp-controller="IssuesManage" asp-route-id="@issue.Id"  asp-route-back="@Model.BusinessProcess.Name">@issue.Name</a>
                                     </h3>
                                 }
                             }

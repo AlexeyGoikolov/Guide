@@ -56,7 +56,7 @@
                             {
                                 <tr class="odd gradeX">
                                     <td>
-                                        <a asp-action="Details" asp-controller="IssuesManage" asp-route-id="@issue.Id">@issue.Name</a>
+                                        <a asp-action="Details" asp-controller="IssuesManage" asp-route-id="@issue.Id"  asp-route-back="Задачи">@issue.Name</a>
                                     </td>
                                     <td>@issue.CreatedAt</td>
                                     <td >

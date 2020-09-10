@@ -6,7 +6,9 @@ using Guide.Models;
 using Guide.Models.Data;
 using Guide.ViewModels;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 
 namespace Guide.Areas.Admin.Controllers
@@ -47,6 +49,7 @@ namespace Guide.Areas.Admin.Controllers
                     return RedirectToAction("AddSteps", "IssuesManage", new {id = issue1.Id, type = "create"});
                 // переходит на добавление ЖР
                 if (choice == 3)
+                   
                     return RedirectToAction("Create", "DesiredResult", new {issuesId = issue.Id});
             }
 
@@ -73,10 +76,11 @@ namespace Guide.Areas.Admin.Controllers
             return NotFound();
         }
 
-        public IActionResult Details(int id)
+        public IActionResult Details(int id, string back)
         {
             IssueStepsViewModel model = new IssueStepsViewModel
             {
+                Back = back,
                 Issue = _db.Issues.FirstOrDefault(i => i.Id == id),
                 DesignatedSteps = _db.IssueStep.OrderBy(i => i.Id).
                     Where(i => i.IssueId == id).
@@ -86,7 +90,7 @@ namespace Guide.Areas.Admin.Controllers
                 DesiredResults = _db.DesiredResultIssue.OrderBy(d => d.Id).Where(d => d.IssueId == id)
                     .Select(s => s.DesiredResult).Where(s => s.Active).ToList()
             };
-            return View(model);
+        return View(model);
         }
 
         public IActionResult AjaxStepSearch(string word)

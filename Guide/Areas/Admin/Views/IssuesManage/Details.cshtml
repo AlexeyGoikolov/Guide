@@ -17,10 +17,10 @@
                     <a asp-action="Details" asp-controller="Account"><i class="fa fa-home"></i> Guide</a>
                 </li>
                 <li>
-                    <a asp-action="Index" asp-controller="IssuesManage"> Задачи</a>
-                </li>
+                    <a href='javascript:history.go(-1)'>@Model.Back</a>
+                 </li>
                 <li>
-                 <a asp-action="Details" asp-controller="IssuesManage" asp-route-id="@Model.Issue.Id">Подробно</a>
+                 <a asp-action="Details" asp-controller="IssuesManage" asp-route-id="@Model.Issue.Id">@ViewBag.Title</a>
                 </li>
             </ul>
         </div>
@@ -79,6 +79,8 @@
                     </div>
                 </div>
             </div>
+            <a href='javascript:history.go(-1)'>Go Back to Previous Page</a>
+            
             <!-- /tile body -->
             
         </section>
