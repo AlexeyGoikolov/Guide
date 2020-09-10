@@ -15,10 +15,10 @@
                     <a asp-action="Details" asp-controller="Account" asp-area=""><i class="fa fa-home"></i> Guide</a>
                 </li>
                 <li>
-                    <a asp-action="Index" asp-controller="Books">Книги</a>
+                    <a asp-action="Index" asp-controller="Source">Книги</a>
                 </li>
                 <li>
-                    <a asp-action="Details" asp-controller="Books" asp-route-id="@Model.Id">@Model.Name</a>
+                    <a asp-action="Details" asp-controller="Source" asp-route-id="@Model.Id">@Model.Name</a>
                 </li>
             </ul>
         </div>
@@ -76,7 +76,7 @@
                                 }
                             </div>
                             <div>
-                                <a asp-action="ReadBook" asp-controller="Books" asp-route-path="@Model.VirtualPath" asp-route-id="@Model.Id"><i class="fa fa-book"></i> читать книгу </a>
+                                <a asp-action="ReadBook" asp-controller="Source" asp-route-path="@Model.VirtualPath" asp-route-id="@Model.Id"><i class="fa fa-book"></i> читать книгу </a>
                             </div>
                             
                         </div>

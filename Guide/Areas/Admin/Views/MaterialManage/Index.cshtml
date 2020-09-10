@@ -77,9 +77,22 @@
                                              <a asp-action="Details" asp-controller="MaterialManage" asp-route-id="@post.Id">@post.Name</a>
                                          </td>
                                      }
-                                    
-                                    <td>@post.Author</td>
-                                    <td>@post.TypeContent.Name</td>
+                                    @if (post.Author != null)
+                                    {
+                                        <td>@post.Author</td>
+                                    }
+                                    else
+                                    {
+                                        <td></td>
+                                    }
+                                    @if (post.TypeContent != null)
+                                    {
+                                        <td>@post.TypeContent.Name</td>
+                                    }
+                                    else
+                                    {
+                                        <td></td>
+                                    }
                                     @if (post.Category != null)
                                     {
                                         <td>@post.Category.Name</td>
@@ -88,7 +101,14 @@
                                     {
                                         <td></td>
                                     }
-                                    <td>@post.Type.Name</td>
+                                    @if (post.Type != null)
+                                    {
+                                        <td>@post.Type.Name</td> 
+                                    }
+                                    else
+                                    {
+                                        <td></td>
+                                    }
                                     <td>@post.DateCreate</td>
                                     @if (post.TypeContent.Name != "Книга")
                                     {
@@ -116,7 +136,7 @@
                                     {
                                         <td >
                                             <a class="btn btn-rounded-20 btn-default btn-sm mr-5 p-5" style="width:30px;" role="button" tabindex="0" 
-                                               target="_blank" title="Вид пользователя" asp-action="Details" asp-controller="Books" asp-area="" asp-route-id="@post.Id"><i class="fa fa-eye"></i></a>
+                                               target="_blank" title="Вид пользователя" asp-action="Details" asp-controller="Source" asp-area="" asp-route-id="@post.Id"><i class="fa fa-eye"></i></a>
                                             <a class="btn btn-rounded-20 btn-default btn-sm mr-5 p-5" style="width:30px;"
                                                asp-action="" asp-controller="BooksManage" asp-route-id="@post.Id"><i class="fa fa-pencil"></i></a>
 
