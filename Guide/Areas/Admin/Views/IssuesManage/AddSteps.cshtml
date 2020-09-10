@@ -65,7 +65,7 @@
                                 @foreach (var step in Model.DesignatedSteps){
                                     <li class="list-group-item" style="width: 100% !important; cursor: pointer;">
                                         <input class="mb-0" type="hidden" name="id[]" value="@step.Id">
-                                        <p class="mb-0">Название : @step.Name</p>
+                                        <p class="mb-0">@step.Name</p>
                                     </li>
                                 }
                             } 
@@ -85,7 +85,7 @@
                                     {
                                         <li class="list-group-item" style="width: 100%">
                                             <input class="mb-0" type="hidden" name="id[]" value="@step.Id">
-                                            <p class="mb-0">Название : @step.Name</p>
+                                            <p class="mb-0">@step.Name</p>
                                         </li>
                                     }
                                 </ul>
