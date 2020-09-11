@@ -1,4 +1,5 @@
-﻿@model IssueStepsViewModel
+﻿@using System.Collections.Specialized
+@model IssueStepsViewModel
 
 @{
     ViewBag.Title = "Подробно о задаче";
@@ -20,7 +21,7 @@
                     <a asp-action="Index" asp-controller="IssuesManage"> Задачи</a>
                 </li>
                 <li>
-                 <a asp-action="Details" asp-controller="IssuesManage" asp-route-id="@Model.Issue.Id">Подробно</a>
+                    <a asp-action="Details" asp-controller="IssuesManage" asp-route-id="@Model.Issue.Id">Подробно</a>
                 </li>
             </ul>
         </div>
@@ -44,30 +45,46 @@
                                 @foreach (var step in Model.DesignatedSteps)
                                 {
                                     i++;
-                                    <h3>
-                                        <a asp-action="Edit" asp-controller="StepsManage" asp-route-id="@step.Id">
-                                            @i - @step.Name
-                                        </a>
-                                        <a class="btn btn-rounded-20 btn-default btn-sm mr-5 p-5" style="width:30px;" role="button" tabindex="0"
-                                           title="Удалить" asp-action="Delete" asp-controller="StepsManage" asp-route-id="@step.Id">
-                                            <i class="fa fa-trash"></i>
-                                        </a>
-                                    </h3>
+                                    <div id="desRes-@i">
+                                        <h3>
+                                            <a asp-action="Edit" asp-controller="StepsManage" asp-route-id="@step.Id">
+                                                @i - @step.Name
+                                            </a>
+                                            <a class="btn btn-rounded-20 btn-default btn-sm mr-5 p-5" style="width:30px;" role="button" tabindex="0"
+                                               title="Удалить шаг" onclick="openStepConfirmDelete(@i,'@Model.Issue.Id','@step.Id')">
+                                                <i class="fa fa-trash"></i>
+                                            </a>
+                                        </h3>
+                                        <div id="confirmStepDelete-@i" style="display: none">
+                                            <p>Вы действительно хотите удалить этот шаг?</p>
+                                            <button class="btn btn-small btn-danger" id="confirm-@i">Да</button>
+                                            <button class="btn btn-small btn-green" id="cancel-@i">Нет</button>
+                                        </div>
+                                    </div>
+                                    
                                 }
                             }
                             <h2 style="color: #0c5460">Желаемые результаты выполнения задачи:</h2>
                             @if (Model.DesiredResults.Count > 0)
                             {
+                                int i = 0;
                                 @foreach (var dr in Model.DesiredResults)
                                 {
-                                    <h4>
-                                        # @dr.Number - @dr.Name
-                                        <a class="btn btn-rounded-20 btn-default btn-sm mr-5 p-5" style="width:30px;" role="button" tabindex="0"
-                                           title="Удалить" asp-action="DeleteFromIssue"
-                                           asp-controller="DesiredResult" asp-route-drId="@dr.Id" asp-route-issueid="@Model.Issue.Id">
-                                            <i class="fa fa-trash"></i>
-                                        </a>
-                                    </h4>
+                                    i++;
+                                    <div id="desRes-@i">
+                                        <h4>
+                                            # @dr.Number - @dr.Name
+                                            <a class="btn btn-rounded-20 btn-default btn-sm mr-5 p-5" style="width:30px;" role="button" tabindex="0"
+                                               title="Удалить желаемый результат" onclick="openDRConfirmDelete('@i','@Model.Issue.Id', '@dr.Id')">
+                                                <i class="fa fa-trash"></i>
+                                            </a>
+                                        </h4>
+                                        <div id="confirmDesResDelete-@i" style="display: none">
+                                            <p>Вы действительно хотите удалить этот желаемый результат?</p>
+                                            <button class="btn btn-small btn-danger" id="confirmDRDelete-@i">Да</button>
+                                            <button class="btn btn-small btn-green" id="cancelDR-@i">Нет</button>
+                                        </div>
+                                    </div>
                                 }
                             }
                             
@@ -84,3 +101,66 @@
         </section>
     </div>
 </div>
+
+@section Scripts
+{
+    <script>
+        function openStepConfirmDelete(number,issueId, stepId) {          
+            $('#confirmStepDelete-'+number).show();
+            $('#confirm-'+number).click(function(event) {
+                event.preventDefault();
+                deleteStep(number, issueId, stepId);
+            });
+            $('#cancel-'+number).click(function(event) {
+                event.preventDefault();
+                $('#confirmStepDelete-'+number).hide();                
+            });          
+        }
+        
+        function openDRConfirmDelete(number,issueId, DesResId) {
+            $('#confirmDesResDelete-'+number).show();
+            $('#confirmDRDelete-'+number).click(function(event) {
+                event.preventDefault();
+                deleteDesireResult(number, issueId, DesResId);
+            });
+            $('#cancelDR-'+number).click(function(event) {
+                event.preventDefault();
+                $('#confirmDesResDelete-'+number).hide();                
+            });
+        }               
+        
+        function deleteStep(number, issueId, stepId) {              
+            $.ajax({
+                url: '@Url.Action("DeleteStepLink", "IssuesManage", new{area="Admin"})',
+                type: 'POST',
+                data: 
+                {
+                    'issueId': issueId,
+                    'stepId': stepId
+                },
+                success: function(data) {
+                    if (data === "true"){
+                        $("#step-"+number).remove();
+                    }
+                }
+            })
+        }
+        
+        function deleteDesireResult(number, issueId, desResId) {          
+            $.ajax({
+                url: '@Url.Action("DeleteDesireResult", "IssuesManage", new{area="Admin"})',
+                type: 'POST',
+                data: 
+                {
+                    'issueId': issueId,
+                    'desResultId': desResId
+                },
+                success: function(data) {
+                    if (data === "true"){
+                        $("#desRes-"+number).remove();
+                    }
+                }
+            })
+        }              
+    </script>
+}

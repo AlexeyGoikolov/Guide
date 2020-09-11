@@ -28,11 +28,6 @@ namespace Guide.Migrations
                 oldClrType: typeof(int),
                 oldType: "integer");
 
-            migrationBuilder.InsertData(
-                table: "Types",
-                columns: new[] { "Id", "Active", "Name" },
-                values: new object[] { 1, true, "Книга" });
-
             migrationBuilder.AddForeignKey(
                 name: "FK_Books_Categories_CategoryId",
                 table: "Books",

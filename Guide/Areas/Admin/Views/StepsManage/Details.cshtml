@@ -40,11 +40,26 @@
                             <h2 style="color: #0c5460">Желаемые результаты выполнения шага:</h2>
                             @if (Model.DesiredResults.Count > 0)
                             {
+                                int i = 0;
+                                
                                 @foreach (var dr in Model.DesiredResults)
                                 {
-                                    <h4>
-                                        # @dr.Number - @dr.Name
-                                    </h4>
+                                    i++;
+                                    <div id="desRes-@i">
+                                        <h4>
+                                            # @dr.Number - @dr.Name
+                                            <a class="btn btn-rounded-20 btn-default btn-sm mr-5 p-5" style="width:30px;" role="button" tabindex="0"
+                                               title="Удалить желаемый результат" onclick="openDRConfirmDelete('@i','@Model.Id', '@dr.Id')">
+                                                <i class="fa fa-trash"></i>
+                                            </a>
+                                        </h4>
+                                        <div id="confirmDesResDelete-@i" style="display: none">
+                                            <p>Вы действительно хотите удалить этот желаемый результат?</p>
+                                            <button class="btn btn-small btn-danger" id="confirmDRDelete-@i">Да</button>
+                                            <button class="btn btn-small btn-green" id="cancelDR-@i">Нет</button>
+                                        </div>
+                                    </div>
+                                    
                                 }
                             }
                         </div>
@@ -89,51 +104,79 @@
 @section Scripts{
    
     <script >
-    $('#sendComment').click(function(event) {
-        event.preventDefault();
-        let id = $('#sendComment').attr('name');
-        let comment = $('#comment_area').val();
-        reset();        
-        $.ajax({
-            url: '@Url.Action("CreateComment", "MaterialManage")',
-            type: 'POST',
-            data: { 
-                'PostId': id, 
-                'Description': comment  },
-            success: function(data) {
-                $('#listComment').html(data); 
-            },
-        });  
-    });
+        $('#sendComment').click(function(event) {
+            event.preventDefault();
+            let id = $('#sendComment').attr('name');
+            let comment = $('#comment_area').val();
+            reset();        
+            $.ajax({
+                url: '@Url.Action("CreateComment", "MaterialManage")',
+                type: 'POST',
+                data: { 
+                    'PostId': id, 
+                    'Description': comment  },
+                success: function(data) {
+                    $('#listComment').html(data); 
+                },
+            });  
+        });
     
-    let reset = function() {
-        $('#comment_area').val("");               
-    };
+        let reset = function() {
+            $('#comment_area').val("");               
+        };
     
-    function deleteComment(Id, PostId) {
-        $.ajax({
-            url: '@Url.Action("DeleteComment", "MaterialManage")',
-            type: 'GET',
-            data: { 
-                'id': Id,
-                'postId': PostId, 
-            },
-            success: function(data) {
-                $('#listComment').html(data); 
-            },
-        });   
-    }
+        function deleteComment(Id, PostId) {
+            $.ajax({
+                url: '@Url.Action("DeleteComment", "MaterialManage")',
+                type: 'GET',
+                data: { 
+                    'id': Id,
+                    'postId': PostId, 
+                },
+                success: function(data) {
+                    $('#listComment').html(data); 
+                },
+            });   
+        }
           
-    function viewComment(id) {
-                          
-        $.ajax({
-            url: '@Url.Action("ViewComment", "MaterialManage")',
-            type: 'GET',
-            data: { 'id': id },
-            success: function(data) {
-            $('#listComment').html(data); 
-            },
-        });   
-    }
+        function viewComment(id) {                          
+            $.ajax({
+                url: '@Url.Action("ViewComment", "MaterialManage")',
+                type: 'GET',
+                data: { 'id': id },
+                success: function(data) {
+                    $('#listComment').html(data); 
+                },
+            });   
+        }
+    
+        function openDRConfirmDelete(number,issueId, DesResId) {
+            $('#confirmDesResDelete-'+number).show();
+            $('#confirmDRDelete-'+number).click(function(event) {
+                event.preventDefault();
+                deleteDesireResult(number, issueId, DesResId);
+            });
+            $('#cancelDR-'+number).click(function(event) {
+                event.preventDefault();
+                $('#confirmDesResDelete-'+number).hide();                
+            });
+        }   
+        
+        function deleteDesireResult(number, stepId, desResId) {          
+            $.ajax({
+                url: '@Url.Action("DeleteDesireResultLink", "StepsManage", new{area="Admin"})',
+                type: 'POST',
+                data: 
+                {
+                    'stepId': stepId,
+                    'desResultId': desResId
+                },
+                success: function(data) {
+                    if (data === "true"){
+                        $("#desRes-"+number).remove();
+                    }
+                }
+            })
+        }     
     </script>
 }

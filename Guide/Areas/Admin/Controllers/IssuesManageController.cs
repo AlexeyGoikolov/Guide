@@ -146,7 +146,7 @@ namespace Guide.Areas.Admin.Controllers
                 if (choice == 3)
                     return RedirectToAction("Edit", "DesiredResult", new {issuesId = issue.Id});
             }
-            return View(model);
+            return RedirectToAction("Index");
         }
 
 
@@ -237,6 +237,36 @@ namespace Guide.Areas.Admin.Controllers
             }
             return RedirectToAction("ListUsers", "UsersManage");
             
+        }
+        
+        public IActionResult DeleteStepLink(int issueId, int stepId)
+        {
+            if (issueId != 0 && stepId != 0)
+            {
+                IssueStep model = _db.IssueStep.Where(i => i.IssueId == issueId).FirstOrDefault(i => i.StepId == stepId);
+                if (model != null)
+                {
+                    _db.IssueStep.Remove(model);
+                    _db.SaveChanges();
+                    return Json("true");
+                }
+            }
+            return Json("false");
+        }
+
+        public IActionResult DeleteDesireResult(int issueId, int desResultId)
+        {
+            if (issueId != 0 && desResultId != 0)
+            {
+                DesiredResultIssue model = _db.DesiredResultIssue.Where(i => i.IssueId == issueId).FirstOrDefault(i => i.DesiredResultId == desResultId);
+                if (model != null)
+                {
+                    _db.DesiredResultIssue.Remove(model);
+                    _db.SaveChanges();
+                    return Json("true");
+                }
+            }
+            return Json("false");
         }
     }
 }
