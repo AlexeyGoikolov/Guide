@@ -28,7 +28,7 @@ namespace Guide.Controllers
         [HttpGet]
         public async Task<IActionResult> ViewStep(int id)
         {
-            List<Step> steps = _db.IssueStep.OrderBy(i => i.Id).
+            List<Step> steps =  _db.IssueStep.OrderBy(i => i.Id).
                 Where(i => i.IssueId == id).Select(s => s.Step)
                 .ToList();
             

@@ -10,5 +10,6 @@ namespace Guide.ViewModels
         public List<Step> AllSteps { get; set; }
         public List<DesiredResult> DesiredResults { get; set; }
         public string Action { get; set; }
+        public string Back { get; set; }
     }
 }

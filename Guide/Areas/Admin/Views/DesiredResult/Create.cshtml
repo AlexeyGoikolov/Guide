@@ -52,6 +52,13 @@
                                </tr>
                                </thead>
                                <tbody>
+                               <th>новый:</th>
+                               <th>
+                                   <input asp-for="@Model.DesResult.Number" style="width: 100%">
+                               </th>
+                               <th>
+                                   <input asp-for="@Model.DesResult.Name" style="width: 100%">
+                               </th>
                                @foreach (var desiredResult in Model.Results)
                                {
                                    <tr class="odd gradeX">
@@ -62,13 +69,7 @@
                                        <td>@desiredResult.Name</td>
                                    </tr>
                                }
-                               <th>новый:</th>
-                               <th>
-                                   <input asp-for="@Model.DesResult.Number" style="width: 100%">
-                               </th>
-                               <th>
-                                   <input asp-for="@Model.DesResult.Name" style="width: 100%">
-                               </th>
+                              
                                </tbody>
                            </table>
                             <input type="hidden" value="@Model.IssueId" asp-for="@Model.IssueId">
