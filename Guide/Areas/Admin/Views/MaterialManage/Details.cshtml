@@ -57,9 +57,14 @@
                 {
                     <div>Дата обновления - @Model.DateOfUpdate</div>
                 }
-                <div>Категория - @Model.Category.Name</div>
-                <div>Тип - @Model.Type.Name</div>
-                
+                @if (Model.Category != null)
+                {
+                    <div>Категория - @Model.Category.Name</div>
+                }
+                @if (Model.Type != null)
+                {
+                    <div>Тип - @Model.Type.Name</div> 
+                }
                 <div style="margin: 5px; margin-left: auto">
                     <a asp-action="Create" asp-controller="FaqManage" class="btn btn-info" asp-route-status="ToQuestion" asp-route-postId="@Model.Id">Задать вопрос</a>
 

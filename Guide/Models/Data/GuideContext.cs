@@ -48,6 +48,8 @@ namespace Guide.Models.Data
                 .HasOne(isc => isc.Step)
                 .WithMany(s => s.IssueSteps)
                 .HasForeignKey(isc => isc.StepId);
+            
+            modelBuilder.Entity<Type>().HasData(new Type() {Id = 1, Name = "Книга", Active = true});
         }
         public GuideContext(DbContextOptions<GuideContext> options) : base(options)
         {

@@ -12,11 +12,11 @@ using Microsoft.Extensions.Hosting;
 
 namespace Guide.Controllers
 {
-    public class BooksController : Controller
+    public class SourceController : Controller
     {
   private readonly GuideContext _db;
 
-  public BooksController(GuideContext db)
+  public SourceController(GuideContext db)
   {
       _db = db;
   }

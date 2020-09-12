@@ -113,7 +113,7 @@ namespace Guide.Controllers
                         await _userManager.RemoveFromRoleAsync(user, "admin");
                     }
                     await _userManager.UpdateAsync(user);
-                    _db.SaveAsync();
+                    _db.Save();
                     
                     return Redirect($"~/Account/Details/{user.Id}");
                 }

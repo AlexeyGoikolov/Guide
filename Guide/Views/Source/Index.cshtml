@@ -13,7 +13,7 @@
                     <a asp-action="Details" asp-controller="Account" asp-area=""><i class="fa fa-home"></i> Guide</a>
                 </li>
                 <li>
-                    <a asp-action="Index" asp-controller="Books">Библиотека</a>
+                    <a asp-action="Index" asp-controller="Source" asp-area="">Библиотека</a>
                 </li>
             </ul>
         </div>
@@ -53,18 +53,31 @@
                                     @if (post.TypeContent.Name == "Книга")
                                     {
                                         <td>
-                                            <a asp-action="Details" asp-controller="BooksManage" asp-route-id="@post.Id">@post.Name</a>
+                                            <a asp-action="Details" asp-controller="Source" asp-area="" asp-route-id="@post.Id">@post.Name</a>
                                         </td>
                                     }
                                      else
                                      {
                                          <td>
-                                             <a asp-action="Details" asp-controller="MaterialManage" asp-route-id="@post.Id">@post.Name</a>
+                                             <a asp-action="Details" asp-controller="Material" asp-area="" asp-route-id="@post.Id">@post.Name</a>
                                          </td>
                                      }
-                                    
-                                    <td>@post.Author</td>
-                                    <td>@post.TypeContent.Name</td>
+                                    @if (post.Author != null)
+                                    {
+                                        <td>@post.Author</td>
+                                    }
+                                    else
+                                    {
+                                        <td></td>
+                                    }
+                                    @if (post.TypeContent != null)
+                                    {
+                                        <td>@post.TypeContent.Name</td>
+                                    }
+                                    else
+                                    {
+                                        <td></td>
+                                    }
                                     @if (post.Category != null)
                                     {
                                         <td>@post.Category.Name</td>
@@ -73,7 +86,14 @@
                                     {
                                         <td></td>
                                     }
-                                    <td>@post.Type.Name</td>
+                                    @if (post.Type != null)
+                                    {
+                                        <td>@post.Type.Name</td>
+                                    }
+                                    else
+                                    {
+                                        <td></td>
+                                    }
                                     <td>@post.DateCreate</td>
                                 </tr>
                             }

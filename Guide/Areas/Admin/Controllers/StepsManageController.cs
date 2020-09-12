@@ -108,5 +108,21 @@ namespace Guide.Areas.Admin.Controllers
             }
             return RedirectToAction("Index", "StepsManage");
         }
+
+        public IActionResult DeleteDesireResultLink(int stepId, int desResultId)
+        {
+            if (stepId != 0 && desResultId != 0)
+            {
+                DesiredResultStep model = _db.DesiredResultStep.Where(s => s.StepId == stepId)
+                    .FirstOrDefault(s => s.DesiredResultId == desResultId);
+                if (model != null)
+                {
+                    _db.DesiredResultStep.Remove(model);
+                    _db.SaveChanges();
+                    return Json("true");
+                }
+            }
+            return Json("false");
+        }
     }
 }
