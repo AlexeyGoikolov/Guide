@@ -17,8 +17,6 @@ namespace Guide.Models
         public int? TypeId { get; set; }
         public virtual Type Type { get; set; }
         public string YearOfWriting { get; set; }
-        public int? CategoryId { get; set; }
-        public virtual Category Category { get; set; }
         public DateTime DateCreate { get; set; } = DateTime.Now;
         public DateTime DateUpdate { get; set; } = DateTime.Now;
     }

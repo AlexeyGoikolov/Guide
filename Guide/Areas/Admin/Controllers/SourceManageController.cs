@@ -76,7 +76,6 @@ namespace Guide.Areas.Admin.Controllers
                     Id = book.Id,
                     Author = book.Author,
                     Name = book.Name,
-                    Category = book.Category,
                     Type = new Type() {Name = s},
                     TypeContent = new TypeContent() {Name = "Книга"},
                     TypeState = book.IsRecipe ? new TypeState() {Name = "Рецепт"} : new TypeState() {Name = ""},
@@ -362,10 +361,19 @@ namespace Guide.Areas.Admin.Controllers
                 await _db.Comments.AddAsync(comment);
                 await _db.SaveChangesAsync();
             }
-            
-            List<Comment> comments = await _db.Comments.Include(c => c.Author).Where(c => c.BookId == sourceId)
-                .OrderByDescending(g => g.DateOfCreate).ToListAsync();
 
+            List<Comment> comments;
+            if (type == "book")
+            {
+                comments = await _db.Comments.Include(c => c.Author).Where(c => c.BookId == sourceId)
+                    .OrderByDescending(g => g.DateOfCreate).ToListAsync();
+            }
+            else
+            {
+                comments = await _db.Comments.Include(c => c.Author).Where(c => c.PostId == sourceId)
+                    .OrderByDescending(g => g.DateOfCreate).ToListAsync();
+            }
+            
             return PartialView("PartialViews/CommentsPartial", comments);
         }
 

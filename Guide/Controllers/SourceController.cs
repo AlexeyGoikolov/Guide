@@ -52,7 +52,6 @@ namespace Guide.Controllers
                     Id = book.Id,
                     Author = book.Author,
                     Name = book.Name,
-                    Category = book.Category,
                     Type = new Type() {Name = s},
                     TypeContent = new TypeContent() {Name = "Книга"},
                     TypeState = book.IsRecipe ? new TypeState() {Name = "Рецепт"} : new TypeState() {Name = ""},

@@ -108,8 +108,11 @@
             url: '@Url.Action("CreateComment", "SourceManage")',
             type: 'POST',
             data: { 
-                'PostId': id, 
-                'Description': comment  },
+                'sourceId': id, 
+                'Description': comment,
+                'type': "source" 
+                
+                },
             success: function(data) {
                 $('#listComment').html(data); 
             },
@@ -126,7 +129,8 @@
             type: 'GET',
             data: { 
                 'id': Id,
-                'postId': PostId, 
+                'sourceId': PostId,
+                'type': "source" 
             },
             success: function(data) {
                 $('#listComment').html(data); 
