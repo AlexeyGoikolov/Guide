@@ -63,7 +63,7 @@ namespace Guide.Controllers
         public async Task<IActionResult> Edit(string id = null)
         {
             User user = await _userManager.FindByIdAsync(id);
-            PositionsViewModel model = new PositionsViewModel();
+            RegisterViewModel model = new RegisterViewModel();
             model.Positions = _db.GetActivePositions();
             model.UserEdit = new EditUserViewModel();
             if (user != null)
@@ -84,7 +84,7 @@ namespace Guide.Controllers
 
         [HttpPost]
         [Authorize(Roles = "admin")]
-        public async Task<IActionResult> Edit(PositionsViewModel model)
+        public async Task<IActionResult> Edit(RegisterViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -177,24 +177,24 @@ namespace Guide.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register(PositionsViewModel model)
+        public async Task<IActionResult> Register(RegisterViewModel model)
         {
             if (ModelState.IsValid)
             {
                 User user = new User
                 {
-                    Email = model.User.Email,
-                    UserName = model.User.Email,
-                    Name = model.User.Name,
-                    Surname = model.User.Surname,
-                    PositionId = model.User.PositionsId
+                    Email = model.Email,
+                    UserName = model.Email,
+                    Name = model.Name,
+                    Surname = model.Surname,
+                    PositionId = model.PositionsId
                 };
-                var result = await _userManager.CreateAsync(user, model.User.Password);
+                var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    string role = Convert.ToString(model.User.Role);
+                    string role = Convert.ToString(model.Role);
                     await _userManager.AddToRoleAsync(user,role);
-                    return Redirect($"~/Account/Details/{user.Id}");
+                    return Redirect($"~/Admin/UsersManage/ListUsers");
                 }
                 foreach (var error in result.Errors)
                     ModelState.AddModelError(String.Empty, error.Description);
@@ -243,18 +243,16 @@ namespace Guide.Controllers
         }
         
         //добавления должность
-        public IActionResult CreatePositionAjax(Position position, PositionsViewModel data)
+        public IActionResult CreatePositionAjax(Position position, RegisterViewModel data)
         {
             if (position.Name != null)
             {
                 _db.AddPosition(position);
                 _db.Save();
             }
-            PositionsViewModel model = new PositionsViewModel()
+            RegisterViewModel model = new RegisterViewModel()
             {
-                User = new RegisterViewModel(),
-                // ReSharper disable once RedundantBoolCompare
-                Positions = _db.GetActivePositions()
+               Positions = _db.GetActivePositions()
             };
             if (data != null)
             {
@@ -272,10 +270,9 @@ namespace Guide.Controllers
                 position.Active = false;
                 _db.Save();
             }
-            PositionsViewModel model = new PositionsViewModel()
+            RegisterViewModel model = new RegisterViewModel()
             {
-                User = new RegisterViewModel(),
-                Positions = _db.GetActivePositions()
+               Positions = _db.GetActivePositions()
             };
             return PartialView("PartialViews/PositionsPortal", model);
         }

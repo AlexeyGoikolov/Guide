@@ -1,4 +1,4 @@
-﻿@model PositionsViewModel
+﻿@model RegisterViewModel
 
 @{
     ViewBag.Title = "Регистрация";
@@ -22,43 +22,53 @@
         </div>
     </div>
     <div class="container w-420 p-15 bg-white mt-40 text-center">
-        
         <form method="post" asp-controller="Account" asp-action="Register" enctype="multipart/form-data" class="form-validation mt-5">
-
+            <div asp-validation-summary="ModelOnly"></div>
             <p class="text-center">
                 Введите данные сотрудника :
             </p>
             <div class="form-group">
-                <label asp-for="@Model.User.Role">Уревень доступа</label><br/>
-                <select asp-for="@Model.User.Role">
+                <label asp-for="@Model.Role">Уровень доступа</label><br/>
+                <select asp-for="@Model.Role">
                     <option value="@Roles.user">Пользователь</option>
                     <option value="@Roles.admin">Администратор</option>
                 </select>
-                <span asp-validation-for="@Model.User.Email"></span>
             </div>
             <div class="form-group">
-                <input type="email" class="form-control underline-input" asp-for="@Model.User.Email" placeholder="Почта">
-                <span asp-validation-for="@Model.User.Email"></span>
+                <input type="email" class="form-control underline-input" asp-for="Email" placeholder="Почта">
+                <span asp-validation-for="Email"></span>
             </div>
-
             <div class="form-group">
-                <input type="text" class="form-control underline-input" asp-for="@Model.User.Name" placeholder="Имя">
-                <span asp-validation-for="@Model.User.Name"></span>
+                <input type="text" class="form-control underline-input" asp-for="Name" placeholder="Имя">
+                <span asp-validation-for="Name"></span>
             </div>
-
             <div class="form-group">
-                <input type="text" class="form-control underline-input" asp-for="@Model.User.Surname" placeholder="Фамилия">
-                <span asp-validation-for="@Model.User.Surname"></span>
-            </div>
 
+                <input type="text" class="form-control underline-input" asp-for="Surname" placeholder="Фамилия">
+                <span asp-validation-for="Surname"></span>
+            </div>
             <div id="position-row" class="form-group" style="justify-content: center"></div>
             <div class="form-group">
-                <input class="form-control" asp-for="@Model.User.Password" placeholder="Пароль"/>
-                <span asp-validation-for="@Model.User.Password"></span>
+                <div class="input-group">
+                    <input id="password" type="password" placeholder="Пароль(минимальная длина 6 символов)" class="form-control" asp-for="Password"/>
+                    <div class="input-group-addon" id="s-h-pass">
+                        <span >
+                            <i class="fa fa-eye-slash" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                </div>
+                <span asp-validation-for="Password"></span>
             </div>
             <div class="form-group">
-                <input class="form-control" asp-for="@Model.User.PasswordConfirm" placeholder="Подтвердите пароль"/>
-                <span asp-validation-for="@Model.User.PasswordConfirm"></span>
+                <div class="input-group">
+                    <input id="passwordConfirm" type="password" placeholder="Повторите пароль" class="form-control"asp-for="PasswordConfirm"/>
+                    <div class="input-group-addon" id="s-h-passconfirm">
+                        <span >
+                            <i class="fa fa-eye-slash" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                </div>
+                <span asp-validation-for="PasswordConfirm"></span>
             </div>
             <div class="register-form-footer lt wrap-reset mt-20">
                 <input type="submit" class="btn btn-greensea b-0 pull-center" value="Добавить"/>
@@ -66,11 +76,13 @@
         </form>
     </div>
 </div>
-    
-
 
 @section Scripts
 {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
     <script>
         var loadPosition = function(){
             var positionInput = $('#positionInput').val();
@@ -92,6 +104,27 @@
                  setTimeout(function() {deletePosition(event.currentTarget.value)}, 200)
             });
             
-        })
+        });
+         $( document ).ready(function() {
+                         $('#s-h-passconfirm').click(function(){
+                             var type = $('#passwordConfirm').attr('type') == "text" ? "password" : 'text',
+                                 c = $(this).html() == "<i class=\"fa fa-eye\" aria-hidden=\"true\"></i>" ?
+                                  "<i class=\"fa fa-eye-slash\" aria-hidden=\"true\"></i>" :
+                                   "<i class=\"fa fa-eye\" aria-hidden=\"true\"></i>";
+                             $(this).html(c);
+                             $('#passwordConfirm').prop('type', type);
+                         });
+                     });
+                     
+                    $( document ).ready(function() {
+                                     $('#s-h-pass').click(function(){
+                                         var type = $('#password').attr('type') == "text" ? "password" : 'text',
+                                             c = $(this).html() == "<i class=\"fa fa-eye\" aria-hidden=\"true\"></i>" ?
+                                              "<i class=\"fa fa-eye-slash\" aria-hidden=\"true\"></i>" :
+                                               "<i class=\"fa fa-eye\" aria-hidden=\"true\"></i>";
+                                         $(this).html(c);
+                                         $('#password').prop('type', type);
+                                     });
+                                 }); 
     </script>
 }

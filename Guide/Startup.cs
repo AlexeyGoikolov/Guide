@@ -32,7 +32,16 @@ namespace Guide
             services.AddDbContext<GuideContext>(options =>
                     options.UseLazyLoadingProxies()
                         .UseNpgsql(connection))
-                .AddIdentity<User, IdentityRole>(options => { options.User.RequireUniqueEmail = true; })
+                .AddIdentity<User, IdentityRole>(
+                    options =>
+                    { options.Password.RequiredLength = 6;   // минимальная длина
+                        options.Password.RequireNonAlphanumeric = false;   // требуются ли не алфавитно-цифровые символы
+                        options.Password.RequireLowercase = false; // требуются ли символы в нижнем регистре
+                        options.Password.RequireUppercase = false; // требуются ли символы в верхнем регистре
+                        options.Password.RequireDigit = false; // требуются ли цифры
+                        options.User.AllowedUserNameCharacters = null;
+                    }
+                    )
                 .AddEntityFrameworkStores<GuideContext>();
             services.ConfigureApplicationCookie(options => options.LoginPath = "/Account/Login");
         }

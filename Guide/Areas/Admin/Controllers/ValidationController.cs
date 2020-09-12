@@ -1,15 +1,18 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Guide.Models;
 using Guide.Models.Data;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-namespace Guide.Controllers
+
+namespace Guide.Areas.Admin.Controllers
 {
     public class ValidationController : Controller
     {
-
+        // GET
         private readonly GuideContext _db;
-
+        private readonly UserManager<User> _userManager;
         public ValidationController(GuideContext db)
         {
             _db = db;
@@ -33,9 +36,9 @@ namespace Guide.Controllers
             
         }
 
-        public bool CheckEmail(string email)
+        public bool CheckEmail(string Email)
         {
-            string emailUpper = email.ToUpper();
+            string emailUpper = Email.ToUpper();
             User user = _db.Users.FirstOrDefault(u => u.NormalizedEmail == emailUpper);
             if (user != null)
                 return false;
@@ -43,3 +46,4 @@ namespace Guide.Controllers
         }
     }
 }
+    

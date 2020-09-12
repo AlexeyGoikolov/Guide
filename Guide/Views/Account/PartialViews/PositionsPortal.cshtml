@@ -1,14 +1,14 @@
-﻿@model PositionsViewModel
+﻿@model RegisterViewModel
 
 <div style="display: flex">
-    <select type="text" class="form-control" asp-for="@Model.User.PositionsId">
-        <option value="" disabled selected>Выберите задачу</option>
+    <select type="text" class="form-control" asp-for="PositionsId">
+        <option value="" disabled selected>Выберите задачу(должность)</option>
         @foreach (var position in Model.Positions)
         {
             <option value="@position.Id">@position.Name</option>
         }
     </select>
-    <span asp-validation-for="@Model.User.PositionsId"></span>
+    <span asp-validation-for="PositionsId"></span>
     <div class="input-group-append">
         <button class="btn btn-outline-secondary" type="button" data-toggle="modal" data-target="#modalCategory">
             <i class="fas fa-plus"></i>
@@ -29,7 +29,7 @@
                 <div class="input-group mb-20 center-block">
                     <input type="text" id="positionInput" class="input-register" style="width: 460px;">
                     <button class="btn btn-outline-secondary" data-dismiss="modal" type="button" id="positionButton" style="margin:0 0 5px 17px;">Добавить</button>
-                  </div>
+                </div>
                 @foreach (var position in Model.Positions)
                 {
                     <p style="text-align: right; ">- @position.Name <button data-dismiss="modal" type="button" value="@position.Id" class="btn buttonDeletePosition"><i class="fas fa-trash-alt"></i></button></p>
@@ -38,3 +38,9 @@
         </div>
     </div>
 </div>
+@section Scripts
+{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
