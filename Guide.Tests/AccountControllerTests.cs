@@ -134,9 +134,9 @@ namespace Guide.Tests
             var result = await controller.Edit(user.Id);
             
             var viewResult = Assert.IsType<ViewResult>(result);
-            var viewModel = Assert.IsAssignableFrom<PositionsViewModel>(viewResult.Model);
+            var viewModel = Assert.IsAssignableFrom<RegisterViewModel>(viewResult.Model);
             Assert.Equal(user.Name, viewModel.UserEdit.Name);
-            Assert.Equal(typeof(PositionsViewModel), viewModel.GetType());
+            Assert.Equal(typeof(RegisterViewModel), viewModel.GetType());
         }
 
         [Fact]
@@ -146,13 +146,13 @@ namespace Guide.Tests
             var mockUserManager = new Mock<FakeUserManager>();
             var mockSignInManager = new Mock<FakeSignInManager>();
             User user = GetTestUser();
-            PositionsViewModel model = new PositionsViewModel();
+            RegisterViewModel model = new RegisterViewModel();
             EditUserViewModel editViewModel = new EditUserViewModel
             {
                Id = user.Id, Email = user.Email, Name = user.Name, Surname = user.Surname, PositionsId = 1
             };
             model.Positions = new List<Position>{new Position()};
-            model.User = new RegisterViewModel{Name = GetTestUser().Name};
+            //model.User = new RegisterViewModel{Name = GetTestUser().Name};
             model.UserEdit = editViewModel;
 
             mockUserManager.Setup(m => m.FindByIdAsync(model.UserEdit.Id)).ReturnsAsync(user);
@@ -180,9 +180,9 @@ namespace Guide.Tests
             var mockUserManager = new Mock<FakeUserManager>();
             var mockSignInManager = new Mock<FakeSignInManager>();
             User user = GetTestUser();
-            PositionsViewModel model = new PositionsViewModel();
+            RegisterViewModel model = new RegisterViewModel();
             model.Positions = new List<Position>{new Position()};
-            model.User = new RegisterViewModel{Name = GetTestUser().Name};
+           // model.User = new RegisterViewModel{Name = GetTestUser().Name};
             
             mockDb.Setup(db => db.GetAllPositions()).Returns(new List<Position>());
 
@@ -194,7 +194,7 @@ namespace Guide.Tests
             
             var result = await controller.Edit(model);
             var viewResult = Assert.IsType<ViewResult>(result);
-            Assert.Equal(typeof(PositionsViewModel), viewResult.Model.GetType());
+            Assert.Equal(typeof(RegisterViewModel), viewResult.Model.GetType());
         }
     }
 }
