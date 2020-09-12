@@ -56,9 +56,13 @@ namespace Guide.Areas.Admin.Controllers
                     PhysicalPath = model.PhysicalPath,
                     YearOfWriting = model.YearOfWriting
                 };
+                if (book.CoverPath == null)
+                {
+                    book.CoverPath = "/BooksFiles/Cover_missing.png";
+                }
                 _db.Books.Add(book);
                 _db.SaveChanges();
-                return RedirectToAction("Index" , "MaterialManage");
+                return RedirectToAction("Index" , "SourceManage");
             }
             return View(model);
         }
@@ -111,7 +115,7 @@ namespace Guide.Areas.Admin.Controllers
                     _db.SaveChanges();
                 }
             }
-            return RedirectToAction("Index" , "MaterialManage");
+            return RedirectToAction("Index" , "SourceManage");
         }
 
         public  IActionResult ReadBook(string path, int id)

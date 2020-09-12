@@ -16,14 +16,14 @@ namespace Guide.Areas.Admin.Controllers
 {
     [Area("Admin")]
     [Authorize(Roles = "admin")]
-    public class MaterialManageController : Controller
+    public class SourceManageController : Controller
     {
         private readonly GuideContext _db;
         private readonly UserManager<User> _userManager;
         private IHostEnvironment _environment;
         private UploadService _uploadService;
 
-        public MaterialManageController(GuideContext db, UserManager<User> userManager, IHostEnvironment environment,
+        public SourceManageController(GuideContext db, UserManager<User> userManager, IHostEnvironment environment,
             UploadService uploadService)
         {
             _db = db;
@@ -330,37 +330,47 @@ namespace Guide.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> ViewComment(int id)
+        public async Task<IActionResult> ViewComment(int id, string type)
         {
-            List<Comment> comments = _db.Comments.Where(c => c.PostId == id)
-                .OrderByDescending(g => g.DateOfCreate).ToList();
-
+            List<Comment> comments;
+            if (type == "book")
+            {
+                comments = _db.Comments.Where(c => c.BookId == id)
+                                .OrderByDescending(g => g.DateOfCreate).ToList();
+            }
+            else
+            {
+                comments = _db.Comments.Where(c => c.PostId == id)
+                    .OrderByDescending(g => g.DateOfCreate).ToList();  
+            }
+            
             return PartialView("PartialViews/CommentsPartial", comments);
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateComment(Comment model)
+        public async Task<IActionResult> CreateComment(int sourceId, string description, string type)
         {
-            if (model.PostId != 0 && model.Description != null)
+            if (sourceId != 0 && description != null)
             {
-                Comment comment = new Comment()
-                {
-                    PostId = model.PostId,
-                    AuthorId = _userManager.GetUserId(User),
-                    Description = model.Description,
-                };
+                Comment comment = new Comment();
+                if (type == "book")
+                    comment.BookId = sourceId;
+                else
+                    comment.PostId = sourceId;
+                comment.Description = description;
+                comment.AuthorId = _userManager.GetUserId(User);
                 await _db.Comments.AddAsync(comment);
                 await _db.SaveChangesAsync();
             }
-
-            List<Comment> comments = await _db.Comments.Include(c => c.Author).Where(c => c.PostId == model.PostId)
+            
+            List<Comment> comments = await _db.Comments.Include(c => c.Author).Where(c => c.BookId == sourceId)
                 .OrderByDescending(g => g.DateOfCreate).ToListAsync();
 
             return PartialView("PartialViews/CommentsPartial", comments);
         }
 
         [HttpGet]
-        public async Task<IActionResult> DeleteComment(int id, int postId)
+        public async Task<IActionResult> DeleteComment(int id, int sourceId, string type)
         {
             Comment comment = await _db.Comments.FirstOrDefaultAsync(c => c.Id == id);
             if (comment != null)
@@ -369,15 +379,24 @@ namespace Guide.Areas.Admin.Controllers
                 await _db.SaveChangesAsync();
             }
 
-            List<Comment> comments = await _db.Comments.Where(c => c.PostId == postId)
-                .OrderByDescending(g => g.DateOfCreate).ToListAsync();
-
+            List<Comment> comments;
+            if (type == "book")
+            { 
+                comments = await _db.Comments.Where(c => c.BookId == sourceId)
+                                .OrderByDescending(g => g.DateOfCreate).ToListAsync();
+            }
+            else
+            {
+                comments = await _db.Comments.Where(c => c.PostId == sourceId)
+                    .OrderByDescending(g => g.DateOfCreate).ToListAsync();
+            }
+            
             return PartialView("PartialViews/CommentsPartial", comments);
         }
 
         public IActionResult Edit(int id)
         {
-            if (id != null)
+            if (id != 0)
             {
                 Post post = _db.Posts.FirstOrDefault(p => p.Id == id);
                 MaterialCreateViewModel model = new MaterialCreateViewModel()
@@ -404,17 +423,20 @@ namespace Guide.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 Post post = _db.Posts.FirstOrDefault(p => p.Id == model.Id);
-                post.Id = model.Id;
-                post.Title = model.Title;
-                post.Author = model.Author;
-                post.TextContent = model.TextContent;
-                post.CategoryId = model.CategoryId;
-                post.TypeId = model.TypeId;
-                post.PhysicalPath = model.PhysicalPath;
-                post.VirtualPath = Load(model.Id, model.VirtualPath);
-                _db.Posts.Update(post);
-                _db.SaveChanges();
-                return RedirectToAction("Index", "MaterialManage");
+                if (post != null)
+                {
+                    post.Id = model.Id;
+                    post.Title = model.Title;
+                    post.Author = model.Author;
+                    post.TextContent = model.TextContent;
+                    post.CategoryId = model.CategoryId;
+                    post.TypeId = model.TypeId;
+                    post.PhysicalPath = model.PhysicalPath;
+                    post.VirtualPath = Load(model.Id, model.VirtualPath);
+                    _db.Posts.Update(post);
+                    _db.SaveChanges();
+                }
+                return RedirectToAction("Index", "SourceManage");
             }
 
             return View(model);
@@ -438,7 +460,7 @@ namespace Guide.Areas.Admin.Controllers
         [ActionName("Delete")]
         public IActionResult ConfirmDelete(int id)
         {
-            if (id != null)
+            if (id != 0)
             {
                 Post post = _db.Posts.FirstOrDefault(v => v.Id == id);
                 if (post != null)
@@ -449,7 +471,7 @@ namespace Guide.Areas.Admin.Controllers
                 }
             }
 
-            return RedirectToAction("Index", "MaterialManage");
+            return RedirectToAction("Index", "SourceManage");
         }
     }
 }

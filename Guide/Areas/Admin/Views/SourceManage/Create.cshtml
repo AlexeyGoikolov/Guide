@@ -18,10 +18,10 @@
                     <a asp-action="Details" asp-controller="Account"><i class="fa fa-home"></i> Guide</a>
                 </li>
                 <li>
-                    <a asp-action="Index" asp-controller="MaterialManage"> Источники</a>
+                    <a asp-action="Index" asp-controller="SourceManage"> Источники</a>
                 </li>
                 <li>
-                    <a asp-action="Create" asp-controller="MaterialManage"> Добавить</a>
+                    <a asp-action="Create" asp-controller="SourceManage"> Добавить</a>
                 </li>
             </ul>
         </div>
@@ -31,7 +31,7 @@
     <div class="row">
 
         <div class="tile-body">
-            <form class="create-form" asp-action="Create" asp-controller="MaterialManage" method="post" enctype="multipart/form-data">
+            <form class="create-form" asp-action="Create" asp-controller="SourceManage" method="post" enctype="multipart/form-data">
                 <div asp-validation-summary="ModelOnly"></div>
                 @{ Html.RenderPartial("PartialViews/FormPartial", Model); }
                 
@@ -92,7 +92,7 @@
         function sendTemplate() {
             let id = $("#selectTemplate").val();
             $.ajax({
-                url: '@Url.Action("ValTemplate", "MaterialManage", new {area = "Admin"})',
+                url: '@Url.Action("ValTemplate", "SourceManage", new {area = "Admin"})',
                 type: 'GET',
                 data: { 
                     'templatesId': id},
@@ -103,41 +103,41 @@
         }    
         var loadTypeContent = function(){
             var typeContentInput = $('#typeContentInput').val();
-            $("#typeContent-row").load('@Url.Action("CreateTypeContentAjax", "MaterialManage")',{Name: typeContentInput});
+            $("#typeContent-row").load('@Url.Action("CreateTypeContentAjax", "SourceManage")',{Name: typeContentInput});
         };
          var loadTypeState = function(){
              var typeStateInput = $('#typeStateInput').val();
-             $("#typeState-row").load('@Url.Action("CreateTypeStateAjax", "MaterialManage")',{Name: typeStateInput});
+             $("#typeState-row").load('@Url.Action("CreateTypeStateAjax", "SourceManage")',{Name: typeStateInput});
         };
         var loadCategories = function(){
             var catInput = $('#catInput').val();
-            $("#categories-row").load('@Url.Action("CreateCategoryAjax", "MaterialManage")',{Name: catInput});
+            $("#categories-row").load('@Url.Action("CreateCategoryAjax", "SourceManage")',{Name: catInput});
         };
         var loadTemplate = function(){
             var templateTitle = $('#templateTitle').val();
             var templateContent = CKEDITOR.instances['ContentTemplate'].getData();
         var templateInput = $('#templateName').val();
-            $("#template-row").load('@Url.Action("CreateTemplateAjax", "MaterialManage")',{Name: templateInput, ContentTemplate : templateContent, Title:templateTitle});
+            $("#template-row").load('@Url.Action("CreateTemplateAjax", "SourceManage")',{Name: templateInput, ContentTemplate : templateContent, Title:templateTitle});
          };
         var loadTypes = function(){
             var typeInput = $('#typeInput').val();
-            $("#types-row").load('@Url.Action("CreateTypeAjax", "MaterialManage")',{Name: typeInput});
+            $("#types-row").load('@Url.Action("CreateTypeAjax", "SourceManage")',{Name: typeInput});
         };
         
         var deleteTypeContent = function(typeContentId){
-            $("#typeContent-row").load('@Url.Action("DeleteTypeContentAjax", "MaterialManage")', {Id: typeContentId});
+            $("#typeContent-row").load('@Url.Action("DeleteTypeContentAjax", "SourceManage")', {Id: typeContentId});
         };
         var deleteTypeState = function(typeStateId){
-            $("#typeContent-row").load('@Url.Action("DeleteTypeStateAjax", "MaterialManage")', {Id: typeStateId});
+            $("#typeContent-row").load('@Url.Action("DeleteTypeStateAjax", "SourceManage")', {Id: typeStateId});
         };
         var deleteCategory = function(categoryId){
-            $("#categories-row").load('@Url.Action("DeleteCategoryAjax", "MaterialManage")', {Id: categoryId});
+            $("#categories-row").load('@Url.Action("DeleteCategoryAjax", "SourceManage")', {Id: categoryId});
         };
         var deleteTemplate = function(templateId){
-            $("#template-row").load('@Url.Action("DeleteTemplateAjax", "MaterialManage")', {Id: templateId});
+            $("#template-row").load('@Url.Action("DeleteTemplateAjax", "SourceManage")', {Id: templateId});
         };
         var deleteType = function(typeId){
-            $("#types-row").load('@Url.Action("DeleteTypeAjax", "MaterialManage")', {Id: typeId});
+            $("#types-row").load('@Url.Action("DeleteTypeAjax", "SourceManage")', {Id: typeId});
         };
         $(document).ready(function(){
             loadTypeState();

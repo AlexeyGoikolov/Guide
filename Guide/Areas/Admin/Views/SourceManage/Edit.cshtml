@@ -17,10 +17,10 @@
                     <a asp-action="Details" asp-controller="Account"><i class="fa fa-home"></i> Guide</a>
                 </li>
                 <li>
-                    <a asp-action="Index" asp-controller="MaterialManage"> Источники</a>
+                    <a asp-action="Index" asp-controller="SourceManage"> Источники</a>
                 </li>
                 <li>
-                    <a asp-action="Edit" asp-controller="MaterialManage" asp-route-id="@Model.Id"> Редактирвание источника</a>
+                    <a asp-action="Edit" asp-controller="SourceManage" asp-route-id="@Model.Id"> Редактирвание источника</a>
                 </li>
             </ul>
         </div>
@@ -28,7 +28,7 @@
 
     <div class="row">
         <div class="tile-body">
-            <form class="create-form" asp-action="Edit" asp-controller="MaterialManage" asp-area="Admin" method="post" enctype="multipart/form-data">
+            <form class="create-form" asp-action="Edit" asp-controller="SourceManage" asp-area="Admin" method="post" enctype="multipart/form-data">
                 <div asp-validation-summary="ModelOnly"></div>
                 @{ Html.RenderPartial("PartialViews/FormPartial", Model); }
                
@@ -87,31 +87,31 @@
         $("#templateIdBtn").click(function(event) {                    
             event.preventDefault();
             let id = $('#selectTemplate').val();
-            $.get('@Url.Action("Create", "MaterialManage")',{templateId: id});                     
+            $.get('@Url.Action("Create", "SourceManage")',{templateId: id});                     
         });
                     
         let loadCategories = function(){
             let catInput = $('#catInput').val();
-            $("#categories-row").load('@Url.Action("CreateCategoryAjax", "MaterialManage")',{Name: catInput});
+            $("#categories-row").load('@Url.Action("CreateCategoryAjax", "SourceManage")',{Name: catInput});
         };
         let loadTemplate = function(){
             let templateTitle = $('#templateTitle').val();
             let templateContent = CKEDITOR.instances['ContentTemplate'].getData();
         let templateInput = $('#templateName').val();
-            $("#template-row").load('@Url.Action("CreateTemplateAjax", "MaterialManage")',{Name: templateInput, ContentTemplate : templateContent, Title:templateTitle});
+            $("#template-row").load('@Url.Action("CreateTemplateAjax", "SourceManage")',{Name: templateInput, ContentTemplate : templateContent, Title:templateTitle});
          };
         let loadTypes = function(){
             let typeInput = $('#typeInput').val();
-            $("#types-row").load('@Url.Action("CreateTypeAjax", "MaterialManage")',{Name: typeInput});
+            $("#types-row").load('@Url.Action("CreateTypeAjax", "SourceManage")',{Name: typeInput});
         };
         let deleteCategory = function(categoryId){
-            $("#categories-row").load('@Url.Action("DeleteCategoryAjax", "MaterialManage")', {Id: categoryId});
+            $("#categories-row").load('@Url.Action("DeleteCategoryAjax", "SourceManage")', {Id: categoryId});
         };
                 let deleteTemplate = function(templateId){
-                    $("#template-row").load('@Url.Action("DeleteTemplateAjax", "MaterialManage")', {Id: templateId});
+                    $("#template-row").load('@Url.Action("DeleteTemplateAjax", "SourceManage")', {Id: templateId});
                 };
         let deleteType = function(typeId){
-            $("#types-row").load('@Url.Action("DeleteTypeAjax", "MaterialManage")', {Id: typeId});
+            $("#types-row").load('@Url.Action("DeleteTypeAjax", "SourceManage")', {Id: typeId});
         };
         $(document).ready(function(){
             loadTemplate();

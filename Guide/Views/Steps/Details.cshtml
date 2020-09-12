@@ -61,23 +61,7 @@
                         <div style="margin: 5px; margin-left: auto">
                             <a asp-action="Create" asp-controller="QuestionAnswers" class="btn btn-info" asp-route-status="ToQuestion" asp-route-postId="@Model.Id">Задать вопрос</a>
                         </div>
-                        <div>
-                            <div class="">
-                                <textarea id="comment_area" class="form-control textarea_chat" placeholder="Оставить свой комментарий..." rows="3"></textarea>
-                                <button type="button" class="btn btn-info mt-10" name="@Model.Id" id="sendComment">Добавить</button>
-                                <div class="clearfix"></div>
-                            </div>
-                            <div style="margin: 5px; margin-left: auto">
-                                <button type="button" class="btn btn-info "
-                                        onclick="viewComment('@Model.Id')">
-                                    Посмотреть комментарии
-                                </button>
-                            </div>
-                        </div>
                     </div>
-                </div>
-                <div class="panel panel-info">
-                    <div id="listComment"></div>
                 </div>
             </div>
             <!-- /tile body -->
@@ -86,55 +70,5 @@
 </div>
 
 <!-- /tile -->
-@section Scripts{
-   
-    <script >
-    $('#sendComment').click(function(event) {
-        event.preventDefault();
-        let id = $('#sendComment').attr('name');
-        let comment = $('#comment_area').val();
-        reset();        
-        $.ajax({
-            url: '@Url.Action("CreateComment", "MaterialManage")',
-            type: 'POST',
-            data: { 
-                'PostId': id, 
-                'Description': comment  },
-            success: function(data) {
-                $('#listComment').html(data); 
-            },
-        });  
-    });
-    
-    let reset = function() {
-        $('#comment_area').val("");               
-    };
-    
-    function deleteComment(Id, PostId) {
-        $.ajax({
-            url: '@Url.Action("DeleteComment", "MaterialManage")',
-            type: 'GET',
-            data: { 
-                'id': Id,
-                'postId': PostId, 
-            },
-            success: function(data) {
-                $('#listComment').html(data); 
-            },
-        });   
-    }
-          
-    function viewComment(id) {
-                          
-        $.ajax({
-            url: '@Url.Action("ViewComment", "MaterialManage")',
-            type: 'GET',
-            data: { 'id': id },
-            success: function(data) {
-            $('#listComment').html(data); 
-            },
-        });   
-    }
-    </script>
-}
+
 

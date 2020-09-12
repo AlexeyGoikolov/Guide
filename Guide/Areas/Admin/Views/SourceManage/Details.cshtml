@@ -1,0 +1,150 @@
+﻿@model Post
+@{
+    ViewBag.Title = "Материал";
+    Layout = "_Layout";
+}
+<div class="page">
+    <div class="pageheader">
+
+        <h2>@ViewBag.Title</h2>
+
+        <div class="page-bar">
+
+            <ul class="page-breadcrumb">
+                <li>
+                    <a asp-action="Details" asp-controller="Account"><i class="fa fa-home"></i> Guide</a>
+                </li>
+                <li>
+                    <a asp-action="Index" asp-controller="SourceManage"> Источники</a>
+                </li>
+                <li>
+                    <a asp-action="Details" asp-controller="SourceManage" asp-route-id="@Model.Id">Просмотр</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="page row">
+
+        <!-- tile body -->
+        <div class="tile-body">
+
+            <!-- row -->
+            <div class="row">
+                <div class="col-md-9 portlets sortable ">
+                    <h2 class="custom-font mt-0 mb-5">@Model.Title </h2>
+                    <div class=" ">
+                        @Html.Raw(Model.TextContent)
+                        @if (Model.VirtualPath != null)
+                        {
+                            <iframe width="100%" height="400" src="~/@Model.VirtualPath"></iframe>
+                        }
+
+                    </div>
+
+                </div>
+                <div class=" col-md-3  portlets sortable  material_discription" data-lightbox="gallery">
+                    @if (Model.Author != null)
+                    {
+                        <h5>Автор : @Model.Author</h5>
+                    }
+                    @if (Model.PhysicalPath != null)
+                    {
+                        <div>Место нахождения - @Model.PhysicalPath</div>
+                    }
+                    <div>Дата добавления - @Model.DateOfCreate</div>
+                    @if (Model.DateOfUpdate < Model.DateOfCreate)
+                    {
+                        <div>Дата обновления - @Model.DateOfUpdate</div>
+                    }
+                    @if (Model.Category != null)
+                    {
+                        <div>Категория - @Model.Category.Name</div>
+                    }
+                    @if (Model.Type != null)
+                    {
+                        <div>Тип - @Model.Type.Name</div>
+                    }
+                    <div style="margin: 5px; margin-left: auto">
+                        <a asp-action="Create" asp-controller="FaqManage" class="btn btn-info" asp-route-status="ToQuestion" asp-route-postId="@Model.Id">Задать вопрос</a>
+
+                    </div>
+                    <div>
+                        <div class="">
+                            <textarea id="comment_area" class="form-control textarea_chat" placeholder="Оставить свой комментарий..." rows="3"></textarea>
+                            <button type="button" class="btn btn-info mt-10" name="@Model.Id" id="sendComment">Добавить комментарий</button>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div style="margin: 5px; margin-left: auto">
+                            <button type="button" class="btn btn-info "
+                                    onclick="viewComment('@Model.Id')">
+                                Посмотреть комментарии
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- /tile body -->
+        <div class="panel panel-info">
+            <div id="listComment"></div>
+        </div>
+    </div>
+</div>
+
+
+<!-- /tile -->
+
+@section Scripts{
+   
+    <script >
+    $('#sendComment').click(function(event) {
+        event.preventDefault();
+        let id = $('#sendComment').attr('name');
+        let comment = $('#comment_area').val();
+        reset();        
+        $.ajax({
+            url: '@Url.Action("CreateComment", "SourceManage")',
+            type: 'POST',
+            data: { 
+                'PostId': id, 
+                'Description': comment  },
+            success: function(data) {
+                $('#listComment').html(data); 
+            },
+        });  
+    });
+    
+    let reset = function() {
+        $('#comment_area').val("");               
+    };
+    
+    function deleteComment(Id, PostId) {
+        $.ajax({
+            url: '@Url.Action("DeleteComment", "SourceManage")',
+            type: 'GET',
+            data: { 
+                'id': Id,
+                'postId': PostId, 
+            },
+            success: function(data) {
+                $('#listComment').html(data); 
+            },
+        });   
+    }
+          
+    function viewComment(id) {
+                          
+        $.ajax({
+            url: '@Url.Action("ViewComment", "SourceManage")',
+            type: 'GET',
+            data: { 'id': id },
+            success: function(data) {
+            $('#listComment').html(data); 
+            },
+        });   
+    }
+    </script>
+}
+
