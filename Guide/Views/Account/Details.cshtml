@@ -18,7 +18,7 @@
  
             @if (User.IsInRole("admin"))
             {
-                <h1 style="color: #4b0d5f">Должность сотрудника: @Model.User.Position.Name</h1>
+                <h1 style="color: #4b0d5f">Должность @Model.User.Name @Model.User.Surname: @Model.User.Position.Name</h1>
             }
             else
             {

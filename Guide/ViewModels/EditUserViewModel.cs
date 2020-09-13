@@ -17,13 +17,10 @@ namespace Guide.ViewModels
             public string Surname { get; set; }
             [Required(ErrorMessage = "Это поле обязательно для заполнения")]
             public int? PositionsId { get; set; }
-            [Required(ErrorMessage = "Это поле обязательно для заполнения")]
-            [DataType(DataType.Password)]
-            public string Password { get; set; }
-            [Required(ErrorMessage = "Это поле обязательно для заполнения")]
-            [Compare("Password", ErrorMessage = "Пароли не совпадают")]
-            [DataType(DataType.Password)]
-            public string PasswordConfirm { get; set; }
+            
+            public string? Password { get; set; }
+            
+            public string? PasswordConfirm { get; set; }
             public Roles Role { get; set; }
  
     }
