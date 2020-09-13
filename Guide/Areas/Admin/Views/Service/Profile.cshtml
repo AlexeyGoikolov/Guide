@@ -10,10 +10,14 @@
 
 <div class="page">
     <div class="pageheader">
-    
-            <h2>@ViewBag.Title : @Model.Name @Model.Surname</h2>
-    
-            <div class="page-bar">
+
+        <h2>@ViewBag.Title : администратор  @Model.Name @Model.Surname  </h2>
+        @if (UserManager.GetUserId(User) == Model.Id)
+        {
+            <a asp-action="Edit" asp-controller="Account" asp-area="" asp-route-id="@Model.Id" class="btn btn-info pull-right"> Изменить личные данные</a>
+            }
+
+        <div class="page-bar">
     
                 <ul class="page-breadcrumb">
                     <li>
@@ -25,13 +29,8 @@
                 </ul>
             </div>
         </div>
-    @if (UserManager.GetUserId(User) == Model.Id)
-    {
-        <a asp-action="Edit" asp-controller="Account" asp-area="" asp-route-id="@Model.Id" class="btn btn-info">Изменить личные данные</a>
-        <a asp-action="ChangePassword" asp-controller="Account" asp-area="" asp-route-id="@Model.Id" class="btn btn-danger">Изменить пароль</a>
-    }
-
-
+   
+   <img src="/Image/UserProfilePage/paper-3213924_1920.jpg" style ="width: 100%;" alt="картинка">
 
 </div>
 
