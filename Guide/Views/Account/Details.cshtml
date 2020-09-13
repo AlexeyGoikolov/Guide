@@ -128,9 +128,9 @@
                                                     <div class="tascUsersDescription">
                                                         <form asp-action="Creat" asp-controller="TaskUsers">
                                                             <label>Сообщение для сотрудника:</label>
-                                                            <textarea style="width: 100%;" name="Task">@if (Model.Task != null)
-                                                                                   {@Model.Task.Task
-                                                                                   }</textarea>
+                                                            <textarea style="width: 100%;" name="Task" asp-for="@Model.Task.Task" value ="@Model.Task.Task" >@if (Model.Task != null)
+                                                                                                       {@Model.Task.Task
+                                                                                                       }</textarea>
                                                             <input type="hidden" value="@Model.User.Id" name="UserId">
                                                             <button type="submit" class="btn btn-info float-right">Добавить</button>
                                                         </form>
