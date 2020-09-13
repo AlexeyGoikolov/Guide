@@ -4,10 +4,20 @@
     ViewBag.Title = "Удаление";
     Layout = "_Layout";
 }
-<div class="container">
-    <h2>Вы уверены что хотите удалить @Model.Title</h2>
-    <form asp-action="Delete" asp-controller="MaterialManage" asp-area="Admin" method="post" asp-route-id="@Model.Id">
-        <button type="submit">подтвердить</button>
-    </form>
-    <a asp-action="Index" asp-controller="MaterialManage">Отменить</a>
+<div class="page page-tables-datatables">
+   
+    <div class="page">
+        <h2>Вы уверены что хотите удалить  - @Model.Title</h2>
+        <div>
+            <div style="display: inline-block">
+                <form asp-action="Delete" asp-controller="MaterialManage" asp-area="Admin" method="post" asp-route-id="@Model.Id">
+                    <button class="btn btn-danger" type="submit">Подтвердить</button>
+                </form>
+            </div>
+            <div style="display: inline-block">
+                <a class="btn btn-info" asp-action="Index" asp-controller="MaterialManage" asp-area="Admin">Отменить</a>
+            </div>
+        </div>
+    </div>
 </div>
+
