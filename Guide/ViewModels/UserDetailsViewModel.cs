@@ -8,6 +8,7 @@ namespace Guide.ViewModels
         public User User { get; set; }
         public TaskUser Task { get; set; }
         public List<Issue> Issues{ get; set; }
+        public List<Issue> PositionsIssues{ get; set; }
         
     }
 }

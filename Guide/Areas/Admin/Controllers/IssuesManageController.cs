@@ -242,7 +242,62 @@ namespace Guide.Areas.Admin.Controllers
             return RedirectToAction("ListUsers", "UsersManage");
             
         }
-        
+        public IActionResult AddForPosition()
+        {
+            AddForPositionViewModel model = new AddForPositionViewModel();
+           model.Issues=_db.Issues.ToList();
+           model.Positions = _db.Positions.Where(p => p.Active).ToList();
+            return View(model);
+        }
+        [HttpPost]
+        public IActionResult AddForPosition(AddForPositionViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                foreach (var issueId in model.IssuesId)
+                {
+                    PositionIssue positionIssue = new PositionIssue();
+                    positionIssue.IssueId = issueId;
+                    positionIssue.PositionId = model.PositionId;
+                    _db.PositionIssues.Add(positionIssue);
+                   _db.SaveChanges();
+                }
+            }
+            return RedirectToAction("ListUsers", "UsersManage");
+            
+        }
+    
+        //добавления должность
+        public IActionResult CreatePositionAjax(Position position, AddForPositionViewModel data)
+        {
+            if (position.Name != null)
+            {
+                _db.Positions.Add(position);
+                _db.SaveChanges();
+            }
+            AddForPositionViewModel model = new AddForPositionViewModel()
+            {
+               Positions = _db.Positions.Where(p => p.Active).ToList()
+            };
+            
+            return PartialView("PartialViews/PosiitionPartial", model);
+            
+        }
+        //Удаление должности
+        public IActionResult DeletePositionAjax(int id)
+        {
+            Position position = _db.Positions.FirstOrDefault(p => p.Id == id);
+            if (position != null)
+            {
+                position.Active = false;
+                _db.SaveChanges();
+            }
+            AddForPositionViewModel model = new AddForPositionViewModel()
+            {
+               Positions = _db.Positions.Where(p => p.Active).ToList()
+            };
+            return PartialView("PartialViews/PosiitionPartial", model);
+        }
         public IActionResult DeleteStepLink(int issueId, int stepId)
         {
             if (issueId != 0 && stepId != 0)

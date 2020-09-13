@@ -215,7 +215,9 @@
                                             <li>
                                                 <a asp-controller="DesiredResult" asp-action="Index" asp-area="Admin"><i class="fa fa-tasks"></i>Желаемые результаты</a>
                                             </li>
-
+<li>
+                                                <a asp-controller="" asp-action="AddForPosition" asp-area="Admin"><i class="fa fa-tasks"></i>Задачи к должности</a>
+                                            </li>
                                             <li>
                                                  <a>
                                                   <i class="fa fa-puzzle-piece"></i>
@@ -225,16 +227,9 @@
                                                      <li><a asp-controller="GlossarysManage" asp-action="Create" asp-area="Admin"><i class="fa fa-caret-right"></i>Добавить</a></li>
                                                 </ul>
                                             </li>
-                                            <li>
-                                  
-                                                <a>
-                                                <i class="fa fa-users"></i>
-                                                <span>Пользователи</span></a>
-                                                <ul>
-                                                     <li><a asp-controller="UsersManage" asp-action="ListUsers" asp-area="Admin"><i class="fa fa-caret-right"></i>Список</a></li>
-                                                    <li><a asp-controller="Account" asp-action="Register" asp-area=""><i class="fa fa-caret-right"></i>Добавить</a></li>
-                                                </ul>
-                                            </li>
+                                            <li>                             
+                                                 <a asp-controller="UsersManage" asp-action="ListUsers" asp-area="Admin"><i class="fa fa-users"></i>Список Сотрудников</a></li>
+                                                  
                                             <li>
                                                  <a asp-controller="FaqManage" asp-action="Index">
                                                   <i class="fa fa-question"></i>

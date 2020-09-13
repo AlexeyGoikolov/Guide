@@ -1,0 +1,113 @@
+﻿@model AddForPositionViewModel
+
+@{
+    ViewBag.Title = "Добавить Задачи к Должности ";
+    Layout = "_Layout";
+}
+
+<div class="page page-tables-datatables">
+
+    <div class="pageheader">
+        <h2>@ViewBag.Title</h2>
+        <div class="page-bar">
+            <ul class="page-breadcrumb">
+                <li>
+                    <a asp-action="Details" asp-controller="Account" asp-area=""><i class="fa fa-home"></i> Guide</a>
+                </li>
+                <li>
+                    <a asp-action="Index" asp-controller="IssuesManage">Задачи</a>
+                </li>
+                <li>
+                    <a asp-action="AddForPosition" asp-controller="IssuesManage">Добавить Задачи к Должности</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- row -->
+    <div class="row">
+        <!-- col -->
+        <div class="col-md-12">
+            <!-- tile -->
+            <section class="tile">
+                <form class="create-form" asp-action="AddForPosition" asp-controller="IssuesManage" asp-area="Admin" method="post"
+                      enctype="multipart/form-data">
+                    <div id="position-row" class="form-group" style="justify-content: center; width: 600px;"></div>
+                    <!-- tile header -->
+                    <div class="tile-header dvd dvd-btm">
+                        <h1 class="custom-font">
+                            <strong>Для назначения Задачи : выберите ее из списка :</strong>
+                        </h1>
+                    </div>
+                    <!-- /tile header -->
+                    <!-- tile body -->
+                    <div class="tile-body" style="display: block">
+                        <div class="table-responsive">
+                            <table class="table table-custom" id="editable-usage">
+                                <thead>
+                                <tr>
+                                    <th>Выбрать</th>
+                                    <th>Название</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach (var issue in Model.Issues)
+                                {
+                                    <tr class="odd gradeX">
+                                        <td>
+                                            <input type="checkbox" name="IssuesId[]" value="@issue.Id"><Br>
+                                        </td>
+                                        <td>@issue.Name</td>
+                                    </tr>
+                                }
+
+                                </tbody>
+                            </table>
+
+                            <button type="submit" class="btn btn-info" style="margin:  20px 0 0;">Добавить</button>
+                        </div>
+                    </div>
+                </form>
+                <!-- /tile body -->
+            </section>
+            <!-- /tile -->
+            <!-- tile -->
+        </div>
+        <!-- /col -->
+    </div>
+</div>
+
+
+@section Scripts
+{
+    <script> 
+           $(window).load(function(){                                           
+               let oTable = $('#editable-usage').DataTable({
+                   "aoColumnDefs": [
+                       { 'defaultContent': '-', 'bSortable': false, 'aTargets': [ "no_sort" ] }
+                   ]
+               });                         
+           });
+             var loadPosition = function(){
+                       var positionInput = $('#positionInput').val();
+                       $("#position-row").load('@Url.Action("CreatePositionAjax", "IssuesManage")',{Name: positionInput});
+                   };
+                  
+                   var deletePosition = function(positonId){
+                       $("#position-row").load('@Url.Action("DeletePositionAjax", "IssuesManage")', {Id: positonId});
+                   };
+                  
+                   $(document).ready(function(){
+                       loadPosition();
+                       $('body').on('click','#positionButton',function(event){
+                            event.preventDefault();
+                            setTimeout(loadPosition, 200)
+                       });
+                       $('body').on('click','.buttonDeletePosition',function(event){
+                            event.preventDefault();
+                            setTimeout(function() {deletePosition(event.currentTarget.value)}, 200)
+                       });
+                       
+                   });
+       </script>
+}
