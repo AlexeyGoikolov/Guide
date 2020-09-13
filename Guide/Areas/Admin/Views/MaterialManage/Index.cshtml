@@ -1,12 +1,12 @@
 ﻿@model  List<LibraryListViewModel>
 
 @{
-    ViewBag.Title = "Список материалов";
+    ViewBag.Title = "Библиотека";
     Layout = "_Layout";
 }
 <div class="page page-tables-datatables">
     <div class="pageheader">
-        <h2>Источники</h2>
+        <h2> @ViewBag.Title</h2>
         <div class="page-bar">
             <ul class="page-breadcrumb">
                 <li>
@@ -27,7 +27,7 @@
                 <!-- tile header -->
                 <div class="tile-header dvd dvd-btm">
                     <h1 class="custom-font">
-                        <strong>Список источников</strong>
+                        <strong> @ViewBag.Title</strong>
                     </h1>
                     <ul class="controls">
                         <li>

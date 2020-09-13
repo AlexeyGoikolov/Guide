@@ -1,14 +1,14 @@
 ﻿@model MaterialCreateViewModel
 
 @{
-    ViewBag.Title = "Редактирование материала";
+    ViewBag.Title = "Редактирование";
     Layout = "_Layout";
 }
       
 <div class="page">
     <div class="pageheader">
 
-        <h2>@ViewBag.Title</h2>
+        <h2>@ViewBag.Title  : @Model.Title</h2>
 
         <div class="page-bar">
 
@@ -17,10 +17,10 @@
                     <a asp-action="Details" asp-controller="Account"><i class="fa fa-home"></i> Guide</a>
                 </li>
                 <li>
-                    <a asp-action="Index" asp-controller="MaterialManage"> Источники</a>
+                    <a asp-action="Index" asp-controller="MaterialManage">Библиотека</a>
                 </li>
                 <li>
-                    <a asp-action="Edit" asp-controller="MaterialManage" asp-route-id="@Model.Id"> Редактирвание источника</a>
+                    <a asp-action="Edit" asp-controller="MaterialManage" asp-route-id="@Model.Id"> Редактирование </a>
                 </li>
             </ul>
         </div>
