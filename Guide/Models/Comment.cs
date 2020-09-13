@@ -9,7 +9,7 @@ namespace Guide.Models
         public virtual User Author { get; set; }
         public int? PostId { get; set; }
         public virtual Post Post { get; set; }
-        public string SelText { get; set; }
+       
         public string Description { get; set; }
         public DateTime DateOfCreate { get; set; } = DateTime.Now;
     }
