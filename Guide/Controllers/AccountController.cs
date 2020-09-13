@@ -41,6 +41,7 @@ namespace Guide.Controllers
             model.User = user;
             model.Task = _db.GetUserTask(user.Id);
             model.Issues = _db.GetUserIssues(user.Id);
+            model.PositionsIssues = _db.PositionsIssues(user.PositionId);
             return View(model);
         }
 
@@ -93,7 +94,7 @@ namespace Guide.Controllers
                 {
                     user.Name = model.UserEdit.Name;
                     user.Surname = model.UserEdit.Surname;
-                    user.PositionId = model.UserEdit.PositionsId;
+                    user.PositionId = (int) model.UserEdit.PositionsId;
                     user.Email = model.UserEdit.Email;
                     user.UserName = model.UserEdit.Name + " " + model.UserEdit.Surname;
                     if (model.UserEdit.Password != null)
