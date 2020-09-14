@@ -16,6 +16,8 @@ namespace Guide.Services
 
         void AddPosition(Position position);
 
+        List<Issue> PositionsIssues(int positionId);
+
         Position GetPosition(int positionId);
         List<Position> GetAllPositions();
         List<Position> GetActivePositions();

@@ -53,10 +53,15 @@ namespace Guide.Services
         }
         public virtual List<Issue> PositionsIssues(int positionId)
         {
-            return _db.PositionIssues.OrderBy(d => d.Id)
+            List<Issue> issues = _db.PositionIssues.OrderBy(d => d.Id)
                 .Where(d => d.PositionId == positionId).
                 Select(s => s.Issue).ToList();
-        }        public virtual void AddPosition(Position position) => _db.Positions.Add(position);
+            if (issues.Count == 0)
+                return issues = new List<Issue>();
+            return issues;
+        }        
+        
+        public virtual void AddPosition(Position position) => _db.Positions.Add(position);
 
         public virtual Position GetPosition(int positionId) => _db.Positions.FirstOrDefault(p => p.Id == positionId);
         

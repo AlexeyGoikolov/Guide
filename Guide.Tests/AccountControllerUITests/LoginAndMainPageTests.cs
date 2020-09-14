@@ -48,21 +48,14 @@ namespace Guide.Tests.AccountControllerUITests
         [Fact]
         public void LoginCorrectDataReturnsSuccessAuthTest()
         {
-            
             _driver.Navigate().GoToUrl("http://localhost:5000/Account/Login");
             _driver.FindElement(By.Id("email")).SendKeys("admin@admin.com");
             _driver.FindElement(By.Id("password")).SendKeys("Qwerty123@");
             _driver.FindElement(By.Id("submit")).Click();
-            var userCreateButtonLink = _driver.FindElement(By.LinkText("Добавить пользователя"))
+            var userEditButtonLink = _driver.FindElement(By.LinkText("Изменить личные данные"))
                 .GetAttribute("href");
-            var changePasswordButtonLink = _driver.FindElement(By.LinkText("Изменить пароль"))
-                .GetAttribute("href");
-            var changeUserProfileLink = _driver.FindElement(By.LinkText("Изменить"))
-                .GetAttribute("href");
-            Assert.Contains("admin@admin.com", _driver.PageSource);
-            Assert.Equal("http://localhost:5000/Account/Register", userCreateButtonLink);
-            Assert.Contains("http://localhost:5000/Account/ChangePassword/", changePasswordButtonLink);
-            Assert.Contains("http://localhost:5000/Account/Edit/", changeUserProfileLink);
+            Assert.Contains("Личный кабинет : администратор", _driver.PageSource);
+            Assert.Contains("http://localhost:5000/Account/Edit", userEditButtonLink);
         }
         
         [Fact]

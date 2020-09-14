@@ -152,7 +152,6 @@ namespace Guide.Tests
                Id = user.Id, Email = user.Email, Name = user.Name, Surname = user.Surname, PositionsId = 1
             };
             model.Positions = new List<Position>{new Position()};
-            //model.User = new RegisterViewModel{Name = GetTestUser().Name};
             model.UserEdit = editViewModel;
 
             mockUserManager.Setup(m => m.FindByIdAsync(model.UserEdit.Id)).ReturnsAsync(user);
@@ -169,7 +168,7 @@ namespace Guide.Tests
             var result = await controller.Edit(model);
             var redirectResult = Assert.IsType<RedirectResult>(result);
             Assert.NotNull(redirectResult.Url);
-            Assert.Equal($"~/Account/Details/{user.Id}", redirectResult.Url);
+            Assert.Equal($"~/Admin/Service/Profile/{user.Id}", redirectResult.Url);
             mockUserManager.Verify(r => r.RemoveFromRoleAsync(user, It.IsAny<string>()));
         }
 
