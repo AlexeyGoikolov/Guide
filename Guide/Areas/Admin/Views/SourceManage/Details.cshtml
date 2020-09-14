@@ -1,12 +1,12 @@
 ﻿@model Post
 @{
-    ViewBag.Title = "Материал";
+    ViewBag.Title = "Просмотр";
     Layout = "_Layout";
 }
 <div class="page">
     <div class="pageheader">
 
-        <h2>@ViewBag.Title</h2>
+        <h2>@ViewBag.Title : @Model.Title</h2>
 
         <div class="page-bar">
 
@@ -15,7 +15,7 @@
                     <a asp-action="Details" asp-controller="Account"><i class="fa fa-home"></i> Guide</a>
                 </li>
                 <li>
-                    <a asp-action="Index" asp-controller="SourceManage"> Источники</a>
+                    <a asp-action="Index" asp-controller="SourceManage"> Библиотека</a>
                 </li>
                 <li>
                     <a asp-action="Details" asp-controller="SourceManage" asp-route-id="@Model.Id">Просмотр</a>
@@ -67,7 +67,6 @@
                     }
                     <div style="margin: 5px; margin-left: auto">
                         <a asp-action="Create" asp-controller="FaqManage" class="btn btn-info" asp-route-status="ToQuestion" asp-route-postId="@Model.Id">Задать вопрос</a>
-
                     </div>
                     <div>
                         <div class="">
