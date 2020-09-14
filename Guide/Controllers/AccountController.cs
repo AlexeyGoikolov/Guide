@@ -41,6 +41,7 @@ namespace Guide.Controllers
             model.User = user;
             model.Task = _db.GetUserTask(user.Id);
             model.Issues = _db.GetUserIssues(user.Id);
+            model.PositionsIssues = _db.PositionsIssues(user.PositionId);
             return View(model);
         }
 
@@ -86,14 +87,14 @@ namespace Guide.Controllers
         [Authorize(Roles = "admin")]
         public async Task<IActionResult> Edit(RegisterViewModel model)
         {
-            if (ModelState.IsValid)
+            if (model.UserEdit!=null)
             {
                 User user = await _userManager.FindByIdAsync(model.UserEdit.Id);
                 if (user != null)
                 {
                     user.Name = model.UserEdit.Name;
                     user.Surname = model.UserEdit.Surname;
-                    user.PositionId = model.UserEdit.PositionsId;
+                    user.PositionId = (int) model.UserEdit.PositionsId;
                     user.Email = model.UserEdit.Email;
                     user.UserName = model.UserEdit.Name + " " + model.UserEdit.Surname;
                     if (model.UserEdit.Password != null)
@@ -106,16 +107,21 @@ namespace Guide.Controllers
                     {
                         await _userManager.AddToRoleAsync(user, role);
                         await _userManager.RemoveFromRoleAsync(user, "user");
+                        await _userManager.UpdateAsync(user);
+                        _db.Save();
+
+                        return Redirect($"~/Admin/Service/Profile/{user.Id}");
                     }
                     if (role == "user")
                     {
                         await _userManager.AddToRoleAsync(user, role);
                         await _userManager.RemoveFromRoleAsync(user, "admin");
+                        await _userManager.UpdateAsync(user);
+                        _db.Save();
+
+                        return Redirect($"~/Account/Details/{user.Id}");
                     }
-                    await _userManager.UpdateAsync(user);
-                    _db.Save();
-                    
-                    return Redirect($"~/Account/Details/{user.Id}");
+                   
                 }
             }
             model.Positions = _db.GetAllPositions();

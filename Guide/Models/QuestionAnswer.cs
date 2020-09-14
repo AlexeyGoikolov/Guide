@@ -7,8 +7,7 @@ namespace Guide.Models
     public enum State
     {
         Новый,
-        Ответили,
-        Прочитан
+        Ответили
     }
     public class QuestionAnswer
     {

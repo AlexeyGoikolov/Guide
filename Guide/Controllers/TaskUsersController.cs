@@ -1,4 +1,5 @@
-﻿using Guide.Models;
+﻿using System.Linq;
+using Guide.Models;
 using Guide.Models.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -21,11 +22,27 @@ namespace Guide.Controllers
         {
             if (taskUser != null)
             {
-                _db.TaskUsers.Update(taskUser);
+                TaskUser task = _db.TaskUsers.FirstOrDefault(t => t.UserId == taskUser.UserId);
+                if (task == null)
+                {
+                    TaskUser taskUser1 = new TaskUser()
+                    {
+                        Task = taskUser.Task,
+                        UserId = taskUser.UserId
+                    };
+                    _db.TaskUsers.Add(taskUser1);
+                }
+                else
+                {
+                    task.Task = taskUser.Task;
+                    _db.TaskUsers.Update(task);
+                }
+
                 _db.SaveChanges();
                 string id = taskUser.UserId;
-                return RedirectToAction("Details", "Account",  id);
+                return Redirect($"~/Account/Details/{taskUser.UserId}");
             }
+
             return RedirectToAction("Details", "Account");
         }
     }

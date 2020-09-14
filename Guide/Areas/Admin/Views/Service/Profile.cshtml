@@ -9,39 +9,29 @@
 }
 
 <div class="page">
-    @if (UserManager.GetUserId(User) == Model.Id)
-        {
-            <h3>Добро пожаловать Администратор</h3>
-            
-            <a asp-action="Edit" asp-controller="Account" asp-area="" asp-route-id="@Model.Id" class="btn btn-outline-info">Изменить</a>
-            <a asp-action="ChangePassword" asp-controller="Account" asp-area="" asp-route-id="@Model.Id" class="btn btn-outline-danger">Изменить пароль</a>
-            <a class="btn btn-danger" asp-action="Register" asp-controller="Account" asp-area="">Добавить пользователя</a>
-        }
-        else
-        {
-            <h3>Кабинет пользователя @Model.Name @Model.Surname</h3>
-            @if (!Model.Active)
-            {
-                <span id="info" class="text-danger block mb-10 text-sm">Пользователь отключен</span>
-            }
-            else
-            {
-                <span id="info" class="text-danger block mb-10 text-sm"></span>
-            }
-            <a asp-action="Edit" asp-controller="Account" asp-area="" asp-route-id="@Model.Id" class="btn btn-sm btn-info">Изменить</a>
-            <a asp-action="ChangePassword" asp-controller="Account" asp-area="" asp-route-id="@Model.Id" class="btn btn-sm btn-info">Изменить пароль</a>
-            @if (Model.Active)
-            {
-                <a class="BlockingAjax btn btn-sm btn-danger" id="@Model.Id">Отключить</a> 
-            }
-            else
-            {
-                <a class="BlockingAjax btn btn-sm btn-danger" id="@Model.Id">Подключить</a> 
-            }
-                                                                                                                                                
-        }
+    <div class="pageheader">
 
+        <h2>@ViewBag.Title : администратор  @Model.Name @Model.Surname  </h2>
+        @if (UserManager.GetUserId(User) == Model.Id)
+        {
+            <a asp-action="Edit" asp-controller="Account" asp-area="" asp-route-id="@Model.Id" class="btn btn-info pull-right"> Изменить личные данные</a>
+            }
+
+        <div class="page-bar">
     
+                <ul class="page-breadcrumb">
+                    <li>
+                        <a asp-action="Profile" asp-controller="Service"><i class="fa fa-home"></i> Guide</a>
+                    </li>
+                    <li>
+                     <a asp-action="Profile" asp-controller="Service" asp-route-id="@Model.Id">@ViewBag.Title</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+   
+   <img src="/Image/UserProfilePage/paper-3213924_1920.jpg" style ="width: 100%;" alt="картинка">
+
 </div>
 
 @section Scripts

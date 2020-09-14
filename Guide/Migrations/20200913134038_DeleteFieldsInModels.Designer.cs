@@ -4,15 +4,17 @@ using System.Collections.Generic;
 using Guide.Models.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Guide.Migrations
 {
     [DbContext(typeof(GuideContext))]
-    partial class GuideContextModelSnapshot : ModelSnapshot
+    [Migration("20200913134038_DeleteFieldsInModels")]
+    partial class DeleteFieldsInModels
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -32,6 +34,9 @@ namespace Guide.Migrations
 
                     b.Property<string>("Author")
                         .HasColumnType("text");
+
+                    b.Property<int?>("CategoryId")
+                        .HasColumnType("integer");
 
                     b.Property<string>("CoverPath")
                         .HasColumnType("text");
@@ -67,6 +72,8 @@ namespace Guide.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
 
                     b.HasIndex("TypeId");
 
@@ -147,9 +154,6 @@ namespace Guide.Migrations
                     b.Property<string>("AuthorId")
                         .HasColumnType("text");
 
-                    b.Property<int?>("BookId")
-                        .HasColumnType("integer");
-
                     b.Property<DateTime>("DateOfCreate")
                         .HasColumnType("timestamp without time zone");
 
@@ -162,8 +166,6 @@ namespace Guide.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("AuthorId");
-
-                    b.HasIndex("BookId");
 
                     b.HasIndex("PostId");
 
@@ -846,6 +848,10 @@ namespace Guide.Migrations
 
             modelBuilder.Entity("Guide.Models.Book", b =>
                 {
+                    b.HasOne("Guide.Models.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId");
+
                     b.HasOne("Guide.Models.Type", "Type")
                         .WithMany()
                         .HasForeignKey("TypeId");
@@ -871,10 +877,6 @@ namespace Guide.Migrations
                     b.HasOne("Guide.Models.User", "Author")
                         .WithMany()
                         .HasForeignKey("AuthorId");
-
-                    b.HasOne("Guide.Models.Book", "Book")
-                        .WithMany()
-                        .HasForeignKey("BookId");
 
                     b.HasOne("Guide.Models.Post", "Post")
                         .WithMany()

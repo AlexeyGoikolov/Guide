@@ -51,8 +51,12 @@ namespace Guide.Services
                 .Where(d => d.UserId == userId).
                 Select(s => s.Issue).ToList();
         }
-        
-        public virtual void AddPosition(Position position) => _db.Positions.Add(position);
+        public virtual List<Issue> PositionsIssues(int positionId)
+        {
+            return _db.PositionIssues.OrderBy(d => d.Id)
+                .Where(d => d.PositionId == positionId).
+                Select(s => s.Issue).ToList();
+        }        public virtual void AddPosition(Position position) => _db.Positions.Add(position);
 
         public virtual Position GetPosition(int positionId) => _db.Positions.FirstOrDefault(p => p.Id == positionId);
         
