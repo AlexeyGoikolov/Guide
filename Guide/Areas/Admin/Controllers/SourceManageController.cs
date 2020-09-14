@@ -15,7 +15,7 @@ using Microsoft.Extensions.Hosting;
 namespace Guide.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Roles = "admin")]
+    
     public class SourceManageController : Controller
     {
         private readonly GuideContext _db;
@@ -31,6 +31,7 @@ namespace Guide.Areas.Admin.Controllers
             _environment = environment;
             _uploadService = uploadService;
         }
+        [Authorize(Roles = "admin")]
         public IActionResult Index(string activ)
         {
             List<Post> posts;
@@ -85,7 +86,7 @@ namespace Guide.Areas.Admin.Controllers
             }
             return View(models);
         }
-
+        [Authorize(Roles = "admin")]
         public IActionResult Details(int id)
         {
             Post post = _db.Posts.FirstOrDefault(p => p.Id == id);
@@ -93,7 +94,7 @@ namespace Guide.Areas.Admin.Controllers
 
             return View(post);
         }
-
+        [Authorize(Roles = "admin")]
         public IActionResult ValTemplate(int templatesId)
         {
             if (templatesId != 0)
@@ -104,12 +105,13 @@ namespace Guide.Areas.Admin.Controllers
 
             return Json(null);
         }
-
+        [Authorize(Roles = "admin")]
         public IActionResult Create()
         {
             return View(new MaterialCreateViewModel());
         }
-
+        
+        [Authorize(Roles = "admin")]
         [HttpPost]
         public IActionResult Create(MaterialCreateViewModel model)
         {
@@ -137,7 +139,8 @@ namespace Guide.Areas.Admin.Controllers
 
             return View(model);
         }
-
+        
+        [Authorize(Roles = "admin")]
         public IActionResult CreateTemplateAjax(Template template)
         {
             if (template.Name != null)
@@ -155,6 +158,7 @@ namespace Guide.Areas.Admin.Controllers
             return PartialView("PartialViews/TemplatesPartial", model);
         }
 
+        [Authorize(Roles = "admin")]
         public IActionResult CreateCategoryAjax(Category category)
         {
             if (category.Name != null)
@@ -171,6 +175,8 @@ namespace Guide.Areas.Admin.Controllers
 
             return PartialView("PartialViews/CategoriesPartial", model);
         }
+        
+        [Authorize(Roles = "admin")]
         public IActionResult CreateTypeStateAjax(TypeState typeState)
         {
             if (typeState.Name != null)
@@ -185,6 +191,8 @@ namespace Guide.Areas.Admin.Controllers
             };
             return PartialView("PartialViews/TypeStatesPartial", model);
         }
+        
+        [Authorize(Roles = "admin")]
         public IActionResult DeleteTypeStateAjax(int id)
         {
             TypeState typeContent = _db.TypeStates.FirstOrDefault(c => c.Id == id);
@@ -203,7 +211,7 @@ namespace Guide.Areas.Admin.Controllers
             return PartialView("PartialViews/TypeStatesPartial", model);
         }
 
-        
+        [Authorize(Roles = "admin")]
         public IActionResult CreateTypeContentAjax(TypeContent typeContent)
         {
             if (typeContent.Name != null)
@@ -220,6 +228,8 @@ namespace Guide.Areas.Admin.Controllers
 
             return PartialView("PartialViews/TypeContentPartial", model);
         }
+        
+        [Authorize(Roles = "admin")]
         public IActionResult DeleteTypeContentAjax(int id)
         {
             TypeContent typeContent = _db.TypeContents.FirstOrDefault(c => c.Id == id);
@@ -238,6 +248,7 @@ namespace Guide.Areas.Admin.Controllers
             return PartialView("PartialViews/TypeContentPartial", model);
         }
 
+        [Authorize(Roles = "admin")]
         public IActionResult CreateTypeAjax(Type type)
         {
             if (type.Name != null)
@@ -255,6 +266,7 @@ namespace Guide.Areas.Admin.Controllers
             return PartialView("PartialViews/TypesPartial", model);
         }
 
+        [Authorize(Roles = "admin")]
         public IActionResult DeleteCategoryAjax(int id)
         {
             Category category = _db.Categories.FirstOrDefault(c => c.Id == id);
@@ -273,7 +285,8 @@ namespace Guide.Areas.Admin.Controllers
 
             return PartialView("PartialViews/CategoriesPartial", model);
         }
-
+        
+        [Authorize(Roles = "admin")]
         public IActionResult DeleteTemplateAjax(int id)
         {
             Template template = _db.Templates.FirstOrDefault(c => c.Id == id);
@@ -292,6 +305,7 @@ namespace Guide.Areas.Admin.Controllers
             return PartialView("PartialViews/TemplatesPartial", model);
         }
 
+        [Authorize(Roles = "admin")]
         public IActionResult DeleteTypeAjax(int id)
         {
             Type type = _db.Types.FirstOrDefault(t => t.Id == id);
@@ -310,6 +324,7 @@ namespace Guide.Areas.Admin.Controllers
             return PartialView("PartialViews/TypesPartial", model);
         }
 
+        [Authorize(Roles = "admin")]
         private string Load(int id, IFormFile file)
         {
             if (file != null)
@@ -402,6 +417,7 @@ namespace Guide.Areas.Admin.Controllers
             return PartialView("PartialViews/CommentsPartial", comments);
         }
 
+        [Authorize(Roles = "admin")]
         public IActionResult Edit(int id)
         {
             if (id != 0)
@@ -425,6 +441,7 @@ namespace Guide.Areas.Admin.Controllers
             return NotFound();
         }
 
+        [Authorize(Roles = "admin")]
         [HttpPost]
         public IActionResult Edit(MaterialCreateViewModel model)
         {
@@ -450,6 +467,7 @@ namespace Guide.Areas.Admin.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "admin")]
         public IActionResult Delete(int id)
         {
             if (id != 0)
@@ -464,6 +482,7 @@ namespace Guide.Areas.Admin.Controllers
             return NotFound();
         }
 
+        [Authorize(Roles = "admin")]
         [HttpPost]
         [ActionName("Delete")]
         public IActionResult ConfirmDelete(int id)

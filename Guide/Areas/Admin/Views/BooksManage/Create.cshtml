@@ -14,7 +14,7 @@
                     <a asp-action="Profile" asp-controller="Service"><i class="fa fa-home"></i> Guide</a>
                 </li>
                 <li>
-                    <a asp-action="Index" asp-controller="MaterialManage">Библиотека</a>
+                    <a asp-action="Index" asp-controller="SourceManage">Библиотека</a>
                 </li>
                 <li>
                     <a asp-action="Create" asp-controller="BooksManage">Добавить Книгу</a>
@@ -43,11 +43,11 @@
           
         var loadCategories = function(){
             var catInput = $('#catInput').val();
-            $("#categories-row").load('@Url.Action("CreateCategoryAjax", "MaterialManage")',{Name: catInput});
+            $("#categories-row").load('@Url.Action("CreateCategoryAjax", "SourceManage")',{Name: catInput});
         };
        
         var deleteCategory = function(categoryId){
-            $("#categories-row").load('@Url.Action("DeleteCategoryAjax", "MaterialManage")', {Id: categoryId});
+            $("#categories-row").load('@Url.Action("DeleteCategoryAjax", "SourceManage")', {Id: categoryId});
         };
                
         

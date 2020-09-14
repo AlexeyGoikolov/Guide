@@ -45,8 +45,11 @@ namespace Guide.Controllers
             foreach (var book in books)
             {
                 string s = book.VirtualPath;
-                string[] parts = s.Split('.');
-                s = parts[parts.Length - 1];
+                if (s != null)
+                {
+                    string[] parts = s.Split('.');
+                    s = parts[parts.Length - 1];
+                }
                 models.Add(new LibraryListViewModel()
                 {
                     Id = book.Id,

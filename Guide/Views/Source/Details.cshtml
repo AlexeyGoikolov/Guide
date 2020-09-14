@@ -88,6 +88,73 @@
             </div>
         </div>
         <!-- /tile body -->
+        <div>
+            <div class="">
+                <textarea id="comment_area" class="form-control textarea_chat" placeholder="Оставить свой комментарий..." rows="2"></textarea>
+                <button type="button" class="btn btn-info mt-10" name="@Model.Id" id="sendComment">Добавить комментарий</button>
+                <button type="button" class="btn btn-info mt-10" onclick="viewComment('@Model.Id')">Посмотреть комментарии</button>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+        <div class="panel panel-info mt-10">
+            <div id="listComment"></div>
+        </div>
 
     </div>
 </div>
+
+@section Scripts
+{
+    <script>
+        $('#sendComment').click(function(event) {
+            event.preventDefault();
+            let id = $('#sendComment').attr('name');
+            let comment = $('#comment_area').val();
+            reset();        
+            $.ajax({
+                url: '@Url.Action("CreateComment", "SourceManage", new{area="Admin"})',
+                type: 'POST',
+                data: { 
+                    'sourceId': id, 
+                    'description': comment,
+                    'type': "book"},
+                success: function(data) {
+                    $('#listComment').html(data); 
+                },
+            });  
+        });
+        
+        let reset = function() {
+            $('#comment_area').val("");               
+        };
+        
+        function deleteComment(Id, PostId) {
+            $.ajax({
+                url: '@Url.Action("DeleteComment", "SourceManage", new{area="Admin"})',
+                type: 'GET',
+                data: { 
+                    'id': Id,
+                    'sourceId': PostId,
+                    'type': "book" 
+                },
+                success: function(data) {
+                    $('#listComment').html(data); 
+                },
+            });   
+        }
+              
+        function viewComment(id) {                             
+            $.ajax({
+                url: '@Url.Action("ViewComment", "SourceManage", new{area="Admin"})',
+                type: 'GET',
+                data: { 
+                    'id': id,
+                    'type': "book"
+                },
+                success: function(data) {
+                $('#listComment').html(data); 
+                },
+            });   
+        }        
+    </script>
+}
