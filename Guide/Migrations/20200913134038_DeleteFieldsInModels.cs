@@ -9,11 +9,7 @@ namespace Guide.Migrations
             migrationBuilder.DropForeignKey(
                 name: "FK_AspNetUsers_Positions_PositionId",
                 table: "AspNetUsers");
-
-            migrationBuilder.DropColumn(
-                name: "SelText",
-                table: "Comments");
-
+            
             migrationBuilder.AlterColumn<int>(
                 name: "PositionId",
                 table: "AspNetUsers",
@@ -36,12 +32,7 @@ namespace Guide.Migrations
             migrationBuilder.DropForeignKey(
                 name: "FK_AspNetUsers_Positions_PositionId",
                 table: "AspNetUsers");
-
-            migrationBuilder.AddColumn<string>(
-                name: "SelText",
-                table: "Comments",
-                type: "text",
-                nullable: true);
+            
 
             migrationBuilder.AlterColumn<int>(
                 name: "PositionId",
