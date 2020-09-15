@@ -29,7 +29,20 @@ namespace Guide.Areas.Admin.Controllers
             List<Issue> issues = _db.Issues.ToList();
             return View(issues);
         }
-
+        public IActionResult IndexPosition(int id)
+        {
+            PositionIssueViewModel model = new PositionIssueViewModel()
+            {
+                Issues =  _db.PositionIssues.OrderBy(d => d.Id)
+                                         .Where(d => d.PositionId == id).
+                                         Select(s => s.Issue).ToList(),
+                PositionId = id,
+                Position = _db.Positions.FirstOrDefault(p=>p.Id==id)
+            };
+          
+           
+            return View(model);
+        }
         public IActionResult Create()
         {
             return View(new Issue());
@@ -325,6 +338,20 @@ namespace Guide.Areas.Admin.Controllers
                 if (model != null)
                 {
                     _db.DesiredResultIssue.Remove(model);
+                    _db.SaveChanges();
+                    return Json("true");
+                }
+            }
+            return Json("false");
+        }
+        public IActionResult DeleteIssuePosition(int issueId, int positionId)
+        {
+            if (issueId != 0 && positionId != 0)
+            {
+                PositionIssue model = _db.PositionIssues.Where(i => i.IssueId == issueId).FirstOrDefault(i => i.PositionId == positionId);
+                if (model != null)
+                {
+                    _db.PositionIssues.Remove(model);
                     _db.SaveChanges();
                     return Json("true");
                 }

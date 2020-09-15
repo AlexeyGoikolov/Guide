@@ -1,7 +1,7 @@
 ﻿@model AddForPositionViewModel
 
 <div style="display: flex">
-    <select type="text" class="form-control" asp-for="@Model.PositionId">
+    <select type="text" id="area" class="form-control" asp-for="@Model.PositionId">
         <option value="" disabled selected>Выберите должность</option>
         @foreach (var position in Model.Positions)
         {

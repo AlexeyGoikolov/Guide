@@ -32,13 +32,19 @@
             <section class="tile">
                 <form class="create-form" asp-action="AddForPosition" asp-controller="IssuesManage" asp-area="Admin" method="post"
                       enctype="multipart/form-data">
-                    <div id="position-row" class="form-group" style="justify-content: center; width: 600px;"></div>
+                    <div class="row">
+                    <div id="position-row" class="form-group col-8" style="justify-content: center; width: 600px;"></div>
+                        <div class="pull-right col-4">
+                           <a class="btn btn-primary " onclick="issues()" > Задачи, уже выбранные для этой должности</a>
+                        </div>
+                    </div>
                     <!-- tile header -->
                     <div class="tile-header dvd dvd-btm">
                         <h1 class="custom-font">
                             <strong>Для назначения Задачи : выберите ее из списка :</strong>
                         </h1>
                     </div>
+
                     <!-- /tile header -->
                     <!-- tile body -->
                     <div class="tile-body" style="display: block">
@@ -109,5 +115,19 @@
                        });
                        
                    });
+                    function issues() {
+                              let  id = $('#area').val();
+                              $('#position').val(id);
+                               $.ajax({
+                                   url: '@Url.Action("IndexPosition", "IssuesManage")',
+                                   type: 'POST',
+                                   data: { 
+                                       'id': id,
+                                      
+                                    },
+                                   
+                                    });   
+                           }        
+                
        </script>
 }

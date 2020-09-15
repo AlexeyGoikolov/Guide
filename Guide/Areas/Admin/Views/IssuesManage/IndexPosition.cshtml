@@ -1,0 +1,132 @@
+﻿@model PositionIssueViewModel
+
+@{
+    ViewBag.Title = "Задачи";
+    Layout = "_Layout";
+}
+
+<div class="page page-tables-datatables">
+
+    <div class="pageheader">
+        <h2>@ViewBag.Title</h2>
+        <div class="page-bar">
+            <ul class="page-breadcrumb">
+                <li>
+                    <a asp-action="Details" asp-controller="Account" asp-area=""><i class="fa fa-home"></i> Guide</a>
+                </li>
+                <li>
+                    <a asp-action="AddForPosition" asp-controller="IssuesManage" >Добавление Задач к Должности</a>
+                </li>
+                <li>
+                    <a asp-action="Index" asp-controller="IssuesManage">Задачи для должности</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- row -->
+    <div class="row">
+        <!-- col -->
+        <div class="col-md-12">
+            <!-- tile -->
+            <section class="tile">
+                <!-- tile header -->
+                <div class="tile-header dvd dvd-btm">
+                    <h1 class="custom-font">
+                        <strong>Список задач для Должности @Model.Position.Name</strong>
+                    </h1>
+                  
+                </div>
+                <!-- /tile header -->
+
+                <!-- tile body -->
+                <div class="tile-body" style="display: block">
+                    <div class="table-responsive">
+                        <table class="table table-custom" id="editable-usage">
+                            <thead>
+                            <tr>
+                                <th>Название</th>
+                              <th style="width: 160px;" class="no-sort">Удалить связь с Должностью </th>
+                            </tr>
+                            </thead>
+                        <tbody>
+                        @if (@Model.Issues.Count !=0){
+                            int i = 0;
+                            @foreach (var issue in Model.Issues)
+                            {
+                                i++;
+                                <div id="desRes-@i">
+                                    <tr class="odd gradeX">
+                                    <td>
+                                <a asp-action="Details" asp-controller="IssuesManage" asp-route-id="@issue.Id" asp-route-back="Просмотр Задач у Должности">@issue.Name</a>
+                            </td>
+
+                            <td >
+                                <a class="btn btn-rounded-20 btn-default btn-sm mr-5 p-5" style="width:30px;" role="button" tabindex="0"
+                                   title="Удалить желаемый результат" onclick="openDelete('@i','@issue.Id','@Model.PositionId')">
+                                    <i class="fa fa-trash"></i>
+                                </a>
+                            </td>
+                        <div id="confirmDesResDelete-@i" style="display: none">
+                            <p>Вы действительно хотите удалить эту связь Задачи и Должности?</p>
+                            <button class="btn btn-small btn-danger" id="confirmDRDelete-@i">Да</button>
+                            <button class="btn btn-small btn-green" id="cancelDR-@i">Нет</button>
+                        </div>
+                        </div>
+                        }
+                       
+                        }
+                        </tbody>
+                            
+                        </table>
+                    </div>
+                </div>
+                <!-- /tile body -->
+            </section>
+            <!-- /tile -->
+            <!-- tile -->
+        </div>
+        <!-- /col -->
+    </div>
+    <!-- /row -->
+</div>      
+@section Scripts
+{
+    <script> 
+        $(window).load(function(){                                           
+            let oTable = $('#editable-usage').DataTable({
+                "aoColumnDefs": [
+                    { 'defaultContent': '-', 'bSortable': false, 'aTargets': [ "no_sort" ] }
+                ]
+            });                         
+        });
+          function openDelete(number,issueId, positionId) {
+                    $('#confirmDesResDelete-'+number).show();
+                    $('#confirmDRDelete-'+number).click(function(event) {
+                        event.preventDefault();
+                        deleteIssuePosition(number, issueId, positionId);
+                    });
+                    $('#cancelDR-'+number).click(function(event) {
+                        event.preventDefault();
+                        $('#confirmDesResDelete-'+number).hide();                
+                    });
+                }     
+          function deleteIssuePosition(number, issueId, positionId) {          
+                    $.ajax({
+                        url: '@Url.Action("DeleteIssuePosition", "IssuesManage", new{area="Admin"})',
+                        type: 'POST',
+                        data: 
+                        {
+                            'issueId': issueId,
+                            'positionId': positionId
+                        },
+                        success: function(data) {
+                            if (data === "true"){
+                                $("#desRes-"+number).remove();
+                            }
+                        }
+                    })
+                }            
+    </script>
+}
+
