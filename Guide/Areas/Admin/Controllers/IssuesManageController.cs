@@ -45,10 +45,10 @@ namespace Guide.Areas.Admin.Controllers
                 Issue issue1 = _db.Issues.FirstOrDefault(i => i.Name == issue.Name
                                                               && i.IssueDescription == issue.IssueDescription);
                 //переходит на добавление шага
-                if (choice == 2)
+                if (choice == 1 )
                     return RedirectToAction("AddSteps", "IssuesManage", new {id = issue1.Id, type = "create"});
                 // переходит на добавление ЖР
-                if (choice == 3)
+                if (choice == 2)
                    
                     return RedirectToAction("Create", "DesiredResult", new {issuesId = issue.Id});
             }
@@ -148,7 +148,7 @@ namespace Guide.Areas.Admin.Controllers
                     return RedirectToAction("AddSteps", "IssuesManage", new {id = issue.Id});
                 // переходит на редактирование списка ЖР
                 if (choice == 3)
-                    return RedirectToAction("Edit", "DesiredResult", new {issuesId = issue.Id});
+                    return RedirectToAction("Create", "DesiredResult", new {issuesId = issue.Id});
             }
             return RedirectToAction("Index");
         }
@@ -254,6 +254,10 @@ namespace Guide.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (model.PositionId == null || model.IssuesId == null)
+                {
+                     return RedirectToAction("ListUsers", "UsersManage");
+                }
                 foreach (var issueId in model.IssuesId)
                 {
                     PositionIssue positionIssue = new PositionIssue();
