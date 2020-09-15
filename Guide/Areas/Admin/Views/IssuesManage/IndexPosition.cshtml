@@ -33,7 +33,7 @@
                 <!-- tile header -->
                 <div class="tile-header dvd dvd-btm">
                     <h1 class="custom-font">
-                        <strong>Список задач для Должности @Model.Position.Name</strong>
+                        <strong>Список задач для Должности : <span style="color: #730974; font-style: italic;">@Model.Position.Name</span> </strong>
                     </h1>
                   
                 </div>
@@ -55,25 +55,25 @@
                             @foreach (var issue in Model.Issues)
                             {
                                 i++;
-                                <div id="desRes-@i">
-                                    <tr class="odd gradeX">
-                                    <td>
-                                <a asp-action="Details" asp-controller="IssuesManage" asp-route-id="@issue.Id" asp-route-back="Просмотр Задач у Должности">@issue.Name</a>
-                            </td>
+                                <div >
+                                    <tr id="desRes-@i" class="odd gradeX">
+                                    <td >
+                                        <a asp-action="Details" asp-controller="IssuesManage" asp-route-id="@issue.Id" asp-route-back="Просмотр Задач у Должности">@issue.Name</a>
+                                    </td>
 
-                            <td >
-                                <a class="btn btn-rounded-20 btn-default btn-sm mr-5 p-5" style="width:30px;" role="button" tabindex="0"
-                                   title="Удалить желаемый результат" onclick="openDelete('@i','@issue.Id','@Model.PositionId')">
-                                    <i class="fa fa-trash"></i>
-                                </a>
-                            </td>
-                        <div id="confirmDesResDelete-@i" style="display: none">
-                            <p>Вы действительно хотите удалить эту связь Задачи и Должности?</p>
-                            <button class="btn btn-small btn-danger" id="confirmDRDelete-@i">Да</button>
-                            <button class="btn btn-small btn-green" id="cancelDR-@i">Нет</button>
-                        </div>
-                        </div>
-                        }
+                                    <td >
+                                        <a class="btn btn-rounded-20 btn-default btn-sm mr-5 p-5" style="width:30px;" role="button" tabindex="0"
+                                           title="Удалить желаемый результат" onclick="openDelete('@i','@issue.Id','@Model.PositionId')">
+                                            <i class="fa fa-trash"></i>
+                                        </a>
+                                    </td>
+                                    <div id="confirmDesResDelete-@i" style="display: none">
+                                        <p>Вы действительно хотите удалить эту связь Задачи и Должности?</p>
+                                        <button class="btn btn-small btn-danger" id="confirmDRDelete-@i">Да</button>
+                                        <button class="btn btn-small btn-green" id="cancelDR-@i">Нет</button>
+                                    </div>
+                                </div>
+                            }
                        
                         }
                         </tbody>
@@ -123,6 +123,7 @@
                         success: function(data) {
                             if (data === "true"){
                                 $("#desRes-"+number).remove();
+                                 $('#confirmDesResDelete-'+number).hide(); 
                             }
                         }
                     })

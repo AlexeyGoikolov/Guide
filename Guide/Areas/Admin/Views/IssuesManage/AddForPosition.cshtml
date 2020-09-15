@@ -33,9 +33,9 @@
                 <form class="create-form" asp-action="AddForPosition" asp-controller="IssuesManage" asp-area="Admin" method="post"
                       enctype="multipart/form-data">
                     <div class="row">
-                    <div id="position-row" class="form-group col-8" style="justify-content: center; width: 600px;"></div>
+                        <div id="position-row" class="form-group col-8" style="justify-content: center; width: 600px;"></div>
                         <div class="pull-right col-4">
-                           <a class="btn btn-primary " onclick="issues()" > Задачи, уже выбранные для этой должности</a>
+                            <button type="submit" class="btn btn-primary">Задачи, уже выбранные для этой должности</button>
                         </div>
                     </div>
                     <!-- tile header -->
@@ -115,19 +115,6 @@
                        });
                        
                    });
-                    function issues() {
-                              let  id = $('#area').val();
-                              $('#position').val(id);
-                               $.ajax({
-                                   url: '@Url.Action("IndexPosition", "IssuesManage")',
-                                   type: 'POST',
-                                   data: { 
-                                       'id': id,
-                                      
-                                    },
                                    
-                                    });   
-                           }        
-                
        </script>
 }

@@ -76,7 +76,7 @@
                                                 <i class="fa fa-plus" aria-hidden="true"></i>
                                             </span>
 
-                                            <div id="step-@i" class="form-group" style="justify-content: left; "></div>
+                                            <div id="step-@issue.Id@i" class="form-group" style="justify-content: left; "></div>
                                         </h4>
                                     }
                                 }
@@ -99,11 +99,11 @@
                                                 </a>
                                             }
                                             @i . <a asp-action="Details" asp-controller="Issues" asp-route-id="@issue.Id">@issue.Name</a>
-                                            <span onclick="viewStep('@issue.Id')">
+                                            <span onclick="viewStep('@issue.Id','@i')">
                                                 <i class="fa fa-plus" aria-hidden="true"></i>
                                             </span>
 
-                                            <div id="step-@issue.Id" class="form-group" style="justify-content: left; "></div>
+                                            <div id="step-@issue.Id@i" class="form-group" style="justify-content: left; "></div>
                                         </h4>
                                     }
                                 }
@@ -196,7 +196,7 @@
                     type: 'GET',
                     data: { 'id': id },
                     success: function(data) {
-                         $("#step-"+number).html(data); 
+                         $("#step-"+id+number).html(data); 
                     },
                 }) ;
                 }

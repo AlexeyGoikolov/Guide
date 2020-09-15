@@ -267,9 +267,14 @@ namespace Guide.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (model.PositionId == null || model.IssuesId == null)
+                if (model.PositionId != null && model.IssuesId == null)
                 {
-                     return RedirectToAction("ListUsers", "UsersManage");
+                     return RedirectToAction("IndexPosition", "IssuesManage",new {id=model.PositionId});
+                }
+
+                if ( model.IssuesId == null)
+                {
+                    return RedirectToAction("ListUsers", "UsersManage");
                 }
                 foreach (var issueId in model.IssuesId)
                 {
@@ -280,7 +285,7 @@ namespace Guide.Areas.Admin.Controllers
                    _db.SaveChanges();
                 }
             }
-            return RedirectToAction("ListUsers", "UsersManage");
+            return RedirectToAction("IndexPosition", "IssuesManage",new {id=model.PositionId});
             
         }
     
