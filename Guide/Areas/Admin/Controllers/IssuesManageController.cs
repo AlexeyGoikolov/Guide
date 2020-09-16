@@ -363,5 +363,21 @@ namespace Guide.Areas.Admin.Controllers
             }
             return Json("false");
         }
+         public IActionResult DeleteIssueUser(int issueId, string userId)
+                {
+                    if (issueId != 0 && userId != null)
+                    {
+                        UserIssue model = _db.UserIssues.Where(i => i.IssueId == issueId).FirstOrDefault(i => i.UserId== userId);
+                        if (model != null)
+                        {
+                            _db.UserIssues.Remove(model);
+                            _db.SaveChanges();
+                            return Json("true");
+                        }
+                    }
+                    return Json("false");
+                }
+        
+        
     }
 }
