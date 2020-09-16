@@ -30,6 +30,7 @@ namespace Guide.Areas.Admin.Controllers
         public IActionResult Preview(int id)
         {
             Glossary glossary = _db.Glossaries.FirstOrDefault(g => g.Id == id);
+            
             return View(glossary);
         }
         
@@ -86,46 +87,52 @@ namespace Guide.Areas.Admin.Controllers
         public IActionResult Delete(int id, int intrId)
         {
             Glossary glossary = _db.Glossaries.FirstOrDefault(v => v.Id == id);
-            if (glossary != null && intrId == 0)
-            {
-                glossary.Active = false;
-                _db.Glossaries.Update(glossary);
-                List<Interpretation> interpretations =
-                    _db.Interpretations.Where(i => i.GlossaryId == glossary.Id).ToList();
-                foreach (var interpretationVar in interpretations)
-                {
-                    interpretationVar.Active = false;
-                }
-
-                _db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-
-            Interpretation interpretation = _db.Interpretations.FirstOrDefault(i => i.Id == intrId);
-            if (glossary != null && interpretation != null)
-            {
-                interpretation.Active = false;
-                _db.Interpretations.Update(interpretation);
-                _db.SaveChanges();
-                return View("~/Areas/Admin/Views/GlossarysManage/Preview.cshtml", _db.Glossaries.FirstOrDefault(g => g.Id == id));
-            }
+           if (glossary != null)
+                return View(glossary);
+           return NotFound();
+        }
+        public IActionResult DeleteInterpretation( int intrId, int modelId)
+        {
+           Interpretation interpretation = _db.Interpretations.FirstOrDefault(i => i.Id == intrId);
+            if (interpretation!= null)
+                return View(interpretation);
             return NotFound();
         }
         
         [HttpPost]
         [ActionName("Delete")]
-        public IActionResult ConfirmDelete(int id)
+        public IActionResult ConfirmDelete(int id,int intrId)
         {
             if (id != 0)
             {
                 Glossary glossary = _db.Glossaries.FirstOrDefault(v => v.Id == id);
-                if (glossary != null)
+                if (glossary != null )
                 {
-                    _db.Glossaries.Remove(glossary);
+                    glossary.Active = false;
+                    _db.Glossaries.Update(glossary);
+                    List<Interpretation> interpretations =
+                        _db.Interpretations.Where(i => i.GlossaryId == glossary.Id).ToList();
+                    foreach (var interpretationVar in interpretations)
+                    {
+                       _db.Interpretations.Remove(interpretationVar);
+                    }
+
                     _db.SaveChanges();
+                    return RedirectToAction("Index", "GlossarysManage");
                 }
             }
-            return RedirectToAction("Index" , "GlossarysManage");
+
+            Interpretation interpretation = _db.Interpretations.FirstOrDefault(i => i.Id == intrId);
+            if (interpretation != null)
+            {
+                _db.Interpretations.Remove(interpretation);
+                _db.SaveChanges();
+                return View("~/Areas/Admin/Views/GlossarysManage/Preview.cshtml",
+                    _db.Glossaries.FirstOrDefault(g => g.Id == interpretation.GlossaryId));
+            }
+                return NotFound();
+          
+           
         }
 
         public IActionResult Edit(int id, int intrId)

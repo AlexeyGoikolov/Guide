@@ -7,8 +7,14 @@
 
 <div class="page">
     <h2>Вы уверены что хотите удалить ЖР :" @Model.Name "</h2>
-    <form asp-action="Delete" asp-controller="DesiredResult" asp-area="Admin" method="post" asp-route-id="@Model.Id">
-         <button type="submit" class="btn btn-danger" style="margin:  20px 0 0;">Подтвердить</button>
-       </form>
-    <a class="btn btn-info" asp-action="Index" asp-controller="DesiredResult" asp-area="Admin">Отменить</a>
+    <div>
+        <div style="display: inline-block">
+            <form asp-action="Delete" asp-controller="DesiredResult" asp-area="Admin" method="post" asp-route-id="@Model.Id">
+                <button class="btn btn-danger" type="submit">Подтвердить</button>
+            </form>
+        </div>
+        <div style="display: inline-block">
+            <a class="btn btn-info" asp-action="Index" asp-controller="DesiredResult" asp-area="Admin">Отменить</a>
+        </div>
+    </div>
 </div>

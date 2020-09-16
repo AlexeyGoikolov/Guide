@@ -28,35 +28,36 @@
         </div>
     </div>
     <div class="pt-3">
-         
+        
         @foreach (var interpretation in Model.Interpretations)
         {
-            if (interpretation.Active)
-            {
+           
                 <div class="tile time-simple">
+                   
                     @if (first)
                     {
                         <div class="tile-header dvd dvd-btm">
                             <h1 class="custom-font">
                                 @if (interpretation.Abbreviation != null)
                                 {
-                                    <strong>@Model.Name (Аббревиатура: @interpretation.Abbreviation)</strong>
+                                    <strong>@Model.Name ( @interpretation.Abbreviation)</strong>
                                 }
                                 else
                                 {
                                     <strong>@Model.Name</strong>
                                 }
-                                
+
                             </h1>
                             <ul class="controls">
                                 <li>
-                                    <a role="button" tabindex="0" target="_blank" asp-action="Create" asp-controller="GlossarysManage" asp-route-id="@Model.Id"><i class="fa fa-plus mr-5"></i>Добавить описание</a>
+                                    <a role="button" tabindex="0" target="_blank" asp-action="Create"
+                                       asp-controller="GlossarysManage" asp-route-id="@Model.Id"><i class="fa fa-plus mr-5"></i>Добавить описание</a>
                                 </li>
                                 <li>
-                                    <a role="button" tabindex="0" target="_blank" asp-action="Delete" asp-controller="GlossarysManage" asp-route-id="@Model.Id"><i class="fa fa-trash mr-5"></i>Удалить термин</a>
+                                    <a title="удалить термин" role="button" tabindex="0" target="_blank" asp-action="Delete" asp-controller="GlossarysManage" asp-route-id="@Model.Id"><i class="fa fa-trash mr-5"></i></a>
                                 </li>
                                 <li>
-                                    <a role="button" tabindex="0" target="_blank" asp-controller="GlossarysManage" asp-route-id="@Model.Id"><i class="fa fa-eye mr-5"></i>Вид пользователя</a>
+                                    <a title="вид пользователя" role="button" tabindex="0" target="_blank" asp-controller="GlossarysManage" asp-route-id="@Model.Id"><i class="fa fa-eye mr-5"></i></a>
                                 </li>
                             </ul>
                         </div>
@@ -68,10 +69,10 @@
                         <div style="display:flex; justify-content: space-between">
                             <p>Источник: @interpretation.Source</p>
                             <div>
-                                <a class="btn btn-rounded-20 btn-default btn-sm mr-5 p-5" style="width:30px;" role="button" tabindex="0" target="_blank"
-                                   title="Вид пользователя" asp-action="Edit" asp-controller="GlossarysManage" asp-route-id="@Model.Id" asp-route-intrId="@interpretation.Id"><i class="fa fa-pencil"></i></a>
-                                <a class="btn btn-rounded-20 btn-default btn-sm mr-5 p-5" style="width:30px;" role="button" tabindex="0" target="_blank"
-                                   title="Вид пользователя" asp-action="Delete" asp-controller="GlossarysManage" asp-route-id="@Model.Id" asp-route-intrId="@interpretation.Id"><i class="fa fa-trash"></i></a>
+                                <a class="btn btn-rounded-20 btn-default btn-sm mr-5 p-5" style="width:30px;" role="button" tabindex="0"
+                                   title="редактировать" asp-action="Edit" asp-controller="GlossarysManage" asp-route-id="@Model.Id" asp-route-intrId="@interpretation.Id"><i class="fa fa-pencil"></i></a>
+                                <a class="btn btn-rounded-20 btn-default btn-sm mr-5 p-5" style="width:30px;" role="button" tabindex="0"
+                                   title="удалить" asp-action="DeleteInterpretation" asp-controller="GlossarysManage" asp-route-modelId="@Model.Id" asp-route-intrId="@interpretation.Id"><i class="fa fa-trash"></i></a>
                             </div>
                         </div>
                     </div>
