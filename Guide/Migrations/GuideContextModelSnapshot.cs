@@ -251,6 +251,12 @@ namespace Guide.Migrations
                     b.Property<bool>("Active")
                         .HasColumnType("boolean");
 
+                    b.Property<int?>("GlossarysId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Language")
+                        .HasColumnType("integer");
+
                     b.Property<string>("Name")
                         .HasColumnType("text");
 

@@ -7,6 +7,7 @@ using Guide.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Language = Guide.ViewModels.Language;
 
 namespace Guide.Areas.Admin.Controllers
 {
@@ -33,8 +34,8 @@ namespace Guide.Areas.Admin.Controllers
             
             return View(glossary);
         }
-        
-        public IActionResult Create(int id)
+
+        public IActionResult Create(int id, int glossarysId)
         {
             Glossary glossary = _db.Glossaries.FirstOrDefault(g => g.Id == id);
             if (glossary != null)
@@ -42,12 +43,20 @@ namespace Guide.Areas.Admin.Controllers
                 return View(new GlossaryViewModel() {Id = id, Name = glossary.Name, Action = "AddInterpretation"});
             }
 
-            return View(new GlossaryViewModel());
+            GlossaryViewModel model = new GlossaryViewModel();
+            if (glossarysId != 0)
+            {
+                model.GlossarysId = glossarysId;
+                model.Language = Language.en;
+                model.Glossary =_db.Glossaries.FirstOrDefault(g => g.Id == glossarysId);
+            }
+
+            return View(model);
         }
         
         [HttpPost]
         public IActionResult Create(GlossaryViewModel model)
-        {
+        {//расписать все поля, сделать просмотр в списке на двух языках
             if (ModelState.IsValid )
             {
                 Glossary glossary = _db.Glossaries.FirstOrDefault(g => g.Name == model.Name && g.Active==true);

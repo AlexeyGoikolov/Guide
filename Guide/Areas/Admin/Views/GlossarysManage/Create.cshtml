@@ -1,7 +1,8 @@
-﻿@model GlossaryViewModel
+﻿@using Language = Guide.ViewModels.Language
+@model GlossaryViewModel
 
 @{
-    ViewBag.Title = "Добавить термин с описанием";
+    ViewBag.Title = "Добавить термин с описанием ";
     Layout = "_Layout";
 }
 <div class="page page-ui-portlets">
@@ -12,7 +13,12 @@
         }
         else
         {
-            <h2>@ViewBag.Title</h2>
+            <h2>@ViewBag.Title
+                @if (@Model.Language == Language.en)
+                {
+                    <h2 style="color: #647412"> : на английском языке </h2>
+                }</h2>
+            <h3>Для термина : @Model.Glossary.Name</h3>
         }
         <div class="page-bar">
             @if (Model.Action=="AddInterpretation")
@@ -56,6 +62,8 @@
             <form class="create-form" asp-action="Create" asp-controller="GlossarysManage" asp-area="Admin" method="post" enctype="multipart/form-data" asp-antiforgery="true">
                 @{ Html.RenderPartial("PartialViews/Glossary", Model); }
                 <input type="hidden" value="@Model.Id" asp-for="Id">
+                <input type="hidden" value="@Model.Language" asp-for="@Model.Language">
+                <input type="hidden" value="@Model.GlossarysId" asp-for="@Model.GlossarysId">
             </form>
         </div>
     </div>
