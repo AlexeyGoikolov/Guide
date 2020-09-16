@@ -18,7 +18,7 @@
 
         @if (User.IsInRole("admin"))
         {
-            <h1 style="color: #4b0d5f">Должность @Model.User.Name @Model.User.Surname: @Model.User.Position.Name</h1>
+            <h1 style="color: #4b0d5f"> @Model.User.Name @Model.User.Surname: @Model.User.Position.Name</h1>
         }
         else
         {
@@ -90,19 +90,24 @@
                                     {
                                         i++;
                                         <h4>
-                                            @if (User.IsInRole("admin"))
-                                            {
-                                                <a class="btn btn-rounded-20 btn-default btn-sm mr-5 p-5" style="width:30px;" role="button" tabindex="0"
-                                                   title="Удалить" asp-action="Delete"
-                                                   asp-controller="IssuesManage" asp-route-id="@issue.Id">
-                                                    <i class="fa fa-trash"></i>
-                                                </a>
-                                            }
-                                            @i . <a asp-action="Details" asp-controller="Issues" asp-route-id="@issue.Id">@issue.Name</a>
-                                            <span onclick="viewStep('@issue.Id','@i')">
-                                                <i class="fa fa-plus" aria-hidden="true"></i>
-                                            </span>
-
+                                            <div id="desRes-@i">
+                                                @if (User.IsInRole("admin"))
+                                                {
+                                                    <a class="btn btn-rounded-20 btn-default btn-sm mr-5 p-5" style="width:30px;" role="button" tabindex="0"
+                                                       title="Удалить " onclick="openDelete('@i','@issue.Id','@Model.User.Id')">
+                                                        <i class="fa fa-trash"></i>
+                                                    </a>
+                                                }
+                                                @i . <a asp-action="Details" asp-controller="Issues" asp-route-id="@issue.Id">@issue.Name</a>
+                                                <span onclick="viewStep('@issue.Id','@i')">
+                                                    <i class="fa fa-plus" aria-hidden="true"></i>
+                                                </span>
+                                            </div>
+                                            <div id="confirmDesResDelete-@i" style="display: none">
+                                                <p>Вы действительно хотите удалить эту Задачу для сотрудника</p>
+                                                <button class="btn btn-small btn-danger" id="confirmDRDelete-@i">Да</button>
+                                                <button class="btn btn-small btn-green" id="cancelDR-@i">Нет</button>
+                                            </div>
                                             <div id="step-@issue.Id@i" class="form-group" style="justify-content: left; "></div>
                                         </h4>
                                     }
@@ -163,7 +168,7 @@
 
 @section Scripts
 {
-  <script>
+    <script>
    CKEDITOR.replace('Task', {
          // Define the toolbar groups as it is a more accessible solution.
          toolbarGroups: [{
@@ -200,6 +205,34 @@
                     },
                 }) ;
                 }
+                 function openDelete(number,issueId, userId) {
+                                    $('#confirmDesResDelete-'+number).show();
+                                    $('#confirmDRDelete-'+number).click(function(event) {
+                                        event.preventDefault();
+                                       deleteIssueUser(number, issueId,userId );
+                                    });
+                                    $('#cancelDR-'+number).click(function(event) {
+                                        event.preventDefault();
+                                        $('#confirmDesResDelete-'+number).hide();                
+                                    });
+                                }     
+                          function deleteIssueUser(number, issueId, userId) {          
+                                    $.ajax({
+                                        url: '@Url.Action("DeleteIssueUser", "IssuesManage", new {area = "Admin"})',
+                                        type: 'POST',
+                                        data: 
+                                        {
+                                            'issueId': issueId,
+                                            'userId': userId
+                                        },
+                                        success: function(data) {
+                                            if (data === "true"){
+                                                 $("#desRes-"+number).remove();
+                                                 $('#confirmDesResDelete-'+number).hide();   
+                                            }
+                                        }
+                                    })
+                                }            
     </script>
     
 }

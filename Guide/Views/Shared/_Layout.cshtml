@@ -201,23 +201,34 @@
                                     {
                                         <ul id="navigation">
                                             <li>
-                                                <a asp-controller="SourceManage" asp-action="Index" asp-area="Admin"><i class="fa fa-tasks"></i>Библиотека</a>
+                                                <a asp-controller="SourceManage" asp-action="Index" asp-area="Admin"><i class="fa fa-book"></i>Библиотека</a>
                                             </li>
                                             <li>
-                                                <a asp-controller="BusinessProcessManage" asp-action="Index" asp-area="Admin"><i class="fa fa-tasks"></i>Бизнес-процессы</a>
+                                                <a asp-controller="BusinessProcessManage" asp-action="Index" asp-area="Admin"><i class="fa fa-database"></i>Бизнес-процессы</a>
                                             </li>
                                             <li>
-                                                <a asp-controller="IssuesManage" asp-action="Index" asp-area="Admin"><i class="fa fa-tasks"></i>Задачи</a>
+                                                <a>
+                                                    <i class="fa fa-tasks"></i>
+                                                    <span>Задачи</span>
+                                                </a>
+                                                <ul>
+                                                    <li>
+                                                        <a asp-controller="IssuesManage" asp-action="Index" asp-area="Admin"><i class="fa fa-caret-right"></i>Список</a>
+
+                                                    </li>
+                                                    <li>
+                                                        <a asp-controller="IssuesManage" asp-action="AddForPosition" asp-area="Admin"><i class="fa fa-plus-circle"></i>Добавить к  Должности</a>
+                                                    </li>
+                                                </ul>
+
                                             </li>
                                             <li>
-                                                <a asp-controller="StepsManage" asp-action="Index" asp-area="Admin"><i class="fa fa-tasks"></i>Шаги</a>
+                                                <a asp-controller="StepsManage" asp-action="Index" asp-area="Admin"><i class="fa fa-pie-chart"></i>Шаги</a>
                                             </li>
                                             <li>
-                                                <a asp-controller="DesiredResult" asp-action="Index" asp-area="Admin"><i class="fa fa-tasks"></i>Желаемые результаты</a>
-                                            </li>
-<li>
-                                                <a asp-controller="IssuesManage" asp-action="AddForPosition" asp-area="Admin"><i class="fa fa-tasks"></i>Задачи к должности</a>
-                                            </li>
+                                                <a asp-controller="DesiredResult" asp-action="Index" asp-area="Admin"><i class="fa fa-file-text-o"></i>Желаемые результаты</a>
+                                            </li>                                             
+                                            
                                             <li>
                                                  <a>
                                                   <i class="fa fa-puzzle-piece"></i>
