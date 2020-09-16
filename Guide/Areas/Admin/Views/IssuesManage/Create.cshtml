@@ -30,22 +30,9 @@
             <form class="create-form" asp-action="Create" asp-controller="IssuesManage" asp-area="Admin" method="post" enctype="multipart/form-data">
                 <div asp-validation-summary="ModelOnly"></div>
                 @{ Html.RenderPartial("PartialViews/IssueCreateEditPartial", Model); }
-                <div class="row">
-                   
-                        <div class="col-sm-2">
-                            <h5>Выберите действие из списка :</h5>
-                        </div>
-                     <div class="col-sm-6">    
-                        <select name="choice" style="width: 100%">
-                            <option type="submit" value="1">Сохранить и добавлять Шаги</option>
-                          <option type="submit" value="2">Сохранить и добавить ЖР</option>
-                        </select>
-                    </div>
-                    <div>
-                        <div class="col-sm-4" >
-                            <button type="submit" class="btn btn-info fade-out-left-lg" >Исполнить</button>
-                        </div>
-                    </div>
+                <div class="">
+                    <button style="width: 49.5%" type="submit" name="choice" value="1" class="btn btn-info fade-out-left-lg">Сохранить и перейти к добавлению шагов</button>
+                    <button style="width: 50%" type="submit" name="choice" value="2" class="btn btn-info fade-out-left-lg">Сохранить и перейти к добавлению ЖР</button>
                 </div>
                
                 

@@ -31,8 +31,8 @@
                 <div asp-validation-summary="ModelOnly"></div>
                 @{ Html.RenderPartial("PartialViews/BusinessProcessCreateEditPartial", Model); }
                 <div class="text-center" style="width: 100%">
-                    <button type="submit" class="btn btn-info" style="width: 49%;">Создать</button>
-                    <button type="submit" class="btn btn-info" style="width: 49%;">Добавить задачи</button>
+                    <button type="submit" name="choice" value="1" class="btn btn-info" style="width: 49%;">Сохранить и выйти</button>
+                    <button type="submit" name="choice" value="2" class="btn btn-info" style="width: 49%;">Сохранить и перейти к добавлению задач</button>
                 </div>
 
 

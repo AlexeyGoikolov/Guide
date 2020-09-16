@@ -44,7 +44,7 @@
             <div class="tile-body" data-issue="@Model.Issue.Id">
                 <div class="row">
                     <div class="col-md-7">
-                        <a class="btn btn-info btn-save" style="width: 100%" href="#">Сохранить</a>
+                        <a class="btn btn-info btn-save" style="width: 100%" href="#">Сохранить и перейти к списку задач</a>
                     </div>
                     <div class="col-md-5" style="height: 70px; float: right;">
                         <div style="border: 1px dashed #aaa; text-align: center; height: 80%;">
@@ -93,14 +93,14 @@
                         </div>
                         <div>
                             <a asp-action="Create" asp-controller="DesiredResult" asp-area="Admin" asp-route-issuesId="@Model.Issue.Id" 
-                               class="btn btn-info mt-20" style="width: 100%" target="_blank">Добавить ЖР</a>
+                               class="btn btn-info mt-20" style="width: 100%" target="_blank">Сохранить и перейти к добавлению ЖР</a>
                             <a asp-action="Create" asp-controller="StepsManage" asp-area="Admin" 
                                                            class="btn btn-info mt-20" style="width: 100%" target="_blank">Создать новый шаг</a>
                         </div>
                     </div>
                 </div>
                 <div class="text-center">
-                    <a class="btn btn-info mt-20 btn-save" style="width: 100%" href="#">Сохранить</a>
+                    <a class="btn btn-info mt-20 btn-save" style="width: 100%" href="#">Сохранить и перейти к списку задач</a>
                 </div>
                 
             </div>

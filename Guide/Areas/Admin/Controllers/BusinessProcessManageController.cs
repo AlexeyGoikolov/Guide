@@ -32,12 +32,15 @@ namespace Guide.Areas.Admin.Controllers
         }
         
         [HttpPost]
-        public IActionResult Create(BusinessProcess model)
+        public IActionResult Create(BusinessProcess model, int choice)
         {
             if (ModelState.IsValid)
             {
                 _db.BusinessProcesses.Add(model);
                 _db.SaveChanges();
+                if (choice == 1)
+                    return RedirectToAction("Index");
+                
                 BusinessProcess business = _db.BusinessProcesses.FirstOrDefault(b => b.Name == model.Name 
                                                                                      && b.Description == model.Description);
                 return RedirectToAction("AddIssues", "BusinessProcessManage", new {id = business.Id, type = "create"});
@@ -70,12 +73,14 @@ namespace Guide.Areas.Admin.Controllers
         }
         
         [HttpPost]
-        public IActionResult Edit(BusinessProcess model)
+        public IActionResult Edit(BusinessProcess model, int choice)
         {
             if (ModelState.IsValid)
             {
                 _db.BusinessProcesses.Update(model);
                 _db.SaveChanges();
+                if (choice == 1)
+                    return RedirectToAction("Index");
                 return RedirectToAction("AddIssues", "BusinessProcessManage", new {id = model.Id});;
             }
 

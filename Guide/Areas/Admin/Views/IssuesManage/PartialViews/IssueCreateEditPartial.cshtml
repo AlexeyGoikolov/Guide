@@ -7,12 +7,12 @@
             <!-- tile body -->
             <div class="tile-body">
                 <div >
-                    <label>Заголовок</label>
+                    <label>Название</label>
                     <br/><span class="validationError" asp-validation-for="@Model.Name"></span>
                     <input class="form-control" type="text" asp-for="@Model.Name" value="@Model.Name">
                 </div>
                 <div>
-                    <label>Содержание</label>
+                    <label>Описание</label>
                     <textarea name="issueDescription" type="text" asp-for="@Model.IssueDescription">@Model.IssueDescription</textarea>
                 </div>
                 

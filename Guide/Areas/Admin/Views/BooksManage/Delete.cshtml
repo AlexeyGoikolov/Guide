@@ -1,13 +1,27 @@
 ﻿@model Book
 
 @{
-    ViewBag.Title = "Удаление";
+    ViewBag.Title = "Удаление книги";
     Layout = "_Layout";
 }
 <div class="page page-tables-datatables">
- 
-    <div class="page">
-        <h2>Вы уверены что хотите удалить  - @Model.Name</h2>
+
+    <div class="pageheader">
+        <h2>@ViewBag.Title</h2>
+        <div class="page-bar">
+            <ul class="page-breadcrumb">
+                <li>
+                    <a asp-action="Details" asp-controller="Account" asp-area=""><i class="fa fa-home"></i> Guide</a>
+                </li>
+                <li>
+                    <a asp-action="Index" asp-controller="SourceManage"> Библиотека</a>
+                </li>
+                <li>
+                    <a asp-action="Delete" asp-controller="BooksManage" asp-route-id="@Model.Id">Удаление источника</a>
+                </li>
+            </ul>
+        </div>
+        <h2>Вы уверены что хотите удалить книгу - @Model.Name</h2>
         <div>
             <div style="display: inline-block">
                 <form asp-action="Delete" asp-controller="BooksManage" asp-area="Admin" method="post" asp-route-id="@Model.Id">

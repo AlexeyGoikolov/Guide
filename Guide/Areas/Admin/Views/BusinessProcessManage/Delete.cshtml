@@ -24,17 +24,16 @@
         </div>
     </div>
 
-    <div class="page">
-        <h2>Вы уверены что хотите удалить бизнес-процесс - @Model.Name</h2>
-        <div>
-            <div style="display: inline-block">
-                <form asp-action="Delete" asp-controller="BusinessProcessManage" asp-area="Admin" method="post" asp-route-id="@Model.Id">
-                    <button class="btn btn-danger" type="submit">Подтвердить</button>
-                </form>
-            </div>
-            <div style="display: inline-block">
-                <a class="btn btn-info" asp-action="Index" asp-controller="BusinessProcessManage" asp-area="Admin">Отменить</a>
-            </div>
+    <h2>Вы уверены что хотите удалить бизнес-процесс - @Model.Name</h2>
+    <div>
+        <div style="display: inline-block">
+            <form asp-action="Delete" asp-controller="BusinessProcessManage" asp-area="Admin" method="post" asp-route-id="@Model.Id">
+                <button class="btn btn-danger" type="submit">Подтвердить</button>
+            </form>
+        </div>
+        <div style="display: inline-block">
+            <a class="btn btn-info" asp-action="Index" asp-controller="BusinessProcessManage" asp-area="Admin">Отменить</a>
         </div>
     </div>
+
 </div>

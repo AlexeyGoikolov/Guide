@@ -31,8 +31,8 @@
                 <div asp-validation-summary="ModelOnly"></div>
                 @{ Html.RenderPartial("PartialViews/BusinessProcessCreateEditPartial", Model); }
                 <div class="text-center" style="width: 100%">
-                    <button type="submit" class="btn btn-info" style="width: 49%">Редактировать</button>
-                    <button type="submit" class="btn btn-info" style="width: 49%">Изменить задачи</button>
+                    <button type="submit" name="choice" value="1" class="btn btn-info" style="width: 49%">Сохранить и выйти из редактирования</button>
+                    <button type="submit" name="choice" value="2" class="btn btn-info" style="width: 49%">Сохранить и перейти к изменению задач</button>
                 </div>
 
             </form>
@@ -44,6 +44,6 @@
 @section Scripts
 {
     <script>
-        CKEDITOR.replace('BPDescription');
+        CKEDITOR.replace('Description');
     </script>
 }

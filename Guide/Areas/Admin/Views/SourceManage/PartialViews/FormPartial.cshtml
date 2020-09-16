@@ -8,12 +8,12 @@
             <!-- tile body -->
             <div class="tile-body">
                 <div >
-                    <label>Заголовок</label>
+                    <label>Название</label>
                     <br/><span class="validationError" asp-validation-for="Title"></span>
                     <input class="form-control" type="text" asp-for="Title" value="@Model.Title">
                 </div>
-                <div>
-                    <label>Содержание</label>
+                <div class="mt-20">
+                    <label>Описание</label>
                     <textarea  name="textContent" type="text" asp-for="TextContent" value="@Model.TextContent"></textarea>
                 </div>
             </div>

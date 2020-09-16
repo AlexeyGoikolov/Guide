@@ -116,25 +116,11 @@
                         <!-- /tile body -->
                     </section>
                 </div>
-
-
-                <div class="row">
-                    <div class="col-sm-2">
-                        <h4>Выберите действие из списка :</h4>
-                    </div>
-                    <div class="col-sm-6">
-                        <select name="choice" style="width: 100%">
-                            <option type="submit" value="1">Сохранить изменения</option>
-                            <option type="submit" value="2">Добавить Шаги</option>
-                            <option type="submit" value="3">Добавить ЖР</option>
-                        </select>
-                    </div>
-                    <div>
-                        <div class="col-sm-4">
-                            <input type="hidden" asp-for="Issue.Id" value="@Model.Issue.Id">
-                            <button type="submit" class="btn btn-info fade-out-left-lg">Исполнить</button>
-                        </div>
-                    </div>
+                <div>
+                    <input type="hidden" asp-for="Issue.Id" value="@Model.Issue.Id">
+                    <button style="width: 49.5%" type="submit" name="choice" value="2" class="btn btn-info fade-out-left-lg">Сохранить и перейти к добавлению шагов</button>
+                    <button style="width: 50%" type="submit" name="choice" value="3" class="btn btn-info fade-out-left-lg">Сохранить и перейти к добавлению ЖР</button>
+                    <button style="width: 100%; margin-top: 10px" type="submit" name="choice" value="1" class="btn btn-info fade-out-left-lg">Сохранить изменения и выйти</button>
                 </div>
             </form>
         </div>

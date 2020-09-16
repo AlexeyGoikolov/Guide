@@ -1,14 +1,40 @@
 ﻿@model DesiredResult
 
 @{
-    ViewBag.Title = "Подтверждение удаления";
+    ViewBag.Title = "Удаление ЖР";
     Layout = "_Layout";
 }
 
-<div class="page">
-    <h2>Вы уверены что хотите удалить ЖР :" @Model.Name "</h2>
-    <form asp-action="Delete" asp-controller="DesiredResult" asp-area="Admin" method="post" asp-route-id="@Model.Id">
-         <button type="submit" class="btn btn-danger" style="margin:  20px 0 0;">Подтвердить</button>
-       </form>
-    <a class="btn btn-info" asp-action="Index" asp-controller="DesiredResult" asp-area="Admin">Отменить</a>
+<div class="page page-tables-datatables">
+
+    <div class="pageheader">
+        <h2>@ViewBag.Title</h2>
+        <div class="page-bar">
+            <ul class="page-breadcrumb">
+                <li>
+                    <a asp-action="Details" asp-controller="Account" asp-area=""><i class="fa fa-home"></i> Guide</a>
+                </li>
+                <li>
+                    <a asp-action="Index" asp-controller="DesiredResult"> Желаемые результаты</a>
+                </li>
+                <li>
+                    <a asp-action="Delete" asp-controller="DesiredResult" asp-route-id="@Model.Id"> Удаление Желаемого Результата</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+
+    <h2>Вы уверены что хотите удалить ЖР - @Model.Name</h2>
+    <div>
+        <div style="display: inline-block">
+            <form asp-action="Delete" asp-controller="DesiredResult" asp-area="Admin" method="post" asp-route-id="@Model.Id">
+                <button class="btn btn-danger" type="submit">Подтвердить</button>
+            </form>
+        </div>
+        <div style="display: inline-block">
+            <a class="btn btn-info" asp-action="Index" asp-controller="DesiredResult" asp-area="Admin">Отменить</a>
+        </div>
+    </div>
 </div>
+

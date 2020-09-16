@@ -2,52 +2,40 @@
 
 
 <div class="row">
-    <div class="col-sm-8 portlets sortable">
-        <section class="tile portlet col - 9">
+    <div class="portlets sortable">
+        <section class="tile portlet">
 
             <!-- tile body -->
             <div class="tile-body">
                 <div >
-                    <label>Заголовок</label>
+                    <label>Название</label>
                     <br/><span class="validationError" asp-validation-for="Name"></span>
                     <input class="form-control" type="text" asp-for="Name" value="@Model.Name">
                 </div>
                 <div>
-                    <label>Содержание</label>
+                    <label>Описание</label>
                     <textarea name="stepDescription" type="text" asp-for="StepDescription" value="@Model.StepDescription">@Model.StepDescription</textarea>
                 </div>
             </div>
-            <!-- /tile body -->
-        </section>
-    </div>
-    <div class="col-sm-4 portlets sortable">
-        <section class="tile portlet col - 3">
-            <!-- tile body -->
-            <div class="tile-body">
-                <div>
-                    <label>Автор</label>
-                    <br/><span class="validationError" asp-validation-for="Author"></span>
-                    <input class="form-control" type="text" asp-for="Author" value="@Model.Author">
-                    
-                    @if (Model.Id == 0)
-                    {
-                        <button type="submit" class="btn btn-info mt-10" style=" width: 100%;">Создать и добавить ЖР</button> 
-                    }
-                    else
-                    {
-                        <a asp-action="Create" asp-controller="DesiredResult" asp-route-stepId="@Model.Id"  type="submit" class="btn btn-cyan mt-10" style=" width: 100%;">Добавить ЖР</a> 
-                        <button type="submit" class="btn btn-info mt-10" style=" width: 100%;">Редактировать</button>
-                    }
-                    
-                </div>
-                
-            </div>
+
             
             <!-- /tile body -->
-
         </section>
     </div>
+    @if (Model.Id == 0)
+    {
+        <button style="width: 49.5%" type="submit" name="choice" value="2" class="btn btn-info">Сохранить и перейти к добавлению ЖР</button>
+        <button style="width: 50%" type="submit" name="choice" value="1" class="btn btn-info">Сохранить и выйти</button>
+    }
+    else
+    {
+        <button style="width: 49.5%" type="submit" name="choice" value="1" class="btn btn-info">Сохранить изменения и выйти</button>
+        <button style="width: 50%" type="submit" name="choice" value="2" class="btn btn-info">Сохранить и перейти к изменению ЖР</button>
+    }
 </div>
+
+                
+
 <div style="text-align: center">
     <span class="validationError">@Html.ValidationMessage("CustomError")</span>
 </div>

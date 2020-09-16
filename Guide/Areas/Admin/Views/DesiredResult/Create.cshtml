@@ -74,7 +74,19 @@
                            </table>
                             <input type="hidden" value="@Model.IssueId" asp-for="@Model.IssueId">
                             <input type="hidden" value="@Model.StepId" asp-for="@Model.StepId">
-                           <button type="submit" class="btn btn-info" style="margin:  20px 0 0;">Добавить</button>
+                            @if (Model.IssueId == 0 && Model.StepId != 0)
+                            {
+                                <button type="submit" class="btn btn-info" style="margin:  20px 0 0;">Добавить ЖР к шагу и выйти</button>
+                            }
+                            else if (Model.IssueId != 0 && Model.StepId == 0)
+                            {
+                                <button type="submit" class="btn btn-info" style="margin:  20px 0 0;">Добавить ЖР к задаче и выйти</button>
+                            }
+                            else
+                            {
+                                <button type="submit" class="btn btn-info" style="margin:  20px 0 0;">Добавить новый ЖР и выйти</button>
+                            }
+                           
                        </div>
                    </div>
                    </form>

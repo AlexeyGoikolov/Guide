@@ -33,12 +33,14 @@ namespace Guide.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(Step step)
+        public IActionResult Create(Step step, int choice)
         {
             if (ModelState.IsValid)
             {
                 _db.Steps.Add(step);
                 _db.SaveChanges();
+                if (choice == 1)
+                    return RedirectToAction("Details", "StepsManage", new {area = "Admin", step.Id});
                 return RedirectToAction("Create", "DesiredResult", new {stepId = step.Id});
             }
 
@@ -68,13 +70,15 @@ namespace Guide.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit(Step step)
+        public IActionResult Edit(Step step, int choice)
         {
             if (ModelState.IsValid)
             {
                 _db.Steps.Update(step);
                 _db.SaveChanges();
-                return RedirectToAction("Details", "StepsManage", new {area = "Admin", step.Id});
+                if (choice == 1)
+                    return RedirectToAction("Details", "StepsManage", new {area = "Admin", step.Id});
+                return RedirectToAction("Create", "DesiredResult", new {area = "Admin", stepId = step.Id});
             }
 
             return View(step);

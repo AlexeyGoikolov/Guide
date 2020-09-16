@@ -1,13 +1,32 @@
 ﻿@model Post
 
 @{
-    ViewBag.Title = "Удаление";
+    ViewBag.Title = "Удаление источника";
     Layout = "_Layout";
 }
+
 <div class="page page-tables-datatables">
+
+    <div class="pageheader">
+        <h2>@ViewBag.Title</h2>
+        <div class="page-bar">
+            <ul class="page-breadcrumb">
+                <li>
+                    <a asp-action="Details" asp-controller="Account" asp-area=""><i class="fa fa-home"></i> Guide</a>
+                </li>
+                <li>
+                    <a asp-action="Index" asp-controller="SourceManage"> Библиотека</a>
+                </li>
+                <li>
+                    <a asp-action="Delete" asp-controller="SourceManage" asp-route-id="@Model.Id">Удаление источника</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
    
-    <div class="page">
-        <h2>Вы уверены что хотите удалить  - @Model.Title</h2>
+
+        <h2>Вы уверены что хотите удалить источник - @Model.Title</h2>
         <div>
             <div style="display: inline-block">
                 <form asp-action="Delete" asp-controller="SourceManage" asp-area="Admin" method="post" asp-route-id="@Model.Id">
@@ -19,4 +38,3 @@
             </div>
         </div>
     </div>
-</div>

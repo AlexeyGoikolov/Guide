@@ -26,15 +26,13 @@
             </ul>
         </div>
     </div>
-    <div class="row">
-        <div class="tile-body">
-            <form class="create-form" asp-action="Create" asp-controller="StepsManage" method="post" enctype="multipart/form-data">
-                <div asp-validation-summary="ModelOnly"></div>
-                @{ await Html.RenderPartialAsync("PartialViews/StepCreateEditPartial", Model); }
-            </form>
-        </div>
-
+    <div class="tile-body">
+        <form class="create-form" asp-action="Create" asp-controller="StepsManage" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly"></div>
+            @{ await Html.RenderPartialAsync("PartialViews/StepCreateEditPartial", Model); }
+        </form>
     </div>
+    
 </div>
 
 @section Scripts

@@ -22,12 +22,16 @@
                 </div>
                 <div >
                     <label>Год издания</label>
-                         <br/><span class="validationError" asp-validation-for="YearOfWriting"></span>
+                    <br/><span class="validationError" asp-validation-for="YearOfWriting"></span>
                     <input placeholder="0000" class="form-control" type="text" asp-for="YearOfWriting" value="@Model.YearOfWriting">
-               
+
+                </div>
+                <div class="col">
+                    <span>Обложка</span>
+                    <input class="btn" style="padding: 6px 0" type="file" asp-for="CoverPath">
                 </div>
 
-            </div> 
+            </div>
             <!-- /tile body -->
         </section>
     </div>
@@ -42,20 +46,17 @@
 
                 </div>
                 <div >
-                    <label>Физическое место нахождения</label>
+                    <label>Физическое местонахождение</label>
                     <input class="form-control" type="text" asp-for="PhysicalPath" value="@Model.PhysicalPath">
                 </div>
-              
-                <div class="col">
-                    <span>Обложка</span>
-                    <input class="btn" type="file" asp-for="CoverPath">
-                </div>
+
                 <div class="col">
                     <span>Цифровая версия книги в формате .pdf</span> <span class="validationError" asp-validation-for="VirtualPath"></span>
-                    <input class="btn" type="file" asp-for="VirtualPath">
+                    <input class="btn" style="padding: 6px 0" type="file" asp-for="VirtualPath">
                 </div>
-</div>
-           
+                <button type="submit" class="btn btn-info" style="width: 100%; margin-top: 1rem">Сохранить книгу и выйти</button>
+            </div>
+
             <!-- /tile body -->
 
         </section>
