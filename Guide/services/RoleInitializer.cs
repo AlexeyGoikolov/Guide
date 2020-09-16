@@ -29,7 +29,7 @@ namespace Guide.Services
                     await roleManager.CreateAsync(new IdentityRole(role));
             }
 
-            if (await userManager.FindByNameAsync(adminEmail) is null)
+            if (await userManager.FindByEmailAsync(adminEmail) is null)
             {
                 Position position = new Position() {Name = "admin"};
                 User admin = new User

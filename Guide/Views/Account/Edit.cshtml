@@ -27,23 +27,33 @@
             <p class="text-center">
                 Редактировать данные сотрудника :
             </p>
+            @if (Model.UserEdit.Email != "admin@admin.com")
+            {
+                <div class="form-group">
+                    <label asp-for="@Model.UserEdit.Role">Уровень доступа</label><br/>
+                    <select asp-for="@Model.UserEdit.Role">
+                        @if (Model.UserEdit.Role == Roles.admin)
+                        {
+                            <option value="@Roles.admin">Администратор</option>
+                            <option value="@Roles.user">Пользователь</option>
+                        }
+                        else
+                        {
+                            <option value="@Roles.user">Пользователь</option>
+                            <option value="@Roles.admin">Администратор</option>
+                        }
+                    </select>
+                </div>
+            }
             <div class="form-group">
-                <label asp-for="@Model.UserEdit.Role">Уровень доступа</label><br/>
-                <select asp-for="@Model.UserEdit.Role">
-                    @if (Model.UserEdit.Role == Roles.admin)
-                    {
-                        <option value="@Roles.admin">Администратор</option>
-                        <option value="@Roles.user">Пользователь</option>
-                    }
-                    else
-                    {
-                        <option value="@Roles.user">Пользователь</option>
-                        <option value="@Roles.admin">Администратор</option>
-                    }
-                </select>
-            </div>
-            <div class="form-group">
-                <input type="email" class="form-control underline-input" asp-for="@Model.UserEdit.Email" value="@Model.UserEdit.Email" placeholder="Почта">
+                @if (Model.UserEdit.Email == "admin@admin.com")
+                {
+                    <input type="email" readonly="readonly" class="form-control underline-input" asp-for="@Model.UserEdit.Email" value="@Model.UserEdit.Email">  
+                }
+                else
+                {
+                    <input type="email" class="form-control underline-input" asp-for="@Model.UserEdit.Email" value="@Model.UserEdit.Email" placeholder="Почта">  
+                }
             </div>
 
             <div class="form-group">
