@@ -15,7 +15,8 @@ namespace Guide.Models
         public string Name { get; set; }
 
         public virtual List<Interpretation> Interpretations { get; set; }
-        public int? GlossarysId { get; set; }
+        public int? GlossarysId { get; set; }//русский язык хранит ID английского
+        public virtual Glossary Glossarys{ get; set; }
         public Language Language { get; set; } = Language.ru;
 
         public bool Active { get; set; } = true;

@@ -15,7 +15,8 @@ namespace Guide.Controllers
         }
         public IActionResult Index()
         {
-            List<Glossary> glossaries = _db.Glossaries.Where(g=>g.Active==true).OrderBy(g => g.Name).ToList();
+            List<Glossary> glossaries = _db.Glossaries.Where(g=>g.Active==true && g.Language == Models.Language.ru).
+                OrderBy(g => g.Name).ToList();
             return View(glossaries);
         }
         public IActionResult Preview(int id)

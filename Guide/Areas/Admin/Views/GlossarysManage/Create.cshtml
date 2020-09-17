@@ -18,7 +18,11 @@
                 {
                     <h2 style="color: #647412"> : на английском языке </h2>
                 }</h2>
-            <h3>Для термина : @Model.Glossary.Name</h3>
+            @if (@Model.Glossary != null)
+            {
+                 <h3>Для термина : @Model.Glossary.Name</h3>
+            }
+           
         }
         <div class="page-bar">
             @if (Model.Action=="AddInterpretation")

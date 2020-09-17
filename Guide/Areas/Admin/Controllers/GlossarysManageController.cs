@@ -24,7 +24,8 @@ namespace Guide.Areas.Admin.Controllers
 
         public IActionResult Index()
         {
-            List<Glossary> glossaries = _db.Glossaries.Where(g=>g.Active==true).OrderBy(g => g.Name).ToList();
+            List<Glossary> glossaries = _db.Glossaries.Where(g=>g.Active==true && g.Language == Models.Language.ru).
+                OrderBy(g => g.Name).ToList();
             return View(glossaries);
         }
         
@@ -35,7 +36,7 @@ namespace Guide.Areas.Admin.Controllers
             return View(glossary);
         }
 
-        public IActionResult Create(int id, int glossarysId)
+        public IActionResult Create(int id, int glossarysId ) ///glossarysId -это Id термина на рус. к которому ++термин англ, если не нал значит добавляем к русскому
         {
             Glossary glossary = _db.Glossaries.FirstOrDefault(g => g.Id == id);
             if (glossary != null)
@@ -44,7 +45,7 @@ namespace Guide.Areas.Admin.Controllers
             }
 
             GlossaryViewModel model = new GlossaryViewModel();
-            if (glossarysId != 0)
+            if (glossarysId != 0)//значит добавляем описание на английском
             {
                 model.GlossarysId = glossarysId;
                 model.Language = Language.en;
@@ -60,11 +61,24 @@ namespace Guide.Areas.Admin.Controllers
             if (ModelState.IsValid )
             {
                 Glossary glossary = _db.Glossaries.FirstOrDefault(g => g.Name == model.Name && g.Active==true);
+               
+                
                 if (glossary == null)
                 {
-                      glossary = new Glossary() {Name = model.Name};
+                      glossary = new Glossary()
+                      {
+                          Name = model.Name,
+                        Language = (Models.Language) model.Language
+                      };
                       _db.Glossaries.Add(glossary);
                       _db.SaveChanges();
+                      if (model.GlossarysId !=null)
+                      {
+                          Glossary glossary1 = _db.Glossaries.FirstOrDefault(g => g.Id == model.GlossarysId);
+                          glossary1.GlossarysId = glossary.Id;
+                          _db.Glossaries.Update(glossary1);
+                          _db.SaveChanges();
+                      }
                       Interpretation interpretation = new Interpretation()
                       {
                           GlossaryId = glossary.Id,
@@ -118,7 +132,11 @@ namespace Guide.Areas.Admin.Controllers
                 if (glossary != null )
                 {
                     glossary.Active = false;
+                    Glossary glossaryRu = _db.Glossaries.FirstOrDefault(v => v.GlossarysId==glossary.Id);
+                    if (glossaryRu != null)
+                        glossaryRu.GlossarysId = null;
                     _db.Glossaries.Update(glossary);
+                    _db.Glossaries.Update(glossaryRu);
                     List<Interpretation> interpretations =
                         _db.Interpretations.Where(i => i.GlossaryId == glossary.Id).ToList();
                     foreach (var interpretationVar in interpretations)
