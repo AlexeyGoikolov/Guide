@@ -89,14 +89,17 @@
             {
                 <input class="form-control" asp-for="@Model.UserEdit.PositionsId" type="hidden" value="@Model.UserEdit.PositionsId"/>
             }
-             <div class="form-group">
-                 <input class="form-control" asp-for="@Model.UserEdit.Password" value ="@Model.Password"  placeholder="Новый Пароль"/>
-                 <span asp-validation-for="@Model.UserEdit.Password"></span>
-             </div>
-            <div class="form-group">
-                <input class="form-control" asp-for="@Model.UserEdit.PasswordConfirm" value="@Model.UserEdit.PasswordConfirm" placeholder="Подтвердите пароль"/>
-                <span asp-validation-for="@Model.UserEdit.PasswordConfirm"></span>
-            </div>
+            @if (Model.UserEdit.Role != Roles.admin)
+            {
+                <div class="form-group">
+                    <input class="form-control" asp-for="@Model.UserEdit.Password" value="@Model.Password" placeholder="Новый Пароль"/>
+                    <span asp-validation-for="@Model.UserEdit.Password"></span>
+                </div>
+                <div class="form-group">
+                    <input class="form-control" asp-for="@Model.UserEdit.PasswordConfirm" value="@Model.UserEdit.PasswordConfirm" placeholder="Подтвердите пароль"/>
+                    <span asp-validation-for="@Model.UserEdit.PasswordConfirm"></span>
+                </div>
+            }
             <input class="form-control" asp-for="@Model.UserEdit.Id" type="hidden" value="@Model.UserEdit.Id"/>
             <div class="register-form-footer lt wrap-reset mt-20">
                 <input type="submit" class="btn btn-greensea b-0 pull-center" value="Сохранить"/>

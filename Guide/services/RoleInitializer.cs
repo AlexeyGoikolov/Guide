@@ -19,10 +19,7 @@ namespace Guide.Services
         {
             string adminEmail = "admin@admin.com";
             string adminPassword = "Qwerty123@";
-            
-
             var roles = new[] {"admin", "user"};
-
             foreach (var role in roles)
             {
                 if (await roleManager.FindByNameAsync(role) is null)
@@ -36,9 +33,8 @@ namespace Guide.Services
                 {
                     Email = adminEmail,
                     UserName = adminEmail,
-                    Position = position,
-                    Name = "Администратор"
-                };
+                    Position = position
+                    };
                 var result = await userManager.CreateAsync(admin, adminPassword);
                 if (result.Succeeded)
                     await userManager.AddToRoleAsync(admin, "admin");

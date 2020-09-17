@@ -131,7 +131,7 @@
                                 {
                                     <div class="tascUsersDescription">
                                         <form asp-action="Creat" asp-controller="TaskUsers">
-                                            <label>Сообщение для сотрудника:</label>
+                                            <label >Сообщение для сотрудника:</label>
                                             <textarea style="width: 100%;" name="Task" asp-for="@Model.Task.Task" value ="@Model.Task.Task" >@if (Model.Task != null)
                                                                                                                                              {@Model.Task.Task
                                                                                                                                              }</textarea>
@@ -146,7 +146,7 @@
                                         @if (Model.Task != null)
                                         {
                                             <div class="tascUsersDescription_tatl">
-                                                <h3>Сообщение от Администрации:</h3>
+                                                <h6>Сообщение от Администрации:</h6>
                                             </div>
                                             <div>
                                                 @Html.Raw(Model.Task.Task)
