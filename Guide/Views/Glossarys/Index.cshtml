@@ -36,7 +36,7 @@
                         <h1 class="custom-font">
                             <strong></strong>
                         </h1>
-                        
+
                     </div>
                     <!-- /tile header -->
                     <!-- tile body -->
@@ -54,40 +54,44 @@
                                 <tbody>
                                 @foreach (var glossary in Model)
                                 {
-                                    if (glossary.Active)
-                                    {
-                                        <tr class="odd gradeX">
-                                            <div class="row border">
-                                                <td>
-                                                    <a asp-action="Preview" asp-controller="Glossarys" asp-route-id="@glossary.Id">@glossary.Name</a>
-                                                </td>
-                                                <td>
-                                                    @if (@glossary.GlossarysId != null)
-                                                    {
-                                                        <a asp-action="Preview" asp-controller="GlossarysManage" asp-route-id="@glossary.GlossarysId">@glossary.Glossarys.Name</a>
-                                                    }
-                                                    else
-                                                    {
-                                                        <h4>нет описания</h4>
-                                                    }
-                                                </td>
-                                            </div>
-                                        </tr>
-                                    }
+                                    <tr class="odd gradeX">
+                                        <div class="row border">
+                                            <td>
+                                                @if (glossary.Active)
+                                                {
+                                                    <a asp-action="Preview" asp-controller="Glossarys" asp-area="" asp-route-id="@glossary.Id">@glossary.Name</a>
+                                                }
+                                                @if (!glossary.Active && glossary.GlossarysId!=null)
+                                                {
+                                                    <i class="fas fa-globe"></i>
+                                                   }
+                                            </td>
+                                            <td>
+                                                @if (glossary.GlossarysId != null)
+                                                {
+                                                    <a asp-action="Preview" asp-controller="Glossarys" asp-area="" asp-route-id="@glossary.GlossarysId">@glossary.Glossarys.Name</a>
+                                                }
+                                                @if (glossary.Active && glossary.GlossarysId!=null)
+                                                {
+                                                   <i class="fas fa-globe"></i>
+                                                }
+                                            </td>
+                                        </div>
+                                    </tr>
                                 }
                                 </tbody>
                             </table>
                         </div>
                     </div>
                     <!-- /tile body -->
-    
+
                 </section>
                 <!-- /tile -->
             </div>
-    
+
             <!-- /row -->
-        </div>
     </div>
+</div>
 
 @section Scripts
 {

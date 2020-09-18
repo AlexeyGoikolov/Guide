@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Guide.Models
 {
@@ -20,5 +21,8 @@ namespace Guide.Models
         public Language Language { get; set; } = Language.ru;
 
         public bool Active { get; set; } = true;
+        [NotMapped]
+        public virtual List<Interpretation> GlossarysInterpretations { get; set; }
+        
     }
 }
