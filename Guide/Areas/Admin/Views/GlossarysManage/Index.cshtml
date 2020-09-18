@@ -60,13 +60,22 @@
                             <tbody>
                             @foreach (var glossary in Model)
                             {
-                                if (glossary.Active)
-                                {
+                                
                                     <tr class="odd gradeX">
                                         <div class="row border">
                                             <td>
-                                                <a asp-action="Preview" asp-controller="GlossarysManage" asp-route-id="@glossary.Id">@glossary.Name</a>
-                                                </td>
+                                                @if (glossary.Active)
+                                                {
+                                                    <a asp-action="Preview" asp-controller="GlossarysManage" asp-route-id="@glossary.Id">@glossary.Name</a>
+                                                }
+                                                else  if (!glossary.Active)
+                                                {
+                                                    <a title="посмотреть удаленный" role="button"
+                                                      asp-action="Create" asp-controller="GlossarysManage" asp-route-id="@glossary.Id" asp-route-enId="@glossary.GlossarysId">
+                                                        <i class="fas fa-globe"></i>
+                                                    </a>
+                                                }
+                                            </td>
                                             <td>
                                                 @if (@glossary.GlossarysId != null)
                                                 {
@@ -75,14 +84,14 @@
                                                 else
                                                 {
                                                     <a title="Добавить термин на английском" role="button"
-                                                       role asp-action="Create" asp-controller="GlossarysManage" asp-route-glossarysId="@glossary.Id">
+                                                        asp-action="Create" asp-controller="GlossarysManage" asp-route-glossarysId="@glossary.Id">
                                                         <i class="fas fa-globe"></i>
                                                     </a>
                                                 }
                                             </td>
                                         </div>
                                     </tr>
-                                }
+                                
                             }
                             </tbody>
                         </table>
