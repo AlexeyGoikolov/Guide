@@ -134,9 +134,11 @@ namespace Guide.Areas.Admin.Controllers
                     glossary.Active = false;
                     Glossary glossaryRu = _db.Glossaries.FirstOrDefault(v => v.GlossarysId==glossary.Id);
                     if (glossaryRu != null)
+                    {
                         glossaryRu.GlossarysId = null;
+                        _db.Glossaries.Update(glossaryRu);
+                    }
                     _db.Glossaries.Update(glossary);
-                    _db.Glossaries.Update(glossaryRu);
                     List<Interpretation> interpretations =
                         _db.Interpretations.Where(i => i.GlossaryId == glossary.Id).ToList();
                     foreach (var interpretationVar in interpretations)
@@ -157,9 +159,7 @@ namespace Guide.Areas.Admin.Controllers
                 return View("~/Areas/Admin/Views/GlossarysManage/Preview.cshtml",
                     _db.Glossaries.FirstOrDefault(g => g.Id == interpretation.GlossaryId));
             }
-                return NotFound();
-          
-           
+            return NotFound();
         }
 
         public IActionResult Edit(int id, int intrId)
