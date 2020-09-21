@@ -1,0 +1,57 @@
+﻿@model BusinessProcessIssuesViewModel
+
+@{
+    ViewBag.Title = "Подробно о бизнес-процессе";
+    Layout = "_LayoutEmployee";
+}
+
+<div class="page">
+    <div class="pageheader">
+
+        <h2>@ViewBag.Title</h2>
+
+        <div class="page-bar">
+
+            <ul class="page-breadcrumb">
+                <li style="background: #138a72">
+                    <a asp-action="Details" asp-controller="Account"><i class="fa fa-home"></i> Guide</a>
+                </li>
+                <li>
+                    <a asp-action="Details" asp-controller="Account">Личный кабинет</a>
+                </li>
+                <li>
+                    <a asp-action="Details" asp-controller="BusinessProcess" asp-route-id="@Model.BusinessProcess.Id">Подробно</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="page-tables-datatables panel-body p-0">
+        <section class="tile time-simple">
+
+            <!-- tile body -->
+            <div class="tile-body">
+
+                <!-- row -->
+                <div class="row">
+                    <div class="col-md-10">
+                        <h2 class="custom-font mt-0 mb-5">@Model.BusinessProcess.Name </h2>
+                        <div class="desc text-default lt mb-20 mt-20 material_content">
+                            @Html.Raw(Model.BusinessProcess.Description)
+                            @if (Model.DesignatedIssues.Count > 0)
+                            {
+                                @foreach (var issue in Model.DesignatedIssues)
+                                {
+                                    <h3>
+                                        <a asp-action="Details" asp-controller="Issues" asp-route-id="@issue.Id" asp-route-back="@Model.BusinessProcess.Name">@issue.Name</a>
+                                    </h3>
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /tile body -->
+
+        </section>
+    </div>
+</div>
