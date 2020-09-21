@@ -163,7 +163,7 @@ namespace Guide.Areas.Admin.Controllers
                 if (choice == 3)
                     return RedirectToAction("Create", "DesiredResult", new {issuesId = issue.Id});
             }
-            return RedirectToAction("Index");
+            return RedirectToAction("Details", "IssuesManage", new {id = model.Issue.Id});
         }
 
 

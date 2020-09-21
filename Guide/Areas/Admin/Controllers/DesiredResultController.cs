@@ -43,11 +43,11 @@ namespace Guide.Areas.Admin.Controllers
                 {
                     if (model.DesiredResultId.Count != 0)
                     {
-                        foreach (var rezult in model.DesiredResultId)
+                        foreach (var result in model.DesiredResultId)
                         {
                             DesiredResultIssue desiredResultIssue = new DesiredResultIssue();
                             desiredResultIssue.IssueId = model.IssueId;
-                            desiredResultIssue.DesiredResultId = rezult;
+                            desiredResultIssue.DesiredResultId = result;
                             _db.DesiredResultIssue.Add(desiredResultIssue);
                             _db.SaveChanges();
                         }
@@ -77,11 +77,11 @@ namespace Guide.Areas.Admin.Controllers
                 {
                     if (model.DesiredResultId.Count != 0)
                     {
-                        foreach (var rezult in model.DesiredResultId)
+                        foreach (var result in model.DesiredResultId)
                         {
                             DesiredResultStep desiredResultStep = new DesiredResultStep();
                             desiredResultStep.StepId = model.StepId;
-                            desiredResultStep.DesiredResultId = rezult;
+                            desiredResultStep.DesiredResultId = result;
                             _db.DesiredResultStep.Add(desiredResultStep);
                             _db.SaveChanges();
                         }
