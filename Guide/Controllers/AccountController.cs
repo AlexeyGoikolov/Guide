@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Guide.Models;
@@ -42,6 +43,16 @@ namespace Guide.Controllers
             model.Task = _db.GetUserTask(user.Id);
             model.Issues = _db.GetUserIssues(user.Id);
             model.PositionsIssues = _db.PositionsIssues(user.PositionId);
+            foreach (var issue in model.PositionsIssues)
+            {
+                issue.BP = _db.BusinessProcessIssues(issue.Id);
+            }
+            foreach (var issue in model.Issues)
+            {
+                issue.BP = _db.BusinessProcessIssues(issue.Id);
+            }
+            model.Issues.OrderBy(i => i.BP);
+            model.PositionsIssues.OrderBy(i => i.BP);
             return View(model);
         }
 

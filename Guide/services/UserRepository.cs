@@ -59,7 +59,17 @@ namespace Guide.Services
             if (issues.Count == 0)
                 return issues = new List<Issue>();
             return issues;
-        }        
+        }     
+        public virtual List<BusinessProcess> BusinessProcessIssues(int issueId)
+        {
+            List<BusinessProcess> bp = _db.BusinessProcessIssues.OrderBy(b => b.Id)
+                .Where(b => b.IssueId == issueId).
+                Select(b => b.BusinessProcess).ToList();
+            if (bp.Count == 0)
+                return bp = new List<BusinessProcess>();
+            return bp;
+        }     
+        
         
         public virtual void AddPosition(Position position) => _db.Positions.Add(position);
 

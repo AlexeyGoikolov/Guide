@@ -47,11 +47,12 @@
                                     i++;
                                     <div id="desRes-@i">
                                         <h4>
-                                            # @dr.Number - @dr.Name
                                             <a class="btn btn-rounded-20 btn-default btn-sm mr-5 p-5" style="width:30px;" role="button" tabindex="0"
                                                title="Удалить желаемый результат" onclick="openDRConfirmDelete('@i','@Model.Id', '@dr.Id')">
                                                 <i class="fa fa-trash"></i>
                                             </a>
+                                            # @dr.Number - @dr.Name
+                                           
                                         </h4>
                                         <div id="confirmDesResDelete-@i" style="display: none">
                                             <p>Вы действительно хотите удалить этот желаемый результат?</p>

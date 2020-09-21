@@ -67,11 +67,20 @@
                                 {
                                     int i = 0;
                                     <h2 style="color: #25892e;">Задачи для Вашей Должности:</h2>
+
                                     @foreach (var issue in Model.PositionsIssues)
                                     {
                                         i++;
                                         <h4>
-                                            @i . <a asp-action="Details" asp-controller="Issues" asp-route-id="@issue.Id">@issue.Name</a>
+                                            @i .
+                                            @foreach (var bp in issue.BP)
+                                            {
+                                                <a style="color: #34ce57;font-style: oblique;"
+                                                   asp-action="Details" asp-controller="BusinessProcess" asp-route-id="@bp.Id">
+                                                    БП: @bp.Name :
+                                                </a>
+                                            }
+                                            <a asp-action="Details" asp-controller="Issues" asp-route-id="@issue.Id">@issue.Name</a>
                                             <span onclick="viewStep('@issue.Id', '@i')">
                                                 <i class="fas fa-download" aria-hidden="true"></i>
                                             </span>
@@ -98,7 +107,16 @@
                                                         <i class="fa fa-trash"></i>
                                                     </a>
                                                 }
-                                                @i . <a asp-action="Details" asp-controller="Issues" asp-route-id="@issue.Id">@issue.Name</a>
+
+                                                @i .
+                                                @foreach (var bp in issue.BP)
+                                                {
+                                                    <a style="color: #34ce57;font-style: oblique;" asp-action="Details" asp-controller="BusinessProcess"
+                                                       asp-route-id="@bp.Id">
+                                                        БП : @bp.Name :
+                                                    </a>
+                                                }
+                                                <a asp-action="Details" asp-controller="Issues" asp-route-id="@issue.Id">@issue.Name</a>
                                                 <span onclick="viewStep('@issue.Id','@i')">
                                                     <i class="fas fa-download" aria-hidden="true"></i>
                                                 </span>
