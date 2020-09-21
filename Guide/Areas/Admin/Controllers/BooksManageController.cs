@@ -1,5 +1,4 @@
-﻿using System;
-using System.Diagnostics;
+﻿
 using System.IO;
 using System.Linq;
 using Guide.Models;
@@ -46,7 +45,7 @@ namespace Guide.Areas.Admin.Controllers
                 {
                     TypeId = 1,
                     Name = model.Name,
-                    Author = model.Author,
+                   
                     IsRecipe = model.IsRecipe,
                     ISBN = model.ISBN,
                     Edition = model.Edition,
