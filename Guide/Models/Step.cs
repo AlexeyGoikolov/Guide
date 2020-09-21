@@ -15,7 +15,11 @@ namespace Guide.Models
         public virtual List<IssueStep> IssueSteps { get; set; }
         [NotMapped]
         public List<DesiredResult> DesiredResults { get; set; }
-       public Step()
+
+        [NotMapped] 
+        public string Baсk { get; set; } 
+    
+        public Step()
         {
             IssueSteps = new List<IssueStep>();
         }
