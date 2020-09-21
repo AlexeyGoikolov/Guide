@@ -45,7 +45,6 @@ namespace Guide.Areas.Admin.Controllers
                 {
                     TypeId = 1,
                     Name = model.Name,
-                   
                     IsRecipe = model.IsRecipe,
                     ISBN = model.ISBN,
                     Edition = model.Edition,
@@ -54,10 +53,22 @@ namespace Guide.Areas.Admin.Controllers
                     PhysicalPath = model.PhysicalPath,
                     YearOfWriting = model.YearOfWriting
                 };
+                if (model.Author != null)
+                {
+                    
+                    BookAuthor bookAuthor = new BookAuthor()
+                    {
+                        BookId = book.Id,
+                        AuthorId = model.Author
+                        
+                    };
+                    _db.BookAuthors.Add(bookAuthor);
+                }
                 if (book.CoverPath == null)
                 {
                     book.CoverPath = "/BooksFiles/Cover_missing.png";
                 }
+               
                 _db.Books.Add(book);
                 _db.SaveChanges();
                 return RedirectToAction("Index" , "SourceManage");
@@ -131,6 +142,38 @@ namespace Guide.Areas.Admin.Controllers
             }
 
             return NotFound() ;
+        }
+        
+        public IActionResult CreateAuthorAjax(Author author)
+        {
+            if (author.Name != null)
+            {
+                _db.Authors.Add(author);
+                _db.SaveChanges();
+            }
+            BookAuthorViewModel model = new BookAuthorViewModel()
+            {
+                Book = new BookCreateViewModel(),
+                Authors = _db.Authors.Where(c=> c.Active).ToList(),
+            };
+
+            return PartialView("PartialViews/AuthorPartial", model);
+            
+        }
+        public IActionResult DeleteAuthorAjax(int id)
+        {
+            Author author = _db.Authors.FirstOrDefault(a => a.Id == id);
+            if (author != null)
+            {
+                author.Active = false;
+                _db.SaveChanges();
+            }
+            BookAuthorViewModel model = new BookAuthorViewModel()
+            {
+                Book = new BookCreateViewModel(),
+                Authors = _db.Authors.Where(c=> c.Active).ToList(),
+            };
+            return PartialView("PartialViews/AuthorPartial", model);
         }
     }
 }
