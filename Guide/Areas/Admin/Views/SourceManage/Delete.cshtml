@@ -1,7 +1,14 @@
 ﻿@model Post
 
 @{
-    ViewBag.Title = "Удаление источника";
+    if (Model.Active)
+    {
+        ViewBag.Title = "Удаление источника";
+    }
+    else
+    {
+        ViewBag.Title = "Восстановление источника";
+    }
     Layout = "_Layout";
 }
 
@@ -18,23 +25,28 @@
                     <a asp-action="Index" asp-controller="SourceManage"> Библиотека</a>
                 </li>
                 <li>
-                    <a asp-action="Delete" asp-controller="SourceManage" asp-route-id="@Model.Id">Удаление источника</a>
+                    <a asp-action="Delete" asp-controller="SourceManage" asp-route-id="@Model.Id">@ViewBag.Title</a>
                 </li>
             </ul>
         </div>
     </div>
 
-   
-
+    @if (Model.Active)
+    {
         <h2>Вы уверены что хотите удалить источник - @Model.Title</h2>
-        <div>
-            <div style="display: inline-block">
-                <form asp-action="Delete" asp-controller="SourceManage" asp-area="Admin" method="post" asp-route-id="@Model.Id">
-                    <button class="btn btn-danger" type="submit">Подтвердить</button>
-                </form>
-            </div>
-            <div style="display: inline-block">
-                <a class="btn btn-info" asp-action="Index" asp-controller="SourceManage" asp-area="Admin">Отменить</a>
-            </div>
+    }
+    else
+    {
+        <h2>Вы уверены что хотите восстановить источник - @Model.Title</h2>
+    }
+    <div>
+        <div style="display: inline-block">
+            <form asp-action="Delete" asp-controller="SourceManage" asp-area="Admin" method="post" asp-route-id="@Model.Id">
+                <button class="btn btn-danger" type="submit">Подтвердить</button>
+            </form>
+        </div>
+        <div style="display: inline-block">
+            <a class="btn btn-info" asp-action="Index" asp-controller="SourceManage" asp-area="Admin">Отменить</a>
         </div>
     </div>
+</div>

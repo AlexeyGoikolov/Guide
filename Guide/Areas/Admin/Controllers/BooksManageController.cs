@@ -109,8 +109,11 @@ namespace Guide.Areas.Admin.Controllers
                 Book book = _db.Books.FirstOrDefault(v => v.Id == id);
                 if (book != null)
                 {
+                    if (book.Active)
                         book.Active = false;
-                    _db.Books.Update(book);
+                    else
+                        book.Active = true;
+                    _db.Books.Update(book); 
                     _db.SaveChanges();
                 }
             }
