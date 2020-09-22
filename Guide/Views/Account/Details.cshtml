@@ -14,155 +14,204 @@
 }
 
 <div class="page page-profile">
-    <div class="pageheader">
+<div class="pageheader">
 
-        @if (User.IsInRole("admin"))
-        {
-            <h1 style="color: #4b0d5f"> @Model.User.Name @Model.User.Surname: @Model.User.Position.Name</h1>
-        }
-        else
-        {
-            <h1 style="color: #4b0d5f">Ваша Должность: @Model.User.Position.Name</h1>
-        }
+    @if (User.IsInRole("admin"))
+    {
+        <h1 style="color: #4b0d5f"> @Model.User.Name @Model.User.Surname: @Model.User.Position.Name</h1>
+    }
+    else
+    {
+        <h1 style="color: #4b0d5f">Ваша Должность: @Model.User.Position.Name</h1>
+    }
 
 
-        <div class="page-bar">
-            <ul class="page-breadcrumb">
-                @if (User.IsInRole("admin"))
-                {
-                    <li>
-                        <a asp-action="Details" asp-controller="Account" asp-area=""><i class="fa fa-home"></i> Guide</a>
-                    </li>
-                    <li>
-                        <a asp-action="ListUsers" asp-controller="UsersManage" asp-area="Admin"> Список сотрудников</a>
-                    </li>
-                }
-                else
-                {
-                    <li style="background: #138a72">
-                        <a asp-action="Details" asp-controller="Account" asp-area=""><i class="fa fa-home"></i> Guide</a>
-                    </li>
-                }
-
+    <div class="page-bar">
+        <ul class="page-breadcrumb">
+            @if (User.IsInRole("admin"))
+            {
                 <li>
-                    <a asp-action="Details" asp-controller="Account" asp-area=""> Профиль пользователя</a>
+                    <a asp-action="Details" asp-controller="Account" asp-area=""><i class="fa fa-home"></i> Guide</a>
                 </li>
-            </ul>
+                <li>
+                    <a asp-action="ListUsers" asp-controller="UsersManage" asp-area="Admin"> Список сотрудников</a>
+                </li>
+            }
+            else
+            {
+                <li style="background: #138a72">
+                    <a asp-action="Details" asp-controller="Account" asp-area=""><i class="fa fa-home"></i> Guide</a>
+                </li>
+            }
 
-        </div>
+            <li>
+                <a asp-action="Details" asp-controller="Account" asp-area=""> Профиль пользователя</a>
+            </li>
+        </ul>
+
     </div>
-    <!-- page content -->
-    <div class="pagecontent">
-        <!-- row -->
-        <div class="row">
-            <div class="col-md-9">
-                <!-- tile -->
-                <section class="tile tile-simple">
-                    <!-- tile body -->
-                    <div class="tile-body ">
-
-                        <div role="tabpanel">
-                            <div>
-                                @if (Model.PositionsIssues.Count > 0)
-                                {
-                                    int i = 0;
-                                    <h2 style="color: #25892e;">Задачи для Вашей Должности:</h2>
+</div>
+<!-- page content -->
+<div class="pagecontent">
+    <!-- row -->
+    <div class="row">
+        <div class="col-md-9">
+            <!-- tile -->
+            <section class="tile tile-simple">
+                <!-- tile body -->
+                <div class="tile-body ">
+                    <div class="tile-body" style="display: block">
+                        <div class="table-responsive">
+                            @if (Model.PositionsIssues.Count > 0)
+                            {
+                                int i = 0;
+                                <h2 style="color: #25892e;">Задачи для Вашей Должности:</h2>
+                                <table class="table table-custom" id="editable-usage">
+                                    <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>Бизнесс процесс</th>
+                                        <th>Задача</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
                                     @foreach (var issue in Model.PositionsIssues)
                                     {
                                         i++;
-                                        <h4>
-                                            @i . <a asp-action="Details" asp-controller="Issues" asp-route-id="@issue.Id">@issue.Name</a>
-                                            <span onclick="viewStep('@issue.Id', '@i')">
-                                                <i class="fas fa-download" aria-hidden="true"></i>
-                                            </span>
-
-                                            <div id="step-@issue.Id@i" class="form-group" style="justify-content: left; "></div>
-                                        </h4>
+                                        <tr class="odd gradeX">
+                                            <td>@i </td>
+                                            <td>
+                                                @foreach (var bp in issue.BP)
+                                                {
+                                                    <a style="color: #34ce57;font-style: oblique;"
+                                                       asp-action="Details" asp-controller="BusinessProcess" asp-route-id="@bp.Id">
+                                                        @bp.Name
+                                                    </a>
+                                                }
+                                            </td>
+                                            <td>
+                                                <a asp-action="Details" asp-controller="Issues" asp-route-id="@issue.Id">@issue.Name</a>
+                                                <span onclick="viewStep('@issue.Id', '@i')">
+                                                    <i class="fas fa-download" aria-hidden="true"></i>
+                                                </span>
+                                                <div id="step-@issue.Id@i" class="form-group" style="justify-content: left; "></div>
+                                            </td>
+                                        </tr>
                                     }
-                                }
-                            </div>
-                            <div>
-                                @if (Model.Issues.Count > 0)
-                                {
-                                    int i = 0;
-                                    <h2 style="color: #25892e;">Вам назначены Личные задачи:</h2>
+                                    </tbody>
+                                </table>
+                            }
+                        </div>
+
+                        <div class="table-responsive">
+                            @if (Model.Issues.Count > 0)
+                            {
+                                int i = 0;
+                                <h2 style="color: #25892e;">Вам назначены Личные задачи:</h2>
+                                <table class="table table-custom" id="editable-usage-one">
+                                    <thead>
+                                    <tr>
+                                        <th class="no-sort"></th>
+                                        <th>Бизнесс процесс</th>
+                                        <th>Задача</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
                                     @foreach (var issue in Model.Issues)
                                     {
                                         i++;
-                                        <h4>
-                                            <div id="desRes-@i">
-                                                @if (User.IsInRole("admin"))
+                                        <tr class="odd gradeX">
+                                            <td>@i </td>
+                                            <td>
+                                                @foreach (var bp in issue.BP)
                                                 {
-                                                    <a class="btn btn-rounded-20 btn-default btn-sm mr-5 p-5" style="width:30px;" role="button" tabindex="0"
-                                                       title="Удалить " onclick="openDelete('@i','@issue.Id','@Model.User.Id')">
-                                                        <i class="fa fa-trash"></i>
+                                                    <a style="color: #34ce57;font-style: oblique;"
+                                                       asp-action="Details" asp-controller="BusinessProcess" asp-route-id="@bp.Id">
+                                                        @bp.Name
                                                     </a>
                                                 }
-                                                @i . <a asp-action="Details" asp-controller="Issues" asp-route-id="@issue.Id">@issue.Name</a>
-                                                <span onclick="viewStep('@issue.Id','@i')">
-                                                    <i class="fas fa-download" aria-hidden="true"></i>
-                                                </span>
-                                            </div>
-                                            <div id="confirmDesResDelete-@i" style="display: none">
-                                                <p>Вы действительно хотите удалить эту Задачу для сотрудника</p>
-                                                <button class="btn btn-small btn-danger" id="confirmDRDelete-@i">Да</button>
-                                                <button class="btn btn-small btn-green" id="cancelDR-@i">Нет</button>
-                                            </div>
-                                            <div id="step-@issue.Id@i" class="form-group" style="justify-content: left; "></div>
-                                        </h4>
+                                            </td>
+                                            <td>
+                                                <div id="desRes-@i">
+                                                    @if (User.IsInRole("admin"))
+                                                    {
+                                                        <a class="btn btn-rounded-20 btn-default btn-sm mr-5 p-5" style="width:30px;" role="button" tabindex="0"
+                                                           title="Удалить " onclick="openDelete('@i','@issue.Id','@Model.User.Id')">
+                                                            <i class="fa fa-trash"></i>
+                                                        </a>
+                                                    }
+                                                    <a asp-action="Details" asp-controller="Issues" asp-route-id="@issue.Id">@issue.Name</a>
+                                                    <span onclick="viewStep('@issue.Id', '@i')">
+                                                        <i class="fas fa-download" aria-hidden="true"></i>
+                                                    </span>
+                                                    <div id="confirmDesResDelete-@i" style="display: none">
+                                                        <p>Вы действительно хотите удалить эту Задачу для сотрудника</p>
+                                                        <button class="btn btn-small btn-danger" id="confirmDRDelete-@i">Да</button>
+                                                        <button class="btn btn-small btn-green" id="cancelDR-@i">Нет</button>
+                                                    </div>
+
+                                                    <div id="step-@issue.Id@i" class="form-group" style="justify-content: left; "></div>
+                                                </div>
+                                            </td>
+                                        </tr>
                                     }
-                                }
-                            </div>
+                                    </tbody>
+                                </table>
+                            }
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- /tile body -->
+
+            </section>
+            <!-- /tile -->
+        </div>
+
+        <div class="col-md-3">
+            <section class="tile tile-simple">
+                <!-- tile body -->
+                <div class="tile-body p-0">
+                    <div role="tabpanel">
+                        <div>
+                            @if (User.IsInRole("admin"))
+                            {
+                                <div class="tascUsersDescription">
+                                    <form asp-action="Creat" asp-controller="TaskUsers">
+                                        <label >Сообщение для сотрудника:</label>
+                                        <textarea style="width: 100%;" name="Task" asp-for="@Model.Task.Task" value ="@Model.Task.Task" >@if (Model.Task != null)
+                                                                                                                                         {@Model.Task.Task
+                                                                                                                                         }</textarea>
+                                        <input type="hidden" value="@Model.User.Id" name="UserId">
+                                        <button type="submit" class="btn btn-info float-right">Добавить</button>
+                                    </form>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="tascUsersDescription">
+                                    @if (Model.Task != null)
+                                    {
+                                        <div class="tascUsersDescription_tatl">
+                                            <h6>Сообщение от Администрации:</h6>
+                                        </div>
+                                        <div>
+                                            @Html.Raw(Model.Task.Task)
+                                        </div>
+                                    }
+                                </div>
+                            }
                         </div>
                     </div>
-                    <!-- /tile body -->
-
-                </section>
-                <!-- /tile -->
-            </div>
-
-            <div class="col-md-3">
-                <section class="tile tile-simple">
-                    <!-- tile body -->
-                    <div class="tile-body p-0">
-                        <div role="tabpanel">
-                            <div>
-                                @if (User.IsInRole("admin"))
-                                {
-                                    <div class="tascUsersDescription">
-                                        <form asp-action="Creat" asp-controller="TaskUsers">
-                                            <label >Сообщение для сотрудника:</label>
-                                            <textarea style="width: 100%;" name="Task" asp-for="@Model.Task.Task" value ="@Model.Task.Task" >@if (Model.Task != null)
-                                                                                                                                             {@Model.Task.Task
-                                                                                                                                             }</textarea>
-                                            <input type="hidden" value="@Model.User.Id" name="UserId">
-                                            <button type="submit" class="btn btn-info float-right">Добавить</button>
-                                        </form>
-                                    </div>
-                                }
-                                else
-                                {
-                                    <div class="tascUsersDescription">
-                                        @if (Model.Task != null)
-                                        {
-                                            <div class="tascUsersDescription_tatl">
-                                                <h6>Сообщение от Администрации:</h6>
-                                            </div>
-                                            <div>
-                                                @Html.Raw(Model.Task.Task)
-                                            </div>
-                                        }
-                                    </div>
-                                }
-                            </div>
-                        </div>
-                    </div>
-                    <!-- /tile body -->
-                </section>
-            </div>
+                </div>
+                <!-- /tile body -->
+            </section>
         </div>
     </div>
-    <!-- /page content -->
+</div>
+<!-- /page content -->
 
 </div>
 
@@ -193,8 +242,20 @@
          removeButtons: 'Underline,Strike,Subscript,Superscript,Anchor,Styles,Specialchar,document,insert,about'
        });
    
-   
-   
+    $(window).load(function(){                                           
+               let oTable = $('#editable-usage').DataTable({
+                   "aoColumnDefs": [
+                       { 'defaultContent': '-', 'bSortable': false, 'aTargets': [ "no_sort" ] }
+                   ]
+               });                         
+           });
+   $(window).load(function(){                                           
+                  let oTable = $('#editable-usage-one').DataTable({
+                      "aoColumnDefs": [
+                          { 'defaultContent': '-', 'bSortable': false, 'aTargets': [ "no_sort" ] }
+                      ]
+                  });                         
+              });
         function viewStep(id, number) {                                
                 $.ajax({
                     url: '@Url.Action("ViewStep", "Steps")',

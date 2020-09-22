@@ -57,11 +57,12 @@ namespace Guide.Areas.Admin.Controllers
             return View(step);
         }
 
-        public IActionResult Edit(int id)
+        public IActionResult Edit(int id, string back)
         {
             if (id != 0)
             {
                 Step step = _db.Steps.FirstOrDefault(s => s.Id == id);
+                step.Baсk = back;
                 if (step != null)
                     return View(step);
                 

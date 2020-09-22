@@ -9,6 +9,5 @@ namespace Guide.ViewModels
         public TaskUser Task { get; set; }
         public List<Issue> Issues{ get; set; }
         public List<Issue> PositionsIssues{ get; set; }
-        
     }
 }

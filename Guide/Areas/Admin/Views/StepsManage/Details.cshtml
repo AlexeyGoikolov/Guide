@@ -47,11 +47,12 @@
                                     i++;
                                     <div id="desRes-@i">
                                         <h4>
-                                            # @dr.Number - @dr.Name
                                             <a class="btn btn-rounded-20 btn-default btn-sm mr-5 p-5" style="width:30px;" role="button" tabindex="0"
                                                title="Удалить желаемый результат" onclick="openDRConfirmDelete('@i','@Model.Id', '@dr.Id')">
                                                 <i class="fa fa-trash"></i>
                                             </a>
+                                            # @dr.Number - @dr.Name
+                                           
                                         </h4>
                                         <div id="confirmDesResDelete-@i" style="display: none">
                                             <p>Вы действительно хотите удалить этот желаемый результат?</p>
@@ -70,12 +71,16 @@
                             <h5>Автор : @Model.Author</h5>
                         }
                         <div>Дата добавления - @Model.CreatedAt</div>
-                        <div>Тип - @Model.Type</div>
-
                         <div style="margin: 5px; margin-left: auto">
-                            <a asp-action="Create" asp-controller="FaqManage" class="btn btn-info" asp-route-status="ToQuestion" asp-route-postId="@Model.Id">Задать вопрос</a>
+                            <a asp-action="Create" asp-controller="FaqManage" class="btn btn-blue"
+                               asp-route-status="ToQuestion" asp-route-postId="@Model.Id">
+                                Задать вопрос
+                            </a>
                         </div>
-
+                        <div  style="margin: 5px; margin-left: auto">
+                            <a class="btn btn-info" asp-action="Edit" asp-controller="StepsManage" 
+                               asp-area="Admin" asp-route-id="@Model.Id"  asp-route-back="@Model.Name">Редактировать Название и Описание Шага</a>
+                        </div>
                     </div>
                 </div>
                </div>
