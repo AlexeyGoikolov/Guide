@@ -61,7 +61,8 @@ namespace Guide.Areas.Admin.Controllers
                     TypeContent = post.TypeContent,
                     TypeState = post.TypeState,
                     DateCreate = post.DateOfCreate,
-                    Active = post.Active
+                    Active = post.Active,
+                    FilePath = post.VirtualPath
                 });
             }
             foreach (var book in books)
@@ -81,7 +82,8 @@ namespace Guide.Areas.Admin.Controllers
                     TypeContent = new TypeContent() {Name = "Книга"},
                     TypeState = book.IsRecipe ? new TypeState() {Name = "Рецепт"} : new TypeState() {Name = ""},
                     DateCreate = book.DateCreate,
-                    Active = book.Active
+                    Active = book.Active,
+                    FilePath = book.VirtualPath
                 });
             }
             return View(models);
@@ -492,7 +494,11 @@ namespace Guide.Areas.Admin.Controllers
                 Post post = _db.Posts.FirstOrDefault(v => v.Id == id);
                 if (post != null)
                 {
-                    post.Active = false;
+                    if (post.Active == false)
+                        post.Active = true;
+                    else
+                        post.Active = false;
+                    
                     _db.Posts.Update(post);
                     _db.SaveChanges();
                 }
