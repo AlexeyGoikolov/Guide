@@ -63,7 +63,7 @@
                                {
                                    <tr class="odd gradeX">
                                        <td>
-                                           <input type="checkbox" name="DesiredResultId[]" value="@desiredResult.Id"><Br>
+                                           <input type="checkbox"  class="DesiredResultCheckbox" value="@desiredResult.Id"><Br>
                                        </td>
                                        <td>@desiredResult.Number</td>
                                        <td>@desiredResult.Name</td>
@@ -98,7 +98,7 @@
            <!-- /col -->
        </div></div>
 
- 
+  
    @section Scripts
    {
        <script> 
@@ -108,7 +108,15 @@
                        { 'defaultContent': '-', 'bSortable': false, 'aTargets': [ "no_sort" ] }
                    ]
                });                         
-           });
+           });        
+                    
+                       $(".DesiredResultCheckbox").click(function(){
+                           if($(this).is(":checked")){
+                             $("form.create-form").append('<input type="hidden" name="DesiredResultId[]" value="'+$(this).val()+'">');
+                           }else{
+                             $('input[type=hidden][value='+$(this).val()+']').remove();
+                           }
+                         });                     
        </script>
    }
        
