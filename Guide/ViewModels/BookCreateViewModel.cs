@@ -11,17 +11,14 @@ namespace Guide.ViewModels
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public int Author { get; set; }
         public string ISBN { get; set; }
         public bool IsRecipe { get; set; } = false;
-        public IFormFile CoverPath { get; set; }
-        public IFormFile VirtualPath { get; set; }
         public string PhysicalPath { get; set; }
         [Remote("CheckYear","Validation", "", ErrorMessage = "Некорректное значение")]
         public string YearOfWriting { get; set; }
         public int CategoryId { get; set; }
         public string Edition { get; set; }
-        public List<Author> Authors { get; set; }
+        public List<Author> AllAuthors { get; set; }
     }
     
    

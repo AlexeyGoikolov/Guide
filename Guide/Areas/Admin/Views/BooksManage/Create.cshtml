@@ -5,7 +5,7 @@
     Layout = "_Layout";
 }
 
-<div class="page">
+<div class="page page-forms-common">
     <div class="pageheader">
         <h2>@ViewBag.Title</h2>
         <div class="page-bar">
@@ -22,33 +22,76 @@
             </ul>
         </div>
     </div>
-    <div class="card" style="margin:auto;">
-        <div class="card-body">
-            <form asp-action="Create" asp-controller="BooksManage" asp-area="Admin" method="post" enctype="multipart/form-data" asp-antiforgery="true">
-                @{ Html.RenderPartial("PartialViews/FormPartial", Model); }
-                <input type="hidden" value="@Model.Id" id="postId" asp-for="Id">
-                
-            </form>
-        </div>
+    <div style="margin:auto;">
+        <form asp-action="Create" asp-controller="BooksManage" asp-area="Admin" method="post" enctype="multipart/form-data" asp-antiforgery="true">
+            @{ Html.RenderPartial("PartialViews/FormPartial", Model); }
+            <input type="hidden" value="@Model.Id" id="postId" asp-for="Id">
+        </form>
     </div>
 </div>
-
-@{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
 
      
 @section Scripts
 {
     
-    <script >
-          
-        var loadCategories = function(){
+    <script >      
+        let loadCategories = function(){
             var catInput = $('#catInput').val();
             $("#categories-row").load('@Url.Action("CreateCategoryAjax", "SourceManage")',{Name: catInput});
         };
-        var loadAuthor = function(){
-                    var typeInput = $('#typeInput').val();
-                    $("#types-row").load('@Url.Action("CreateAuthorAjax", "BooksManage")',{Name: typeInput});
-                };
+        
+        let loadAuthor = function(){
+            let typeInput = $('#typeInput').val();
+            $.ajax({
+                url: '@Url.Action("CreateAuthorAjax", "BooksManage", new {area = "Admin"})',                    
+                type: 'GET',                    
+                data: {name: typeInput},
+                success: function(response) {
+                    console.log(response);
+                    let data = '<option value="'+response.allAuthors[0].id+'">'+response.allAuthors[0].name+'</option>';
+                    $('.chosen-select').append(data);
+                    $('.chosen-select').trigger("chosen:updated");
+                }                                                      
+            });                   
+        };
+        
+        $('#submit-btn').on('click', function(e) {
+          e.preventDefault();
+          let formData = new FormData();
+          let coverFile = document.getElementById('coverPath');
+          let bookFile = document.getElementById('bookFile');
+          console.log(coverFile.name);
+          console.log(bookFile.name);
+          formData.append(coverFile.name, coverFile.files[0]);
+          formData.append(bookFile.name, bookFile.files[0]);
+          let physical = $('#physPath').val();
+          let year = $('#year').val();
+          let category = $('#category').val();
+          let edition = $('#edition').val();
+          let arrayId = [];
+          $(".chosen-container ul li a").each(function(items) {                
+            arrayId.push($(this).attr('data-option-array-index'));
+          });
+          $.ajax({
+            url: '@Url.Action("Create", "BooksManage", new {area = "Admin"})',                    
+            type: 'POST',  
+                 
+            data: {
+                 coverPath: formData[0],
+                 virtualPath:formData[1], 
+                 Name: $('#name').val(),                 
+                 PhisicalPath: physical,
+                 YearOfWriting: year,
+                 CategoryId: category,
+                 Edition: edition,
+                 ISBN: $('#isbn').val(),
+                 authors: arrayId,                               
+            },
+            success: function(response) {
+                 window.location.href = "@Url.Action("Index","SourceManage", new{area="Admin"})"
+            }                                                        
+          });                   
+        });
        
         var deleteCategory = function(categoryId){
             $("#categories-row").load('@Url.Action("DeleteCategoryAjax", "SourceManage")', {Id: categoryId});
@@ -56,13 +99,12 @@
         var deleteAuthor = function(typeId){
                     $("#types-row").load('@Url.Action("DeleteAuthorAjax", "BooksManage")', {Id: typeId});
                 };
-               
+        
         
         $(document).ready(function(){
         
-            loadCategories();
-            loadAuthor();
-          
+            loadCategories();           
+            
             $('body').on('click','#catButton',function(event){
                  event.preventDefault();
                  setTimeout(loadCategories, 200)
