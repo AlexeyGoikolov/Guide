@@ -19,7 +19,6 @@
             </ul>
         </div>
     </div>
-
     <!-- row -->
     <div class="row">
         <!-- col -->
@@ -32,12 +31,11 @@
                         <strong></strong>
                     </h1>
                     <ul class="controls">
-                       
                         <li>
                             <a role="button" tabindex="0" asp-action="Create" asp-controller="GlossarysManage"><i class="fa fa-plus mr-5"></i>Добавить</a>
                         </li>
                         <li>
-                            <a  role="button" tabindex="0" target="_blank"
+                            <a role="button" tabindex="0" target="_blank"
                                title="Вид пользователя" asp-action="Index" asp-controller="Glossarys" asp-area="">
                                 <i class="fa fa-eye"></i>
                             </a>
@@ -61,36 +59,35 @@
                             @foreach (var glossary in Model)
                             {
                                 <tr class="odd gradeX">
-                                        <div class="row border">
-                                            <td>
-                                                @if (glossary.Active)
-                                                {
-                                                    <a asp-action="Preview" asp-controller="GlossarysManage" asp-route-id="@glossary.Id">@glossary.Name</a>
-                                                }
-                                               @if (!glossary.Active && glossary.GlossarysId!=null)
-                                                {
-                                                    <a title="посмотреть удаленный" role="button"
-                                                      asp-action="Create" asp-controller="GlossarysManage" asp-route-id="@glossary.Id" asp-route-enId="@glossary.GlossarysId">
-                                                        <i class="fas fa-globe"></i>
-                                                    </a>
-                                                }
-                                            </td>
-                                            <td>
-                                                @if (glossary.GlossarysId != null)
-                                                {
-                                                    <a asp-action="Preview" asp-controller="GlossarysManage" asp-route-id="@glossary.GlossarysId">@glossary.Glossarys.Name</a>
-                                                }
-                                               @if (glossary.Active && glossary.GlossarysId==null)
-                                                {
-                                                    <a title="Добавить термин на английском" role="button"
-                                                        asp-action="Create" asp-controller="GlossarysManage" asp-route-glossarysId="@glossary.Id">
-                                                        <i class="fas fa-globe"></i>
-                                                    </a>
-                                                }
-                                            </td>
-                                        </div>
-                                    </tr>
-                                
+                                    <div class="row border">
+                                        <td>
+                                            @if (glossary.Active)
+                                            {
+                                                <a asp-action="Preview" asp-controller="GlossarysManage" asp-route-id="@glossary.Id">@glossary.Name</a>
+                                            }
+                                            @if (!glossary.Active && glossary.GlossarysId != null)
+                                            {
+                                                <a title="посмотреть удаленный" role="button"
+                                                   asp-action="Create" asp-controller="GlossarysManage" asp-route-id="@glossary.Id" asp-route-enId="@glossary.GlossarysId">
+                                                    <i class="fas fa-globe"></i>
+                                                </a>
+                                            }
+                                        </td>
+                                        <td>
+                                            @if (glossary.GlossarysId != null)
+                                            {
+                                                <a asp-action="Preview" asp-controller="GlossarysManage" asp-route-id="@glossary.GlossarysId">@glossary.Glossarys.Name</a>
+                                            }
+                                            @if (glossary.Active && glossary.GlossarysId == null)
+                                            {
+                                                <a title="Добавить термин на английском" role="button"
+                                                   asp-action="Create" asp-controller="GlossarysManage" asp-route-glossarysId="@glossary.Id">
+                                                    <i class="fas fa-globe"></i>
+                                                </a>
+                                            }
+                                        </td>
+                                    </div>
+                                </tr>
                             }
                             </tbody>
                         </table>

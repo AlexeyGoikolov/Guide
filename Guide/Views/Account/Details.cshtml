@@ -78,14 +78,14 @@
                                     @foreach (var issue in Model.PositionsIssues)
                                     {
                                         i++;
-                                        <tr class="odd gradeX">
+                                        <tr class="even gradeC">
                                             <td>@i </td>
                                             <td>
                                                 @foreach (var bp in issue.BP)
                                                 {
                                                     <a style="color: #34ce57;font-style: oblique;"
                                                        asp-action="Details" asp-controller="BusinessProcess" asp-route-id="@bp.Id">
-                                                        @bp.Name
+                                                        @bp.Name :
                                                     </a>
                                                 }
                                             </td>
@@ -127,7 +127,7 @@
                                                 {
                                                     <a style="color: #34ce57;font-style: oblique;"
                                                        asp-action="Details" asp-controller="BusinessProcess" asp-route-id="@bp.Id">
-                                                        @bp.Name
+                                                        @bp.Name :
                                                     </a>
                                                 }
                                             </td>

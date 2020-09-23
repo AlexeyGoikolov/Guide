@@ -80,6 +80,8 @@ namespace Guide.Areas.Admin.Controllers
                     };
                     _db.Interpretations.Add(interpretation);
                     _db.SaveChanges();
+                    return RedirectToAction("Preview", new {id = glossary.Id});
+                   // return View("~/Areas/Admin/Views/GlossarysManage/Preview.cshtml", _db.Glossaries.FirstOrDefault(g => g.Id == model.Id));
                 }
 
                 if (glossary == null)
@@ -110,19 +112,7 @@ namespace Guide.Areas.Admin.Controllers
                     _db.SaveChanges();
                     return RedirectToAction("Index");
                 }
-                else
-                {
-                    Interpretation interpretation = new Interpretation()
-                    {
-                        GlossaryId = glossary.Id,
-                        Description = model.Description,
-                        Abbreviation = model.Abbreviation,
-                        Source = model.Source
-                    };
-                    _db.Interpretations.Add(interpretation);
-                    _db.SaveChanges();
-                    return View("~/Areas/Admin/Views/GlossarysManage/Preview.cshtml", glossary);
-                }
+                
             }
 
             return View(model);
@@ -179,6 +169,7 @@ namespace Guide.Areas.Admin.Controllers
             {
                 _db.Interpretations.Remove(interpretation);
                 _db.SaveChanges();
+                return RedirectToAction("Preview", new {id = interpretation.GlossaryId});
                 return View("~/Areas/Admin/Views/GlossarysManage/Preview.cshtml",
                     _db.Glossaries.FirstOrDefault(g => g.Id == interpretation.GlossaryId));
             }
@@ -237,6 +228,7 @@ namespace Guide.Areas.Admin.Controllers
                     _db.Interpretations.Update(interpretation);
                     await _db.SaveChangesAsync();
                 }
+                
                 return View("~/Areas/Admin/Views/GlossarysManage/Preview.cshtml", _db.Glossaries.FirstOrDefault(g => g.Id == model.Id));
             }
             return View(model);

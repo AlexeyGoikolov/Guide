@@ -24,74 +24,72 @@
             </ul>
         </div>
     </div>
-
-
+    <!-- row -->
     <div class="row">
-            <!-- col -->
-            <div class="col-md-12">
-                <!-- tile -->
-                <section class="tile">
-                    <!-- tile header -->
-                    <div class="tile-header dvd dvd-btm">
-                        <h1 class="custom-font">
-                            <strong></strong>
-                        </h1>
+        <!-- col -->
+        <div class="col-md-12">
+            <!-- tile -->
+            <section class="tile">
+                <!-- tile header -->
+                <div class="tile-header dvd dvd-btm">
+                    <h1 class="custom-font">
+                        <strong></strong>
+                    </h1>
 
-                    </div>
-                    <!-- /tile header -->
-                    <!-- tile body -->
-                    <div class="tile-body">
-                        <div class="table-responsive">
-                            <table class="table table-custom" id="editable-usage">
-                                <thead>
-                                <tr>
-                                    <th>
-                                        Название Термина
-                                    </th>
-                                    <th>Term Name</th>
+                </div>
+                <!-- /tile header -->
+                <!-- tile body -->
+                <div class="tile-body">
+                    <div class="table-responsive">
+                        <table class="table table-custom" id="editable-usage">
+                            <thead>
+                            <tr>
+                                <th>Название Термина</th>
+                                <th>Term Name</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach (var glossary in Model)
+                            {
+                                <tr class="odd gradeX">
+                                    <div class="row border">
+                                        <td>
+                                            @if (glossary.Active)
+                                            {
+                                                <a asp-action="Preview" asp-controller="Glossarys" asp-route-id="@glossary.Id" asp-area="">@glossary.Name</a>
+                                            }
+                                            @if (!glossary.Active && glossary.GlossarysId != null)
+                                            {
+                                                <i class="fas fa-globe"></i>
+                                            }
+                                        </td>
+                                        <td>
+                                            @if (glossary.GlossarysId != null)
+                                            {
+                                                <a asp-action="Preview" asp-controller="Glossarys" asp-route-id="@glossary.GlossarysId" asp-area="">@glossary.Glossarys.Name</a>
+                                            }
+                                            @if (glossary.Active && glossary.GlossarysId == null)
+                                            {
+                                                <i class="fas fa-globe"></i>
+                                            }
+                                        </td>
+                                    </div>
                                 </tr>
-                                </thead>
-                                <tbody>
-                                @foreach (var glossary in Model)
-                                {
-                                    <tr class="odd gradeX">
-                                        <div class="row border">
-                                            <td>
-                                                @if (glossary.Active)
-                                                {
-                                                    <a asp-action="Preview" asp-controller="Glossarys" asp-area="" asp-route-id="@glossary.Id">@glossary.Name</a>
-                                                }
-                                                @if (!glossary.Active && glossary.GlossarysId!=null)
-                                                {
-                                                    <i class="fas fa-globe"></i>
-                                                   }
-                                            </td>
-                                            <td>
-                                                @if (glossary.GlossarysId != null)
-                                                {
-                                                    <a asp-action="Preview" asp-controller="Glossarys" asp-area="" asp-route-id="@glossary.GlossarysId">@glossary.Glossarys.Name</a>
-                                                }
-                                                @if (glossary.Active && glossary.GlossarysId!=null)
-                                                {
-                                                   <i class="fas fa-globe"></i>
-                                                }
-                                            </td>
-                                        </div>
-                                    </tr>
-                                }
-                                </tbody>
-                            </table>
-                        </div>
+                            }
+                            </tbody>
+                        </table>
                     </div>
-                    <!-- /tile body -->
+                </div>
+                <!-- /tile body -->
 
-                </section>
-                <!-- /tile -->
-            </div>
+            </section>
+            <!-- /tile -->
+        </div>
 
-            <!-- /row -->
+        <!-- /row -->
     </div>
 </div>
+
 
 @section Scripts
 {

@@ -5,7 +5,7 @@
         <section class="tile portlet col-9">
             <div class="tile-body">
                 <div>
-                    <label>Название термина</label>
+                    <label>Название Термина:</label>
                     @if (Model.Action == "AddInterpretation")
                     {
                         <input class="form-control" disabled="disabled" type="text" value="@Model.Name">
@@ -18,7 +18,7 @@
                     <br/><span class="validationError" asp-validation-for="Name"></span>
                 </div>
                 <div>
-                    <label>Описание</label>
+                    <label>Толкование :</label>
                     <textarea name="Description" class="form-control" type="text" asp-for="Description" value="@Model.Description"></textarea>
                     <br/><span class="validationError" asp-validation-for="Description"></span>
                 </div>
@@ -33,12 +33,13 @@
                     <input class="form-control" type="text" asp-for="Abbreviation" value="@Model.Abbreviation">
                 </div>
                 <div>
-                    <label>Источник</label>
-                    <input class="form-control" type="text" asp-for="Source" value="@Model.Source">
+                    <label >Источник</label>
+                    <textarea name="Source" asp-for="Source" value="@Model.Source"></textarea>
+
                 </div>
                 @if (Model.Name == null && Model.Description == null)
                 {
-                    <button type="submit" class="btn btn-info mt-10 glossary-create-button">Сохранить Термин с описанием</button>
+                    <button type="submit" class="btn btn-info mt-10 glossary-create-button">Сохранить Термин с Толкованием</button>
                     
                 }
                 else
@@ -52,8 +53,7 @@
     </div>
 </div>
 
-    
-
+ 
 
 
 
