@@ -45,28 +45,44 @@
             var catInput = $('#catInput').val();
             $("#categories-row").load('@Url.Action("CreateCategoryAjax", "SourceManage")',{Name: catInput});
         };
+        var loadAuthor = function(){
+                    var typeInput = $('#typeInput').val();
+                    $("#types-row").load('@Url.Action("CreateAuthorAjax", "BooksManage")',{Name: typeInput});
+                };
        
         var deleteCategory = function(categoryId){
             $("#categories-row").load('@Url.Action("DeleteCategoryAjax", "SourceManage")', {Id: categoryId});
         };
+        var deleteAuthor = function(typeId){
+                    $("#types-row").load('@Url.Action("DeleteAuthorAjax", "BooksManage")', {Id: typeId});
+                };
                
         
         $(document).ready(function(){
         
             loadCategories();
+            loadAuthor();
           
             $('body').on('click','#catButton',function(event){
                  event.preventDefault();
                  setTimeout(loadCategories, 200)
             });
-           
+           $('body').on('click','#typeButton',function(event){
+                            event.preventDefault();
+                            setTimeout(loadAuthor, 200)
+                       });
            
             $('body').on('click','.buttonDeleteCat',function(event){
                  event.preventDefault();
                  setTimeout(function() {deleteCategory(event.currentTarget.value)}, 200)
             });
+             $('body').on('click','.buttonDeleteType',function(event){
+                             event.preventDefault();
+                             setTimeout(function() {deleteAuthor(event.currentTarget.value)}, 200)
+                        });
             
            
         })
     </script>
 }
+
