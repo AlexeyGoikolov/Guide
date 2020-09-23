@@ -33,7 +33,7 @@
 
                 <!-- row -->
                 <div class="row">
-                    <div class="col-md-9">
+                    <div class="col-md-8">
                         <h2 class="custom-font mt-0 mb-5">@Model.BusinessProcess.Name </h2>
                         <h6 class="custom-font mt-0 mb-5">дата создания: @Model.BusinessProcess.CreatedAt.ToShortDateString() </h6>
                         <div class="desc text-default lt mb-20 mt-20 material_content">
@@ -54,8 +54,8 @@
                         </div>
 
                     </div>
-                    <div class="col-md-3">
-                        <a class="btn btn-info" asp-action="Edit" asp-controller="BusinessProcessManage" asp-area="Admin" asp-route-id="@Model.BusinessProcess.Id">Редактировать Название и Описание</a>
+                    <div class="col-md-4">
+                        <a class="btn btn-small btn-info" asp-action="Edit" asp-controller="BusinessProcessManage" asp-area="Admin" asp-route-id="@Model.BusinessProcess.Id">Редактировать Название и Описание</a>
                     </div>
                 </div>
             </div>

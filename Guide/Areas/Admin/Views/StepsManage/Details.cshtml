@@ -33,15 +33,34 @@
 
                 <!-- row -->
                 <div class="row">
-                    <div class="col-md-9">
-                        <h2 class="custom-font mt-0 mb-5">@Model.Name </h2>
+                    <div class="col-md-12">
+                        <div class="col-md-12" style="padding: 0">
+                            <div class="col-md-8" style="padding: 0">
+                                <h2 class="custom-font mt-0 mb-5">@Model.Name </h2>
+                            </div>
+                            <div class="col-md-4">
+                                <div style="margin: 5px; margin-left: auto">
+                                        <a asp-action="Create" asp-controller="FaqManage" class="btn btn-blue"
+                                           asp-route-status="ToQuestion" asp-route-postId="@Model.Id">
+                                            Задать вопрос
+                                        </a>
+                                    </div>
+                                    <div style="margin: 5px; margin-left: auto">
+                                        <a class="btn btn-info" asp-action="Edit" asp-controller="StepsManage"
+                                           asp-area="Admin" asp-route-id="@Model.Id" asp-route-back="@Model.Name">
+                                            Редактировать Название и Описание Шага
+                                        </a>
+                                    </div>
+                            </div>
+                        </div>
+                        
                         <div class="desc text-default lt mb-20 mt-20 material_content">
                             @Html.Raw(Model.StepDescription)
                             <h2 style="color: #0c5460">Желаемые результаты :</h2>
                             @if (Model.DesiredResults.Count > 0)
                             {
                                 int i = 0;
-                                
+
                                 @foreach (var dr in Model.DesiredResults)
                                 {
                                     i++;
@@ -52,7 +71,7 @@
                                                 <i class="fa fa-trash"></i>
                                             </a>
                                             # @dr.Number - @dr.Name
-                                           
+
                                         </h4>
                                         <div id="confirmDesResDelete-@i" style="display: none">
                                             <p>Вы действительно хотите удалить этот ЖР для шага?</p>
@@ -65,18 +84,7 @@
                         </div>
 
                     </div>
-                    <div class="col-md-3 material_discription" data-lightbox="gallery">
-                       <div style="margin: 5px; margin-left: auto">
-                            <a asp-action="Create" asp-controller="FaqManage" class="btn btn-blue"
-                               asp-route-status="ToQuestion" asp-route-postId="@Model.Id">
-                                Задать вопрос
-                            </a>
-                        </div>
-                        <div  style="margin: 5px; margin-left: auto">
-                            <a class="btn btn-info" asp-action="Edit" asp-controller="StepsManage" 
-                               asp-area="Admin" asp-route-id="@Model.Id"  asp-route-back="@Model.Name">Редактировать Название и Описание Шага</a>
-                        </div>
-                    </div>
+                    
                 </div>
                </div>
             <!-- /tile body -->
