@@ -47,7 +47,6 @@
                             <thead>
                             <tr>
                                 <th>Название</th>
-                                <th>Автор</th>
                                 <th>Дата создания</th>
                                 <th style="width: 160px;" class="no-sort">Действие</th>
                             </tr>
@@ -59,7 +58,6 @@
                                     <td>
                                         <a asp-action="Details" asp-controller="StepsManage" asp-route-id="@step.Id">@step.Name</a>
                                     </td>
-                                    <td>@step.Author</td>
                                     <td>@step.CreatedAt</td>
                                     <td >
                                         <a class="btn btn-rounded-20 btn-default btn-sm mr-5 p-5" style="width:30px;" role="button" tabindex="0" target="_blank" 

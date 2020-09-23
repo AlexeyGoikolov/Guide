@@ -8,12 +8,12 @@
             <!-- tile body -->
             <div class="tile-body">
                 <div >
-                    <label>Название</label>
+                    <label>Название:</label>
                     <br/><span class="validationError" asp-validation-for="Name"></span>
                     <input class="form-control" type="text" asp-for="Name" value="@Model.Name">
                 </div>
                 <div>
-                    <label>Описание</label>
+                    <label>Описание:</label>
                     <textarea name="stepDescription" type="text" asp-for="StepDescription" value="@Model.StepDescription">@Model.StepDescription</textarea>
                 </div>
             </div>

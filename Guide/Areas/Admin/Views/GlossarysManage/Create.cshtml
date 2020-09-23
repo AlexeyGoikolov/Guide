@@ -2,14 +2,14 @@
 @model GlossaryViewModel
 
 @{
-    ViewBag.Title = "Добавить термин с описанием ";
+    ViewBag.Title = "Добавить Термин с Толкованием ";
     Layout = "_Layout";
 }
 <div class="page page-ui-portlets">
     <div class="pageheader">
         @if (Model.Action=="AddInterpretation")
         {
-            <h2>Добавить новое описание</h2>
+            <h2>Добавить новое Толкование</h2>
         }
         else
         {
@@ -80,6 +80,34 @@
     }
     <script>
             CKEDITOR.replace('Description');
+           
+                CKEDITOR.replace('Source', {
+                      // Define the toolbar groups as it is a more accessible solution.
+                      toolbarGroups: [{
+                          "name": "basicstyles",
+                          "groups": ["basicstyles"]
+                        },
+                        {
+                          "name": "links",
+                          "groups": ["links"]
+                        },
+                        {
+                          "name": "paragraph",
+                          "groups": ["list", "blocks"]
+                        },
+                                 
+                        {
+                          "name": "styles",
+                          "groups": ["styles"]
+                        }
+                                ],
+                      // Remove the redundant buttons from toolbar groups defined above.
+                      removeButtons: 'Underline,Strike,Subscript,Superscript,Anchor,Styles,Specialchar,document,insert,about'
+                    });
+               
+                    
+               
+
     </script>
      
 }

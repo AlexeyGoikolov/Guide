@@ -55,7 +55,7 @@
                                {
                                    <tr class="odd gradeX">
                                        <td>
-                                           <input type="checkbox" name="IssuesId[]" value="@issue.Id"><Br>
+                                           <input type="checkbox" class="IssuesCheckbox" value="@issue.Id"><Br>
                                        </td>
                                        <td>@issue.Name</td>
                                       </tr>
@@ -88,5 +88,13 @@
                    ]
                });                         
            });
+             $(".IssuesCheckbox").click(function(){
+                                          if($(this).is(":checked")){
+                                           $("form.create-form").append('<input type="hidden" name="IssuesId[]" value="'+$(this).val()+'">');
+                                             }else
+                                                 {
+                                                     $('input[type=hidden][value='+$(this).val()+']').remove();
+                                                    }
+                                 });  
        </script>
    }

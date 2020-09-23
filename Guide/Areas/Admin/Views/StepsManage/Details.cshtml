@@ -37,7 +37,7 @@
                         <h2 class="custom-font mt-0 mb-5">@Model.Name </h2>
                         <div class="desc text-default lt mb-20 mt-20 material_content">
                             @Html.Raw(Model.StepDescription)
-                            <h2 style="color: #0c5460">Желаемые результаты выполнения шага:</h2>
+                            <h2 style="color: #0c5460">Желаемые результаты :</h2>
                             @if (Model.DesiredResults.Count > 0)
                             {
                                 int i = 0;
@@ -55,7 +55,7 @@
                                            
                                         </h4>
                                         <div id="confirmDesResDelete-@i" style="display: none">
-                                            <p>Вы действительно хотите удалить этот желаемый результат?</p>
+                                            <p>Вы действительно хотите удалить этот ЖР для шага?</p>
                                             <button class="btn btn-small btn-danger" id="confirmDRDelete-@i">Да</button>
                                             <button class="btn btn-small btn-green" id="cancelDR-@i">Нет</button>
                                         </div>
@@ -66,12 +66,7 @@
 
                     </div>
                     <div class="col-md-3 material_discription" data-lightbox="gallery">
-                        @if (Model.Author != null)
-                        {
-                            <h5>Автор : @Model.Author</h5>
-                        }
-                        <div>Дата добавления - @Model.CreatedAt</div>
-                        <div style="margin: 5px; margin-left: auto">
+                       <div style="margin: 5px; margin-left: auto">
                             <a asp-action="Create" asp-controller="FaqManage" class="btn btn-blue"
                                asp-route-status="ToQuestion" asp-route-postId="@Model.Id">
                                 Задать вопрос

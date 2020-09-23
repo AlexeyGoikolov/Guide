@@ -37,7 +37,7 @@
                         <h2 class="custom-font mt-0 mb-5">@Model.Name </h2>
                         <div class="desc text-default lt mb-20 mt-20 material_content">
                             @Html.Raw(Model.StepDescription)
-                            <h2 style="color: #0c5460">Желаемые результаты выполнения шага:</h2>
+                            <h2 style="color: #0c5460">Желаемые результаты :</h2>
                             @if (Model.DesiredResults.Count > 0)
                             {
                                 @foreach (var dr in Model.DesiredResults)
@@ -51,15 +51,11 @@
 
                     </div>
                     <div class="col-md-3 material_discription" data-lightbox="gallery">
-                        @if (Model.Author != null)
-                        {
-                            <h5>Автор : @Model.Author</h5>
-                        }
-                        <div>Дата добавления - @Model.CreatedAt</div>
-                        <div>Тип - @Model.Type</div>
+                        
 
                         <div style="margin: 5px; margin-left: auto">
-                            <a asp-action="Create" asp-controller="QuestionAnswers" class="btn btn-info" asp-route-status="ToQuestion" asp-route-postId="@Model.Id">Задать вопрос</a>
+                            <a asp-action="Create" asp-controller="QuestionAnswers" 
+                               class="btn btn-info" asp-route-status="ToQuestion" asp-route-postId="@Model.Id">Задать вопрос</a>
                         </div>
                     </div>
                 </div>

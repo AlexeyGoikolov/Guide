@@ -47,18 +47,27 @@
                             <thead>
                             <tr>
                                 <th>Название</th>
-                                <th>Дата создания</th>
+                                <th>Бизнес-процесс</th>
                                 <th style="width: 160px;" class="no-sort">Действие</th>
                             </tr>
                             </thead>
                             <tbody>
                             @foreach (var issue in Model)
                             {
-                                <tr class="odd gradeX">
+                               <tr class="odd gradeX">
                                     <td>
-                                        <a asp-action="Details" asp-controller="IssuesManage" asp-route-id="@issue.Id"  asp-route-back="Задачи">@issue.Name</a>
+                                        <a asp-action="Details" asp-controller="IssuesManage" asp-route-id="@issue.Id" 
+                                           asp-route-back="Задачи">@issue.Name</a>
                                     </td>
-                                    <td>@issue.CreatedAt</td>
+                                    <td>
+                                        @foreach (var bp in issue.BP)
+                                        {
+                                            <p>
+                                               - <a asp-action="Details" asp-controller="BusinessProcessManage" asp-route-id="@bp.Id" asp-route-back="Задачи">@bp.Name</a>
+                                            </p>
+                                            
+                                        }
+                                    </td>
                                     <td >
                                         <a class="btn btn-rounded-20 btn-default btn-sm mr-5 p-5" style="width:30px;" role="button" tabindex="0" target="_blank" 
                                            title="Вид пользователя" asp-action="Details" asp-controller="Issues" asp-area="" asp-route-id="@issue.Id"><i class="fa fa-eye"></i></a>
