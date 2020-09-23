@@ -1,7 +1,15 @@
 ﻿@model Book
 
 @{
-    ViewBag.Title = "Удаление книги";
+    if (Model.Active)
+    {
+       ViewBag.Title = "Удаление книги"; 
+    }
+    else
+    {
+        ViewBag.Title = "Восстановление книги"; 
+    }
+    
     Layout = "_Layout";
 }
 <div class="page page-tables-datatables">
@@ -17,11 +25,18 @@
                     <a asp-action="Index" asp-controller="SourceManage"> Библиотека</a>
                 </li>
                 <li>
-                    <a asp-action="Delete" asp-controller="BooksManage" asp-route-id="@Model.Id">Удаление источника</a>
+                    <a asp-action="Delete" asp-controller="BooksManage" asp-route-id="@Model.Id">@ViewBag.Title</a>
                 </li>
             </ul>
         </div>
-        <h2>Вы уверены что хотите удалить книгу - @Model.Name</h2>
+        @if (Model.Active)
+        {
+            <h2>Вы уверены что хотите удалить книгу - @Model.Name</h2>
+        }
+        else
+        {
+            <h2>Вы уверены что хотите восстановить книгу - @Model.Name</h2>
+        }
         <div>
             <div style="display: inline-block">
                 <form asp-action="Delete" asp-controller="BooksManage" asp-area="Admin" method="post" asp-route-id="@Model.Id">

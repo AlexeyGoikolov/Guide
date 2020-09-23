@@ -11,6 +11,8 @@ namespace Guide.ViewModels
         public string Name { get; set; }
         public string Author { get; set; }
         public DateTime DateCreate { get; set; }
+
+        public string FilePath { get; set; }
         
         // Тип котнетна
         public virtual TypeContent TypeContent { get; set; }
