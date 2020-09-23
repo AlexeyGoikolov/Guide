@@ -53,7 +53,7 @@ namespace Guide.Controllers
                 models.Add(new LibraryListViewModel()
                 {
                     Id = book.Id,
-                    Author = book.Author,
+                    
                     Name = book.Name,
                     Type = new Type() {Name = s},
                     TypeContent = new TypeContent() {Name = "Книга"},
