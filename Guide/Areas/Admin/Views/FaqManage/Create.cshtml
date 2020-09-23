@@ -43,7 +43,7 @@
            
             <form class="create-form" asp-action="Create" asp-controller="FaqManage" 
                   asp-area="Admin" method="post" enctype="multipart/form-data" >
-                @{ Html.RenderPartial("PartialViews/QuestionAnswers", Model); }
+                @{ await Html.RenderPartialAsync("PartialViews/QuestionAnswers", Model); }
                 <input type="hidden" value="@Model.QuestionAnswer.Id" asp-for="QuestionAnswer.Id">
                 <input type="hidden" value="@Model.Status" asp-for="@Model.Status">
                 <input type="hidden" value="@Model.PostId" asp-for="@Model.PostId">

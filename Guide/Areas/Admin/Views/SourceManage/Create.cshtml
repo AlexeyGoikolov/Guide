@@ -33,7 +33,7 @@
         <div class="tile-body">
             <form class="create-form" asp-action="Create" asp-controller="SourceManage" method="post" enctype="multipart/form-data">
                 <div asp-validation-summary="ModelOnly"></div>
-                @{ Html.RenderPartial("PartialViews/FormPartial", Model); }
+                @{ await Html.RenderPartialAsync("PartialViews/FormPartial", Model); }
                 
                 <input type="hidden" value="@Model.Id" id="postId" asp-for="Id">
             </form>
