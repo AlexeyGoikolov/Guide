@@ -9,5 +9,6 @@ namespace Guide.ViewModels
         public List<Issue> DesignatedIssues { get; set; }
         public List<Issue> AllIssue { get; set; }
         public string Action { get; set; }
+        public  string Back{ get; set; }
     }
 }

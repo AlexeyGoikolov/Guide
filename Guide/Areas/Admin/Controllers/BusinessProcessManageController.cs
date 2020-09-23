@@ -49,10 +49,11 @@ namespace Guide.Areas.Admin.Controllers
             return View(model);
         }
 
-        public IActionResult Details(int id)
+        public IActionResult Details(int id, string back)
         {
             BusinessProcessIssuesViewModel model = new BusinessProcessIssuesViewModel()
             {
+                Back = back,
                 BusinessProcess = _db.BusinessProcesses.FirstOrDefault(i => i.Id == id),
                 DesignatedIssues = _db.BusinessProcessIssues.OrderBy(b => b.Id).Where(b => b.BusinessProcessId == id).
                     Select(i => i.Issue).ToList(),

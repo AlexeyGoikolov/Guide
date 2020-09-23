@@ -47,8 +47,7 @@
                             <thead>
                             <tr>
                                 <th>Название</th>
-                                <th>Дата создания</th>
-                                <th style="width: 160px;" class="no-sort">Действие</th>
+                               <th style="width: 160px;" class="no-sort">Действие</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -56,9 +55,8 @@
                             {
                                 <tr class="odd gradeX">
                                     <td>
-                                        <a asp-action="Details" asp-controller="BusinessProcessManage" asp-route-id="@process.Id">@process.Name</a>
+                                        <a asp-action="Details" asp-controller="BusinessProcessManage" asp-route-id="@process.Id" asp-route-back="Бизнесс процессы">@process.Name</a>
                                     </td>
-                                    <td>@process.CreatedAt</td>
                                     <td >
                                         <a class="btn btn-rounded-20 btn-default btn-sm mr-5 p-5" style="width:30px;" role="button" tabindex="0" target="_blank" 
                                            title="Вид пользователя" asp-action="Details" asp-controller="BusinessProcessManage" asp-area="Admin" asp-route-id="@process.Id"><i class="fa fa-eye"></i></a>
