@@ -16,7 +16,6 @@ namespace Guide.ViewModels
         public string PhysicalPath { get; set; }
         [Remote("CheckYear","Validation", "", ErrorMessage = "Некорректное значение")]
         public string YearOfWriting { get; set; }
-        public int CategoryId { get; set; }
         public string Edition { get; set; }
         public List<Author> AllAuthors { get; set; }
     }

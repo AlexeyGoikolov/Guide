@@ -1,7 +1,10 @@
 ﻿
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using Guide.Models;
 using Guide.Models.Data;
 using Guide.Services;
@@ -42,7 +45,7 @@ namespace Guide.Areas.Admin.Controllers
         }
         
         [HttpPost]
-        public IActionResult Create(IFormFile coverPath, IFormFile virtualPath, BookCreateViewModel model, int[] authors)
+        public IActionResult Create(BookCreateViewModel model, string[] authors, IFormFile coverFile, IFormFile bookFile)
         {
             if (ModelState.IsValid)
             {
@@ -53,10 +56,10 @@ namespace Guide.Areas.Admin.Controllers
                     IsRecipe = model.IsRecipe,
                     ISBN = model.ISBN,
                     Edition = model.Edition,
-                    CoverPath = Load(model.Name, coverPath),
-                    VirtualPath = Load(model.Name, virtualPath),
+                    CoverPath = Load(model.Name, coverFile),
+                    VirtualPath = Load(model.Name, bookFile),
                     PhysicalPath = model.PhysicalPath,
-                    YearOfWriting = model.YearOfWriting
+                    YearOfWriting = model.YearOfWriting,
                 };
                 if (book.CoverPath == null)
                 {
@@ -64,14 +67,17 @@ namespace Guide.Areas.Admin.Controllers
                 }
                 _db.Books.Add(book);
                 _db.SaveChanges();
+                
                 if (authors.Length > 0)
                 {
-                    foreach (var author in authors)
+                    string substring = authors[0].Substring(1);
+                    string[] authorsId = substring.Split(',');
+                    foreach (var author in authorsId)
                     {
                         BookAuthor bookAuthor = new BookAuthor()
                         {
                             BookId = book.Id,
-                            AuthorId = author
+                            AuthorId = Convert.ToInt32(author)
                         };
                         _db.BookAuthors.Add(bookAuthor);
                     }

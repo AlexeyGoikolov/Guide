@@ -9,36 +9,29 @@
             <!-- tile body -->
             <div class="tile-body">
                 <div >
-                        <label>Код книги(ISBN)</label> <br/><span class="validationError" asp-validation-for="ISBN"></span>
-                        <input id="isbn" class="form-control" type="text" asp-for="ISBN" value="@Model.ISBN">
-                    </div>
-                    <div class="form-group" id="author-row">
-                        <label class="control-label">Выберите авторов</label>
+                    <label>Код книги(ISBN)</label> <br/><span class="validationError" asp-validation-for="ISBN"></span>
+                    <input id="isbn" class="form-control" type="text" asp-for="ISBN" value="@Model.ISBN">
+                </div>
+                <div >
+                    <label>Название</label><br/><span class="validationError" asp-validation-for="Name"></span>
+                    <input id="name" class="form-control" type="text" asp-for="Name" value="@Model.Name">
+                </div>
+                <div class="form-group" id="author-row">
+                    <label style="display: block" class="control-label">Выберите авторов</label>
 
-                            <select multiple="" tabindex="3" class="chosen-select" style="width: 85%;">
-                                <option value=""></option>
-                                @{ Html.RenderPartial("PartialViews/AuthorPartial", Model); }
-                            </select>
-                            <button class="btn btn-outline-secondary" type="button" data-toggle="modal" data-target="#modalType">
-                                <i class="fas fa-plus"></i>
-                            </button>
-
-                    </div>
-                    <div >
-                        <label>Название</label><br/><span class="validationError" asp-validation-for="Name"></span>
-                        <input id="name" class="form-control" type="text" asp-for="Name" value="@Model.Name">
-                    </div>
-                    <div >
-                        <label>Год издания</label>
-                        <br/><span class="validationError" asp-validation-for="YearOfWriting"></span>
-                        <input id="year" placeholder="0000" class="form-control" type="text" asp-for="YearOfWriting" value="@Model.YearOfWriting">
-
-                    </div>
-                    <div class="col">
-                        <span>Обложка</span>
-                        <input id="coverPath" name="coverPath" class="btn" style="padding: 6px 0" type="file">
-                    </div>
-
+                    <select multiple="" tabindex="3" class="chosen-select" style="width: 85%;">
+                        <option value=""></option>
+                        @{ Html.RenderPartial("PartialViews/AuthorPartial", Model); }
+                    </select>
+                    <button class="btn btn-outline-secondary" type="button" data-toggle="modal" data-target="#modalType">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+                <div >
+                    <label>Год издания</label>
+                    <br/><span class="validationError" asp-validation-for="YearOfWriting"></span>
+                    <input id="year" placeholder="0000" class="form-control" type="text" asp-for="YearOfWriting" value="@Model.YearOfWriting">
+                </div>
             </div>
             <!-- /tile body -->
         </section>
@@ -47,7 +40,6 @@
         <section class="tile portlet col - 6">
             <!-- tile body -->
             <div class="tile-body">
-                <div id="categories-row" class="form-group" style="justify-content: center;"></div>
                 <div >
                     <label>В какой редакции :</label>
                     <input id="edition" class="form-control" type="text" asp-for="Edition" value="@Model.Edition">
@@ -60,7 +52,11 @@
 
                 <div class="col">
                     <span>Цифровая версия книги в формате .pdf</span>
-                    <input id="bookFile" class="btn" style="padding: 6px 0" name="virtualPath" type="file">
+                    <input id="bookFile" class="btn" style="padding: 6px 0" name="bookFile" type="file">
+                </div>
+                <div class="col">
+                    <span>Обложка</span>
+                    <input id="coverFile" name="coverFile" class="btn" style="padding: 6px 0" type="file">
                 </div>
                 <button id="submit-btn" type="submit" class="btn btn-info" style="width: 100%; margin-top: 1rem">Сохранить книгу и выйти</button>
             </div>
