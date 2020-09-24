@@ -49,7 +49,7 @@
                         <div class="tile-body">
                             @Html.Raw(interpretation.Description)
                             <hr/>
-                            <div >
+                            <div style="text-align: right">
                                 @Html.Raw(interpretation.Source)
                             </div>
                         </div>
@@ -62,7 +62,7 @@
         {
             <div class="col-sm-6 portlets ">
                 <section class="tile portlet col - 6">
-                    <div class="tile-header dvd dvd-btm">
+                    <div class=" tile-header dvd dvd-btm">
                         <h1 class="custom-font">
                             <strong>@Model.Glossarys.Name ( @Model.GlossarysInterpretations[0].Abbreviation)</strong>
                         </h1>

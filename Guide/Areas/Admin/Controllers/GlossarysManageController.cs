@@ -81,7 +81,6 @@ namespace Guide.Areas.Admin.Controllers
                     _db.Interpretations.Add(interpretation);
                     _db.SaveChanges();
                     return RedirectToAction("Preview", new {id = glossary.Id});
-                   // return View("~/Areas/Admin/Views/GlossarysManage/Preview.cshtml", _db.Glossaries.FirstOrDefault(g => g.Id == model.Id));
                 }
 
                 if (glossary == null)
@@ -170,8 +169,6 @@ namespace Guide.Areas.Admin.Controllers
                 _db.Interpretations.Remove(interpretation);
                 _db.SaveChanges();
                 return RedirectToAction("Preview", new {id = interpretation.GlossaryId});
-                return View("~/Areas/Admin/Views/GlossarysManage/Preview.cshtml",
-                    _db.Glossaries.FirstOrDefault(g => g.Id == interpretation.GlossaryId));
             }
             return NotFound();
         }
@@ -216,11 +213,12 @@ namespace Guide.Areas.Admin.Controllers
                     await _db.SaveChangesAsync();
                 }
 
-                Interpretation interpretation = await _db.Interpretations.FirstOrDefaultAsync(i => i.Id == model.InterpretationId);
-                if (interpretation != null && 
-                    (interpretation.Description!=model.Description || 
-                     interpretation.Abbreviation!=model.Abbreviation ||
-                     interpretation.Source!=model.Source))
+                Interpretation interpretation =
+                    await _db.Interpretations.FirstOrDefaultAsync(i => i.Id == model.InterpretationId);
+                if (interpretation != null && model.Description != null &&
+                    (interpretation.Description != model.Description ||
+                     interpretation.Abbreviation != model.Abbreviation ||
+                     interpretation.Source != model.Source))
                 {
                     interpretation.Description = model.Description;
                     interpretation.Abbreviation = model.Abbreviation;
@@ -228,8 +226,8 @@ namespace Guide.Areas.Admin.Controllers
                     _db.Interpretations.Update(interpretation);
                     await _db.SaveChangesAsync();
                 }
-                
-                return View("~/Areas/Admin/Views/GlossarysManage/Preview.cshtml", _db.Glossaries.FirstOrDefault(g => g.Id == model.Id));
+
+                return RedirectToAction("Preview",new {id=glossary.Id});
             }
             return View(model);
         }
