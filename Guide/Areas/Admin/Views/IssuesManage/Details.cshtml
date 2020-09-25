@@ -63,7 +63,9 @@
                                                    title="Удалить шаг" onclick="openStepConfirmDelete(@i,'@Model.Issue.Id','@step.Id')">
                                                     <i class="fa fa-trash"></i>
                                                 </a>
-                                                @i- @step.Name
+                                                <a asp-action="Edit" asp-controller="StepsManage" asp-route-id="@step.Id">
+                                                    @i - @step.Name
+                                                </a>
                                             </a>
 
                                         </h3>

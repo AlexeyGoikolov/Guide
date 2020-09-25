@@ -76,7 +76,7 @@
                                         <td>
                                             @if (glossary.GlossarysId != null)
                                             {
-                                                <a asp-action="Preview" asp-controller="GlossarysManage" asp-route-id="@glossary.GlossarysId">@glossary.Glossarys.Name</a>
+                                                <a asp-action="Preview" asp-controller="GlossarysManage" asp-route-id="@glossary.Id">@glossary.Glossarys.Name</a>
                                             }
                                             @if (glossary.Active && glossary.GlossarysId == null)
                                             {
