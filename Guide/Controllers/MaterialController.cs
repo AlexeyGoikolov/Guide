@@ -64,7 +64,7 @@ namespace Guide.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> ViewComment(int id)
+        public IActionResult ViewComment(int id)
         {
             List<Comment> comments = _db.Comments.Where(c => c.PostId == id)
                 .OrderByDescending(g => g.DateOfCreate).ToList();

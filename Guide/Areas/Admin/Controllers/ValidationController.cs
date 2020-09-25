@@ -12,7 +12,6 @@ namespace Guide.Areas.Admin.Controllers
     {
         // GET
         private readonly GuideContext _db;
-        private readonly UserManager<User> _userManager;
         public ValidationController(GuideContext db)
         {
             _db = db;
@@ -29,7 +28,7 @@ namespace Guide.Areas.Admin.Controllers
                     return true;
                 return false;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return false;
             }

@@ -359,7 +359,7 @@ namespace Guide.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> ViewComment(int id, string type)
+        public IActionResult ViewComment(int id, string type)
         {
             List<Comment> comments;
             if (type == "book")

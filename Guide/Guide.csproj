@@ -13,6 +13,7 @@
       <_ContentIncludedByDefault Remove="wwwroot\BooksFiles\834896c4-b901-48d3-80ef-4618f70cf658\обложка.jpg" />
       <_ContentIncludedByDefault Remove="wwwroot\BooksFiles\Running Lean(Рационализация стартапа)\Book_Running lean Рационализация стартапа.pdf" />
       <_ContentIncludedByDefault Remove="wwwroot\BooksFiles\Running Lean(Рационализация стартапа)\Обложка Running Lean.jpg" />
+      <_ContentIncludedByDefault Remove="Areas\Admin\Views\Shared\_ValidationScriptsPartial.cshtml" />
     </ItemGroup>
 
     <ItemGroup>

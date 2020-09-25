@@ -61,16 +61,13 @@
            
            let getbusinessP = document.getElementById('businessProcesses-row');
            let getBPName = getbusinessP.getElementsByTagName('span');
-           console.log(getBPName);
            for (let i=0; i < getBPName.length; i++){
                businessProcessesArray.push(getBPName[i].innerHTML);
-               console.log(getBPName[i].innerHTML)
            }
           var authors = document.getElementById('author-row');
           var getAuthorName = authors.getElementsByTagName('span');
           for (var i=0; i < getAuthorName.length; i++){
             authorArray.push(getAuthorName[i].innerHTML);
-            console.log(getAuthorName[i].innerHTML)
           }
            
           let formData = new FormData();
@@ -78,6 +75,7 @@
           let bookFile = document.getElementById('bookFile');         
           formData.append(coverFile.getAttribute('name'), coverFile.files[0]);
           formData.append(bookFile.getAttribute('name'), bookFile.files[0]);
+          formData.append('IsRecipe', $('#isRecipe').val());
           formData.append('Name', $('#name').val());
           formData.append('PhisicalPath', $('#physPath').val());
           formData.append('YearOfWriting', $('#year').val());
@@ -95,7 +93,12 @@
             contentType: false,
             processData: false,          
             success: function(response) {
-                 window.location.href = "@Url.Action("Index","SourceManage", new{area="Admin"})"
+                if (response === true){
+                    window.location.href = "@Url.Action("Index","SourceManage", new{area="Admin"})"
+                }
+                else{
+                    $('.pageheader').append('<span style="color: red">Вы не добавили книгу. Проверьте название или файл<span>')
+                } 
             }                                                        
           });                   
         });
