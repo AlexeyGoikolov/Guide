@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
 using Guide.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Guide.ViewModels
@@ -17,7 +14,11 @@ namespace Guide.ViewModels
         [Remote("CheckYear","Validation", "", ErrorMessage = "Некорректное значение")]
         public string YearOfWriting { get; set; }
         public string Edition { get; set; }
+        public string AdditionalInformation { get; set; }
         public List<Author> AllAuthors { get; set; }
+        public List<BusinessProcess> BusinessProcessesList { get; set; }
+        public string BusinessProcesses { get; set; }
+        public int BookId { get; set; }
     }
     
    

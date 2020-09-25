@@ -21,7 +21,7 @@
 
                     <select multiple="" tabindex="3" class="chosen-select" style="width: 85%;">
                         <option value=""></option>
-                        @{ Html.RenderPartial("PartialViews/AuthorPartial", Model); }
+                        @{ await Html.RenderPartialAsync("PartialViews/AuthorPartial", Model); }
                     </select>
                     <button class="btn btn-outline-secondary" type="button" data-toggle="modal" data-target="#modalType">
                         <i class="fas fa-plus"></i>
@@ -31,6 +31,18 @@
                     <label>Год издания</label>
                     <br/><span class="validationError" asp-validation-for="YearOfWriting"></span>
                     <input id="year" placeholder="0000" class="form-control" type="text" asp-for="YearOfWriting" value="@Model.YearOfWriting">
+                </div>
+                 <div class="form-group" id="businessProcesses-row">
+                     <label style="display: block" class="control-label">Бизнес процес</label>
+
+                     <select multiple="" tabindex="3" class="chosen-select" style="width: 85%;">
+                         <option value=""></option>
+                         @{ await Html.RenderPartialAsync("PartialViews/BusinessProcessesPartal", Model); }
+                     </select>
+                 </div>
+                <div>
+                    <label>Дополнительная информация</label>
+                    <textarea class="form-control" type="text" asp-for="AdditionalInformation" value="@Model.AdditionalInformation"></textarea>
                 </div>
             </div>
             <!-- /tile body -->

@@ -73,6 +73,14 @@ namespace Guide.Areas.Admin.Controllers
                     string[] parts = s.Split('.');
                     s = parts[parts.Length - 1];
                 }
+                BookIdAndEnglishBookId bookIdAndEnglishBookId = new BookIdAndEnglishBookId();
+                bookIdAndEnglishBookId = _db.BookIdAndEnglishBookIds.FirstOrDefault(b => b.BookId == book.Id);
+                int translationID = 0;
+                if (bookIdAndEnglishBookId == null)
+                    bookIdAndEnglishBookId = _db.BookIdAndEnglishBookIds.FirstOrDefault(b => b.EnglishBookId == book.Id);
+                if (bookIdAndEnglishBookId != null)
+                    translationID = bookIdAndEnglishBookId.EnglishBookId;
+                
                 models.Add(new LibraryListViewModel()
                 {
                     Id = book.Id,
@@ -83,7 +91,8 @@ namespace Guide.Areas.Admin.Controllers
                     TypeState = book.IsRecipe ? new TypeState() {Name = "Рецепт"} : new TypeState() {Name = ""},
                     DateCreate = book.DateCreate,
                     Active = book.Active,
-                    FilePath = book.VirtualPath
+                    FilePath = book.VirtualPath,
+                    TranslationID = translationID
                 });
             }
             return View(models);

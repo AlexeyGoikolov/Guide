@@ -71,7 +71,28 @@ namespace Guide.Controllers
        
         public IActionResult Details(int id)
         {
+            int translationID = 0;
+            ViewBag.BookTransferLanguage = 0;
             Book book = _db.Books.FirstOrDefault(b => b.Id == id);
+            BookIdAndEnglishBookId bookIdAndEnglishBookId = new BookIdAndEnglishBookId();
+            bookIdAndEnglishBookId = _db.BookIdAndEnglishBookIds.FirstOrDefault(b => b.BookId == id);
+
+            if (bookIdAndEnglishBookId != null)
+            {
+                translationID = bookIdAndEnglishBookId.EnglishBookId;
+                ViewBag.BookTransferLanguage = "en";
+            }
+            
+            if (bookIdAndEnglishBookId == null)
+                bookIdAndEnglishBookId = _db.BookIdAndEnglishBookIds.FirstOrDefault(b => b.EnglishBookId == id);
+            
+            if(translationID == 0 && bookIdAndEnglishBookId != null)
+            {
+                translationID = bookIdAndEnglishBookId.BookId;
+                ViewBag.BookTransferLanguage = "ru";
+            }
+            
+            ViewBag.BookTransferId = translationID;
             return View(book);
         }
      public  IActionResult ReadBook(string path, int id)

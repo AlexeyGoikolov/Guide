@@ -43,7 +43,6 @@
                             </div>
                         </div>
                         <!-- /tile body -->
-
                     </section>
                 </div>
                 <div class="col-sm-8 portlets sortable">
@@ -58,7 +57,6 @@
                                 ISBN @Model.ISBN
                             </div>
                             <div>
-                                
                                 <h2>" @Model.Name "</h2>
                             </div>
                             <div>год издания : @Model.YearOfWriting</div>
@@ -77,10 +75,18 @@
                             </div>
                             <div>
                                 <a asp-action="ReadBook" asp-controller="BooksManage" asp-route-path="@Model.VirtualPath" asp-route-id="@Model.Id"><i class="fa fa-book"></i> читать книгу </a>
+                                </div>
+                                 <div>
+                                @if (ViewBag.BookTransferId != 0)
+                                {
+                                    @if(ViewBag.BookTransferLanguage == "ru")
+                                    {<a asp-action="Details" asp-controller="BooksManage" asp-route-path="" asp-route-id="@ViewBag.BookTransferId"><i class="fas fa-globe"></i> Перевод</a>}
+                                    @if(ViewBag.BookTransferLanguage == "en")
+                                    {<a asp-action="Details" asp-controller="BooksManage" asp-route-path="" asp-route-id="@ViewBag.BookTransferId"><i class="fas fa-globe"></i> Оригинальная версия</a>}
+                                }
+                                 
                             </div>
-                            
                         </div>
-
                         <!-- /tile body -->
 
                     </section>
