@@ -27,6 +27,13 @@ namespace Guide.Areas.Admin.Controllers
         public IActionResult Index()
         {
             List<Issue> issues = _db.Issues.ToList();
+            
+            foreach (var issue in issues)
+            {
+                issue.BP = _db.BusinessProcessIssues.OrderBy(b => b.Id)
+                    .Where(b => b.IssueId == issue.Id).
+                    Select(b => b.BusinessProcess).ToList();
+            }
             return View(issues);
         }
         public IActionResult IndexPosition(int id)

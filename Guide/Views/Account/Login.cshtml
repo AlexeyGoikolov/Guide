@@ -3,26 +3,28 @@
     ViewBag.Title = "Вход";
     Layout = "_Layout";
 }
-        <div id="wrap" class="animsition">
-            <div class="page page-core page-login">
-                <div class="text-center"><h3 class="text-light text-white"><span class="text-lightred">G</span>UIDE</h3></div>
-                <div class="container w-420 p-15 bg-white mt-40 text-center">
-                    <h2 class="text-light text-greensea">Авторизация</h2>
-                        <form method="post" asp-controller="Account" asp-action="Login"  asp-route-returnUrl="@Model.ReturnUrl" class="form-validation mt-20">
-                            <div asp-validation-summary="ModelOnly"></div>
-                            <div class="form-group">
-                                <input id="email" class="form-control underline-input" placeholder="Email" asp-for="Email"/>
-                                <span asp-validation-for="Email"></span>
-                            </div>
-                            <div class="form-group">
-                        <input id="password" asp-for="Password" placeholder="Пароль" class="form-control underline-input"/>
-                            <span asp-validation-for="Password"></span>
-                        </div>
-                        <div class="form-group text-left mt-20">
-                            <input id="submit" class="btn btn-greensea" type="submit" value="Войти"/>
-                        </div>
-                    </form>
-                    <hr class="b-3x">
-                </div>
+
+<div class="page page-core page-login">
+    <div class="text-center">
+        <h3 class="text-light text-white"><span class="text-lightred">G</span>UIDE</h3>
+    </div>
+    <div class="container w-420 p-15 bg-white mt-40 text-center">
+        <h2 class="text-light text-greensea">Авторизация</h2>
+        <form method="post" asp-controller="Account" asp-action="Login" asp-area="" asp-route-returnUrl="@Model.ReturnUrl" class="form-validation mt-20">
+            <div asp-validation-summary="ModelOnly"></div>
+            <div class="form-group">
+                <input id="email" class="form-control underline-input" placeholder="Email" asp-for="Email"/>
+                <span asp-validation-for="Email"></span>
             </div>
-        </div>
+            <div class="form-group">
+                <input id="password" asp-for="Password" placeholder="Пароль" class="form-control underline-input"/>
+                <span asp-validation-for="Password"></span>
+            </div>
+            <div class="form-group text-left mt-20">
+                <input id="submit" class="btn btn-greensea" type="submit" value="Войти"/>
+            </div>
+        </form>
+        <hr class="b-3x">
+    </div>
+</div>
+

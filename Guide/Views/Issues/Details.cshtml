@@ -37,7 +37,7 @@
                         <h2 class="custom-font mt-0 mb-5">@Model.Issue.Name </h2>
                         <div class="desc text-default lt mb-20 mt-20 material_content">
                             @Html.Raw(Model.Issue.IssueDescription)
-                            <h2 style="color: #0c5460">Шаги для выполнения задачи :</h2>
+                            <h2 style="color: #0c5460">Шаги :</h2>
                             @if (Model.DesignatedSteps.Count > 0)
                             {
                                 int i = 0;
@@ -51,7 +51,7 @@
                                     </h3>
                                 }
                             }
-                          <h2 style="color: #0c5460">Желаемые результаты выполнения задачи:</h2>
+                          <h2 style="color: #0c5460">Желаемые результаты :</h2>
                             @if (Model.DesiredResults.Count > 0)
                             {
                                 @foreach (var dr in Model.DesiredResults)

@@ -15,13 +15,15 @@ namespace Guide.Controllers
         }
         public IActionResult Index()
         {
-            List<Glossary> glossaries = _db.Glossaries.Where(g=>g.Active==true && g.Language == Models.Language.ru).
+            List<Glossary> glossaries = _db.Glossaries.Where(g=>g.Language == Models.Language.ru).
                 OrderBy(g => g.Name).ToList();
             return View(glossaries);
         }
         public IActionResult Preview(int id)
         {
             Glossary glossary = _db.Glossaries.FirstOrDefault(g => g.Id == id);
+            glossary.GlossarysInterpretations =
+                _db.Interpretations.Where(i => i.GlossaryId == glossary.GlossarysId).ToList();
             return View(glossary);
         }
     }

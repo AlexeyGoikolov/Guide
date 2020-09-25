@@ -37,12 +37,12 @@
                            <!-- tile body -->
                            <div class="tile-body">
                                <div >
-                                   <label>Заголовок</label>
+                                   <label>Название:</label>
                                    <br/><span class="validationError" asp-validation-for="@Model.Issue.Name"></span>
                                    <input class="form-control" type="text" asp-for="Issue.Name" value="@Model.Issue.Name">
                                </div>
                                <div>
-                                   <label>Содержание</label>
+                                   <label>Описание:</label>
                                    <textarea name="issue.issueDescription" type="text" asp-for="Issue.IssueDescription" 
                                     >@Model.Issue.IssueDescription</textarea>
                                </div>
@@ -58,7 +58,7 @@
 
                         <!-- tile body -->
                         <div class="tile-body">
-                            <h4 style="color: #0c5460">Шаги для выполнения задачи :</h4>
+                            <h4 style="color: #0c5460">Шаги :</h4>
                             @if (Model.DesignatedSteps.Count > 0)
                             {
                                 int i = 0;
@@ -77,7 +77,7 @@
                                             </a>
                                         </h3>
                                         <div id="confirmStepDelete-@i" style="display: none">
-                                            <p>Вы действительно хотите удалить этот шаг?</p>
+                                            <p>Вы действительно хотите удалить связь задачи с этим шагом?</p>
                                             <button class="btn btn-small btn-danger" id="confirm-@i">Да</button>
                                             <button class="btn btn-small btn-green" id="cancel-@i">Нет</button>
                                         </div>
@@ -86,7 +86,7 @@
                                     
                                 }
                             }
-                            <h4 style="color: #0c5460">Желаемые результаты выполнения задачи:</h4>
+                            <h4 style="color: #0c5460">Желаемые результаты :</h4>
                             @if (Model.DesiredResults.Count > 0)
                             {
                                 int i = 0;
@@ -102,7 +102,7 @@
                                             </a>
                                         </h4>
                                         <div id="confirmDesResDelete-@i" style="display: none">
-                                            <p>Вы действительно хотите удалить этот желаемый результат?</p>
+                                            <p>Вы действительно хотите удалить связь задачи с этим ЖР?</p>
                                             <button class="btn btn-small btn-danger" id="confirmDRDelete-@i">Да</button>
                                             <button class="btn btn-small btn-green" id="cancelDR-@i">Нет</button>
                                         </div>

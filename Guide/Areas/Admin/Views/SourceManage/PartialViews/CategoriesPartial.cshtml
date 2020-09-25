@@ -3,7 +3,7 @@
 <label>Категория</label>
   <span class="validationError" asp-validation-for="@Model.Material.CategoryId"></span>
 <div style="display: flex">
-    <select class="form-control" name="CategoryId" asp-for="@Model.Material.CategoryId">
+    <select id="category" class="form-control" name="CategoryId" asp-for="@Model.Material.CategoryId">
         @foreach (var cat in Model.Categories)
         {
             <option value="@cat.Id">@cat.Name</option>

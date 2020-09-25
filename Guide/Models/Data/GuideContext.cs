@@ -33,6 +33,8 @@ namespace Guide.Models.Data
         public virtual DbSet<Author> Authors { get; set; }
         public virtual DbSet<BookAuthor> BookAuthors { get; set; }
         public virtual DbSet<PositionIssue> PositionIssues { get; set; }
+        public virtual DbSet<BookBusinessProcess> BookBusinessProcesses { get; set; }
+        public virtual DbSet<BookIdAndEnglishBookId> BookIdAndEnglishBookIds { get; set; }
         public object UserRepository { get; set; }
 
 

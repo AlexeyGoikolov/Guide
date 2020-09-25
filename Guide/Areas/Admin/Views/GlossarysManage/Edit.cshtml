@@ -1,7 +1,7 @@
 ﻿@model GlossaryViewModel
 
 @{
-    ViewBag.Title = "Редактировать описание термина";
+    ViewBag.Title = "Редактировать Толкование термина";
     Layout = "_Layout";
 }
 <div class="page">
@@ -41,10 +41,31 @@
 
 @section Scripts
 {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
     <script>
                 CKEDITOR.replace('Description');
+                CKEDITOR.replace('Source', {
+                                      // Define the toolbar groups as it is a more accessible solution.
+                                      toolbarGroups: [{
+                                          "name": "basicstyles",
+                                          "groups": ["basicstyles"]
+                                        },
+                                        {
+                                          "name": "links",
+                                          "groups": ["links"]
+                                        },
+                                        {
+                                          "name": "paragraph",
+                                          "groups": ["list", "blocks"]
+                                        },
+                                                 
+                                        {
+                                          "name": "styles",
+                                          "groups": ["styles"]
+                                        }
+                                                ],
+                                      // Remove the redundant buttons from toolbar groups defined above.
+                                      removeButtons: 'Underline,Strike,Subscript,Superscript,Anchor,Styles,Specialchar,document,insert,about'
+                                    });
+                               
     </script>
 }

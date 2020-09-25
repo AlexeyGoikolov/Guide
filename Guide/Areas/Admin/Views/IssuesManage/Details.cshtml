@@ -33,11 +33,22 @@
 
                 <!-- row -->
                 <div class="row">
-                    <div class="col-md-10">
-                        <h2 class="custom-font mt-0 mb-5">@Model.Issue.Name </h2>
+                    <div class="col-md-12">
+                        <div class="col-md-12" style="padding: 0">
+                            <div class="col-md-9" style="padding: 0">
+                                <h2 class="custom-font mt-0 mb-5">@Model.Issue.Name </h2>
+                            </div>
+                            <div class="col-md-3" style="padding-left: 0">
+                                <a class="btn btn-info" asp-action="Edit" asp-controller="IssuesManage"
+                                   asp-area="Admin" asp-route-id="@Model.Issue.Id">
+                                    Редактировать Название и Описание
+                                </a>
+                            </div>
+                        </div>
+                        
                         <div class="desc text-default lt mb-20 mt-20 material_content">
                             @Html.Raw(Model.Issue.IssueDescription)
-                            <h2 style="color: #0c5460">Шаги для выполнения задачи :</h2>
+                            <h2 style="color: #0c5460">Шаги:</h2>
                             @if (Model.DesignatedSteps.Count > 0)
                             {
                                 int i = 0;
@@ -46,26 +57,26 @@
                                     i++;
                                     <div id="desRes-@i">
                                         <h3>
-                                            
+
                                             <a asp-action="Edit" asp-controller="StepsManage" asp-route-id="@step.Id">
                                                 <a class="btn btn-rounded-20 btn-default btn-sm mr-5 p-5" style="width:30px;" role="button" tabindex="0"
                                                    title="Удалить шаг" onclick="openStepConfirmDelete(@i,'@Model.Issue.Id','@step.Id')">
                                                     <i class="fa fa-trash"></i>
                                                 </a>
-                                                  @i- @step.Name
+                                                @i- @step.Name
                                             </a>
-                                            
+
                                         </h3>
                                         <div id="confirmStepDelete-@i" style="display: none">
-                                            <p>Вы действительно хотите удалить этот шаг?</p>
+                                            <p>Вы действительно хотите удалить этот связь задачи с этим шагом?</p>
                                             <button class="btn btn-small btn-danger" id="confirm-@i">Да</button>
                                             <button class="btn btn-small btn-green" id="cancel-@i">Нет</button>
                                         </div>
                                     </div>
-                                    
+
                                 }
                             }
-                            <h2 style="color: #0c5460">Желаемые результаты выполнения задачи:</h2>
+                            <h2 style="color: #0c5460">Желаемые результаты:</h2>
                             @if (Model.DesiredResults.Count > 0)
                             {
                                 int i = 0;
@@ -82,20 +93,18 @@
 
                                         </h4>
                                         <div id="confirmDesResDelete-@i" style="display: none">
-                                            <p>Вы действительно хотите удалить этот желаемый результат?</p>
+                                            <p>Вы действительно хотите удалить этот ЖР для задачи?</p>
                                             <button class="btn btn-small btn-danger" id="confirmDRDelete-@i">Да</button>
                                             <button class="btn btn-small btn-green" id="cancelDR-@i">Нет</button>
                                         </div>
                                     </div>
                                 }
                             }
-                            
+
                         </div>
 
                     </div>
-                    <div class="col-md-2">
-                        <a class="btn btn-info" asp-action="Edit" asp-controller="IssuesManage" asp-area="Admin" asp-route-id="@Model.Issue.Id">Редактировать</a>
-                    </div>
+                    
                 </div>
             </div>
             <!-- /tile body -->

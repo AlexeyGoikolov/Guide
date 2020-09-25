@@ -1,40 +1,11 @@
-﻿@model BookAuthorViewModel
+﻿@model BookCreateViewModel
 
-<label>Автор</label>
-<div style="display: flex">
-    <select class="form-control" name="Author" asp-for="@Model.Book.Author">
-        <option>нет</option>
-        @foreach (var author in Model.Authors)
-        {
-            <option value="@author.Id">@author.Name</option>
-        }
-    </select>
-    <div class="input-group-append">
-        <button class="btn btn-outline-secondary" type="button" data-toggle="modal" data-target="#modalType">
-            <i class="fas fa-plus"></i>
-        </button>
-    </div>
-</div>
 
-<div class="modal fade" id="modalType" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="text-align: center">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Добавить нового Автора</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="input-group mb-3" style="justify-content: center">
-                    <input type="text" id="typeInput" class="input-register" style="width: 460px;" >
-                    <button class="btn btn-outline-secondary" data-dismiss="modal" type="button" id="typeButton" style="margin:0 0 5px 17px;">Добавить</button>
-                </div>
-                @foreach (var author in Model.Authors)
-                {
-                    <p style="text-align: right; " >- @author.Name <button data-dismiss="modal" type="button" value="@author.Id" class="btn buttonDeleteType"><i class="fas fa-trash-alt"></i></button></p>
-                }
-            </div>
-        </div>
-    </div>
-</div>
+
+@foreach (var author in Model.AllAuthors)
+{
+    <option value="@author.Id">@author.Name</option>
+}
+
+
+

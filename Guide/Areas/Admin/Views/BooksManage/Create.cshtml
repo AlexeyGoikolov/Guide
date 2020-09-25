@@ -22,14 +22,11 @@
             </ul>
         </div>
     </div>
-    <div class="card" style="margin:auto;">
-        <div class="card-body">
-            <form asp-action="Create" asp-controller="BooksManage" asp-area="Admin" method="post" enctype="multipart/form-data" asp-antiforgery="true">
-                @{ await Html.RenderPartialAsync("PartialViews/FormPartial", Model); }
-                <input type="hidden" value="@Model.Id" id="postId" asp-for="Id">
-                
-            </form>
-        </div>
+    <div style="margin:auto;">
+        <form asp-action="Create" asp-controller="BooksManage" asp-area="Admin" method="post" enctype="multipart/form-data">
+            @{ Html.RenderPartial("PartialViews/FormPartial", Model); }
+            <input type="hidden" value="@Model.Id" id="postId" asp-for="Id">
+        </form>
     </div>
 </div>
 
