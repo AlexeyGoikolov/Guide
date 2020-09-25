@@ -78,13 +78,32 @@
                                             <a asp-action="Details" asp-controller="SourceManage" asp-route-id="@post.Id">@post.Name</a>
                                         </td>
                                     }
-                                    @if (post.Author != null)
+                                    @if (post.TypeContent.Name != "Книга")
                                     {
-                                        <td>@post.Author</td>
+                                        if (post.Author != null)
+                                        {
+                                            <td>@post.Author</td>
+                                        }
+                                        else
+                                        {
+                                            <td></td>
+                                        }
                                     }
                                     else
                                     {
-                                        <td></td>
+                                        if (post.BookAuthors.Count > 0)
+                                        {
+                                            string authors = ""; 
+                                            @foreach (var t in post.BookAuthors)
+                                            {
+                                                authors += t.Name + ", ";
+                                            }
+                                            <td>@authors.Trim().TrimEnd(',')</td>
+                                        }
+                                        else
+                                        {
+                                            <td></td>
+                                        }
                                     }
                                     @if (post.TypeContent != null)
                                     {

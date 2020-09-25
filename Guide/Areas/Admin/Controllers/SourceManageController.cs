@@ -73,15 +73,14 @@ namespace Guide.Areas.Admin.Controllers
                     string[] parts = s.Split('.');
                     s = parts[parts.Length - 1];
                 }
-                BookIdAndEnglishBookId bookIdAndEnglishBookId = new BookIdAndEnglishBookId();
-                bookIdAndEnglishBookId = _db.BookIdAndEnglishBookIds.FirstOrDefault(b => b.BookId == book.Id);
+                BookIdAndEnglishBookId bookIdAndEnglishBookId = _db.BookIdAndEnglishBookIds.FirstOrDefault(b => b.BookId == book.Id);
                 int translationID = 0;
                 if (bookIdAndEnglishBookId == null)
                     bookIdAndEnglishBookId = _db.BookIdAndEnglishBookIds.FirstOrDefault(b => b.EnglishBookId == book.Id);
                 if (bookIdAndEnglishBookId != null)
                     translationID = bookIdAndEnglishBookId.EnglishBookId;
                 
-                models.Add(new LibraryListViewModel()
+                LibraryListViewModel bookModel = new LibraryListViewModel
                 {
                     Id = book.Id,
                    
@@ -92,8 +91,13 @@ namespace Guide.Areas.Admin.Controllers
                     DateCreate = book.DateCreate,
                     Active = book.Active,
                     FilePath = book.VirtualPath,
-                    TranslationID = translationID
-                });
+                    TranslationID = translationID,
+                };
+                List<Author> bookAuthors =
+                    _db.BookAuthors.Where(b => b.BookId == book.Id).Select(a => a.Author).ToList();
+                bookModel.BookAuthors = bookAuthors;
+                models.Add(bookModel);
+
             }
             return View(models);
         }
