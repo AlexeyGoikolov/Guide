@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Guide.Models
 {
@@ -18,5 +19,7 @@ namespace Guide.Models
         public string YearOfWriting { get; set; }
         public DateTime DateCreate { get; set; } = DateTime.Now;
         public DateTime DateUpdate { get; set; } = DateTime.Now;
+
+        public virtual List<Author> Authors { get; set; }
     }
 }

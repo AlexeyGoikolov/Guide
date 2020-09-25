@@ -44,23 +44,32 @@
                 data: {name: typeInput},
                 success: function(response) {                    
                     let data = '<option value="'+response.allAuthors[0].id+'">'+response.allAuthors[0].name+'</option>';
-                    $('.chosen-select').append(data);
-                    $('.chosen-select').trigger("chosen:updated");
+                    $('#author-chosen').append(data);
+                    $('#author-chosen').trigger("chosen:updated");
+                    $('#typeInput').val("")
                 }                                                      
             });                   
         };
 
         $('#submit-btn').on('click', function(e) {
           e.preventDefault();
-          let arrayId = [""];
-           let businessProcessesId = [""];
+          let authorArray = [];
+          let businessProcessesArray = [];
            
-           $("#businessProcesses-row .chosen-container ul li a").each(function() {                
-                               businessProcessesId.push($(this).attr('data-option-array-index'));
-           });
-          $("#author-row .chosen-container ul li a").each(function() {                
-            arrayId.push($(this).attr('data-option-array-index'));
-          });
+           let getbusinessP = document.getElementById('businessProcesses-row');
+           let getBPName = getbusinessP.getElementsByTagName('span');
+           console.log(getBPName);
+           for (let i=0; i < getBPName.length; i++){
+               businessProcessesArray.push(getBPName[i].innerHTML);
+               console.log(getBPName[i].innerHTML)
+           }
+          var authors = document.getElementById('author-row');
+          var getAuthorName = authors.getElementsByTagName('span');
+          for (var i=0; i < getAuthorName.length; i++){
+            authorArray.push(getAuthorName[i].innerHTML);
+            console.log(getAuthorName[i].innerHTML)
+          }
+           
           let formData = new FormData();
           let coverFile = document.getElementById('coverFile');
           let bookFile = document.getElementById('bookFile');         
@@ -71,9 +80,9 @@
           formData.append('YearOfWriting', $('#year').val());
           formData.append('Edition', $('#edition').val());
           formData.append('ISBN', $('#isbn').val());
-          formData.append('authors', String(arrayId));
+          formData.append('authors', String(authorArray));
           formData.append('BookId', @Model.BookId);
-          formData.append('BusinessProcesses', String(businessProcessesId));
+          formData.append('BusinessProcesses', String(businessProcessesArray));
           
           $.ajax({
             url: '@Url.Action("Create", "BooksManage", new {area = "Admin"})',                    

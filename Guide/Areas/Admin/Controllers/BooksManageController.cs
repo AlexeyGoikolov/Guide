@@ -89,17 +89,20 @@ namespace Guide.Areas.Admin.Controllers
 
         public void SaveBookAuthors(string [] authors, Book book )
         {
-            string substring = authors[0].Substring(1);
-            string[] authorsId = substring.Split(',');
-            foreach (var author in authorsId)
+            string[] authorsId = authors[0].Split(',');
+            foreach (var authorName in authorsId)
             {
-                BookAuthor bookAuthor = new BookAuthor()
+                var author = _db.Authors.FirstOrDefault(a => a.Name == authorName);
+                if (author != null)
                 {
-                    BookId = book.Id,
-                    AuthorId = Convert.ToInt32(author)
-                };
-                _db.BookAuthors.Add(bookAuthor);
-                _db.SaveChanges();
+                    BookAuthor bookAuthor = new BookAuthor()
+                    {
+                        BookId = book.Id,
+                        AuthorId = author.Id
+                    };
+                    _db.BookAuthors.Add(bookAuthor);
+                    _db.SaveChanges();    
+                }
             }
         }
 
@@ -117,18 +120,22 @@ namespace Guide.Areas.Admin.Controllers
 
         public void SaveBusinessProcessesBook(BookCreateViewModel model, Book book)
         {
-            string[] businessProcessesId = model.BusinessProcesses.Split(',');
-            foreach (var businessProcesses in businessProcessesId)
+            string[] businessProcesses = model.BusinessProcesses.Split(',');
+            foreach (var businessProcess in businessProcesses)
             {
-                if (businessProcesses != "")
+                if (businessProcess != "")
                 {
-                    BookBusinessProcess bookBusinessProcess = new BookBusinessProcess()
+                    var process = _db.BusinessProcesses.FirstOrDefault(b => b.Name == businessProcess);
+                    if (process != null)
                     {
-                        BookId = book.Id,
-                        BusinessProcessId = Convert.ToInt32(businessProcesses)
-                    };
-                    _db.BookBusinessProcesses.Add(bookBusinessProcess);
-                    _db.SaveChanges();
+                        BookBusinessProcess bookBusinessProcess = new BookBusinessProcess()
+                        {
+                            BookId = book.Id,
+                            BusinessProcessId = process.Id
+                        };
+                        _db.BookBusinessProcesses.Add(bookBusinessProcess);
+                        _db.SaveChanges(); 
+                    }
                 }
             }
         }

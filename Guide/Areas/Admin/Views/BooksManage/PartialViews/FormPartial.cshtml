@@ -19,7 +19,7 @@
                 <div class="form-group" id="author-row">
                     <label style="display: block" class="control-label">Выберите авторов</label>
 
-                    <select multiple="" tabindex="3" class="chosen-select" style="width: 85%;">
+                    <select multiple="" tabindex="3" id="author-chosen" class="chosen-select" style="width: 85%;">
                         <option value=""></option>
                         @{ await Html.RenderPartialAsync("PartialViews/AuthorPartial", Model); }
                     </select>
@@ -33,7 +33,7 @@
                     <input id="year" placeholder="0000" class="form-control" type="text" asp-for="YearOfWriting" value="@Model.YearOfWriting">
                 </div>
                  <div class="form-group" id="businessProcesses-row">
-                     <label style="display: block" class="control-label">Бизнес процес</label>
+                     <label style="display: block" class="control-label">Бизнес процесс</label>
 
                      <select multiple="" tabindex="3" class="chosen-select" style="width: 85%;">
                          <option value=""></option>

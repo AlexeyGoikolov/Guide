@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Guide.Models;
 using Type = Guide.Models.Type;
 
@@ -24,5 +25,7 @@ namespace Guide.ViewModels
         public virtual TypeState TypeState { get; set; }
         public bool Active { get; set; }
         public int TranslationID { get; set; }
+        
+        public virtual List<Author> BookAuthors { get; set; }
     }
 }
