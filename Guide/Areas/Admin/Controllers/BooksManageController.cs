@@ -70,7 +70,7 @@ namespace Guide.Areas.Admin.Controllers
                 }
                 _db.Books.Add(book);
                 _db.SaveChanges();
-                if (authors.Length > 0)
+                if (authors[0] != null)
                 {
                     SaveBookAuthors(authors,book);
                 }
