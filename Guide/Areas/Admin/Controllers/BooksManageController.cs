@@ -35,12 +35,18 @@ namespace Guide.Areas.Admin.Controllers
             _uploadService = uploadService;
         }
 
-      public IActionResult Create()
+      public IActionResult Create(int bookId)
         {
             BookCreateViewModel model = new BookCreateViewModel
             {
-                AllAuthors = _db.Authors.Where(c=> c.Active).ToList()
+                AllAuthors = _db.Authors.Where(c=> c.Active).ToList(),
+                BusinessProcessesList = _db.BusinessProcesses.ToList()
+                
             };
+            if (bookId != null)
+            {
+                model.BookId = bookId;
+            }
             return View(model);
         }
         
@@ -67,31 +73,94 @@ namespace Guide.Areas.Admin.Controllers
                 }
                 _db.Books.Add(book);
                 _db.SaveChanges();
-                
                 if (authors.Length > 0)
                 {
-                    string substring = authors[0].Substring(1);
-                    string[] authorsId = substring.Split(',');
-                    foreach (var author in authorsId)
-                    {
-                        BookAuthor bookAuthor = new BookAuthor()
-                        {
-                            BookId = book.Id,
-                            AuthorId = Convert.ToInt32(author)
-                        };
-                        _db.BookAuthors.Add(bookAuthor);
-                    }
+                    SaveBookAuthors(authors,book);
                 }
-
-                _db.SaveChanges();
+                if (model.BusinessProcesses != null)
+                {
+                    SaveBusinessProcessesBook(model, book);
+                }
+                if (model.BookId != 0)
+                {
+                    SaveBookIdAndEnglishBookId(model,book);
+                }
                 return Json(book.Id);
             }
             return View(model);
         }
 
+        public void SaveBookAuthors(string [] authors, Book book )
+        {
+            string substring = authors[0].Substring(1);
+            string[] authorsId = substring.Split(',');
+            foreach (var author in authorsId)
+            {
+                BookAuthor bookAuthor = new BookAuthor()
+                {
+                    BookId = book.Id,
+                    AuthorId = Convert.ToInt32(author)
+                };
+                _db.BookAuthors.Add(bookAuthor);
+                _db.SaveChanges();
+            }
+        }
+
+        public void SaveBookIdAndEnglishBookId(BookCreateViewModel model, Book book)
+        {
+            BookIdAndEnglishBookId bookIdAndEnglishBookId = new BookIdAndEnglishBookId()
+            {
+                BookId = model.BookId,
+                EnglishBookId = book.Id
+            };
+            _db.BookIdAndEnglishBookIds.Add(bookIdAndEnglishBookId);
+            _db.SaveChanges();
+
+        }
+
+        public void SaveBusinessProcessesBook(BookCreateViewModel model, Book book)
+        {
+            string[] businessProcessesId = model.BusinessProcesses.Split(',');
+            foreach (var businessProcesses in businessProcessesId)
+            {
+                if (businessProcesses != "")
+                {
+                    BookBusinessProcess bookBusinessProcess = new BookBusinessProcess()
+                    {
+                        BookId = book.Id,
+                        BusinessProcessId = Convert.ToInt32(businessProcesses)
+                    };
+                    _db.BookBusinessProcesses.Add(bookBusinessProcess);
+                    _db.SaveChanges();
+                }
+            }
+        }
+
         public IActionResult Details(int id)
         {
+            int translationID = 0;
+            ViewBag.BookTransferLanguage = 0;
             Book book = _db.Books.FirstOrDefault(b => b.Id == id);
+            BookIdAndEnglishBookId bookIdAndEnglishBookId = new BookIdAndEnglishBookId();
+            bookIdAndEnglishBookId = _db.BookIdAndEnglishBookIds.FirstOrDefault(b => b.BookId == id);
+
+            if (bookIdAndEnglishBookId != null)
+            {
+                translationID = bookIdAndEnglishBookId.EnglishBookId;
+                ViewBag.BookTransferLanguage = "en";
+            }
+            
+            if (bookIdAndEnglishBookId == null)
+                bookIdAndEnglishBookId = _db.BookIdAndEnglishBookIds.FirstOrDefault(b => b.EnglishBookId == id);
+            
+            if(translationID == 0 && bookIdAndEnglishBookId != null)
+            {
+                translationID = bookIdAndEnglishBookId.BookId;
+                ViewBag.BookTransferLanguage = "ru";
+            }
+            
+            ViewBag.BookTransferId = translationID;
+            
             return View(book);
         }
 
@@ -175,9 +244,7 @@ namespace Guide.Areas.Admin.Controllers
             {
                 AllAuthors = _db.Authors.Where(a=> a.Name == name).ToList(),
             };
-
             return Json(model);
-            
         }
         public IActionResult DeleteAuthorAjax(int id)
         {

@@ -49,11 +49,19 @@
                 }                                                      
             });                   
         };
-        
+
+                 
+                  
+                
         $('#submit-btn').on('click', function(e) {
           e.preventDefault();
           let arrayId = [""];
-          $(".chosen-container ul li a").each(function() {                
+           let businessProcessesId = [""];
+           
+           $("#businessProcesses-row .chosen-container ul li a").each(function() {                
+                               businessProcessesId.push($(this).attr('data-option-array-index'));
+           });
+          $("#author-row .chosen-container ul li a").each(function() {                
             arrayId.push($(this).attr('data-option-array-index'));
           });
           let formData = new FormData();
@@ -67,6 +75,8 @@
           formData.append('Edition', $('#edition').val());
           formData.append('ISBN', $('#isbn').val());
           formData.append('authors', String(arrayId));
+          formData.append('BookId', @Model.BookId);
+          formData.append('BusinessProcesses', String(businessProcessesId));
           
           $.ajax({
             url: '@Url.Action("Create", "BooksManage", new {area = "Admin"})',                    
