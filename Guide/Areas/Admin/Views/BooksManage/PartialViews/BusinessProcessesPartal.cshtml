@@ -1,0 +1,9 @@
+﻿@model BookCreateViewModel
+
+
+
+    @foreach (var businessProcess in Model.BusinessProcessesList)
+    {
+        <option value="@businessProcess.Id">@businessProcess.Name</option>
+    }  
+

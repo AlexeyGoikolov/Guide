@@ -23,6 +23,6 @@ namespace Guide.ViewModels
         //Состояние
         public virtual TypeState TypeState { get; set; }
         public bool Active { get; set; }
-        
+        public int TranslationID { get; set; }
     }
 }
