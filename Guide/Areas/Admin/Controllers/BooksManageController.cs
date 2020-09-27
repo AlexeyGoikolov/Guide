@@ -8,8 +8,10 @@ using Guide.Services;
 using Guide.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 
@@ -174,7 +176,7 @@ namespace Guide.Areas.Admin.Controllers
             if (file != null)
             {
                 string path = Path.Combine(_environment.ContentRootPath + $"\\wwwroot\\BooksFiles\\{name}");
-                string filePath = $"/BooksFiles/{name}/{file.FileName}";
+                string filePath = $"BooksFiles/{name}/{file.FileName}";
                 if (!Directory.Exists($"wwwroot/BooksFiles/{name}"))
                 {
                     Directory.CreateDirectory($"wwwroot/BooksFiles/{name}");
@@ -217,22 +219,14 @@ namespace Guide.Areas.Admin.Controllers
             return RedirectToAction("Index" , "SourceManage");
         }
 
-        public  IActionResult ReadBook(string path, int id)
+        public  IActionResult ReadBook(int id)
         {
             
-            if (path != null)
-            {
-                string ext=path.Substring(path.LastIndexOf('.'));
-                if (ext == ".pdf")
-                {
-                    Book book = _db.Books.FirstOrDefault(b => b.Id == id);
-                    return View(book) ;
-                }
-                
-            }
-
-            return NotFound() ;
+            Book book = _db.Books.FirstOrDefault(b => b.Id == id);
+            ViewBag.Path = Request.Scheme + "://" + Request.Host.Value + "/" + book.VirtualPath;
+            return View(book) ;
         }
+
         
         public IActionResult CreateAuthorAjax(string name)
         {
