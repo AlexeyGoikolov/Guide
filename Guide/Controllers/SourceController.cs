@@ -98,21 +98,11 @@ namespace Guide.Controllers
             ViewBag.BookTransferId = translationID;
             return View(book);
         }
-     public  IActionResult ReadBook(string path, int id)
+     public  IActionResult ReadBook(int id)
         {
-            
-            if (path != null)
-            {
-                string ext=path.Substring(path.LastIndexOf('.'));
-                if (ext == ".pdf")
-                {
-                    Book book = _db.Books.FirstOrDefault(b => b.Id == id);
-                    return View(book) ;
-                }
-                
-            }
-
-            return NotFound() ;
+            Book book = _db.Books.FirstOrDefault(b => b.Id == id);
+            ViewBag.BookPath = Request.Scheme + "://" + Request.Host.Value + "/" + book.VirtualPath;
+            return View(book) ;
         }
     }
 }

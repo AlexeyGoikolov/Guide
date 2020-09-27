@@ -40,7 +40,7 @@ namespace Guide.Controllers
         public IActionResult Details(int id)
         {
             Post post = _db.Posts.FirstOrDefault(p => p.Id == id);
-
+            ViewBag.DocxPath = Request.Scheme + "://" + Request.Host.Value + "/" + post.VirtualPath;
 
             return View(post);
         }
