@@ -5,5 +5,15 @@
     Layout = "_Layout";
 }
 
-
- <iframe width="100%" height="1000" allowfullscreen src="@Model.VirtualPath"></iframe>
+@if (Model.VirtualPath.Contains(".pdf"))
+{
+    <iframe width="100%" height="1000" allowfullscreen src="@Model.VirtualPath"></iframe>
+}
+else
+{
+    <div>
+        <a class="btn btn-info" href="@Model.VirtualPath">Скачать</a>
+    </div>
+    <iframe width="100%" height="1000" src="https://docs.google.com/gview?url=@ViewBag.Path&embedded=true"></iframe>
+}
+ 

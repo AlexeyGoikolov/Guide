@@ -105,8 +105,7 @@ namespace Guide.Areas.Admin.Controllers
         public IActionResult Details(int id)
         {
             Post post = _db.Posts.FirstOrDefault(p => p.Id == id);
-
-
+            ViewBag.PostPath = Request.Scheme + "://" + Request.Host.Value + "/" + post.VirtualPath;
             return View(post);
         }
         [Authorize(Roles = "admin")]
@@ -359,7 +358,7 @@ namespace Guide.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> ViewComment(int id, string type)
+        public IActionResult ViewComment(int id, string type)
         {
             List<Comment> comments;
             if (type == "book")

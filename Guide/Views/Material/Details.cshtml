@@ -40,7 +40,17 @@
 
                     @if (Model.VirtualPath != null)
                     {
-                        <iframe width="100%" height="400" src="~/@Model.VirtualPath"></iframe>
+                        if (Model.VirtualPath.Contains(".doc") || Model.VirtualPath.Contains(".docx"))
+                        {
+                            <div>
+                                <a class="btn btn-info" href="~/@Model.VirtualPath">Скачать</a>
+                            </div>
+                            <iframe width="100%" height="400" src="https://docs.google.com/gview?url=@ViewBag.DocxPath&embedded=true"></iframe>
+                        }
+                        else
+                        {
+                            <iframe width="100%" height="400" src="~/@Model.VirtualPath"></iframe>
+                        }
                     }
                 </div>
                

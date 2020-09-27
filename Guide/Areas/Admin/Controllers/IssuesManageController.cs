@@ -274,7 +274,7 @@ namespace Guide.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (model.PositionId != null && model.IssuesId == null)
+                if (model.PositionId != 0 && model.IssuesId == null)
                 {
                      return RedirectToAction("IndexPosition", "IssuesManage",new {id=model.PositionId});
                 }

@@ -129,10 +129,9 @@
                                     {
                                         <td></td>
                                     }
-                                    @if (post.TypeContent.Name != "Книга")
+                                    @if (post.TypeContent.Name != "Книга" || (post.Type != null && (post.Type.Name == "doc" || post.Type.Name == "docx")))
                                     {
                                         <td>
-                                           
                                             <a id="link_@i" onclick="copy(event,@i)" class="btn btn-rounded-20 btn-default btn-sm p-5" style="width:30px;" role="button" tabindex="0" target="_blank"
                                                    title="Копировать ссылку" href="../../@post.FilePath"><i class="fa fa-link"></i></a>
                                             

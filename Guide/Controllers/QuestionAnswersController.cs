@@ -50,7 +50,7 @@ namespace Guide.Controllers
             return View(questionAnswer);
         }
         
-        public async Task<IActionResult> AddQuestionAjax()
+        public IActionResult AddQuestionAjax()
         {
             QuestionAnswer model = new QuestionAnswer();
             return PartialView("PartialViews/AddQuestion", model);

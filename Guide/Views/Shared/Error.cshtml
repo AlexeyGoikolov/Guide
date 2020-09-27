@@ -1,46 +1,47 @@
 ﻿@model ErrorViewModel
 @{
     ViewData["Title"] = "Error";
+    if (User.IsInRole("admin"))
+    {
+        Layout = "_Layout";
+    }
+    else
+    {
+        Layout = "_LayoutEmployee";
+    }
 }
+<div class="page">
+    <div class="text-center">
+        <div class="container w-420 bg-darkgray p-15 mt-40 text-center">
+            <h3 class="text-light text-white"><span class="text-lightred">G</span>UIDE</h3>
+            @if (ViewBag.Error == 404)
+            {
+                <h2 class="text-light text-greensea">Ошибка <strong>404</strong></h2>
 
-<h1 class="text-danger">Error.</h1>
-<h2 class="text-danger">An error occurred while processing your request.</h2>
+                <h4 class="mb-0 mt-40">Что то пошло не так</h4>
 
-@if (Model.ShowRequestId)
-{
-    <p>
-        <strong>Request ID:</strong> <code>@Model.RequestId</code>
-    </p>
-}
+                <p class="text-muted">Запрашиваемая Вами страница не найдена</p>
 
-   <div class="page page-core page-404">
-
-                <div class="text-center"><h3 class="text-light text-white">Guide</h3></div>
-
-                <div class="container w-420 p-15 bg-white mt-40 text-center">
-
-                    <h2 class="text-light text-greensea">Error <strong>404</strong></h2>
-
-                    <h4 class="mb-0 mt-40">что то пошло не так</h4>
-
-                    <p class="text-muted">запрашиваемая Вами страница не найдена</p>
-
-                    <form class="mt-40 ng-pristine ng-valid">
-                        <div class="input-group w-md m-auto">
-                            <input type="text" class="form-control" placeholder="search...">
-                            <span class="input-group-btn">
-                                <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
-                            </span>
-                            </div>
-                        <!-- /input-group -->
-                    </form>
-
-                    <div class="bg-slategray lt wrap-reset mt-40 text-center">
-                       
-                        <button class="btn btn-greensea btn-sm b-0" asp-controller="Account" asp-action="Details" asp-route-id="" asp-area=""><i class="fa fa-home"></i>Вернитесь на главную</button>
-                        
-                    </div>
-
+                <div class="bg-slategray lt wrap-reset mt-40 text-center">
+                    <a class="btn btn-greensea btn-sm b-0" asp-controller="Account" asp-action="Details" asp-route-id="" asp-area=""><i class="fa fa-home"></i>Вернуться на главную</a>
                 </div>
+            }
+            else
+            {
+                <h3 class="text-light text-greensea">Ошибка <strong>@ViewBag.Error</strong></h3>
+                <a class="btn btn-greensea b-0" asp-controller="Account" asp-action="Details" asp-route-id="" asp-area=""><i class="fa fa-home"></i>Вернуться на главную</a>
 
-            </div>
+            }
+
+            <h4 class="text-danger">Error.</h4>
+            <h5 class="text-danger">An error occurred while processing your request.</h5>
+
+            @if (Model.ShowRequestId)
+            {
+                <p>
+                    <strong>Request ID:</strong> <code>@Model.RequestId</code>
+                </p>
+            }
+        </div>
+    </div>
+</div>

@@ -70,7 +70,7 @@
                                 <th >#</th>
                                 <th >Имя</th>
                                 <th >Фамилия</th>
-                                <th >Позиция</th>
+                                <th >Должность</th>
                                 <th >Статус</th>
                                 <th >Действие</th>
                             </tr>
@@ -107,10 +107,7 @@
                                                         Выберите действие <span class="caret"></span>
                                                     </button>
                                                     <ul class="dropdown-menu">
-                                                        <li>
-                                                            <a onclick="changePosition('@Model.Users[i].Id')" data-toggle="modal" data-target="#modalPosition">Изменить позицию</a>
-                                                        </li>
-                                                        <li>
+                                                       <li>
                                                             <a asp-action="Edit" asp-controller="Account" asp-area="" asp-route-id="@Model.Users[i].Id">Редактировать</a>
                                                         </li>
                                                         <li>

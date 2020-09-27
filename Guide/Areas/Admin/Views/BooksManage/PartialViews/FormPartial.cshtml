@@ -52,6 +52,13 @@
         <section class="tile portlet col - 6">
             <!-- tile body -->
             <div class="tile-body">
+                <div>
+                    <label>Книга является рецептом?</label>
+                    <select name="" id="isRecipe">
+                        <option value="true">Да</option>
+                        <option value="false">Нет</option>
+                    </select>
+                </div>
                 <div >
                     <label>В какой редакции :</label>
                     <input id="edition" class="form-control" type="text" asp-for="Edition" value="@Model.Edition">

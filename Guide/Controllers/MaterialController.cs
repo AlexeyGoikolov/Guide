@@ -40,7 +40,7 @@ namespace Guide.Controllers
         public IActionResult Details(int id)
         {
             Post post = _db.Posts.FirstOrDefault(p => p.Id == id);
-
+            ViewBag.DocxPath = Request.Scheme + "://" + Request.Host.Value + "/" + post.VirtualPath;
 
             return View(post);
         }
@@ -64,7 +64,7 @@ namespace Guide.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> ViewComment(int id)
+        public IActionResult ViewComment(int id)
         {
             List<Comment> comments = _db.Comments.Where(c => c.PostId == id)
                 .OrderByDescending(g => g.DateOfCreate).ToList();

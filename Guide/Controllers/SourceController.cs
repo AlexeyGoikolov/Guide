@@ -50,19 +50,22 @@ namespace Guide.Controllers
                     string[] parts = s.Split('.');
                     s = parts[parts.Length - 1];
                 }
-                models.Add(new LibraryListViewModel()
+
+                LibraryListViewModel bookModel = new LibraryListViewModel
                 {
                     Id = book.Id,
-                    
+
                     Name = book.Name,
                     Type = new Type() {Name = s},
                     TypeContent = new TypeContent() {Name = "Книга"},
                     TypeState = book.IsRecipe ? new TypeState() {Name = "Рецепт"} : new TypeState() {Name = ""},
                     DateCreate = book.DateCreate,
                     Active = book.Active
-                    
-                    
-                });
+                };
+                List<Author> bookAuthors =
+                    _db.BookAuthors.Where(b => b.BookId == book.Id).Select(a => a.Author).ToList();
+                bookModel.BookAuthors = bookAuthors;
+                models.Add(bookModel);
             }
             
             return View(models);
@@ -95,21 +98,11 @@ namespace Guide.Controllers
             ViewBag.BookTransferId = translationID;
             return View(book);
         }
-     public  IActionResult ReadBook(string path, int id)
+     public  IActionResult ReadBook(int id)
         {
-            
-            if (path != null)
-            {
-                string ext=path.Substring(path.LastIndexOf('.'));
-                if (ext == ".pdf")
-                {
-                    Book book = _db.Books.FirstOrDefault(b => b.Id == id);
-                    return View(book) ;
-                }
-                
-            }
-
-            return NotFound() ;
+            Book book = _db.Books.FirstOrDefault(b => b.Id == id);
+            ViewBag.BookPath = Request.Scheme + "://" + Request.Host.Value + "/" + book.VirtualPath;
+            return View(book) ;
         }
     }
 }
