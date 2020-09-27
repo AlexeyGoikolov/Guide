@@ -24,7 +24,7 @@ namespace Guide.ViewModels
         public int? TypeStateId { get; set; }
         public int? CategoryId { get; set; }
         public int? TypeId { get; set; }
-        
+         public string Keys { get; set; }
         
     }
 }

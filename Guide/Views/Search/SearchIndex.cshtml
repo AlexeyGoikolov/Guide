@@ -1,0 +1,190 @@
+﻿ @model SearchViewModel
+
+@{
+    ViewBag.Title = "Поиск";
+    Layout = "_LayoutEmployee";
+}
+
+ <div class="page page-search-results">
+
+     <div class="pageheader">
+
+         <h2>Результаты поиска </h2>
+
+         <div class="page-bar">
+
+             <ul class="page-breadcrumb">
+                 <li style="background: #138a72">
+                     <a asp-action="Details" asp-controller="Account" asp-area=""><i class="fa fa-home"></i> Guide</a>
+                 </li>
+                 <li>
+                     <a asp-action="" asp-controller="">Поиск</a>
+                 </li>
+
+             </ul>
+         </div>
+
+     </div>
+
+     <!-- row -->
+     <div class="row">
+         <!-- col -->
+         <div class="col-md-12">
+
+             <!-- tile -->
+             <section class="tile tile-simple">
+
+                 <!-- tile body -->
+                 <div class="tile-body p-0">
+
+                     <div role="tabpanel">
+
+                         <!-- Nav tabs -->
+                         <ul class="nav nav-tabs tabs-dark tabs-right" role="tablist">
+                             <li class="tabs-title pull-left"> Результатов поиска : <strong>"@Model.Search"</strong> :@Model.TotalFound</li>
+                         </ul>
+
+
+                         <!-- Tab panes -->
+                         <div class="tab-content">
+
+                             <div role="tabpanel" class="tab-pane active" id="fulltextTab">
+
+                                 <div class="wrap-reset">
+                                     <form asp-controller="Search" asp-action="SearchIndex" name="search" method="get">
+                                         <div class="input-group search-bar">
+                                             <input type="text" class="form-control" name="search" placeholder="поиск..." >
+                                             <span class="input-group-btn">
+                                                 <button class="btn btn-default" type="submit"><i class="fa fa-search"></i> Поиск</button>
+                                             </span>
+                                         </div>
+                                     </form>
+                                     @if (@Model.TotalFound != 0)
+                                     {
+                                         <ul class="search-results fulltext">
+                                             @if (@Model.Books.Count != 0)
+                                             {
+                                                 <li class="search-result">
+                                                     <div class="cover">
+                                                         <h4>
+                                                             <a href="#">Книги</a>
+                                                         </h4>
+                                                         @foreach (var book in @Model.Books)
+                                                         {
+                                                            <p> <a asp-action="Details" asp-controller="Source" asp-route-id="@book.Id">@book.Name</a>
+                                                         </p>
+                                                             
+                                                         }
+                                                     </div>
+                                                 </li>
+                                             }
+                                             @if (@Model.Posts.Count != 0)
+                                             {
+                                                 <li class="search-result">
+                                                     <div class="cover">
+                                                         <h4>
+                                                             <a href="#">Источники</a>
+                                                         </h4>
+                                                         @foreach (var post in @Model.Posts)
+                                                         {
+                                                            <p> <a asp-action="Details" asp-controller="Material" 
+                                                                asp-route-id="@post.Id">@post.Title</a></p>
+                                                         }
+                                                     </div>
+                                                 </li>
+                                             }
+                                             @if (@Model.Issues.Count != 0)
+                                             {
+                                                 <li class="search-result">
+                                                     <div class="cover">
+                                                         <h4>
+                                                             <a href="#">Задачи</a>
+                                                         </h4>
+                                                         @foreach (var issue in @Model.Issues)
+                                                         {
+                                                            <p> <a asp-action="Details" asp-controller="Issues" 
+                                                                asp-route-id="@issue.Id">@issue.Name</a></p>
+                                                         }
+                                                     </div>
+                                                 </li>
+                                             }
+                                             @if (@Model.Steps.Count != 0)
+                                             {
+                                                 <li class="search-result">
+                                                     <div class="cover">
+                                                         <h4>
+                                                             <a href="#">Шаги</a>
+                                                         </h4>
+                                                         @foreach (var step in @Model.Steps)
+                                                         {
+                                                             <p><a asp-action="Details" asp-controller="Steps" 
+                                                                asp-route-id="@step.Id">@step.Name</a></p>
+                                                         }
+                                                     </div>
+                                                 </li>
+                                             }
+                                             @if (@Model.Glossaries.Count != 0)
+                                             {
+                                                 <li class="search-result">
+                                                     <div class="cover">
+                                                         <h4>
+                                                             <a href="#">Термины</a>
+                                                         </h4>
+                                                         @foreach (var glossary in @Model.Glossaries)
+                                                         {
+                                                            <p><a asp-action="Preview" asp-controller="Glossarys" 
+                                                                asp-route-id="@glossary.Id">@glossary.Name</a></p> 
+                                                         }
+                                                     </div>
+                                                 </li>
+                                             }
+                                             @if (@Model.QuestionAnswers.Count != 0)
+                                             {
+                                                 <li class="search-result">
+                                                     <div class="cover">
+                                                         <h4>
+                                                             <a href="#">Ситуационная база</a>
+                                                         </h4>
+                                                         @foreach (var questionAnswer in @Model.QuestionAnswers)
+                                                         {
+                                                             <p><a asp-action="Preview" asp-controller="QuestionAnswers" 
+                                                                       asp-route-id="@questionAnswer.Id">@questionAnswer.Question</a></p>
+                                                         }
+                                                     </div>
+                                                 </li>
+                                             }
+
+                                         </ul>
+                                     }
+                                     <div class="pagination block text-right m-0">
+                                         <div class="btn-group btn-group-sm">
+                                             <button type="button" class="btn btn-default">
+                                                 <i class="fa fa-angle-left"></i>
+                                             </button>
+                                             <button type="button" class="btn btn-default">
+                                                 <i class="fa fa-angle-right"></i>
+                                             </button>
+                                         </div>
+                                     </div>
+
+                                 </div>
+
+                             </div>
+
+                         </div>
+
+                     </div>
+
+                 </div>
+                 <!-- /tile body -->
+
+             </section>
+             <!-- /tile -->
+         </div>
+         <!-- /col -->
+     </div>
+     <!-- /row -->
+
+ </div>
+                
+        
