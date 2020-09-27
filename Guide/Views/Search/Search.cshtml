@@ -1,0 +1,117 @@
+﻿ @model SearchViewModel
+
+@{
+    ViewBag.Title = "Поиск";
+    Layout = "_LayoutEmployee";
+}
+
+ <div class="page page-search-results">
+
+                    <div class="pageheader">
+
+                        <h2>Результаты поиска </h2>
+
+                        <div class="page-bar">
+                        
+                                    <ul class="page-breadcrumb">
+                                        <li style="background: #138a72">
+                                            <a asp-action="Details" asp-controller="Account" asp-area=""><i class="fa fa-home"></i> Guide</a>
+                                        </li>
+                                        <li>
+                                            <a asp-action="" asp-controller="">Поиск</a>
+                                        </li>
+                                        
+                                    </ul>
+                                </div>
+
+                    </div>
+
+                    <!-- row -->
+                    <div class="row">
+                        <!-- col -->
+                        <div class="col-md-12">
+
+                            <!-- tile -->
+                            <section class="tile tile-simple">
+
+                                <!-- tile body -->
+                                <div class="tile-body p-0">
+
+                                    <div role="tabpanel">
+
+                                        <!-- Nav tabs -->
+                                        <ul class="nav nav-tabs tabs-dark tabs-right" role="tablist">
+                                            <li class="tabs-title pull-left">@Model.TotalFound результатов поиска : <strong>"@Model.Search"</strong></li>
+                                            </ul>
+
+
+                                        <!-- Tab panes -->
+                                        <div class="tab-content">
+
+                                            <div role="tabpanel" class="tab-pane active" id="fulltextTab">
+
+                                                <div class="wrap-reset"> 
+                                                    <form asp-controller="Search" asp-action="Search" name="search" method="get">
+                                                        <div class="input-group search-bar">
+                                                            <input type="text" class="form-control" name="search" placeholder="Search..." value="@Model.Search">
+                                                            <span class="input-group-btn">
+                                                                <button class="btn btn-default" type="button"><i class="fa fa-search"></i> Поиск</button>
+                                                            </span>
+                                                        </div>
+                                                        </form>
+
+                                                    <ul class="search-results fulltext">
+
+                                                        <li class="search-result">
+                                                            <div class="cover">
+                                                                <h4>
+                                                                    <a href="#">Задачи</a>
+                                                                </h4>
+                                                                @foreach (var issue in @Model.Issues)
+                                                                {
+                                                                    <a asp-action="Details" asp-controller="Issues" asp-route-id="@issue.Id">@issue.Name</a>
+                                                                }
+                                                            </div>
+                                                        </li>
+                                                        <li class="search-result">
+                                                            <div class="cover">
+                                                                <h4>
+                                                                    <a href="#">Шаги</a>
+                                                                </h4>
+                                                                @foreach (var step in @Model.Steps)
+                                                                {
+                                                                    <a asp-action="Details" asp-controller="Steps" asp-route-id="@step.Id">@step.Name</a>
+                                                                }
+                                                            </div>
+                                                        </li>
+
+                                                    </ul>
+
+                                                    <div class="pagination block text-right m-0">
+                                                        <div class="btn-group btn-group-sm">
+                                                            <button type="button" class="btn btn-default"><i class="fa fa-angle-left"></i></button>
+                                                            <button type="button" class="btn btn-default"><i class="fa fa-angle-right"></i></button>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                                <!-- /tile body -->
+
+                            </section>
+                            <!-- /tile -->
+                        </div>
+                        <!-- /col -->
+                    </div>
+                    <!-- /row -->
+
+                </div>
+                
+        
