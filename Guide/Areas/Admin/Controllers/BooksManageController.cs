@@ -221,7 +221,6 @@ namespace Guide.Areas.Admin.Controllers
 
         public  IActionResult ReadBook(int id)
         {
-            
             Book book = _db.Books.FirstOrDefault(b => b.Id == id);
             ViewBag.Path = Request.Scheme + "://" + Request.Host.Value + "/" + book.VirtualPath;
             return View(book) ;
