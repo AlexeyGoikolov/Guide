@@ -25,6 +25,6 @@ namespace Guide.Models
         public virtual TypeState TypeState { get; set; }
         public virtual TypeContent TypeContent { get; set; }
         public virtual User User { get; set; }
-        
+         public string Keys { get; set; }
     }
 }

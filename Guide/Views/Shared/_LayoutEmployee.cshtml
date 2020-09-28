@@ -78,7 +78,16 @@
                         </li>
                     </ul>
                     <!-- Left-side navigation end -->
-                   <!-- Right-side navigation -->
+                    
+                    <!-- Search -->
+                     <div class="search" id="main-search">
+                    <form asp-controller="Search" asp-action="SearchIndex" asp-area="" name="search" method="get">
+                        <input name="search" type="text" class="form-control underline-input" placeholder="Поиск...">
+                    </form>
+                    </div>
+                    <!-- Search end -->
+                    
+                    <!-- Right-side navigation -->
                     <ul class="nav-right pull-right list-inline mr-40">
                       @if (User.Identity.IsAuthenticated)
                       {

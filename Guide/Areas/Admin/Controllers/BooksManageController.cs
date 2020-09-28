@@ -66,6 +66,7 @@ namespace Guide.Areas.Admin.Controllers
                     VirtualPath = Load(model.Name, bookFile),
                     PhysicalPath = model.PhysicalPath,
                     YearOfWriting = model.YearOfWriting,
+                    Keys = model.Keys
                 };
                 if (book.CoverPath == null)
                 {
@@ -175,7 +176,7 @@ namespace Guide.Areas.Admin.Controllers
         {
             if (file != null)
             {
-                string path = Path.Combine(_environment.ContentRootPath + $"\\wwwroot\\BooksFiles\\{name}");
+                string path = Path.Combine(_environment.ContentRootPath + $"/wwwroot/BooksFiles/{name}");
                 string filePath = $"BooksFiles/{name}/{file.FileName}";
                 if (!Directory.Exists($"wwwroot/BooksFiles/{name}"))
                 {
