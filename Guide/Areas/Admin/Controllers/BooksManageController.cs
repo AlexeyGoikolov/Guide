@@ -66,6 +66,7 @@ namespace Guide.Areas.Admin.Controllers
                     VirtualPath = Load(model.Name, bookFile),
                     PhysicalPath = model.PhysicalPath,
                     YearOfWriting = model.YearOfWriting,
+                    Keys = model.Keys
                 };
                 if (book.CoverPath == null)
                 {
