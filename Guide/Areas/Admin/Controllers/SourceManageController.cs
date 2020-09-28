@@ -144,7 +144,8 @@ namespace Guide.Areas.Admin.Controllers
                     TypeId = model.TypeId,
                     PhysicalPath = model.PhysicalPath,
                     VirtualPath = Load(model.Id, model.VirtualPath),
-                    UserId = _userManager.GetUserId(User)
+                    UserId = _userManager.GetUserId(User),
+                    Keys = model.Keys
                 };
                 _db.Posts.Add(post);
                 _db.SaveChanges();
