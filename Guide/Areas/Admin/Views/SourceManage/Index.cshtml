@@ -134,12 +134,10 @@
                                         <td>
                                             <a id="link_@i" onclick="copy(event,@i)" class="btn btn-rounded-20 btn-default btn-sm p-5" style="width:30px;" role="button" tabindex="0" target="_blank"
                                                    title="Копировать ссылку" href="../../@post.FilePath"><i class="fa fa-link"></i></a>
-                                            
                                             <a class="btn btn-rounded-20 btn-default btn-sm p-5" style="width:30px;" role="button" tabindex="0" target="_blank"
                                                title="Вид пользователя" asp-action="Details" asp-controller="Material" asp-area="" asp-route-id="@post.Id"><i class="fa fa-eye"></i></a>
                                             <a class="btn btn-rounded-20 btn-default btn-sm p-5" style="width:30px;" role="button" asp-action="Edit"
                                                asp-controller="SourceManage" asp-route-id="@post.Id" tabindex="0" title="Изменить"><i class="fa fa-pencil"></i></a>
-
                                             @if (post.Active)
                                             {
                                                 <a class="btn btn-rounded-20 btn-default btn-sm mr-5 p-5" style="width:30px;" role="button" tabindex="0"
@@ -159,7 +157,7 @@
                                         <td >
                                              @if (post.TranslationID == 0)
                                              {
-                                                 <a title="Добавить на английском" role="button"
+                                                 <a title="Добавить на английском" role="button" class="btn btn-rounded-20 btn-default btn-sm p-5" style="width:30px;"
                                                     asp-action="Create" asp-controller="BooksManage" asp-route-bookId="@post.Id">
                                                      <i class="fas fa-globe"></i>
                                                  </a>
@@ -220,7 +218,7 @@
         function copy(e,number){ 
             e.preventDefault();
             let a = document.querySelector("#link_"+number);
-            copyTextToClipboard(a.href);
+              copyTextToClipboard(a.href);
             return false;
         }
 

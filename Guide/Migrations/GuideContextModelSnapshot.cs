@@ -71,6 +71,9 @@ namespace Guide.Migrations
                     b.Property<bool>("IsRecipe")
                         .HasColumnType("boolean");
 
+                    b.Property<string>("Keys")
+                        .HasColumnType("text");
+
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
@@ -489,6 +492,9 @@ namespace Guide.Migrations
 
                     b.Property<DateTime>("DateOfUpdate")
                         .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("Keys")
+                        .HasColumnType("text");
 
                     b.Property<string>("PhysicalPath")
                         .HasColumnType("text");

@@ -21,5 +21,6 @@ namespace Guide.Models
         public DateTime DateUpdate { get; set; } = DateTime.Now;
 
         public virtual List<Author> Authors { get; set; }
+        public string Keys { get; set; }
     }
 }
