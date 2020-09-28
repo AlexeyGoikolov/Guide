@@ -22,19 +22,19 @@ namespace Guide.Controllers
         {
             if (search != null)
             {
-             string a = "%" + search.ToLower() + "%";
-                List <Interpretation> interpretations = 
-                    new List<Interpretation>(_db.Interpretations.
-                        Where(s => EF.Functions.Like(s.Description.ToLower(),a)));
+                string a = "%" + search.ToLower() + "%";
+                List<Interpretation> interpretations =
+                    new List<Interpretation>(_db.Interpretations.Where(s =>
+                        EF.Functions.Like(s.Description.ToLower(), a)));
                 List<Glossary> glossaries = new List<Glossary>(_db.Glossaries.Where(g => EF.Functions.Like
                     (g.Name.ToLower(), a)));
                 foreach (var interpretation in interpretations)
                 {
                     Glossary glossary = _db.Glossaries.FirstOrDefault(g => g.Id == interpretation.GlossaryId);
-                    if (glossary!=glossaries.FirstOrDefault(gl=>gl.Id==glossary.Id))
-                                     glossaries.Add(glossary);
-                   }
-                
+                    if (glossary != glossaries.FirstOrDefault(gl => gl.Id == glossary.Id))
+                        glossaries.Add(glossary);
+                }
+
                 SearchViewModel model = new SearchViewModel()
                 {
                     Search = search,
@@ -44,7 +44,7 @@ namespace Guide.Controllers
                     Steps = new List<Step>(_db.Steps.Where(s => EF.Functions.Like
                                                                     (s.Name.ToLower(), a) ||
                                                                 EF.Functions.Like(s.StepDescription.ToLower(), a))),
-                    
+
                     Glossaries = glossaries,
                     QuestionAnswers = new List<QuestionAnswer>(_db.QuestionAnswers.Where(s => EF.Functions.Like
                                                                                               (s.Question.ToLower(),
@@ -53,23 +53,21 @@ namespace Guide.Controllers
                                                                                                   s.Answer.ToLower(),
                                                                                                   a))),
                     Books = new List<Book>(_db.Books.Where(b => EF.Functions.Like
-                                                                                    (b.Name.ToLower(),
-                                                                                        a) ||
-                                                                                    EF.Functions.Like(
-                                                                                        b.Keys.ToLower(),
-                                                                                        a))),
-                  Posts = new List<Post>(_db.Posts.
-                      Where(p => EF.Functions.Like(p.Title.ToLower(), a) ||
+                                                                (b.Name.ToLower(),
+                                                                    a) ||
+                                                                EF.Functions.Like(
+                                                                    b.Keys.ToLower(),
+                                                                    a))),
+                    Posts = new List<Post>(_db.Posts.Where(p => EF.Functions.Like(p.Title.ToLower(), a) ||
                                                                 EF.Functions.Like(p.Keys.ToLower(), a) ||
                                                                 EF.Functions.Like(p.TextContent.ToLower(), a))),
-                    
                 };
                 model.TotalFound = model.Issues.Count + model.Steps.Count + model.Glossaries.Count + model.Posts.Count +
-                                   model.Books.Count+model.QuestionAnswers.Count;
+                                   model.Books.Count + model.QuestionAnswers.Count;
                 return View(model);
             }
-return View();
-            return RedirectToAction("SearchIndex","Search");
+
+            return View();
         }
     }
 }
