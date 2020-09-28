@@ -175,7 +175,7 @@ namespace Guide.Areas.Admin.Controllers
         {
             if (file != null)
             {
-                string path = Path.Combine(_environment.ContentRootPath + $"\\wwwroot\\BooksFiles\\{name}");
+                string path = Path.Combine(_environment.ContentRootPath + $"/wwwroot/BooksFiles/{name}");
                 string filePath = $"BooksFiles/{name}/{file.FileName}";
                 if (!Directory.Exists($"wwwroot/BooksFiles/{name}"))
                 {
