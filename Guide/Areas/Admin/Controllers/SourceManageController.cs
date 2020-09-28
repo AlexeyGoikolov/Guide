@@ -343,7 +343,7 @@ namespace Guide.Areas.Admin.Controllers
         {
             if (file != null)
             {
-                string path = Path.Combine(_environment.ContentRootPath + $"\\wwwroot\\PostsFiles\\{id}");
+                string path = Path.Combine(_environment.ContentRootPath + $"/wwwroot/PostsFiles/{id}");
                 string filePath = $"PostsFiles/{id}/{file.FileName}";
                 if (!Directory.Exists($"wwwroot/PostsFiles/{id}"))
                 {
