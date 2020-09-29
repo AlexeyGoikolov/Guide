@@ -66,11 +66,12 @@
                                         <td>
                                             @if (glossary.GlossarysId != null)
                                             {
-                                                <a asp-action="Preview" asp-controller="Glossarys" asp-route-id="@glossary.GlossarysId" asp-area="">@glossary.Glossarys.Name</a>
+                                                <a asp-action="Preview" asp-controller="Glossarys" asp-route-id="@glossary.GlossarysId"
+                                                   asp-area="">@glossary.Glossarys.Name</a>
                                             }
                                             @if (glossary.Active && glossary.GlossarysId == null)
                                             {
-                                                <i class="fas fa-globe"></i>
+                                               <i class="fas fa-globe"></i>
                                             }
                                         </td>
                                     </div>
