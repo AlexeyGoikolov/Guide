@@ -56,9 +56,11 @@ namespace Guide.Areas.Admin.Controllers
                         
                         if ( model.DesResult.Name != null)//создает новый ЖР
                         {
-                            DesiredResult desiredResult  =new DesiredResult();
-                            desiredResult.Number = model.DesResult.Number;
-                            desiredResult.Name = model.DesResult.Name;
+                            DesiredResult desiredResult  = new DesiredResult()
+                            {
+                             Number = model.DesResult.Number,
+                             Name = model.DesResult.Name
+                            };
                             _db.DesiredResults.Add(desiredResult);
                             _db.SaveChanges();
                             // теперь в общую таблицу добавляем новый ЖР в связи с Задачей
@@ -85,14 +87,16 @@ namespace Guide.Areas.Admin.Controllers
                             _db.DesiredResultStep.Add(desiredResultStep);
                             _db.SaveChanges();
                         }
+                    }
 
-
-                        //создает новый ЖР
+                    //создает новый ЖР
                         if (model.DesResult.Name != null)
                         {
-                            DesiredResult desiredResult = new DesiredResult();
-                            desiredResult.Number = model.DesResult.Number;
-                            desiredResult.Name = model.DesResult.Name;
+                            DesiredResult desiredResult  = new DesiredResult()
+                            {
+                                Number = model.DesResult.Number,
+                                Name = model.DesResult.Name
+                            };
                             _db.DesiredResults.Add(desiredResult);
                             _db.SaveChanges();
                             // теперь в общую таблицу добавляем новый ЖР в связи с Шагом
@@ -102,7 +106,7 @@ namespace Guide.Areas.Admin.Controllers
                             _db.DesiredResultStep.Add(desiredResultStep);
                             _db.SaveChanges();
                         }
-                    }
+                    
 
                     return RedirectToAction("Details", "StepsManage", new {id = model.StepId});
                 }
