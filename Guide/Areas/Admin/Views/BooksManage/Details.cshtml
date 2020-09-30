@@ -39,7 +39,7 @@
                             <div  style="text-align: center; margin: 10px;">
                                 <img style=" width: 100%;-webkit-box-shadow: 14px 14px 28px -6px rgba(53,3,71,0.57);
                                                                           -moz-box-shadow: 14px 14px 28px -6px rgba(53,3,71,0.57);
-                                                                          box-shadow: 14px 14px 28px -6px rgba(53,3,71,0.57);" src="@Model.CoverPath" alt="изображение обложки">
+                                                                          box-shadow: 14px 14px 28px -6px rgba(53,3,71,0.57);" src="~/@Model.CoverPath" alt="изображение обложки">
                             </div>
                         </div>
                         <!-- /tile body -->
@@ -52,7 +52,7 @@
                             <div style="text-align: right; margin-right: 10px ">
                                 @if (Model.IsRecipe)
                                 {
-                                    <span style="color: #0a6aa1">является Рецептом :</span>
+                                    <span style="color: #0a6aa1">является Рецептом</span>
                                 }
                                 ISBN @Model.ISBN
                             </div>
@@ -74,7 +74,7 @@
                                 }
                             </div>
                             <div>
-                                <a asp-action="ReadBook" asp-controller="BooksManage" asp-route-id="@Model.Id"><i class="fa fa-book"></i> читать книгу </a>
+                                <a asp-action="ReadBook" asp-controller="BooksManage" asp-route-id="@Model.Id"><i class="fa fa-book"></i> Читать книгу </a>
                                 </div>
                                  <div>
                                 @if (ViewBag.BookTransferId != 0)
