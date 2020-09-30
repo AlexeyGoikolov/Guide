@@ -50,21 +50,21 @@
                             @foreach (var post in Model)
                             {
                                 <tr class="odd gradeX">
-                                    @if (post.TypeContent.Name == "Книга")
+                                    @if (post.Entity == "book")
                                     {
                                         <td>
-                                            <a asp-action="Details" asp-controller="Source" asp-area="" asp-route-id="@post.Id">@post.Name</a>
+                                            <a asp-action="Details" asp-controller="Source" asp-route-id="@post.Id">@post.Name</a>
                                         </td>
                                     }
-                                     else
-                                     {
-                                         <td>
-                                             <a asp-action="Details" asp-controller="Material" asp-area="" asp-route-id="@post.Id">@post.Name</a>
-                                         </td>
-                                     }
-                                    @if (post.TypeContent.Name != "Книга")
+                                    else
                                     {
-                                        @if (post.Author != null)
+                                        <td>
+                                            <a asp-action="Details" asp-controller="Material" asp-route-id="@post.Id">@post.Name</a>
+                                        </td>
+                                    }
+                                    @if (post.Entity != "Книга")
+                                    {
+                                        if (post.Author != null)
                                         {
                                             <td>@post.Author</td>
                                         }

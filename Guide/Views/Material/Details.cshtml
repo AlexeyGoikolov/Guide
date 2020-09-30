@@ -17,7 +17,7 @@
                     <a asp-action="Details" asp-controller="Account" asp-area=""><i class="fa fa-home"></i> Guide</a>
                 </li>
                 <li>
-                    <a asp-action="Index" asp-controller="Material">Библиотека</a>
+                    <a asp-action="Index" asp-controller="Source">Библиотека</a>
                 </li>
                 <li>
                     <a asp-action="Details" asp-controller="Material" asp-route-id="@Model.Id">Просмотр</a>
@@ -33,68 +33,86 @@
 
         <!-- row -->
         <div class="row">
-            <div class="col-md-9">
-                <h2 class="custom-font mt-0 mb-5">@Model.Title </h2>
-                <div class="desc text-default lt mb-20 mt-20 material_content">
-                    @Html.Raw(Model.TextContent)
+            <div class="col-sm-5 col-md-5 portlets sortable ">
+                <section class="tile portlet ">
+                    <h2 class="custom-font mt-0 mb-5">@Model.Title </h2>
+                    <div class="desc text-default lt mb-20 mt-20 material_content">
+                        @Html.Raw(Model.TextContent)
 
-                    @if (Model.VirtualPath != null)
-                    {
-                        if (Model.VirtualPath.Contains(".doc") || Model.VirtualPath.Contains(".docx"))
-                        {
-                            <div>
-                                <a class="btn btn-info" href="~/@Model.VirtualPath">Скачать</a>
-                            </div>
-                            <iframe width="100%" height="400" src="https://docs.google.com/gview?url=@ViewBag.DocxPath&embedded=true"></iframe>
-                        }
-                        else
-                        {
-                            <iframe width="100%" height="400" src="~/@Model.VirtualPath"></iframe>
-                        }
-                    }
-                </div>
-               
+                        <div style="text-align: center; margin: 10px;">
+                            <img style=" width: 85%;-webkit-box-shadow: 14px 14px 28px -6px rgba(53,3,71,0.57);
+                                                                          -moz-box-shadow: 14px 14px 28px -6px rgba(53,3,71,0.57);
+                                                                          box-shadow: 14px 14px 28px -6px rgba(53,3,71,0.57);" src="~/@Model.CoverPath" alt="изображение обложки">
+                        </div>
+                    </div>
+                </section>
+                
+
             </div>
-            <div class="col-md-3 material_discription" data-lightbox="gallery">
-                @if (Model.Author != null)
-                {
-                    <h5>Автор : @Model.Author</h5>
-                }
-                @if (Model.PhysicalPath != null)
-                {
-                    <div>Место нахождения - @Model.PhysicalPath</div>
-                }
-                <div>Дата добавления - @Model.DateOfCreate</div>
-                @if (Model.DateOfUpdate < Model.DateOfCreate)
-                {
-                    <div>Дата обновления - @Model.DateOfUpdate</div>
-                }
-                @if (Model.Category != null)
-                {
-                    <div>Категория - @Model.Category.Name</div>
-                }
-                @if (Model.Type != null)
-                {
-                    <div>Тип - @Model.Type.Name</div>
-                }
-
-                <div style="margin: 5px; margin-left: auto">
-                    <a asp-action="Create" asp-controller="QuestionAnswers" class="btn btn-info" asp-route-status="ToQuestion" asp-route-postId="@Model.Id">Задать вопрос</a>
-
-                </div>
-                <div>
-                    <div class="p-0">
-                        <textarea id="comment_area" class="form-control textarea_chat" placeholder="Оставить свой комментарий..." rows="3"></textarea>
-                        <button type="button" class="btn btn-info mt-10" name="@Model.Id" id ="sendComment">Добавить комментарий</button>
-                        <div class="clearfix"></div>
+            <div class=" col-sm-7 col-md-7  portlets sortable  material_discription" data-lightbox="gallery">
+                <section class="tile portlet ">
+                    <div class="tile-body">
+                        @if (Model.Author != null)
+                        {
+                            <h5>Автор : @Model.Author</h5>
+                            <hr class="line-dashed line-full">
+                        }
+                        @if (Model.AdditionalInformation != null)
+                        {
+                            <div>Дополнительная информация : @Model.AdditionalInformation</div>
+                            <hr class="line-dashed line-full">
+                        }
+                        <div>Дата добавления : @Model.DateOfCreate</div>
+                        <hr class="line-dashed line-full">
+                        @if (Model.DateOfUpdate < Model.DateOfCreate)
+                        {
+                            <div>Дата обновления : @Model.DateOfUpdate</div>
+                            <hr class="line-dashed line-full">
+                        }
+                        @if (Model.Category != null)
+                        {
+                            <div>Категория : @Model.Category.Name</div>
+                            <hr class="line-dashed line-full">
+                        }
+                        @if (Model.Type != null)
+                        {
+                            <div>Тип : @Model.Type.Name</div>
+                            <hr class="line-dashed line-full">
+                        }
+                        @if (Model.BusinessProcesses.Count > 0)
+                        {
+                            string processes = " ";
+                            foreach (var process in Model.BusinessProcesses)
+                            {
+                                processes += process.Name + ", ";
+                            }
+                            processes.Trim().TrimEnd(',');
+                            <div>Связан с бизнес процессами : @processes</div>
+                            <hr class="line-dashed line-full">
+                        }
+                        @if (Model.VirtualPath != null)
+                        {
+                            <a class="btn btn-info" asp-action="ReadSource" asp-controller="Material" asp-area="" asp-route-id="@Model.Id">Просмотреть источник</a>
+                        }
+                        
+                        <div style="margin: 5px; margin-left: auto">
+                            <a asp-action="Create" asp-controller="FaqManage" class="btn btn-info" asp-route-status="ToQuestion" asp-route-postId="@Model.Id">Задать вопрос</a>
+                        </div>
+                        <div>
+                            <div class="">
+                                <textarea id="comment_area" class="form-control textarea_chat" placeholder="Оставить свой комментарий..." rows="3"></textarea>
+                                <button type="button" class="btn btn-info mt-10" name="@Model.Id" id="sendComment">Добавить комментарий</button>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div style="margin: 5px; margin-left: auto">
+                                <button type="button" class="btn btn-info "
+                                        onclick="viewComment('@Model.Id')">
+                                    Посмотреть комментарии
+                                </button>
+                            </div>
+                        </div>
                     </div>
-                    <div style="margin: 5px; margin-left: auto">
-                        <button type="button" class="btn btn-info "
-                                onclick="viewComment('@Model.Id')">
-                            Посмотреть комментарии 
-                        </button>
-                    </div>
-                </div>
+                </section>
             </div>
         </div>
         <div class="panel panel-info">

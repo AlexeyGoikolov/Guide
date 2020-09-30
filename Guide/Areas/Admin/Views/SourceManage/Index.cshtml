@@ -66,7 +66,7 @@
                             {
                                 i++;
                                 <tr class="odd gradeX">
-                                    @if (post.TypeContent.Name == "Книга")
+                                    @if (post.Entity == "book")
                                     {
                                         <td>
                                             <a asp-action="Details" asp-controller="BooksManage" asp-route-id="@post.Id">@post.Name</a>
@@ -129,23 +129,25 @@
                                     {
                                         <td></td>
                                     }
-                                    @if (post.TypeContent.Name != "Книга" || (post.Type != null && (post.Type.Name == "doc" || post.Type.Name == "docx")))
+                                    @if (post.Entity != "book")
                                     {
                                         <td>
-                                            <a id="link_@i" onclick="copy(event,@i)" class="btn btn-rounded-20 btn-default btn-sm p-5" style="width:30px;" role="button" tabindex="0" target="_blank"
+                                                <a id="link_@i" onclick="copy(event,@i)" class="btn btn-rounded-20 btn-default btn-sm p-5" style="width:30px;" role="button" tabindex="0" target="_blank"
                                                    title="Копировать ссылку" href="../../@post.FilePath"><i class="fa fa-link"></i></a>
+ 
+                                            
                                             <a class="btn btn-rounded-20 btn-default btn-sm p-5" style="width:30px;" role="button" tabindex="0" target="_blank"
                                                title="Вид пользователя" asp-action="Details" asp-controller="Material" asp-area="" asp-route-id="@post.Id"><i class="fa fa-eye"></i></a>
                                             <a class="btn btn-rounded-20 btn-default btn-sm p-5" style="width:30px;" role="button" asp-action="Edit"
                                                asp-controller="SourceManage" asp-route-id="@post.Id" tabindex="0" title="Изменить"><i class="fa fa-pencil"></i></a>
                                             @if (post.Active)
                                             {
-                                                <a class="btn btn-rounded-20 btn-default btn-sm mr-5 p-5" style="width:30px;" role="button" tabindex="0"
+                                                <a class="btn btn-rounded-20 btn-default btn-sm p-5" style="width:30px;" role="button" tabindex="0"
                                                    title="Удалить" asp-action="Delete" asp-controller="SourceManage" asp-route-id="@post.Id"><i class="fa fa-trash"></i></a>
                                             }
                                             else
                                             {
-                                                <a class="btn btn-rounded-20 btn-default btn-sm mr-5 p-5" style="width:30px;"
+                                                <a class="btn btn-rounded-20 btn-default btn-sm p-5" style="width:30px;"
                                                    asp-action="Delete" asp-controller="SourceManage" title="Восстановить" asp-route-id="@post.Id">
                                                     <i class="fa fa-reply"></i>
                                                 </a>
@@ -162,19 +164,21 @@
                                                      <i class="fas fa-globe"></i>
                                                  </a>
                                              }
-                                            <a class="btn btn-rounded-20 btn-default btn-sm mr-5 p-5" style="width:30px;" role="button" tabindex="0"
+                                             <a id="link_@i" onclick="copy(event,@i)" class="btn btn-rounded-20 btn-default btn-sm p-5" style="width:30px;" role="button" tabindex="0" target="_blank"
+                                                                                                title="Копировать ссылку" href="../../@post.FilePath"><i class="fa fa-link"></i></a>
+                                            <a class="btn btn-rounded-20 btn-default btn-sm p-5" style="width:30px;" role="button" tabindex="0"
                                                target="_blank" title="Вид пользователя" asp-action="Details" asp-controller="Source" asp-area="" asp-route-id="@post.Id"><i class="fa fa-eye"></i></a>
-                                            <a class="btn btn-rounded-20 btn-default btn-sm mr-5 p-5" style="width:30px;" title="Редактировать"
+                                            <a class="btn btn-rounded-20 btn-default btn-sm p-5" style="width:30px;" title="Редактировать"
                                                asp-action="Details" asp-controller="BooksManage" asp-route-id="@post.Id"><i class="fa fa-pencil"></i></a>
 
                                             @if (post.Active)
                                             {
-                                                <a class="btn btn-rounded-20 btn-default btn-sm mr-5 p-5" title="Удалить" style="width:30px;"
+                                                <a class="btn btn-rounded-20 btn-default btn-sm p-5" title="Удалить" style="width:30px;"
                                                    asp-action="Delete" asp-controller="BooksManage" asp-route-id="@post.Id"><i class="fa fa-trash"></i></a>
                                             }
                                             else
                                             {
-                                                <a class="btn btn-rounded-20 btn-default btn-sm mr-5 p-5" style="width:30px;"
+                                                <a class="btn btn-rounded-20 btn-default btn-sm p-5" style="width:30px;"
                                                    asp-action="Delete" asp-controller="BooksManage" asp-route-id="@post.Id" title="Восстановить"><i class="fa fa-reply"></i></a>
                                             }
                                         </td>

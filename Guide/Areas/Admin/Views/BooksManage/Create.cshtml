@@ -1,10 +1,20 @@
 ﻿@model BookCreateViewModel
+@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Xsrf
 
 @{
     ViewBag.Title = "Добавление книги";
     Layout = "_Layout";
 }
 
+@functions{
+    public string GetAntiXsrfRequestToken()
+    {
+        return Xsrf.GetAndStoreTokens(Context).RequestToken;
+    }
+}
+
+<input type="hidden" id="RequestVerificationToken" 
+       name="RequestVerificationToken" value="@GetAntiXsrfRequestToken()">
 <div class="page page-forms-common">
     <div class="pageheader">
         <h2>@ViewBag.Title</h2>
@@ -72,7 +82,8 @@
            
           let formData = new FormData();
           let coverFile = document.getElementById('coverFile');
-          let bookFile = document.getElementById('bookFile');         
+          let bookFile = document.getElementById('bookFile');    
+          formData.append('__RequestVerificationToken', $('#RequestVerificationToken').val());
           formData.append(coverFile.getAttribute('name'), coverFile.files[0]);
           formData.append(bookFile.getAttribute('name'), bookFile.files[0]);
           formData.append('IsRecipe', $('#isRecipe').val());
@@ -86,8 +97,8 @@
           formData.append('BusinessProcesses', String(businessProcessesArray));
           
           $.ajax({
-            url: '@Url.Action("Create", "BooksManage", new {area = "Admin"})',                    
-            type: 'POST',
+            url: '@Url.Action("Create", "BooksManage", new {area = "Admin"})',                            
+            type: 'POST',           
             traditional: true,                 
             data: formData,                                                                                                             
             contentType: false,

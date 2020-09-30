@@ -14,7 +14,8 @@ namespace Guide.ViewModels
         public DateTime DateCreate { get; set; }
 
         public string FilePath { get; set; }
-        
+
+        public string Entity { get; set; }
         // Тип котнетна
         public virtual TypeContent TypeContent { get; set; }
         //Категория

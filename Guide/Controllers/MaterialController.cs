@@ -1,16 +1,11 @@
 ﻿using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Guide.Models;
 using Guide.Models.Data;
-using Guide.Services;
-using Guide.ViewModels;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Hosting;
 
 namespace Guide.Controllers
 {
@@ -19,16 +14,12 @@ namespace Guide.Controllers
         
         private readonly GuideContext _db;
         private readonly UserManager<User> _userManager;
-        private IHostEnvironment _environment;
-        private UploadService _uploadService;
 
-        public MaterialController(GuideContext db, UserManager<User> userManager, IHostEnvironment environment,
-            UploadService uploadService)
+
+        public MaterialController(GuideContext db, UserManager<User> userManager)
         {
             _db = db;
             _userManager = userManager;
-            _environment = environment;
-            _uploadService = uploadService;
         }
 
         public IActionResult Index()
@@ -40,29 +31,16 @@ namespace Guide.Controllers
         public IActionResult Details(int id)
         {
             Post post = _db.Posts.FirstOrDefault(p => p.Id == id);
-            ViewBag.DocxPath = Request.Scheme + "://" + Request.Host.Value + "/" + post.VirtualPath;
-
+            if (post != null)
+            {
+                post.BusinessProcesses = _db.PostBusinessProcesses.Where(pb => pb.PostId == post.Id)
+                                    .Select(pb => pb.BusinessProcess).ToList();
+                ViewBag.DocxPath = Request.Scheme + "://" + Request.Host.Value + "/" + post.VirtualPath;
+            }
+            
             return View(post);
         }
-
-        private string Load(int id, IFormFile file)
-        {
-            if (file != null)
-            {
-                string path = Path.Combine(_environment.ContentRootPath + $"\\wwwroot\\PostsFiles\\{id}");
-                string filePath = $"PostsFiles/{id}/{file.FileName}";
-                if (!Directory.Exists($"wwwroot/PostsFiles/{id}"))
-                {
-                    Directory.CreateDirectory($"wwwroot/PostsFiles/{id}");
-                }
-
-                _uploadService.Upload(path, file.FileName, file);
-                return filePath;
-            }
-
-            return null;
-        }
-
+        
         [HttpGet]
         public IActionResult ViewComment(int id)
         {
@@ -109,15 +87,12 @@ namespace Guide.Controllers
             return PartialView("PartialViews/CommentsPartial", comments);
         }
 
-       
-         
-      
-       
-
-      
+        public IActionResult ReadSource(int id)
+        {
+            Post post = _db.Posts.FirstOrDefault(b => b.Id == id);
+            ViewBag.PostPath = Request.Scheme + "://" + Request.Host.Value + "/" + post.VirtualPath;
+            return View(post) ;
+        }
     }
-
-        
-    
  
 }

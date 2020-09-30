@@ -51,6 +51,7 @@ namespace Guide.Areas.Admin.Controllers
         }
         
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Create(BookCreateViewModel model, string authors, IFormFile coverFile, IFormFile bookFile)
         {
             if (model.Name != null && bookFile != null)
@@ -70,7 +71,7 @@ namespace Guide.Areas.Admin.Controllers
                 };
                 if (book.CoverPath == null)
                 {
-                    book.CoverPath = "/BooksFiles/Cover_missing.png";
+                    book.CoverPath = "/Files/Cover_missing.png";
                 }
                 _db.Books.Add(book);
                 _db.SaveChanges();
@@ -176,11 +177,11 @@ namespace Guide.Areas.Admin.Controllers
         {
             if (file != null)
             {
-                string path = Path.Combine(_environment.ContentRootPath + $"/wwwroot/BooksFiles/{name}");
-                string filePath = $"BooksFiles/{name}/{file.FileName}";
-                if (!Directory.Exists($"wwwroot/BooksFiles/{name}"))
+                string path = Path.Combine(_environment.ContentRootPath + $"/wwwroot/Files/BooksFiles/{name}");
+                string filePath = $"Files/BooksFiles/{name}/{file.FileName}";
+                if (!Directory.Exists($"wwwroot/Files/BooksFiles/{name}"))
                 {
-                    Directory.CreateDirectory($"wwwroot/BooksFiles/{name}");
+                    Directory.CreateDirectory($"wwwroot/Files/BooksFiles/{name}");
                 }
                 _uploadService.Upload(path, file.FileName, file);
                 return filePath;

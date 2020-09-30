@@ -3,7 +3,7 @@
 <label>Состояние</label>
   <span class="validationError" asp-validation-for="@Model.Material.TypeContentId"></span>
 <div style="display: flex">
-    <select class="form-control" name="TypeStateId" asp-for="@Model.Material.TypeStateId">
+    <select id="typeStateId" class="form-control" name="TypeStateId" asp-for="@Model.Material.TypeStateId">
         @foreach (var typeState in Model.TypeStates)
         {
             <option value="@typeState.Id">@typeState.Name</option>

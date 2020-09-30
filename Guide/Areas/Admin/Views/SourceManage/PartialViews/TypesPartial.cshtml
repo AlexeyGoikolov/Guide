@@ -3,7 +3,7 @@
 <label>Тип файла</label>
 <span class="validationError" asp-validation-for="@Model.Material.TypeId"></span>
 <div style="display: flex">
-    <select class="form-control" name="TypeId" asp-for="@Model.Material.TypeId">
+    <select id="typeId" class="form-control" name="TypeId" asp-for="@Model.Material.TypeId">
         @foreach (var type in Model.Types)
         {
             <option value="@type.Id">@type.Name</option>
