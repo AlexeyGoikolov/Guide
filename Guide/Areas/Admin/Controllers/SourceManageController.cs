@@ -182,8 +182,7 @@ namespace Guide.Areas.Admin.Controllers
 
                 _db.Posts.Add(post);
                 _db.SaveChanges();
-                if (model.BusinessProcesses != null)
-                    SaveBusinessProcessesSource(model, post);
+                SaveBusinessProcessesSource(model, post);
                 return Json(true);
             }
             return Json("falseData");
@@ -192,24 +191,36 @@ namespace Guide.Areas.Admin.Controllers
         [Authorize(Roles = "admin")]
         public void SaveBusinessProcessesSource(MaterialCreateViewModel model, Post post)
         {
-            string[] businessProcesses = model.BusinessProcesses.Split(',');
-            foreach (var businessProcess in businessProcesses)
+            List<PostBusinessProcess> processes = _db.PostBusinessProcesses.Where(p => p.PostId == model.Id).ToList();
+            if (processes.Count > 0)
             {
-                if (businessProcess != "")
+                foreach (var process in processes)
                 {
-                    var process = _db.BusinessProcesses.FirstOrDefault(b => b.Name == businessProcess);
-                    if (process != null)
+                    _db.PostBusinessProcesses.Remove(process);
+                }
+            }
+
+            if (model.BusinessProcesses != null)
+            {
+                string[] businessProcesses = model.BusinessProcesses.Split(',');
+                foreach (var businessProcess in businessProcesses)
+                {
+                    if (businessProcess != "")
                     {
-                        PostBusinessProcess postBusinessProcess = new PostBusinessProcess()
+                        var process = _db.BusinessProcesses.FirstOrDefault(b => b.Name == businessProcess);
+                        if (process != null)
                         {
-                            PostId = post.Id,
-                            BusinessProcessId = process.Id
-                        };
-                        _db.PostBusinessProcesses.Add(postBusinessProcess);
-                        _db.SaveChanges(); 
+                            PostBusinessProcess postBusinessProcess = new PostBusinessProcess()
+                            {
+                                PostId = post.Id,
+                                BusinessProcessId = process.Id
+                            };
+                            _db.PostBusinessProcesses.Add(postBusinessProcess);
+                        }
                     }
                 }
             }
+            _db.SaveChanges(); 
         }
         
         [Authorize(Roles = "admin")]
@@ -501,6 +512,9 @@ namespace Guide.Areas.Admin.Controllers
                     CategoryId = post.CategoryId,
                     AdditionalInformation = post.AdditionalInformation,
                     TypeId = post.TypeId,
+                    Keys = post.Keys,
+                    BusinessProcessesList = _db.BusinessProcesses.ToList(),
+                    RelatedBusinessProcesses = _db.PostBusinessProcesses.Where(p => p.PostId == post.Id).Select(p => p.BusinessProcess).ToList()
                 };
 
                 return View(model);
@@ -511,9 +525,10 @@ namespace Guide.Areas.Admin.Controllers
 
         [Authorize(Roles = "admin")]
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Edit(MaterialCreateViewModel model)
         {
-            if (ModelState.IsValid)
+            if (model.Id != 0)
             {
                 Post post = _db.Posts.FirstOrDefault(p => p.Id == model.Id);
                 if (post != null)
@@ -523,17 +538,40 @@ namespace Guide.Areas.Admin.Controllers
                     post.Author = model.Author;
                     post.TextContent = model.TextContent;
                     post.CategoryId = model.CategoryId;
+                    post.TypeContentId = model.TypeContentId;
+                    post.TypeStateId = model.TypeStateId;
                     post.TypeId = model.TypeId;
                     post.AdditionalInformation = model.AdditionalInformation;
-                    post.CoverPath = Load(model.Title, model.CoverFile);
-                    post.VirtualPath = Load(model.Title, model.SourceFile);
+                    post.UserId = _userManager.GetUserId(User);
+                    post.Keys = model.Keys;
+                    
+                    if (model.CoverFile != null)
+                    {
+                        if (FileTypeChecker.IsValidImage(model.CoverFile))
+                            post.CoverPath = Load(model.Title, model.CoverFile);
+                        else
+                            return Json("falseCoverType");
+                    }
+
+                    if (model.SourceFile != null)
+                    {
+                        if (FileTypeChecker.IsValidDocument(model.SourceFile)
+                            || FileTypeChecker.IsValidImage(model.SourceFile)
+                            || FileTypeChecker.IsValidVideo(model.SourceFile)
+                            || FileTypeChecker.IsValidAudio(model.SourceFile))
+                        {
+                            post.VirtualPath = Load(model.Title, model.SourceFile);
+                        }
+                        else
+                            return Json("falseSourceType");
+                    }
+
                     _db.Posts.Update(post);
                     _db.SaveChanges();
+                    SaveBusinessProcessesSource(model, post);
                 }
-                return RedirectToAction("Index", "SourceManage");
             }
-
-            return View(model);
+            return Json("redirect");
         }
 
         [Authorize(Roles = "admin")]

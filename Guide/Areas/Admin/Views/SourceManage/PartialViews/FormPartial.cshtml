@@ -19,17 +19,27 @@
                 <div class="form-group" id="businessProcesses-row">
                     <label style="display: block" class="control-label">Бизнес процесс</label>
 
-                    <select multiple="" tabindex="3" class="chosen-select">
-                        <option value=""></option>
+                    <select multiple="" tabindex="3" id="bpChosen" class="chosen-select">
+                        @if (Model.RelatedBusinessProcesses != null && Model.RelatedBusinessProcesses.Count > 0)
+                        {
+                            foreach (var bp in Model.RelatedBusinessProcesses)
+                            {
+                                <option class="editOption" hidden="hidden" selected="selected" value="@bp.Name">@bp.Name</option>
+                            }
+                        }
                         @foreach (var businessProcess in Model.BusinessProcessesList)
                         {
                             <option value="@businessProcess.Id">@businessProcess.Name</option>
-                        } 
+                        }
                     </select>
+                    @if (Model.RelatedBusinessProcesses != null)
+                    {
+                        <button class="btn btn-info" id="clearChoosen">Очистить бизнес процессы</button>
+                    }
                 </div>
                 <div class="mt-20">
                     <label>Ключевые слова:</label>
-                    <textarea id="keyWord" type="text" class="form-control" asp-for="Keys" value="@Model.Keys"></textarea>
+                    <textarea id="keyWord" type="text" class="form-control" asp-for="Keys">@Model.Keys</textarea>
                 </div>
             </div>
             @if (ViewBag.Title == "Новый источник")

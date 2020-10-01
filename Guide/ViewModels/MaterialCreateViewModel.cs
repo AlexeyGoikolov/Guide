@@ -21,6 +21,7 @@ namespace Guide.ViewModels
         public IFormFile SourceFile { get; set; }
         public string BusinessProcesses { get; set; }
         public List<BusinessProcess> BusinessProcessesList { get; set; }
+        public List<BusinessProcess> RelatedBusinessProcesses { get; set; }
         public string _virtualPath { get; set; }
         public string _coverPath { get; set; }
         public string AdditionalInformation { get; set; }

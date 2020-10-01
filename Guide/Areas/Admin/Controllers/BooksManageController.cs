@@ -77,7 +77,7 @@ namespace Guide.Areas.Admin.Controllers
                         return Json("falseCoverType");
                 }
                 else
-                    book.CoverPath = "/Files/Cover_missing.png";
+                    book.CoverPath = "Files/Cover_missing.png";
 
                 if (FileTypeChecker.IsValidDocument(bookFile))
                     book.VirtualPath = Load(model.Name, bookFile);

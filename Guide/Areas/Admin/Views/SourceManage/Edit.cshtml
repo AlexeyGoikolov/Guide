@@ -1,10 +1,19 @@
 ﻿@model MaterialCreateViewModel
-
+@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Xsrf
 @{
     ViewBag.Title = "Редактирование материала";
     Layout = "_Layout";
 }
-      
+@functions{
+    public string GetAntiXsrfRequestToken()
+    {
+        return Xsrf.GetAndStoreTokens(Context).RequestToken;
+    }
+}
+
+<input type="hidden" id="RequestVerificationToken" 
+       name="RequestVerificationToken" value="@GetAntiXsrfRequestToken()">  
+
 <div class="page">
     <div class="pageheader">
 
@@ -25,6 +34,7 @@
             </ul>
         </div>
     </div>
+    <span id="errorText" style="color: red"></span>
 
     <div class="row">
         <div class="tile-body">
@@ -71,8 +81,6 @@
     <!-- Modal -->
 </div>
 
-
-@{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
    
 @section Scripts
 {
@@ -84,6 +92,61 @@
     </script>
     <script>
      
+        $('#submit').on('click', function(e) {
+                    e.preventDefault();
+                    let businessProcessesArray = [];               
+                    let getbusinessP = document.getElementById('businessProcesses-row');
+                    let getBPName = getbusinessP.getElementsByTagName('span');
+                    for (let i=0; i < getBPName.length; i++){
+                        businessProcessesArray.push(getBPName[i].innerHTML);
+                    }
+                    let editorData = CKEDITOR.instances.textContent.getData();
+                    let formData = new FormData();
+                    let coverFile = document.getElementById('coverFile');
+                    let sourceFile = document.getElementById('sourceFile');    
+                    formData.append('__RequestVerificationToken', $('#RequestVerificationToken').val());
+                    formData.append(coverFile.getAttribute('name'), coverFile.files[0]);
+                    formData.append(sourceFile.getAttribute('name'), sourceFile.files[0]);
+                    formData.append('Id', $('#postId').val());
+                    formData.append('Title', $('#name').val());
+                    formData.append('TextContent', editorData);
+                    formData.append('Keys', $('#keyWord').val());
+                    formData.append('TypeContentId', $('#typeContentId').val());
+                    formData.append('CategoryId', $('#category').val());
+                    formData.append('TypeId', $('#typeId').val());
+                    formData.append('TypeStateId', $('#typeStateId').val());
+                    formData.append('Author', $('#author').val());
+                    formData.append('AdditionalInformation', $('#additional').val());
+                    formData.append('BusinessProcesses', String(businessProcessesArray));
+                      
+                    $.ajax({
+                        url: '@Url.Action("Edit", "SourceManage", new {area = "Admin"})',                            
+                        type: 'POST',           
+                        traditional: true,                 
+                        data: formData,                                                                                                             
+                        contentType: false,
+                        processData: false,          
+                        success: function(response) {
+                            if (response === "redirect"){
+                                window.location.href = "@Url.Action("Details","SourceManage", new{area="Admin", id = Model.Id})"
+                            }
+                            if (response === "falseSourceType"){
+                                $('#errorText').html('Неверный формат источника')
+                            }
+                            else if (response === "falseCoverType"){
+                                $('#errorText').html('Неверный формат обложки')
+                            }
+                        }                                                        
+                    });                   
+                });
+        $('#clearChoosen').on('click', function(event) {
+            event.preventDefault();
+            let option = document.getElementsByClassName('editOption');
+            for (let i = 0; i < option.length; i++){
+                $('.editOption').remove();
+            }
+            $('#bpChosen').trigger("chosen:updated"); 
+        })
         $("#templateIdBtn").click(function(event) {                    
             event.preventDefault();
             let id = $('#selectTemplate').val();
@@ -114,6 +177,7 @@
             $("#types-row").load('@Url.Action("DeleteTypeAjax", "SourceManage")', {Id: typeId});
         };
         $(document).ready(function(){
+            
             loadTemplate();
             loadCategories();
             loadTypes();
