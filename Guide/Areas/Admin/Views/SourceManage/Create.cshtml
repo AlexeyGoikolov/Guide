@@ -34,7 +34,7 @@
             </ul>
         </div>
     </div>
-
+    <span id="errorText" style="color: red"></span>
 
     <div class="row">
 
@@ -122,7 +122,7 @@
             formData.append('AdditionalInformation', $('#additional').val());
             formData.append('BusinessProcesses', String(businessProcessesArray));
               
-              $.ajax({
+            $.ajax({
                 url: '@Url.Action("Create", "SourceManage", new {area = "Admin"})',                            
                 type: 'POST',           
                 traditional: true,                 
@@ -133,11 +133,17 @@
                     if (response === true){
                         window.location.href = "@Url.Action("Index","SourceManage", new{area="Admin"})"
                     }
+                    else if (response === "falseData"){
+                        $('#errorText').html('Вы не ввели название. Проверьте название')
+                    }
+                    else if (response === "falseSourceType"){
+                        $('#errorText').html('Неверный формат источника')
+                    }
                     else{
-                        $('.pageheader').append('<span style="color: red">Источник не загружен. Проверьте название или файл<span>')
-                    } 
+                        $('#errorText').html('Неверный формат обложки')
+                    }
                 }                                                        
-              });                   
+            });                   
         });
     
         function sendTemplate() {

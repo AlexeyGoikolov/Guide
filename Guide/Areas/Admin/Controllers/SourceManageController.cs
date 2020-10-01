@@ -152,25 +152,41 @@ namespace Guide.Areas.Admin.Controllers
                     TypeStateId = model.TypeStateId,
                     TypeId = model.TypeId,
                     AdditionalInformation = model.AdditionalInformation,
-                    VirtualPath = Load(model.Title, model.SourceFile),
-                    CoverPath = Load(model.Title, model.CoverFile),
                     UserId = _userManager.GetUserId(User),
                     Keys = model.Keys
                 };
-                if (post.CoverPath == null)
+                if (model.CoverFile != null)
                 {
-                    post.CoverPath = "Files/Cover_missing.png";
+                    if (FileTypeChecker.IsValidImage(model.CoverFile))
+                        post.CoverPath = Load(model.Title, model.CoverFile);
+                    else
+                        return Json("falseCoverType");
                 }
+                else
+                    post.CoverPath = "Files/Cover_missing.png";
+
+                if (model.SourceFile != null)
+                {
+                    if (FileTypeChecker.IsValidDocument(model.SourceFile)
+                        || FileTypeChecker.IsValidImage(model.SourceFile)
+                        || FileTypeChecker.IsValidVideo(model.SourceFile)
+                        || FileTypeChecker.IsValidAudio(model.SourceFile))
+                    {
+                        post.VirtualPath = Load(model.Title, model.SourceFile);
+                    }
+                    else
+                        return Json("falseSourceType");
+                }
+                else
+                    post.VirtualPath = null;
+
                 _db.Posts.Add(post);
                 _db.SaveChanges();
                 if (model.BusinessProcesses != null)
-                {
                     SaveBusinessProcessesSource(model, post);
-                }
                 return Json(true);
             }
-
-            return Json(false);
+            return Json("falseData");
         }
         
         [Authorize(Roles = "admin")]
@@ -383,20 +399,15 @@ namespace Guide.Areas.Admin.Controllers
         [Authorize(Roles = "admin")]
         private string Load(string name, IFormFile file)
         {
-            if (file != null)
+            string path = Path.Combine(_environment.ContentRootPath + $"/wwwroot/Files/PostsFiles/{name}");
+            string filePath = $"Files/PostsFiles/{name}/{file.FileName}";
+            if (!Directory.Exists($"wwwroot/Files/PostsFiles/{name}"))
             {
-                string path = Path.Combine(_environment.ContentRootPath + $"/wwwroot/Files/PostsFiles/{name}");
-                string filePath = $"Files/PostsFiles/{name}/{file.FileName}";
-                if (!Directory.Exists($"wwwroot/Files/PostsFiles/{name}"))
-                {
-                    Directory.CreateDirectory($"wwwroot/Files/PostsFiles/{name}");
-                }
-
-                _uploadService.Upload(path, file.FileName, file);
-                return filePath;
+                Directory.CreateDirectory($"wwwroot/Files/PostsFiles/{name}");
             }
 
-            return null;
+            _uploadService.Upload(path, file.FileName, file);
+            return filePath;
         }
 
         [HttpGet]
