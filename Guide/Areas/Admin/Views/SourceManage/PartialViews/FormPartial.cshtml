@@ -10,24 +10,45 @@
                 <div >
                     <label>Название</label>
                     <br/><span class="validationError" asp-validation-for="Title"></span>
-                    <input class="form-control" type="text" asp-for="Title" value="@Model.Title">
+                    <input id="name" class="form-control" type="text" asp-for="Title" value="@Model.Title">
                 </div>
-                <div class="mt-20">
+                <div id="editor" class="mt-20">
                     <label>Описание</label>
-                    <textarea  name="textContent" type="text" asp-for="TextContent" value="@Model.TextContent"></textarea>
+                    <textarea id="textContent"  name="textContent" type="text" asp-for="TextContent" value="@Model.TextContent"></textarea>
+                </div>
+                <div class="form-group" id="businessProcesses-row">
+                    <label style="display: block" class="control-label">Бизнес процесс</label>
+
+                    <select multiple="" tabindex="3" id="bpChosen" class="chosen-select">
+                        @if (Model.RelatedBusinessProcesses != null && Model.RelatedBusinessProcesses.Count > 0)
+                        {
+                            foreach (var bp in Model.RelatedBusinessProcesses)
+                            {
+                                <option class="editOption" hidden="hidden" selected="selected" value="@bp.Name">@bp.Name</option>
+                            }
+                        }
+                        @foreach (var businessProcess in Model.BusinessProcessesList)
+                        {
+                            <option value="@businessProcess.Id">@businessProcess.Name</option>
+                        }
+                    </select>
+                    @if (Model.RelatedBusinessProcesses != null)
+                    {
+                        <button class="btn btn-info" id="clearChoosen">Очистить бизнес процессы</button>
+                    }
                 </div>
                 <div class="mt-20">
                     <label>Ключевые слова:</label>
-                    <textarea   type="text" asp-for="Keys" value="@Model.Keys"></textarea>
+                    <textarea id="keyWord" type="text" class="form-control" asp-for="Keys">@Model.Keys</textarea>
                 </div>
             </div>
             @if (ViewBag.Title == "Новый источник")
             {
-                <button type="submit" class="btn btn-info float-right" style=" width: 100%;">Создать</button>
+                <button id="submit" type="submit" class="btn btn-info float-right" style=" width: 100%;">Создать</button>
             }
             else
             {
-                <button type="submit" class="btn btn-info float-right" style=" width: 100%;">Сохранить</button>
+                <button id="submit" type="submit" class="btn btn-info float-right" style=" width: 100%;">Сохранить</button>
             }
             <!-- /tile body -->
         </section>
@@ -43,15 +64,19 @@
                 <div>
                     <label>Автор</label>
                     <br/><span class="validationError" asp-validation-for="Author"></span>
-                    <input class="form-control" type="text" asp-for="Author" value="@Model.Author">
+                    <input id="author" class="form-control" type="text" asp-for="Author" value="@Model.Author">
                 </div>
                 <div>
                     <label>Дополнительная информация</label>
-                    <textarea class="form-control" type="text" asp-for="PhysicalPath" value="@Model.PhysicalPath"></textarea>
+                    <textarea id="additional" class="form-control" type="text" asp-for="AdditionalInformation" value="@Model.AdditionalInformation"></textarea>
                 </div>
                 <div>
-                    <label >Загрузить файл</label>
-                    <input class="form-control" type="file" asp-for="VirtualPath">
+                    <label >Загрузить источник</label>
+                    <input id="sourceFile" name="sourceFile" class="form-control" type="file" asp-for="SourceFile">
+                </div>
+                <div>
+                    <label >Загрузить обложку в формате jpg либо png</label>
+                    <input id="coverFile" name="coverFile" class="form-control" type="file" asp-for="CoverFile">
                 </div>
                 <br/><label>Шаблоны</label>
                 <div id="template-row" class="form-group" style="justify-content: center"></div>

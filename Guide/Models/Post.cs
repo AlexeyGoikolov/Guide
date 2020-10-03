@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Guide.Models
 {
@@ -9,12 +11,11 @@ namespace Guide.Models
         public string Author { get; set; }
         public string TextContent { get; set; }
         public string VirtualPath { get; set; }
+        public string CoverPath { get; set; }
         public int? TypeContentId { get; set; }
         public int? TypeStateId  { get; set; }
         public string UserId { get; set; }
-
-        //Физический Путь
-        public string PhysicalPath { get; set; }
+        public string AdditionalInformation { get; set; }
         public DateTime DateOfCreate { get; set; } = DateTime.Now;
         public DateTime DateOfUpdate { get; set; } = DateTime.Now;
         public int? CategoryId { get; set; }
@@ -25,6 +26,8 @@ namespace Guide.Models
         public virtual TypeState TypeState { get; set; }
         public virtual TypeContent TypeContent { get; set; }
         public virtual User User { get; set; }
-         public string Keys { get; set; }
+        public string Keys { get; set; }
+        [NotMapped]
+        public List<BusinessProcess> BusinessProcesses { get; set; }
     }
 }

@@ -1,10 +1,20 @@
 ﻿@model BookCreateViewModel
+@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Xsrf
 
 @{
     ViewBag.Title = "Добавление книги";
     Layout = "_Layout";
 }
 
+@functions{
+    public string GetAntiXsrfRequestToken()
+    {
+        return Xsrf.GetAndStoreTokens(Context).RequestToken;
+    }
+}
+
+<input type="hidden" id="RequestVerificationToken" 
+       name="RequestVerificationToken" value="@GetAntiXsrfRequestToken()">
 <div class="page page-forms-common">
     <div class="pageheader">
         <h2>@ViewBag.Title</h2>
@@ -22,6 +32,7 @@
             </ul>
         </div>
     </div>
+    <span id="errorText" style="color: red"></span>
     <div style="margin:auto;">
         <form asp-action="Create" asp-controller="BooksManage" asp-area="Admin" method="post" enctype="multipart/form-data">
             @{ Html.RenderPartial("PartialViews/FormPartial", Model); }
@@ -69,7 +80,8 @@
            
           let formData = new FormData();
           let coverFile = document.getElementById('coverFile');
-          let bookFile = document.getElementById('bookFile');         
+          let bookFile = document.getElementById('bookFile');    
+          formData.append('__RequestVerificationToken', $('#RequestVerificationToken').val());
           formData.append(coverFile.getAttribute('name'), coverFile.files[0]);
           formData.append(bookFile.getAttribute('name'), bookFile.files[0]);
           formData.append('IsRecipe', $('#isRecipe').val());
@@ -83,8 +95,8 @@
           formData.append('BusinessProcesses', String(businessProcessesArray));
           
           $.ajax({
-            url: '@Url.Action("Create", "BooksManage", new {area = "Admin"})',                    
-            type: 'POST',
+            url: '@Url.Action("Create", "BooksManage", new {area = "Admin"})',                            
+            type: 'POST',           
             traditional: true,                 
             data: formData,                                                                                                             
             contentType: false,
@@ -93,9 +105,15 @@
                 if (response === true){
                     window.location.href = "@Url.Action("Index","SourceManage", new{area="Admin"})"
                 }
+                else if (response === "falseData"){
+                    $('#errorText').html('Вы не добавили книгу. Проверьте название или файл')
+                }
+                else if (response === "falseBookType"){
+                    $('#errorText').html('Неверный формат книги')
+                }
                 else{
-                    $('.pageheader').append('<span style="color: red">Вы не добавили книгу. Проверьте название или файл<span>')
-                } 
+                    $('#errorText').html('Неверный формат обложки')
+                }
             }                                                        
           });                   
         });

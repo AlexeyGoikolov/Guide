@@ -51,12 +51,13 @@ namespace Guide.Areas.Admin.Controllers
             List<LibraryListViewModel> models = new List<LibraryListViewModel>();
             foreach (var post in posts)
             {
-                models.Add(new LibraryListViewModel()
+                models.Add(new LibraryListViewModel
                 {
                     Id = post.Id,
                     Author = post.Author,
                     Name = post.Title,
                     Category = post.Category,
+                    Entity = "post",
                     Type = post.Type,
                     TypeContent = post.TypeContent,
                     TypeState = post.TypeState,
@@ -83,9 +84,9 @@ namespace Guide.Areas.Admin.Controllers
                 LibraryListViewModel bookModel = new LibraryListViewModel
                 {
                     Id = book.Id,
-                   
                     Name = book.Name,
                     Type = new Type() {Name = s},
+                    Entity = "book",
                     TypeContent = new TypeContent() {Name = "Книга"},
                     TypeState = book.IsRecipe ? new TypeState() {Name = "Рецепт"} : new TypeState() {Name = ""},
                     DateCreate = book.DateCreate,
@@ -105,7 +106,12 @@ namespace Guide.Areas.Admin.Controllers
         public IActionResult Details(int id)
         {
             Post post = _db.Posts.FirstOrDefault(p => p.Id == id);
-            ViewBag.PostPath = Request.Scheme + "://" + Request.Host.Value + "/" + post.VirtualPath;
+            if (post != null)
+            {
+                post.BusinessProcesses = _db.PostBusinessProcesses.Where(pb => pb.PostId == post.Id)
+                    .Select(pb => pb.BusinessProcess).ToList();
+                ViewBag.PostPath = Request.Scheme + "://" + Request.Host.Value + "/" + post.VirtualPath;
+            }
             return View(post);
         }
         [Authorize(Roles = "admin")]
@@ -122,19 +128,22 @@ namespace Guide.Areas.Admin.Controllers
         [Authorize(Roles = "admin")]
         public IActionResult Create()
         {
-            return View(new MaterialCreateViewModel());
+            MaterialCreateViewModel model = new MaterialCreateViewModel
+            {
+                BusinessProcessesList = _db.BusinessProcesses.ToList()
+            };
+            return View(model);
         }
         
         [Authorize(Roles = "admin")]
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Create(MaterialCreateViewModel model)
         {
-            if (ModelState.IsValid)
+            if (model.Title != null)
             {
-                
                 Post post = new Post()
                 {
-                    Id = model.Id,
                     Title = model.Title,
                     Author = model.Author,
                     TextContent = model.TextContent,
@@ -142,17 +151,76 @@ namespace Guide.Areas.Admin.Controllers
                     TypeContentId = model.TypeContentId,
                     TypeStateId = model.TypeStateId,
                     TypeId = model.TypeId,
-                    PhysicalPath = model.PhysicalPath,
-                    VirtualPath = Load(model.Id, model.VirtualPath),
+                    AdditionalInformation = model.AdditionalInformation,
                     UserId = _userManager.GetUserId(User),
                     Keys = model.Keys
                 };
+                if (model.CoverFile != null)
+                {
+                    if (FileTypeChecker.IsValidImage(model.CoverFile))
+                        post.CoverPath = Load(model.Title, model.CoverFile);
+                    else
+                        return Json("falseCoverType");
+                }
+                else
+                    post.CoverPath = "Files/Cover_missing.png";
+
+                if (model.SourceFile != null)
+                {
+                    if (FileTypeChecker.IsValidDocument(model.SourceFile)
+                        || FileTypeChecker.IsValidImage(model.SourceFile)
+                        || FileTypeChecker.IsValidVideo(model.SourceFile)
+                        || FileTypeChecker.IsValidAudio(model.SourceFile))
+                    {
+                        post.VirtualPath = Load(model.Title, model.SourceFile);
+                    }
+                    else
+                        return Json("falseSourceType");
+                }
+                else
+                    post.VirtualPath = null;
+
                 _db.Posts.Add(post);
                 _db.SaveChanges();
-                return RedirectToAction("Index", "SourceManage");
+                SaveBusinessProcessesSource(model, post);
+                return Json(true);
+            }
+            return Json("falseData");
+        }
+        
+        [Authorize(Roles = "admin")]
+        public void SaveBusinessProcessesSource(MaterialCreateViewModel model, Post post)
+        {
+            List<PostBusinessProcess> processes = _db.PostBusinessProcesses.Where(p => p.PostId == model.Id).ToList();
+            if (processes.Count > 0)
+            {
+                foreach (var process in processes)
+                {
+                    _db.PostBusinessProcesses.Remove(process);
+                }
             }
 
-            return View(model);
+            if (model.BusinessProcesses != null)
+            {
+                string[] businessProcesses = model.BusinessProcesses.Split(',');
+                foreach (var businessProcess in businessProcesses)
+                {
+                    if (businessProcess != "")
+                    {
+                        var process = _db.BusinessProcesses.FirstOrDefault(b => b.Name == businessProcess);
+                        if (process != null)
+                        {
+                            PostBusinessProcess postBusinessProcess = new PostBusinessProcess()
+                            {
+                                PostId = post.Id,
+                                BusinessProcessId = process.Id
+                            };
+                            _db.PostBusinessProcesses.Add(postBusinessProcess);
+                        }
+                    }
+                }
+            }
+            _db.SaveChanges(); 
         }
         
         [Authorize(Roles = "admin")]
@@ -340,22 +408,17 @@ namespace Guide.Areas.Admin.Controllers
         }
 
         [Authorize(Roles = "admin")]
-        private string Load(int id, IFormFile file)
+        private string Load(string name, IFormFile file)
         {
-            if (file != null)
+            string path = Path.Combine(_environment.ContentRootPath + $"/wwwroot/Files/PostsFiles/{name}");
+            string filePath = $"Files/PostsFiles/{name}/{file.FileName}";
+            if (!Directory.Exists($"wwwroot/Files/PostsFiles/{name}"))
             {
-                string path = Path.Combine(_environment.ContentRootPath + $"/wwwroot/PostsFiles/{id}");
-                string filePath = $"PostsFiles/{id}/{file.FileName}";
-                if (!Directory.Exists($"wwwroot/PostsFiles/{id}"))
-                {
-                    Directory.CreateDirectory($"wwwroot/PostsFiles/{id}");
-                }
-
-                _uploadService.Upload(path, file.FileName, file);
-                return filePath;
+                Directory.CreateDirectory($"wwwroot/Files/PostsFiles/{name}");
             }
 
-            return null;
+            _uploadService.Upload(path, file.FileName, file);
+            return filePath;
         }
 
         [HttpGet]
@@ -445,9 +508,13 @@ namespace Guide.Areas.Admin.Controllers
                     Author = post.Author,
                     TextContent = post.TextContent,
                     _virtualPath = post.VirtualPath,
+                    _coverPath = post.CoverPath,
                     CategoryId = post.CategoryId,
-                    PhysicalPath = post.PhysicalPath,
+                    AdditionalInformation = post.AdditionalInformation,
                     TypeId = post.TypeId,
+                    Keys = post.Keys,
+                    BusinessProcessesList = _db.BusinessProcesses.ToList(),
+                    RelatedBusinessProcesses = _db.PostBusinessProcesses.Where(p => p.PostId == post.Id).Select(p => p.BusinessProcess).ToList()
                 };
 
                 return View(model);
@@ -458,9 +525,10 @@ namespace Guide.Areas.Admin.Controllers
 
         [Authorize(Roles = "admin")]
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Edit(MaterialCreateViewModel model)
         {
-            if (ModelState.IsValid)
+            if (model.Id != 0)
             {
                 Post post = _db.Posts.FirstOrDefault(p => p.Id == model.Id);
                 if (post != null)
@@ -470,16 +538,40 @@ namespace Guide.Areas.Admin.Controllers
                     post.Author = model.Author;
                     post.TextContent = model.TextContent;
                     post.CategoryId = model.CategoryId;
+                    post.TypeContentId = model.TypeContentId;
+                    post.TypeStateId = model.TypeStateId;
                     post.TypeId = model.TypeId;
-                    post.PhysicalPath = model.PhysicalPath;
-                    post.VirtualPath = Load(model.Id, model.VirtualPath);
+                    post.AdditionalInformation = model.AdditionalInformation;
+                    post.UserId = _userManager.GetUserId(User);
+                    post.Keys = model.Keys;
+                    
+                    if (model.CoverFile != null)
+                    {
+                        if (FileTypeChecker.IsValidImage(model.CoverFile))
+                            post.CoverPath = Load(model.Title, model.CoverFile);
+                        else
+                            return Json("falseCoverType");
+                    }
+
+                    if (model.SourceFile != null)
+                    {
+                        if (FileTypeChecker.IsValidDocument(model.SourceFile)
+                            || FileTypeChecker.IsValidImage(model.SourceFile)
+                            || FileTypeChecker.IsValidVideo(model.SourceFile)
+                            || FileTypeChecker.IsValidAudio(model.SourceFile))
+                        {
+                            post.VirtualPath = Load(model.Title, model.SourceFile);
+                        }
+                        else
+                            return Json("falseSourceType");
+                    }
+
                     _db.Posts.Update(post);
                     _db.SaveChanges();
+                    SaveBusinessProcessesSource(model, post);
                 }
-                return RedirectToAction("Index", "SourceManage");
             }
-
-            return View(model);
+            return Json("redirect");
         }
 
         [Authorize(Roles = "admin")]
@@ -518,6 +610,13 @@ namespace Guide.Areas.Admin.Controllers
             }
 
             return RedirectToAction("Index", "SourceManage");
+        }
+
+        public IActionResult ReadSource(int id)
+        {
+            Post post = _db.Posts.FirstOrDefault(b => b.Id == id);
+            ViewBag.PostPath = Request.Scheme + "://" + Request.Host.Value + "/" + post.VirtualPath;
+            return View(post) ;
         }
     }
 }

@@ -35,6 +35,7 @@ namespace Guide.Models.Data
         public virtual DbSet<PositionIssue> PositionIssues { get; set; }
         public virtual DbSet<BookBusinessProcess> BookBusinessProcesses { get; set; }
         public virtual DbSet<BookIdAndEnglishBookId> BookIdAndEnglishBookIds { get; set; }
+        public virtual DbSet<PostBusinessProcess> PostBusinessProcesses { get; set; }
         public object UserRepository { get; set; }
 
 

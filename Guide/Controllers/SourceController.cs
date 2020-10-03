@@ -24,22 +24,27 @@ namespace Guide.Controllers
 
   public IActionResult Index()
         {
-            List<Post> posts = _db.Posts.Where(p => p.Active).ToList();
-            List<Book> books = _db.Books.Where(b => b.Active).ToList();
+             List<Post> posts = _db.Posts.Where(p => p.Active).ToList();;
+            List<Book> books = _db.Books.Where(b => b.Active).ToList();;
+            
+
+
             List<LibraryListViewModel> models = new List<LibraryListViewModel>();
             foreach (var post in posts)
             {
-                models.Add(new LibraryListViewModel()
+                models.Add(new LibraryListViewModel
                 {
                     Id = post.Id,
                     Author = post.Author,
                     Name = post.Title,
                     Category = post.Category,
+                    Entity = "post",
                     Type = post.Type,
                     TypeContent = post.TypeContent,
                     TypeState = post.TypeState,
                     DateCreate = post.DateOfCreate,
-                    Active = post.Active
+                    Active = post.Active,
+                    FilePath = post.VirtualPath
                 });
             }
             foreach (var book in books)
@@ -50,24 +55,31 @@ namespace Guide.Controllers
                     string[] parts = s.Split('.');
                     s = parts[parts.Length - 1];
                 }
-
+                BookIdAndEnglishBookId bookIdAndEnglishBookId = _db.BookIdAndEnglishBookIds.FirstOrDefault(b => b.BookId == book.Id);
+                int translationID = 0;
+                if (bookIdAndEnglishBookId == null)
+                    bookIdAndEnglishBookId = _db.BookIdAndEnglishBookIds.FirstOrDefault(b => b.EnglishBookId == book.Id);
+                if (bookIdAndEnglishBookId != null)
+                    translationID = bookIdAndEnglishBookId.EnglishBookId;
+                
                 LibraryListViewModel bookModel = new LibraryListViewModel
                 {
                     Id = book.Id,
-
                     Name = book.Name,
                     Type = new Type() {Name = s},
+                    Entity = "book",
                     TypeContent = new TypeContent() {Name = "Книга"},
                     TypeState = book.IsRecipe ? new TypeState() {Name = "Рецепт"} : new TypeState() {Name = ""},
                     DateCreate = book.DateCreate,
-                    Active = book.Active
+                    Active = book.Active,
+                    FilePath = book.VirtualPath,
+                    TranslationID = translationID,
                 };
                 List<Author> bookAuthors =
                     _db.BookAuthors.Where(b => b.BookId == book.Id).Select(a => a.Author).ToList();
                 bookModel.BookAuthors = bookAuthors;
                 models.Add(bookModel);
             }
-            
             return View(models);
         }
         

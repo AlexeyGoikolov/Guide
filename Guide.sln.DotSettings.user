@@ -3,4 +3,5 @@
   &lt;Assembly Path="C:\Users\Nasya\.nuget\packages\npgsql.entityframeworkcore.postgresql\3.1.4\lib\netstandard2.0\Npgsql.EntityFrameworkCore.PostgreSQL.dll" /&gt;&#xD;
   &lt;Assembly Path="C:\Users\Nasya\.nuget\packages\microsoft.entityframeworkcore.relational\3.1.6\lib\netstandard2.0\Microsoft.EntityFrameworkCore.Relational.dll" /&gt;&#xD;
   &lt;Assembly Path="C:\Users\Nasya\.nuget\packages\selenium.webdriver\3.141.0\lib\netstandard2.0\WebDriver.dll" /&gt;&#xD;
+  &lt;Assembly Path="C:\Users\Nasya\.nuget\packages\filetypeinterrogator\1.0.0\lib\netstandard1.3\FileTypeInterrogator.dll" /&gt;&#xD;
 &lt;/AssemblyExplorer&gt;</s:String></wpf:ResourceDictionary>

@@ -2,6 +2,7 @@
 using System;
 using System.IO;
 using System.Linq;
+using FileTypeInterrogator;
 using Guide.Models;
 using Guide.Models.Data;
 using Guide.Services;
@@ -12,6 +13,7 @@ using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 
@@ -51,6 +53,7 @@ namespace Guide.Areas.Admin.Controllers
         }
         
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Create(BookCreateViewModel model, string authors, IFormFile coverFile, IFormFile bookFile)
         {
             if (model.Name != null && bookFile != null)
@@ -62,33 +65,36 @@ namespace Guide.Areas.Admin.Controllers
                     IsRecipe = model.IsRecipe,
                     ISBN = model.ISBN,
                     Edition = model.Edition,
-                    CoverPath = Load(model.Name, coverFile),
-                    VirtualPath = Load(model.Name, bookFile),
                     PhysicalPath = model.PhysicalPath,
                     YearOfWriting = model.YearOfWriting,
                     Keys = model.Keys
                 };
-                if (book.CoverPath == null)
+                if (coverFile != null)
                 {
-                    book.CoverPath = "/BooksFiles/Cover_missing.png";
+                    if (FileTypeChecker.IsValidImage(coverFile))
+                        book.CoverPath = Load(model.Name, coverFile);
+                    else
+                        return Json("falseCoverType");
                 }
+                else
+                    book.CoverPath = "Files/Cover_missing.png";
+
+                if (FileTypeChecker.IsValidDocument(bookFile))
+                    book.VirtualPath = Load(model.Name, bookFile);
+                else
+                    return Json("falseBookType");
+                
                 _db.Books.Add(book);
                 _db.SaveChanges();
                 if (authors != null)
-                {
                     SaveBookAuthors(authors,book);
-                }
                 if (model.BusinessProcesses != null)
-                {
                     SaveBusinessProcessesBook(model, book);
-                }
                 if (model.BookId != 0)
-                {
                     SaveBookIdAndEnglishBookId(model,book);
-                }
                 return Json(true);
             }
-            return Json(false);
+            return Json("falseData");
         }
 
         public void SaveBookAuthors(string authors, Book book )
@@ -174,18 +180,14 @@ namespace Guide.Areas.Admin.Controllers
 
         private string Load(string name, IFormFile file)
         {
-            if (file != null)
-            {
-                string path = Path.Combine(_environment.ContentRootPath + $"/wwwroot/BooksFiles/{name}");
-                string filePath = $"BooksFiles/{name}/{file.FileName}";
-                if (!Directory.Exists($"wwwroot/BooksFiles/{name}"))
+            string path = Path.Combine(_environment.ContentRootPath + $"/wwwroot/Files/BooksFiles/{name}");
+                string filePath = $"Files/BooksFiles/{name}/{file.FileName}";
+                if (!Directory.Exists($"wwwroot/Files/BooksFiles/{name}"))
                 {
-                    Directory.CreateDirectory($"wwwroot/BooksFiles/{name}");
+                    Directory.CreateDirectory($"wwwroot/Files/BooksFiles/{name}");
                 }
                 _uploadService.Upload(path, file.FileName, file);
                 return filePath;
-            }
-            return null;
         }
         
         public IActionResult Delete(int id)

@@ -3,7 +3,7 @@
 <label>Тип Контента</label>
   <span class="validationError" asp-validation-for="@Model.Material.TypeContentId"></span>
 <div style="display: flex">
-    <select class="form-control" name="TypeContentId" asp-for="@Model.Material.TypeContentId">
+    <select id="typeContentId" class="form-control" name="TypeContentId" asp-for="@Model.Material.TypeContentId">
         @foreach (var typeContent in Model.TypeContents)
         {
             <option value="@typeContent.Id">@typeContent.Name</option>

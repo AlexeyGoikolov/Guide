@@ -1,10 +1,18 @@
 ﻿@model MaterialCreateViewModel
-
+@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Xsrf
 @{
     ViewBag.Title = "Новый источник";
     Layout = "_Layout";
 }
-  
+@functions{
+    public string GetAntiXsrfRequestToken()
+    {
+        return Xsrf.GetAndStoreTokens(Context).RequestToken;
+    }
+}
+
+<input type="hidden" id="RequestVerificationToken" 
+       name="RequestVerificationToken" value="@GetAntiXsrfRequestToken()">  
 
 <div class="page page-ui-portlets">
     <div class="pageheader">
@@ -26,7 +34,7 @@
             </ul>
         </div>
     </div>
-
+    <span id="errorText" style="color: red"></span>
 
     <div class="row">
 
@@ -87,6 +95,57 @@
         CKEDITOR.replace('ContentTemplate');
     </script>
     <script >
+    
+        $('#submit').on('click', function(e) {
+            e.preventDefault();
+            let businessProcessesArray = [];               
+            let getbusinessP = document.getElementById('businessProcesses-row');
+            let getBPName = getbusinessP.getElementsByTagName('span');
+            for (let i=0; i < getBPName.length; i++){
+                businessProcessesArray.push(getBPName[i].innerHTML);
+            }
+            let editorData = CKEDITOR.instances.textContent.getData();
+            let formData = new FormData();
+            let coverFile = document.getElementById('coverFile');
+            let sourceFile = document.getElementById('sourceFile');    
+            formData.append('__RequestVerificationToken', $('#RequestVerificationToken').val());
+            formData.append(coverFile.getAttribute('name'), coverFile.files[0]);
+            formData.append(sourceFile.getAttribute('name'), sourceFile.files[0]);
+            formData.append('Title', $('#name').val());
+            formData.append('TextContent', editorData);
+            formData.append('Keys', $('#keyWord').val());
+            formData.append('TypeContentId', $('#typeContentId').val());
+            formData.append('CategoryId', $('#category').val());
+            formData.append('TypeId', $('#typeId').val());
+            formData.append('TypeStateId', $('#typeStateId').val());
+            formData.append('Author', $('#author').val());
+            formData.append('AdditionalInformation', $('#additional').val());
+            formData.append('BusinessProcesses', String(businessProcessesArray));
+              
+            $.ajax({
+                url: '@Url.Action("Create", "SourceManage", new {area = "Admin"})',                            
+                type: 'POST',           
+                traditional: true,                 
+                data: formData,                                                                                                             
+                contentType: false,
+                processData: false,          
+                success: function(response) {
+                    if (response === true){
+                        window.location.href = "@Url.Action("Index","SourceManage", new{area="Admin"})"
+                    }
+                    else if (response === "falseData"){
+                        $('#errorText').html('Вы не ввели название. Проверьте название')
+                    }
+                    else if (response === "falseSourceType"){
+                        $('#errorText').html('Неверный формат источника')
+                    }
+                    else{
+                        $('#errorText').html('Неверный формат обложки')
+                    }
+                }                                                        
+            });                   
+        });
+    
         function sendTemplate() {
             let id = $("#selectTemplate").val();
             $.ajax({
