@@ -22,7 +22,14 @@
     }
     else
     {
-        <h1 style="color: #4b0d5f">Ваша Должность: @Model.User.Position.Name</h1>
+        if (Model.User.Position != null)
+        {
+            <h1 style="color: #4b0d5f">Ваша Должность: @Model.User.Position.Name</h1>
+        }
+        else
+        {
+            <h1 style="color: #4b0d5f">Вам еще не назначена должность</h1>
+        }
     }
 
 

@@ -93,7 +93,14 @@
                                         <td>
                                             @Model.Users[i].Surname
                                         </td>
-                                        <td id="userPosition-@Model.Users[i].Id">@Model.Users[i].Position.Name</td>
+                                        @if (Model.Users[i].Position != null)
+                                        {
+                                            <td id="userPosition-@Model.Users[i].Id">@Model.Users[i].Position.Name</td>
+                                        }
+                                        else
+                                        {
+                                            <td></td>
+                                        }
 
                                         @if (Model.Users[i].Active)
                                         {

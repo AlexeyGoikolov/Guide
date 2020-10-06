@@ -53,18 +53,27 @@
                             <div style="text-align: right; margin-right: 10px ">
                                 @if (Model.IsRecipe)
                                 {
-                                    <span>является Рецептом</span>
+                                    <span style="color: #0a6aa1">является Рецептом</span>
                                 }
-                                ISBN @Model.ISBN
+                                @if (Model.ISBN != null)
+                                {
+                                    <span>ISBN @Model.ISBN</span>
+                                }
                             </div>
                             <div>
                                 
                                 <h2>" @Model.Name "</h2>
                             </div>
-                            <div>год издания : @Model.YearOfWriting</div>
-                            <div>в редакции  : @Model.Edition</div>
-                            <div>дата добавления в систему : @Model.DateCreate</div>
-                            <div>дата последнего исправления : @Model.DateUpdate</div>
+                            @if (Model.YearOfWriting != null)
+                            {
+                                <div>Год издания : @Model.YearOfWriting</div>
+                            }
+                            @if (Model.Edition != null)
+                            {
+                                <div>Редакция  : @Model.Edition</div>
+                            }
+                            <div>Дата добавления в систему : @Model.DateCreate</div>
+                            <div>Дата последнего исправления : @Model.DateUpdate</div>
                             <div>
                                 @if (Model.PhysicalPath == null)
                                 {
@@ -72,9 +81,18 @@
                                 }
                                 else
                                 {
-                                    <p>книга находится : @Model.PhysicalPath</p>
+                                    <p>Источник находится : @Model.PhysicalPath</p>
                                 }
                             </div>
+                            @if (Model.BusinessProcesses.Count > 0)
+                            {
+                                string processes = "";
+                                @foreach (var bp in Model.BusinessProcesses)
+                                {
+                                    processes += bp.Name + ", ";
+                                }
+                                <p>Относится к бизнес-процессам: @processes</p>
+                            }
                             @if (Model.VirtualPath != null)
                             {
                                 <div>
