@@ -51,15 +51,12 @@ namespace Guide.Controllers
                                                                                                   a) ||
                                                                                               EF.Functions.Like(s.Answer.ToLower(),
                                                                                                   a))),
-                    Books = new List<Book>(_db.Books.Where(b => EF.Functions.Like
+                    Sources = new List<Source>(_db.Sources.Where(b => EF.Functions.Like
                                                                 (b.Name.ToLower(), a) ||
-                                                                EF.Functions.Like(b.Keys.ToLower(), a))),
-                    Posts = new List<Post>(_db.Posts.Where(p => EF.Functions.Like(p.Title.ToLower(), a) ||
-                                                                EF.Functions.Like(p.Keys.ToLower(), a) ||
-                                                                EF.Functions.Like(p.TextContent.ToLower(), a))),
+                                                                EF.Functions.Like(b.Keys.ToLower(), a)))
                 };
-                model.TotalFound = model.Issues.Count + model.Steps.Count + model.Glossaries.Count + model.Posts.Count +
-                                   model.Books.Count + model.QuestionAnswers.Count;
+                model.TotalFound = model.Issues.Count + model.Steps.Count + model.Glossaries.Count + 
+                                   model.Sources.Count + model.QuestionAnswers.Count;
                 return View(model);
             }
 

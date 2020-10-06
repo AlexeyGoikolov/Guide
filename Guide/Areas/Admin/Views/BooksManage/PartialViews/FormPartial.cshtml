@@ -1,4 +1,4 @@
-﻿@model BookCreateViewModel
+﻿@model SourceCreateViewModel
 <div style="text-align: center">
     <span class="validationError">@Html.ValidationMessage("CustomError")</span>
 </div>
@@ -9,12 +9,12 @@
             <!-- tile body -->
             <div class="tile-body">
                 <div >
-                    <label>Код книги(ISBN)</label> <br/><span class="validationError" asp-validation-for="ISBN"></span>
-                    <input id="isbn" class="form-control" type="text" asp-for="ISBN" value="@Model.ISBN">
-                </div>
-                <div >
-                    <label>Название</label><br/><span class="validationError" asp-validation-for="Name"></span>
+                    <label>Название источника</label><br/><span class="validationError" asp-validation-for="Name"></span>
                     <input id="name" class="form-control" type="text" asp-for="Name" value="@Model.Name">
+                </div>
+                <div id="editor" class="mt-20">
+                    <label>Описание источника</label>
+                    <textarea id="sourceDescription"  name="sourceDescription" type="text" asp-for="SourceDescription" value="@Model.SourceDescription"></textarea>
                 </div>
                 <div class="form-group" id="author-row">
                     <label style="display: block" class="control-label">Выберите авторов</label>
@@ -23,17 +23,12 @@
                         <option value=""></option>
                         @{ await Html.RenderPartialAsync("PartialViews/AuthorPartial", Model); }
                     </select>
-                    <button class="btn btn-outline-secondary" type="button" data-toggle="modal" data-target="#modalType">
+                    <button class="btn btn-outline-secondary" type="button" data-toggle="modal" data-target="#modalAuthor">
                         <i class="fas fa-plus"></i>
                     </button>
                 </div>
-                <div >
-                    <label>Год издания</label>
-                    <br/><span class="validationError" asp-validation-for="YearOfWriting"></span>
-                    <input id="year" placeholder="0000" class="form-control" type="text" asp-for="YearOfWriting" value="@Model.YearOfWriting">
-                </div>
-                 <div class="form-group" id="businessProcesses-row">
-                     <label style="display: block" class="control-label">Бизнес процесс</label>
+                <div class="form-group" id="businessProcesses-row">
+                     <label style="display: block" class="control-label">Выберите связанные Бизнес процессы</label>
 
                      <select multiple="" tabindex="3" class="chosen-select" style="width: 85%;">
                          <option value=""></option>
@@ -42,12 +37,9 @@
                  </div>
                 <div>
                     <label>Дополнительная информация</label>
-                    <textarea class="form-control" type="text" asp-for="AdditionalInformation" value="@Model.AdditionalInformation"></textarea>
+                    <textarea class="form-control" id="additionalInfo" type="text" asp-for="AdditionalInformation" value="@Model.AdditionalInformation"></textarea>
                 </div>
-                <div>
-                    <label>Ключевые слова</label>
-                    <textarea class="form-control" type="text" asp-for="Keys" value="@Model.Keys"></textarea>
-                </div>
+
             </div>
             <!-- /tile body -->
         </section>
@@ -56,8 +48,12 @@
         <section class="tile portlet col - 6">
             <!-- tile body -->
             <div class="tile-body">
+                <div >
+                    <label>ISBN(для книг)</label> <br/><span class="validationError" asp-validation-for="ISBN"></span>
+                    <input id="isbn" class="form-control" type="text" asp-for="ISBN" value="@Model.ISBN">
+                </div>
                 <div>
-                    <label>Книга является рецептом?</label>
+                    <label>Источник является рецептом?</label>
                     <select name="" id="isRecipe">
                         <option value="true">Да</option>
                         <option value="false">Нет</option>
@@ -66,26 +62,37 @@
                 <div >
                     <label>В какой редакции :</label>
                     <input id="edition" class="form-control" type="text" asp-for="Edition" value="@Model.Edition">
-
                 </div>
+                <div >
+                    <label>Год издания</label>
+                    <br/><span class="validationError" asp-validation-for="YearOfWriting"></span>
+                    <input id="year" placeholder="0000" class="form-control" type="text" asp-for="YearOfWriting" value="@Model.YearOfWriting">
+                </div>
+                <div id="sourceTypes-row" class="form-group" style="justify-content: center;"></div>
+                <div id="categories-row" class="form-group" style="justify-content: center;"></div>
+                <div id="sourceState-row" class="form-group" style="justify-content: center;"></div>
                 <div >
                     <label>Физическое местонахождение</label>
                     <input id="physPath" class="form-control" type="text" asp-for="PhysicalPath" value="@Model.PhysicalPath">
                 </div>
 
                 <div class="col">
-                    <span>Цифровая версия книги в формате pdf либо docx</span>
-                    <input id="bookFile" class="btn" style="padding: 6px 0" name="bookFile" type="file">
+                    <span>Цифровая версия источника</span>
+                    <input id="sourceFile" class="btn" style="padding: 6px 0" name="sourceFile" type="file">
                 </div>
                 <div class="col">
-                    <span>Обложка в формате jpg либо png</span>
+                    <span>Обложка источника</span>
                     <input id="coverFile" name="coverFile" class="btn" style="padding: 6px 0" type="file">
                 </div>
-                <button id="submit-btn" type="submit" class="btn btn-info" style="width: 100%; margin-top: 1rem">Сохранить книгу и выйти</button>
+                <div>
+                    <label>Ключевые слова</label>
+                    <textarea class="form-control" id="wordsKey" type="text" asp-for="Keys" value="@Model.Keys"></textarea>
+                </div>
+                <button id="submit-btn" type="submit" class="btn btn-info" style="width: 100%; margin-top: 1rem">Сохранить источник и выйти</button>
             </div>
 
             <!-- /tile body -->
-            <div class="modal fade" id="modalType" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="text-align: center">
+            <div class="modal fade" id="modalAuthor" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="text-align: center">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -96,12 +103,12 @@
                         </div>
                         <div class="modal-body">
                             <div class="input-group mb-3" style="justify-content: center">
-                                <input type="text" id="typeInput" class="input-register" style="width: 460px;" >
-                                <button class="btn btn-outline-secondary" data-dismiss="modal" type="button" id="typeButton" style="margin:0 0 5px 17px;">Добавить</button>
+                                <input type="text" id="authorInput" class="input-register" style="width: 460px;" >
+                                <button class="btn btn-outline-secondary" data-dismiss="modal" type="button" id="authorButton" style="margin:0 0 5px 17px;">Добавить</button>
                             </div>
                             @foreach (var author in Model.AllAuthors)
                             {
-                                <p style="text-align: right; " >- @author.Name <button data-dismiss="modal" type="button" value="@author.Id" class="btn buttonDeleteType"><i class="fas fa-trash-alt"></i></button></p>
+                                <p style="text-align: right; " >- @author.Name <button data-dismiss="modal" type="button" value="@author.Id" class="btn buttonDeleteAuthor"><i class="fas fa-trash-alt"></i></button></p>
                             }
                         </div>
                     </div>

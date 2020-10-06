@@ -1,21 +1,18 @@
-﻿
-using System;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using FileTypeInterrogator;
+using System.Threading.Tasks;
 using Guide.Models;
 using Guide.Models.Data;
 using Guide.Services;
 using Guide.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Routing;
-using Microsoft.AspNetCore.StaticFiles;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
-using Newtonsoft.Json;
+
 
 namespace Guide.Areas.Admin.Controllers
 {
@@ -37,31 +34,56 @@ namespace Guide.Areas.Admin.Controllers
             _uploadService = uploadService;
         }
 
-      public IActionResult Create(int bookId)
+        public IActionResult Index(string activ)
         {
-            BookCreateViewModel model = new BookCreateViewModel
+            List<Source> sources;
+            
+            if (activ == null)
+                sources = _db.Sources.Where(s => s.Active).ToList();
+            else
+                sources = _db.Sources.Where(b => b.Active == false).ToList();
+            
+            foreach (var source in sources)
+            {
+                SourceIdAndEnglishSourceId sourceIdAndEnglishSourceId = _db.SourceIdAndEnglishSourceIds.FirstOrDefault(b => b.SourceId == source.Id);
+                int translationID = 0;
+                if (sourceIdAndEnglishSourceId == null)
+                    sourceIdAndEnglishSourceId = _db.SourceIdAndEnglishSourceIds.FirstOrDefault(b => b.EnglishSourceId == source.Id);
+                if (sourceIdAndEnglishSourceId != null)
+                    translationID = sourceIdAndEnglishSourceId.EnglishSourceId;
+                source.TranslationID = translationID;
+                source.Authors = _db.SourceAuthors.Where(b => b.SourceId == source.Id).Select(a => a.Author).ToList();
+                source.BusinessProcesses = _db.SourceBusinessProcesses.Where(b => b.SourceId == source.Id)
+                    .Select(b => b.BusinessProcess).ToList();
+            }
+            return View(sources);
+        }
+        public IActionResult Create(int sourceId)
+        {
+            SourceCreateViewModel model = new SourceCreateViewModel
             {
                 AllAuthors = _db.Authors.Where(c=> c.Active).ToList(),
                 BusinessProcessesList = _db.BusinessProcesses.ToList()
                 
             };
-            if (bookId != 0)
-            {
-                model.BookId = bookId;
-            }
+            model.SourceId = sourceId;
             return View(model);
         }
         
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(BookCreateViewModel model, string authors, IFormFile coverFile, IFormFile bookFile)
+        public IActionResult Create(SourceCreateViewModel model, string authors, IFormFile coverFile, IFormFile sourceFile)
         {
-            if (model.Name != null && bookFile != null)
+            if (model.Name != null && sourceFile != null)
             {
-                Book book = new Book()
+                Source source = new Source
                 {
-                    TypeId = 1,
+                    SourceTypeId = model.SourceTypeId,
+                    SourceStateId = model.SourceStateId,
+                    CategoryId = model.CategoryId,
                     Name = model.Name,
+                    SourceDescription = model.SourceDescription,
+                    AdditionalInformation = model.AdditionalInformation,
                     IsRecipe = model.IsRecipe,
                     ISBN = model.ISBN,
                     Edition = model.Edition,
@@ -72,32 +94,37 @@ namespace Guide.Areas.Admin.Controllers
                 if (coverFile != null)
                 {
                     if (FileTypeChecker.IsValidImage(coverFile))
-                        book.CoverPath = Load(model.Name, coverFile);
+                        source.CoverPath = Load(model.Name, coverFile);
                     else
                         return Json("falseCoverType");
                 }
                 else
-                    book.CoverPath = "Files/Cover_missing.png";
+                    source.CoverPath = "Files/Cover_missing.png";
 
-                if (FileTypeChecker.IsValidDocument(bookFile))
-                    book.VirtualPath = Load(model.Name, bookFile);
+                if (FileTypeChecker.IsValidDocument(sourceFile)
+                    || FileTypeChecker.IsValidImage(sourceFile)
+                    || FileTypeChecker.IsValidVideo(sourceFile)
+                    || FileTypeChecker.IsValidAudio(sourceFile))
+                {
+                    source.VirtualPath = Load(model.Name, sourceFile);
+                }
                 else
                     return Json("falseBookType");
                 
-                _db.Books.Add(book);
+                _db.Sources.Add(source);
                 _db.SaveChanges();
                 if (authors != null)
-                    SaveBookAuthors(authors,book);
+                    SaveSourceAuthors(authors,source);
                 if (model.BusinessProcesses != null)
-                    SaveBusinessProcessesBook(model, book);
-                if (model.BookId != 0)
-                    SaveBookIdAndEnglishBookId(model,book);
+                    SaveBusinessProcessesSource(model, source);
+                if (model.SourceId != 0)
+                    SaveBookIdAndEnglishBookId(model,source);
                 return Json(true);
             }
             return Json("falseData");
         }
 
-        public void SaveBookAuthors(string authors, Book book )
+        public void SaveSourceAuthors(string authors, Source source )
         {
             string[] authorsId = authors.Split(',');
             foreach (var authorName in authorsId)
@@ -105,30 +132,30 @@ namespace Guide.Areas.Admin.Controllers
                 var author = _db.Authors.FirstOrDefault(a => a.Name == authorName);
                 if (author != null)
                 {
-                    BookAuthor bookAuthor = new BookAuthor()
+                    SourceAuthor sourceAuthor = new SourceAuthor()
                     {
-                        BookId = book.Id,
+                        SourceId = source.Id,
                         AuthorId = author.Id
                     };
-                    _db.BookAuthors.Add(bookAuthor);
+                    _db.SourceAuthors.Add(sourceAuthor);
                     _db.SaveChanges();    
                 }
             }
         }
 
-        public void SaveBookIdAndEnglishBookId(BookCreateViewModel model, Book book)
+        public void SaveBookIdAndEnglishBookId(SourceCreateViewModel model, Source source)
         {
-            BookIdAndEnglishBookId bookIdAndEnglishBookId = new BookIdAndEnglishBookId()
+            SourceIdAndEnglishSourceId sourceIdAndEnglishSourceId = new SourceIdAndEnglishSourceId()
             {
-                BookId = model.BookId,
-                EnglishBookId = book.Id
+                SourceId = model.SourceId,
+                EnglishSourceId = source.Id
             };
-            _db.BookIdAndEnglishBookIds.Add(bookIdAndEnglishBookId);
+            _db.SourceIdAndEnglishSourceIds.Add(sourceIdAndEnglishSourceId);
             _db.SaveChanges();
 
         }
 
-        public void SaveBusinessProcessesBook(BookCreateViewModel model, Book book)
+        public void SaveBusinessProcessesSource(SourceCreateViewModel model, Source source)
         {
             string[] businessProcesses = model.BusinessProcesses.Split(',');
             foreach (var businessProcess in businessProcesses)
@@ -138,12 +165,12 @@ namespace Guide.Areas.Admin.Controllers
                     var process = _db.BusinessProcesses.FirstOrDefault(b => b.Name == businessProcess);
                     if (process != null)
                     {
-                        BookBusinessProcess bookBusinessProcess = new BookBusinessProcess()
+                        SourceBusinessProcess sourceBusinessProcess = new SourceBusinessProcess()
                         {
-                            BookId = book.Id,
+                            SourceId = source.Id,
                             BusinessProcessId = process.Id
                         };
-                        _db.BookBusinessProcesses.Add(bookBusinessProcess);
+                        _db.SourceBusinessProcesses.Add(sourceBusinessProcess);
                         _db.SaveChanges(); 
                     }
                 }
@@ -154,50 +181,52 @@ namespace Guide.Areas.Admin.Controllers
         {
             int translationID = 0;
             ViewBag.BookTransferLanguage = 0;
-            Book book = _db.Books.FirstOrDefault(b => b.Id == id);
-            BookIdAndEnglishBookId bookIdAndEnglishBookId = new BookIdAndEnglishBookId();
-            bookIdAndEnglishBookId = _db.BookIdAndEnglishBookIds.FirstOrDefault(b => b.BookId == id);
+            Source source = _db.Sources.FirstOrDefault(b => b.Id == id);
+            source.BusinessProcesses = _db.SourceBusinessProcesses.Where(s => s.SourceId == source.Id)
+                .Select(s => s.BusinessProcess).ToList();
+            SourceIdAndEnglishSourceId sourceIdAndEnglishSourceId = new SourceIdAndEnglishSourceId();
+            sourceIdAndEnglishSourceId = _db.SourceIdAndEnglishSourceIds.FirstOrDefault(b => b.SourceId == id);
 
-            if (bookIdAndEnglishBookId != null)
+            if (sourceIdAndEnglishSourceId != null)
             {
-                translationID = bookIdAndEnglishBookId.EnglishBookId;
+                translationID = sourceIdAndEnglishSourceId.EnglishSourceId;
                 ViewBag.BookTransferLanguage = "en";
             }
             
-            if (bookIdAndEnglishBookId == null)
-                bookIdAndEnglishBookId = _db.BookIdAndEnglishBookIds.FirstOrDefault(b => b.EnglishBookId == id);
+            if (sourceIdAndEnglishSourceId == null)
+                sourceIdAndEnglishSourceId = _db.SourceIdAndEnglishSourceIds.FirstOrDefault(b => b.EnglishSourceId == id);
             
-            if(translationID == 0 && bookIdAndEnglishBookId != null)
+            if(translationID == 0 && sourceIdAndEnglishSourceId != null)
             {
-                translationID = bookIdAndEnglishBookId.BookId;
+                translationID = sourceIdAndEnglishSourceId.SourceId;
                 ViewBag.BookTransferLanguage = "ru";
             }
             
             ViewBag.BookTransferId = translationID;
             
-            return View(book);
+            return View(source);
         }
 
         private string Load(string name, IFormFile file)
         {
-            string path = Path.Combine(_environment.ContentRootPath + $"/wwwroot/Files/BooksFiles/{name}");
-                string filePath = $"Files/BooksFiles/{name}/{file.FileName}";
-                if (!Directory.Exists($"wwwroot/Files/BooksFiles/{name}"))
-                {
-                    Directory.CreateDirectory($"wwwroot/Files/BooksFiles/{name}");
-                }
-                _uploadService.Upload(path, file.FileName, file);
-                return filePath;
+            string path = Path.Combine(_environment.ContentRootPath + $"/wwwroot/Files/{name}");
+            string filePath = $"Files/{name}/{file.FileName}";
+            if (!Directory.Exists($"wwwroot/Files/{name}"))
+            {
+                Directory.CreateDirectory($"wwwroot/Files/{name}");
+            }
+            _uploadService.Upload(path, file.FileName, file);
+            return filePath;
         }
         
         public IActionResult Delete(int id)
         {
             if (id != 0)
             {
-                Book book = _db.Books.FirstOrDefault(v => v.Id == id);
-                if (book != null)
+                Source source = _db.Sources.FirstOrDefault(s => s.Id == id);
+                if (source != null)
                 {
-                    return View(book);
+                    return View(source);
                 }
             }
             return NotFound();
@@ -208,25 +237,25 @@ namespace Guide.Areas.Admin.Controllers
         {
             if (id != 0)
             {
-                Book book = _db.Books.FirstOrDefault(v => v.Id == id);
-                if (book != null)
+                Source source = _db.Sources.FirstOrDefault(v => v.Id == id);
+                if (source != null)
                 {
-                    if (book.Active)
-                        book.Active = false;
+                    if (source.Active)
+                        source.Active = false;
                     else
-                        book.Active = true;
-                    _db.Books.Update(book); 
+                        source.Active = true;
+                    _db.Sources.Update(source); 
                     _db.SaveChanges();
                 }
             }
-            return RedirectToAction("Index" , "SourceManage");
+            return RedirectToAction("Index" , "BooksManage");
         }
 
         public  IActionResult ReadBook(int id)
         {
-            Book book = _db.Books.FirstOrDefault(b => b.Id == id);
-            ViewBag.Path = Request.Scheme + "://" + Request.Host.Value + "/" + book.VirtualPath;
-            return View(book) ;
+            Source source = _db.Sources.FirstOrDefault(b => b.Id == id);
+            ViewBag.Path = Request.Scheme + "://" + Request.Host.Value + "/" + source.VirtualPath;
+            return View(source) ;
         }
 
         
@@ -241,11 +270,11 @@ namespace Guide.Areas.Admin.Controllers
                 _db.Authors.Add(author);
                 _db.SaveChanges();
             }
-            BookCreateViewModel model = new BookCreateViewModel
+            SourceCreateViewModel model = new SourceCreateViewModel
             {
-                AllAuthors = _db.Authors.Where(a=> a.Name == name).ToList(),
+                AllAuthors = _db.Authors.Where(a=> a.Name == name).ToList()
             };
-            return Json(model);
+            return PartialView("PartialViews/AuthorPartial", model);
         }
         public IActionResult DeleteAuthorAjax(int id)
         {
@@ -255,11 +284,158 @@ namespace Guide.Areas.Admin.Controllers
                 author.Active = false;
                 _db.SaveChanges();
             }
-            BookCreateViewModel model = new BookCreateViewModel()
+            SourceCreateViewModel model = new SourceCreateViewModel()
             {
                 AllAuthors = _db.Authors.Where(c=> c.Active).ToList(),
             };
             return PartialView("PartialViews/AuthorPartial", model);
+        }
+
+        public IActionResult CreateTypeContentAjax(SourceType sourceType)
+        {
+            if (sourceType.Name != null)
+            {
+                _db.SourceTypes.Add(sourceType);
+                _db.SaveChanges();
+            }
+
+            SourceTypeContentViewModel model = new SourceTypeContentViewModel
+            {
+                Source = new Source(),
+                SourceTypes = _db.SourceTypes.Where(c=> c.Active).ToList(),
+            };
+
+            return PartialView("PartialViews/TypeContentPartial", model);
+        }
+        
+        public IActionResult DeleteTypeContentAjax(int id)
+        {
+            SourceType sourceType = _db.SourceTypes.FirstOrDefault(c => c.Id == id);
+            if (sourceType != null)
+            {
+                sourceType.Active = false;
+                _db.SaveChanges();
+            }
+
+            SourceTypeContentViewModel model = new SourceTypeContentViewModel()
+            {
+                Source = new Source(),
+                SourceTypes = _db.SourceTypes.Where(c=> c.Active).ToList(),
+            };
+
+            return PartialView("PartialViews/TypeContentPartial", model);
+        }
+        
+        public IActionResult CreateCategoryAjax(Category category)
+        {
+            if (category.Name != null)
+            {
+                _db.Categories.Add(category);
+                _db.SaveChanges();
+            }
+
+            SourceCategoryViewModel model = new SourceCategoryViewModel()
+            {
+                Source = new Source(),
+                Categories = _db.Categories.Where(c=> c.Active).ToList(),
+            };
+
+            return PartialView("PartialViews/CategoriesPartial", model);
+        }
+        
+        public IActionResult DeleteCategoryAjax(int id)
+        {
+            Category category = _db.Categories.FirstOrDefault(c => c.Id == id);
+            if (category != null)
+            {
+                category.Active = false;
+               
+                _db.SaveChanges();
+            }
+
+            SourceCategoryViewModel model = new SourceCategoryViewModel()
+            {
+                Source = new Source(),
+                Categories = _db.Categories.Where(c=>c.Active).ToList(),
+            };
+
+            return PartialView("PartialViews/CategoriesPartial", model);
+        }
+        
+        [HttpPost]
+        public async Task<IActionResult> CreateComment(int sourceId, string description)
+        {
+            if (sourceId != 0 && description != null)
+            {
+                Comment comment = new Comment();
+                comment.SourceId = sourceId;
+                comment.Description = description;
+                comment.AuthorId = _userManager.GetUserId(User);
+                await _db.Comments.AddAsync(comment);
+                await _db.SaveChangesAsync();
+            }
+
+            List<Comment> comments = await _db.Comments.Include(c => c.Author).Where(c => c.SourceId == sourceId)
+                    .OrderByDescending(g => g.DateOfCreate).ToListAsync();
+
+            return PartialView("PartialViews/CommentsPartial", comments);
+        }
+        
+        [HttpGet]
+        public IActionResult ViewComment(int id)
+        {
+            List<Comment> comments = _db.Comments.Where(c => c.SourceId == id)
+                    .OrderByDescending(g => g.DateOfCreate).ToList();
+            return PartialView("PartialViews/CommentsPartial", comments);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> DeleteComment(int id, int sourceId)
+        {
+            Comment comment = await _db.Comments.FirstOrDefaultAsync(c => c.Id == id);
+            if (comment != null)
+            {
+                _db.Comments.Remove(comment);
+                await _db.SaveChangesAsync();
+            }
+
+            List<Comment> comments = await _db.Comments.Where(c => c.SourceId == sourceId)
+                                .OrderByDescending(g => g.DateOfCreate).ToListAsync();
+            
+            return PartialView("PartialViews/CommentsPartial", comments);
+        }
+        
+        public IActionResult CreateSourceStateAjax(SourceState sourceState)
+        {
+            if (sourceState.Name != null)
+            {
+                _db.SourceStates.Add(sourceState);
+                _db.SaveChanges();
+            }
+            SourceStateViewModel model = new SourceStateViewModel
+            {
+                Source = new Source(),
+                SourceStates = _db.SourceStates.Where(c=> c.Active).ToList(),
+            };
+            return PartialView("PartialViews/SourceStatesPartial", model);
+        }
+        
+        public IActionResult DeleteSourceStateAjax(int id)
+        {
+            SourceState sourceState = _db.SourceStates.FirstOrDefault(c => c.Id == id);
+            if (sourceState != null)
+            {
+                sourceState.Active = false;
+                _db.SaveChanges();
+            }
+
+            SourceStateViewModel model = new SourceStateViewModel()
+            {
+                Source = new Source(),
+                SourceStates = _db.SourceStates.Where(c=> c.Active).ToList(),
+            };
+
+            return PartialView("PartialViews/SourceStatesPartial", model);
         }
     }
 }

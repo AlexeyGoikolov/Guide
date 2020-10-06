@@ -44,7 +44,7 @@ namespace Guide.Areas.Admin.Controllers
             else 
                 model.QuestionAnswer = new QuestionAnswer();
             model.Status = status;
-            model.PostId = postId;
+            model.SourceId = postId;
             return View(model);
         }
         
@@ -59,7 +59,7 @@ namespace Guide.Areas.Admin.Controllers
                     questionAnswer = _db.QuestionAnswers.FirstOrDefault(q => q.Id == model.QuestionAnswer.Id);
                     questionAnswer.Question = model.QuestionAnswer.Question;
                     questionAnswer.Answer = model.QuestionAnswer.Answer;
-                    questionAnswer.PostId= model.PostId;
+                    questionAnswer.SourceId= model.SourceId;
                     questionAnswer.ResponderId= _userManager.GetUserId(User);
                     
                     _db.QuestionAnswers.Update(questionAnswer);
@@ -69,7 +69,7 @@ namespace Guide.Areas.Admin.Controllers
                     model.QuestionAnswer.State = State.Ответили;
                     questionAnswer.Question = model.QuestionAnswer.Question;
                     questionAnswer.Answer = model.QuestionAnswer.Answer;
-                    questionAnswer.PostId= model.PostId;
+                    questionAnswer.SourceId= model.SourceId;
                     questionAnswer.ResponderId = _userManager.GetUserId(User);
                     questionAnswer.State= model.QuestionAnswer.State;
                     

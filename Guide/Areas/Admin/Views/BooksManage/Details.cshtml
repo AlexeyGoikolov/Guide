@@ -1,4 +1,4 @@
-﻿@model Book
+﻿@model Source
 
 @{
     ViewBag.Title = "Книга";
@@ -15,7 +15,7 @@
                     <a asp-action="Details" asp-controller="Account"><i class="fa fa-home"></i> Guide</a>
                 </li>
                 <li>
-                    <a asp-action="Index" asp-controller="SourceManage">Библиотека</a>
+                    <a asp-action="Index" asp-controller="BooksManage">Библиотека</a>
                 </li>
                 <li>
                     <a asp-action="Details" asp-controller="BooksManage" asp-route-id="@Model.Id">@Model.Name</a>
@@ -54,15 +54,24 @@
                                 {
                                     <span style="color: #0a6aa1">является Рецептом</span>
                                 }
-                                ISBN @Model.ISBN
+                                @if (Model.ISBN != null)
+                                {
+                                    <span>ISBN @Model.ISBN</span> 
+                                }
                             </div>
                             <div>
                                 <h2>" @Model.Name "</h2>
                             </div>
-                            <div>год издания : @Model.YearOfWriting</div>
-                            <div> редакция  : @Model.Edition</div>
-                            <div>дата добавления в систему : @Model.DateCreate</div>
-                            <div>дата последнего исправления : @Model.DateUpdate</div>
+                            @if (Model.YearOfWriting != null)
+                            {
+                                <div>Год издания : @Model.YearOfWriting</div>
+                            }
+                            @if (Model.Edition != null)
+                            {
+                                <div>Редакция  : @Model.Edition</div>
+                            }
+                            <div>Дата добавления в систему : @Model.DateCreate</div>
+                            <div>Дата последнего исправления : @Model.DateUpdate</div>
                             <div>
                                 @if (Model.PhysicalPath == null)
                                 {
@@ -70,11 +79,24 @@
                                 }
                                 else
                                 {
-                                    <p>книга находится : @Model.PhysicalPath</p>
+                                    <p>Источник находится : @Model.PhysicalPath</p>
                                 }
                             </div>
+                            @if (Model.BusinessProcesses.Count > 0)
+                            {
+                                string processes = "";
+                                @foreach (var bp in Model.BusinessProcesses)
+                                {
+                                    processes += bp.Name + ", ";
+                                }
+                                <p>Относится к бизнес-процессам: @processes</p>
+                            }
+                            @if (Model.SourceState != null)
+                            {
+                                <p>Состояние: @Model.SourceState.Name</p>
+                            }
                             <div>
-                                <a asp-action="ReadBook" asp-controller="BooksManage" asp-route-id="@Model.Id"><i class="fa fa-book"></i> Читать книгу </a>
+                                <a asp-action="ReadBook" asp-controller="BooksManage" asp-route-id="@Model.Id"><i class="fa fa-book"></i> Читать источник </a>
                                 </div>
                                  <div>
                                 @if (ViewBag.BookTransferId != 0)
@@ -117,12 +139,12 @@
             let comment = $('#comment_area').val();
             reset();        
             $.ajax({
-                url: '@Url.Action("CreateComment", "SourceManage")',
+                url: '@Url.Action("CreateComment", "BooksManage")',
                 type: 'POST',
                 data: { 
                     'sourceId': id, 
-                    'description': comment,
-                    'type': "book"},
+                    'description': comment
+                },
                 success: function(data) {
                     $('#listComment').html(data); 
                 },
@@ -133,14 +155,13 @@
             $('#comment_area').val("");               
         };
         
-        function deleteComment(Id, PostId) {
+        function deleteComment(Id, sourceId) {
             $.ajax({
-                url: '@Url.Action("DeleteComment", "SourceManage")',
+                url: '@Url.Action("DeleteComment", "BooksManage")',
                 type: 'GET',
                 data: { 
                     'id': Id,
-                    'sourceId': PostId,
-                    'type': "book" 
+                    'sourceId': sourceId,
                 },
                 success: function(data) {
                     $('#listComment').html(data); 
@@ -148,14 +169,12 @@
             });   
         }
               
-        function viewComment(id) {
-                              
+        function viewComment(id) {                             
             $.ajax({
-                url: '@Url.Action("ViewComment", "SourceManage")',
+                url: '@Url.Action("ViewComment", "BooksManage")',
                 type: 'GET',
                 data: { 
-                    'id': id,
-                    'type': "book"
+                    'id': id
                  },
                 success: function(data) {
                 $('#listComment').html(data); 

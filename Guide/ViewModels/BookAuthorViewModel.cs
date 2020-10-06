@@ -5,7 +5,7 @@ namespace Guide.ViewModels
 {
     public class BookAuthorViewModel
     {
-        public BookCreateViewModel Book { get; set; }
+        public SourceCreateViewModel Source { get; set; }
         public List<Author> AllAuthors { get; set; }
     }
 }

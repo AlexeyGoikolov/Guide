@@ -62,33 +62,18 @@
                                      @if (@Model.TotalFound != 0)
                                      {
                                          <ul class="search-results fulltext">
-                                             @if (@Model.Books.Count != 0)
+                                             @if (Model.Sources.Count != 0)
                                              {
                                                  <li class="search-result">
                                                      <div class="cover">
                                                          <h4>
                                                              <a href="#">Книги</a>
                                                          </h4>
-                                                         @foreach (var book in @Model.Books)
+                                                         @foreach (var source in Model.Sources)
                                                          {
-                                                            <p> <a asp-action="Details" asp-controller="Source" asp-route-id="@book.Id">@book.Name</a>
+                                                            <p> <a asp-action="Details" asp-controller="Source" asp-route-id="@source.Id">@source.Name</a>
                                                          </p>
                                                              
-                                                         }
-                                                     </div>
-                                                 </li>
-                                             }
-                                             @if (@Model.Posts.Count != 0)
-                                             {
-                                                 <li class="search-result">
-                                                     <div class="cover">
-                                                         <h4>
-                                                             <a href="#">Источники</a>
-                                                         </h4>
-                                                         @foreach (var post in @Model.Posts)
-                                                         {
-                                                            <p> <a asp-action="Details" asp-controller="Material" 
-                                                                asp-route-id="@post.Id">@post.Title</a></p>
                                                          }
                                                      </div>
                                                  </li>

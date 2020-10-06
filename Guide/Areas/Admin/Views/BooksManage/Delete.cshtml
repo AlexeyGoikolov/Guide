@@ -1,4 +1,4 @@
-﻿@model Book
+﻿@model Source
 
 @{
     if (Model.Active)
@@ -22,7 +22,7 @@
                     <a asp-action="Details" asp-controller="Account" asp-area=""><i class="fa fa-home"></i> Guide</a>
                 </li>
                 <li>
-                    <a asp-action="Index" asp-controller="SourceManage"> Библиотека</a>
+                    <a asp-action="Index" asp-controller="BooksManage"> Библиотека</a>
                 </li>
                 <li>
                     <a asp-action="Delete" asp-controller="BooksManage" asp-route-id="@Model.Id">@ViewBag.Title</a>
@@ -31,11 +31,11 @@
         </div>
         @if (Model.Active)
         {
-            <h2>Вы уверены что хотите удалить книгу - @Model.Name</h2>
+            <h2>Вы уверены что хотите удалить источник - @Model.Name</h2>
         }
         else
         {
-            <h2>Вы уверены что хотите восстановить книгу - @Model.Name</h2>
+            <h2>Вы уверены что хотите восстановить источник - @Model.Name</h2>
         }
         <div>
             <div style="display: inline-block">
@@ -44,7 +44,7 @@
                 </form>
             </div>
             <div style="display: inline-block">
-                <a class="btn btn-info" asp-action="Index" asp-controller="SourceManage" asp-area="Admin">Отменить</a>
+                <a class="btn btn-info" asp-action="Index" asp-controller="BooksManage" asp-area="Admin">Отменить</a>
             </div>
         </div>
     </div>

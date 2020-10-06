@@ -1,4 +1,4 @@
-﻿@model BookCreateViewModel
+﻿@model SourceCreateViewModel
 @inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Xsrf
 
 @{
@@ -24,7 +24,7 @@
                     <a asp-action="Profile" asp-controller="Service"><i class="fa fa-home"></i> Guide</a>
                 </li>
                 <li>
-                    <a asp-action="Index" asp-controller="SourceManage">Библиотека</a>
+                    <a asp-action="Index" asp-controller="BooksManage">Библиотека</a>
                 </li>
                 <li>
                     <a asp-action="Create" asp-controller="BooksManage">Добавить Книгу</a>
@@ -36,7 +36,7 @@
     <div style="margin:auto;">
         <form asp-action="Create" asp-controller="BooksManage" asp-area="Admin" method="post" enctype="multipart/form-data">
             @{ Html.RenderPartial("PartialViews/FormPartial", Model); }
-            <input type="hidden" value="@Model.Id" id="postId" asp-for="Id">
+            <input type="hidden" value="@Model.Id" id="sourceId" asp-for="Id">
         </form>
     </div>
 </div>
@@ -44,101 +44,153 @@
      
 @section Scripts
 {
-    
-    <script >      
-        
+    <script>
+        CKEDITOR.replace('sourceDescription');
+    </script>
+    <script >              
         let loadAuthor = function(){
-            let typeInput = $('#typeInput').val();
+            let authorInput = $('#authorInput').val();
             $.ajax({
                 url: '@Url.Action("CreateAuthorAjax", "BooksManage", new {area = "Admin"})',                    
                 type: 'GET',                    
-                data: {name: typeInput},
+                data: {name: authorInput},
                 success: function(response) {                    
-                    let data = '<option value="'+response.allAuthors[0].id+'">'+response.allAuthors[0].name+'</option>';
-                    $('#author-chosen').append(data);
+                    $('#author-chosen').append(response);
                     $('#author-chosen').trigger("chosen:updated");
-                    $('#typeInput').val("")
+                    $('#authorInput').val("")
                 }                                                      
             });                   
-        };
-
-                 
-                  
+        };                                   
                 
         $('#submit-btn').on('click', function(e) {
-          e.preventDefault();
-          let authorArray = [];
-          let businessProcessesArray = [];
-           
-           let getbusinessP = document.getElementById('businessProcesses-row');
-           let getBPName = getbusinessP.getElementsByTagName('span');
-           for (let i=0; i < getBPName.length; i++){
+            e.preventDefault();
+            let authorArray = [];
+            let businessProcessesArray = [];
+
+            let getbusinessP = document.getElementById('businessProcesses-row');
+            let getBPName = getbusinessP.getElementsByTagName('span');
+            for (let i=0; i < getBPName.length; i++){
                businessProcessesArray.push(getBPName[i].innerHTML);
-           }
-          var authors = document.getElementById('author-row');
-          var getAuthorName = authors.getElementsByTagName('span');
-          for (var i=0; i < getAuthorName.length; i++){
-            authorArray.push(getAuthorName[i].innerHTML);
-          }
-           
-          let formData = new FormData();
-          let coverFile = document.getElementById('coverFile');
-          let bookFile = document.getElementById('bookFile');    
-          formData.append('__RequestVerificationToken', $('#RequestVerificationToken').val());
-          formData.append(coverFile.getAttribute('name'), coverFile.files[0]);
-          formData.append(bookFile.getAttribute('name'), bookFile.files[0]);
-          formData.append('IsRecipe', $('#isRecipe').val());
-          formData.append('Name', $('#name').val());
-          formData.append('PhisicalPath', $('#physPath').val());
-          formData.append('YearOfWriting', $('#year').val());
-          formData.append('Edition', $('#edition').val());
-          formData.append('ISBN', $('#isbn').val());
-          formData.append('authors', String(authorArray));
-          formData.append('BookId', @Model.BookId);
-          formData.append('BusinessProcesses', String(businessProcessesArray));
+            }
+            let authors = document.getElementById('author-row');
+            let getAuthorName = authors.getElementsByTagName('span');
+            for (var i=0; i < getAuthorName.length; i++){
+                authorArray.push(getAuthorName[i].innerHTML);
+            }
+            let editorData = CKEDITOR.instances.sourceDescription.getData();
+            let formData = new FormData();
+            let coverFile = document.getElementById('coverFile');
+            let sourceFile = document.getElementById('sourceFile');    
+            formData.append('__RequestVerificationToken', $('#RequestVerificationToken').val());
+            formData.append(coverFile.getAttribute('name'), coverFile.files[0]);
+            formData.append(sourceFile.getAttribute('name'), sourceFile.files[0]);
+            formData.append('IsRecipe', $('#isRecipe').val());
+            formData.append('Name', $('#name').val());
+            formData.append('SourceDescription', editorData);
+            formData.append('AdditionalInformation', $('#additionalInfo').val());
+            formData.append('PhysicalPath', $('#physPath').val());
+            formData.append('YearOfWriting', $('#year').val());
+            formData.append('Edition', $('#edition').val());
+            formData.append('ISBN', $('#isbn').val());
+            formData.append('authors', String(authorArray));
+            formData.append('Keys', $('#wordsKey').val());            
+            formData.append('SourceId', $('#sourceId').val());
+            formData.append('CategoryId', $('#category').val());
+            formData.append('SourceTypeId', $('#typeContentId').val());
+            formData.append('SourceStateId', $('#sourceStateId').val());
+            formData.append('Id', "0");
+            formData.append('BusinessProcesses', String(businessProcessesArray));
           
-          $.ajax({
-            url: '@Url.Action("Create", "BooksManage", new {area = "Admin"})',                            
-            type: 'POST',           
-            traditional: true,                 
-            data: formData,                                                                                                             
-            contentType: false,
-            processData: false,          
-            success: function(response) {
-                if (response === true){
-                    window.location.href = "@Url.Action("Index","SourceManage", new{area="Admin"})"
-                }
-                else if (response === "falseData"){
-                    $('#errorText').html('Вы не добавили книгу. Проверьте название или файл')
-                }
-                else if (response === "falseBookType"){
-                    $('#errorText').html('Неверный формат книги')
-                }
-                else{
-                    $('#errorText').html('Неверный формат обложки')
-                }
-            }                                                        
-          });                   
+            $.ajax({
+                url: '@Url.Action("Create", "BooksManage", new {area = "Admin"})',                            
+                type: 'POST',           
+                traditional: true,                 
+                data: formData,                                                                                                             
+                contentType: false,
+                processData: false,          
+                success: function(response) {
+                    console.log(response);
+                    if (response === true){
+                        window.location.href = "@Url.Action("Index","BooksManage", new{area="Admin"})"
+                    }
+                    else if (response === "falseData"){
+                        $('#errorText').html('Вы не добавили источник. Проверьте название или файл')
+                    }
+                    else if (response === "falseSourceSourceType"){
+                        $('#errorText').html('Неверный формат источника')
+                    }
+                    else{
+                        $('#errorText').html('Неверный формат обложки')
+                    }
+                }                                                        
+            });                   
         });
-       
-        let deleteAuthor = function(typeId){
-                    $("#types-row").load('@Url.Action("DeleteAuthorAjax", "BooksManage")', {Id: typeId});
-                };
         
+        let loadSourceTypeContent = function(){
+            let sourceTypeInput = $('#sourceTypeContentInput').val();
+            $("#sourceTypes-row").load('@Url.Action("CreateTypeContentAjax", "BooksManage")',{Name: sourceTypeInput});   
+        };
+        let loadSourceState = function(){
+            let sourceStateInput = $('#sourceStateInput').val();
+            $("#sourceState-row").load('@Url.Action("CreateSourceStateAjax", "BooksManage")',{Name: sourceStateInput});
+        };
+        let loadCategories = function(){
+            let catInput = $('#catInput').val();
+            $("#categories-row").load('@Url.Action("CreateCategoryAjax", "BooksManage")',{Name: catInput});            
+        };               
+        let deleteCategory = function(categoryId){
+            $("#categories-row").load('@Url.Action("DeleteCategoryAjax", "BooksManage")', {Id: categoryId});
+        };
+        let deleteSourceTypeContent = function(typeId){
+            $("#sourceTypes-row").load('@Url.Action("DeleteTypeContentAjax", "BooksManage")',{Id: typeId});
+        };
+        let deleteAuthor = function(authorId){
+            $("#author-chosen").load('@Url.Action("DeleteAuthorAjax", "BooksManage")',{Id: authorId});
+            $('#author-chosen').trigger("chosen:updated");
+        };
+        let deleteSourceType = function(sourceTypeId){
+            $("#sourceState-row").load('@Url.Action("DeleteSourceStateAjax", "BooksManage")', {Id: sourceTypeId});
+        };
         
         $(document).ready(function(){
-                  
+            loadAuthor();
+            loadCategories();
+            loadSourceTypeContent();
+            loadSourceState();       
             
-           $('body').on('click','#typeButton',function(event){
-                            event.preventDefault();
-                            setTimeout(loadAuthor, 200)
-                       });
-           
+           $('body').on('click','#authorButton',function(event){
+                event.preventDefault();
+                setTimeout(loadAuthor, 200)
+           });
+           $('body').on('click','#typeContentButton',function(event){
+                event.preventDefault();
+                setTimeout(loadSourceTypeContent, 200)
+           });                
+           $('body').on('click','#catButton',function(event){
+                event.preventDefault();
+                setTimeout(loadCategories, 200) 
+           });
+           $('body').on('click','#sourceStateButton',function(event){
+                event.preventDefault();
+                setTimeout(loadSourceState, 200) 
+           });                     
+           $('body').on('click','.buttonDeleteAuthor',function(event){
+                event.preventDefault();
+                setTimeout(function() {deleteAuthor(event.currentTarget.value)}, 200)
+           });
            $('body').on('click','.buttonDeleteType',function(event){
-                             event.preventDefault();
-                             setTimeout(function() {deleteAuthor(event.currentTarget.value)}, 200)
-                        });                      
-        })
+                event.preventDefault();
+                setTimeout(function() {deleteSourceTypeContent(event.currentTarget.value)}, 200)
+           });
+           $('body').on('click','.buttonDeleteCat',function(event){
+                event.preventDefault();
+                setTimeout(function() {deleteCategory(event.currentTarget.value)}, 200)                  
+           });
+           $('body').on('click','.buttonDeleteSourceState',function(event){
+                event.preventDefault();
+                setTimeout(function() {deleteSourceType(event.currentTarget.value)}, 200)                  
+           });           
+        });                
     </script>
 }
 

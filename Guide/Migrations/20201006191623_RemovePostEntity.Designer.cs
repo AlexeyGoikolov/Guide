@@ -4,15 +4,17 @@ using System.Collections.Generic;
 using Guide.Models.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Guide.Migrations
 {
     [DbContext(typeof(GuideContext))]
-    partial class GuideContextModelSnapshot : ModelSnapshot
+    [Migration("20201006191623_RemovePostEntity")]
+    partial class RemovePostEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -30,12 +32,136 @@ namespace Guide.Migrations
                     b.Property<bool>("Active")
                         .HasColumnType("boolean");
 
+                    b.Property<int?>("BookId")
+                        .HasColumnType("integer");
+
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("BookId");
+
                     b.ToTable("Authors");
+                });
+
+            modelBuilder.Entity("Guide.Models.Book", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<bool>("Active")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("CoverPath")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("DateCreate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<DateTime>("DateUpdate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("Edition")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ISBN")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsRecipe")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Keys")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.Property<string>("PhysicalPath")
+                        .HasColumnType("text");
+
+                    b.Property<int?>("TypeId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("VirtualPath")
+                        .HasColumnType("text");
+
+                    b.Property<string>("YearOfWriting")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TypeId");
+
+                    b.ToTable("Books");
+                });
+
+            modelBuilder.Entity("Guide.Models.BookAuthor", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<int>("AuthorId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("BookId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AuthorId");
+
+                    b.HasIndex("BookId");
+
+                    b.ToTable("BookAuthors");
+                });
+
+            modelBuilder.Entity("Guide.Models.BookBusinessProcess", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<int>("BookId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("BusinessProcessId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BookId");
+
+                    b.HasIndex("BusinessProcessId");
+
+                    b.ToTable("BookBusinessProcesses");
+                });
+
+            modelBuilder.Entity("Guide.Models.BookIdAndEnglishBookId", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<int>("BookId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("EnglishBookId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BookId");
+
+                    b.HasIndex("EnglishBookId");
+
+                    b.ToTable("BookIdAndEnglishBookIds");
                 });
 
             modelBuilder.Entity("Guide.Models.BusinessProcess", b =>
@@ -112,20 +238,25 @@ namespace Guide.Migrations
                     b.Property<string>("AuthorId")
                         .HasColumnType("text");
 
+                    b.Property<int?>("BookId")
+                        .HasColumnType("integer");
+
                     b.Property<DateTime>("DateOfCreate")
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Description")
                         .HasColumnType("text");
 
-                    b.Property<int?>("SourceId")
+                    b.Property<int?>("PostId")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
 
                     b.HasIndex("AuthorId");
 
-                    b.HasIndex("SourceId");
+                    b.HasIndex("BookId");
+
+                    b.HasIndex("PostId");
 
                     b.ToTable("Comments");
                 });
@@ -342,6 +473,95 @@ namespace Guide.Migrations
                     b.ToTable("PositionIssues");
                 });
 
+            modelBuilder.Entity("Guide.Models.Post", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<bool>("Active")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("AdditionalInformation")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Author")
+                        .HasColumnType("text");
+
+                    b.Property<int?>("CategoryId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("CoverPath")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("DateOfCreate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<DateTime>("DateOfUpdate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("Keys")
+                        .HasColumnType("text");
+
+                    b.Property<string>("TextContent")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("text");
+
+                    b.Property<int?>("TypeContentId")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("TypeId")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("TypeStateId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("text");
+
+                    b.Property<string>("VirtualPath")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.HasIndex("TypeContentId");
+
+                    b.HasIndex("TypeId");
+
+                    b.HasIndex("TypeStateId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Posts");
+                });
+
+            modelBuilder.Entity("Guide.Models.PostBusinessProcess", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<int>("BusinessProcessId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("PostId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BusinessProcessId");
+
+                    b.HasIndex("PostId");
+
+                    b.ToTable("PostBusinessProcesses");
+                });
+
             modelBuilder.Entity("Guide.Models.QuestionAnswer", b =>
                 {
                     b.Property<int>("Id")
@@ -361,15 +581,15 @@ namespace Guide.Migrations
                     b.Property<List<string>>("Links")
                         .HasColumnType("text[]");
 
+                    b.Property<int?>("PostId")
+                        .HasColumnType("integer");
+
                     b.Property<string>("Question")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("ResponderId")
                         .HasColumnType("text");
-
-                    b.Property<int?>("SourceId")
-                        .HasColumnType("integer");
 
                     b.Property<int>("State")
                         .HasColumnType("integer");
@@ -378,193 +598,11 @@ namespace Guide.Migrations
 
                     b.HasIndex("AskingId");
 
+                    b.HasIndex("PostId");
+
                     b.HasIndex("ResponderId");
 
-                    b.HasIndex("SourceId");
-
                     b.ToTable("QuestionAnswers");
-                });
-
-            modelBuilder.Entity("Guide.Models.Source", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<bool>("Active")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("AdditionalInformation")
-                        .HasColumnType("text");
-
-                    b.Property<int?>("CategoryId")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("CoverPath")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("DateCreate")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<DateTime>("DateUpdate")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<string>("Edition")
-                        .HasColumnType("text");
-
-                    b.Property<string>("ISBN")
-                        .HasColumnType("text");
-
-                    b.Property<bool>("IsRecipe")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("Keys")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("text");
-
-                    b.Property<string>("PhysicalPath")
-                        .HasColumnType("text");
-
-                    b.Property<string>("SourceDescription")
-                        .HasColumnType("text");
-
-                    b.Property<int?>("SourceStateId")
-                        .HasColumnType("integer");
-
-                    b.Property<int?>("SourceTypeId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("TranslationID")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("VirtualPath")
-                        .HasColumnType("text");
-
-                    b.Property<string>("YearOfWriting")
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CategoryId");
-
-                    b.HasIndex("SourceStateId");
-
-                    b.HasIndex("SourceTypeId");
-
-                    b.ToTable("Sources");
-                });
-
-            modelBuilder.Entity("Guide.Models.SourceAuthor", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<int>("AuthorId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("SourceId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AuthorId");
-
-                    b.HasIndex("SourceId");
-
-                    b.ToTable("SourceAuthors");
-                });
-
-            modelBuilder.Entity("Guide.Models.SourceBusinessProcess", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<int>("BusinessProcessId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("SourceId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BusinessProcessId");
-
-                    b.HasIndex("SourceId");
-
-                    b.ToTable("SourceBusinessProcesses");
-                });
-
-            modelBuilder.Entity("Guide.Models.SourceIdAndEnglishSourceId", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<int>("EnglishSourceId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("SourceId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("EnglishSourceId");
-
-                    b.HasIndex("SourceId");
-
-                    b.ToTable("SourceIdAndEnglishSourceIds");
-                });
-
-            modelBuilder.Entity("Guide.Models.SourceState", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<bool>("Active")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("SourceStates");
-                });
-
-            modelBuilder.Entity("Guide.Models.SourceType", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<bool>("Active")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("SourceTypes");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Active = true,
-                            Name = "Книга"
-                        });
                 });
 
             modelBuilder.Entity("Guide.Models.Step", b =>
@@ -573,6 +611,9 @@ namespace Guide.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<string>("Author")
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp without time zone");
@@ -611,6 +652,89 @@ namespace Guide.Migrations
                     b.ToTable("TaskUsers");
                 });
 
+            modelBuilder.Entity("Guide.Models.Template", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<string>("ContentTemplate")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Templates");
+                });
+
+            modelBuilder.Entity("Guide.Models.Type", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<bool>("Active")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Types");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Active = true,
+                            Name = "Книга"
+                        });
+                });
+
+            modelBuilder.Entity("Guide.Models.TypeContent", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<bool>("Active")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TypeContents");
+                });
+
+            modelBuilder.Entity("Guide.Models.TypeState", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<bool>("Active")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TypeStates");
+                });
+
             modelBuilder.Entity("Guide.Models.User", b =>
                 {
                     b.Property<string>("Id")
@@ -621,6 +745,9 @@ namespace Guide.Migrations
 
                     b.Property<bool>("Active")
                         .HasColumnType("boolean");
+
+                    b.Property<string>("Avatar")
+                        .HasColumnType("text");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -662,7 +789,7 @@ namespace Guide.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("boolean");
 
-                    b.Property<int?>("PositionId")
+                    b.Property<int>("PositionId")
                         .HasColumnType("integer");
 
                     b.Property<string>("SecurityStamp")
@@ -844,6 +971,65 @@ namespace Guide.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("Guide.Models.Author", b =>
+                {
+                    b.HasOne("Guide.Models.Book", null)
+                        .WithMany("Authors")
+                        .HasForeignKey("BookId");
+                });
+
+            modelBuilder.Entity("Guide.Models.Book", b =>
+                {
+                    b.HasOne("Guide.Models.Type", "Type")
+                        .WithMany()
+                        .HasForeignKey("TypeId");
+                });
+
+            modelBuilder.Entity("Guide.Models.BookAuthor", b =>
+                {
+                    b.HasOne("Guide.Models.Author", "Author")
+                        .WithMany()
+                        .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Guide.Models.Book", "Book")
+                        .WithMany()
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Guide.Models.BookBusinessProcess", b =>
+                {
+                    b.HasOne("Guide.Models.Book", "Book")
+                        .WithMany()
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Guide.Models.BusinessProcess", "BusinessProcess")
+                        .WithMany()
+                        .HasForeignKey("BusinessProcessId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Guide.Models.BookIdAndEnglishBookId", b =>
+                {
+                    b.HasOne("Guide.Models.Book", "Book")
+                        .WithMany()
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Guide.Models.Book", "EnglishBook")
+                        .WithMany()
+                        .HasForeignKey("EnglishBookId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Guide.Models.BusinessProcessIssue", b =>
                 {
                     b.HasOne("Guide.Models.BusinessProcess", "BusinessProcess")
@@ -865,9 +1051,13 @@ namespace Guide.Migrations
                         .WithMany()
                         .HasForeignKey("AuthorId");
 
-                    b.HasOne("Guide.Models.Source", "Source")
+                    b.HasOne("Guide.Models.Book", "Book")
                         .WithMany()
-                        .HasForeignKey("SourceId");
+                        .HasForeignKey("BookId");
+
+                    b.HasOne("Guide.Models.Post", "Post")
+                        .WithMany()
+                        .HasForeignKey("PostId");
                 });
 
             modelBuilder.Entity("Guide.Models.DesiredResultIssue", b =>
@@ -946,52 +1136,30 @@ namespace Guide.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Guide.Models.QuestionAnswer", b =>
-                {
-                    b.HasOne("Guide.Models.User", "Asking")
-                        .WithMany()
-                        .HasForeignKey("AskingId");
-
-                    b.HasOne("Guide.Models.User", "Responder")
-                        .WithMany()
-                        .HasForeignKey("ResponderId");
-
-                    b.HasOne("Guide.Models.Source", "Source")
-                        .WithMany()
-                        .HasForeignKey("SourceId");
-                });
-
-            modelBuilder.Entity("Guide.Models.Source", b =>
+            modelBuilder.Entity("Guide.Models.Post", b =>
                 {
                     b.HasOne("Guide.Models.Category", "Category")
                         .WithMany()
                         .HasForeignKey("CategoryId");
 
-                    b.HasOne("Guide.Models.SourceState", "SourceState")
+                    b.HasOne("Guide.Models.TypeContent", "TypeContent")
                         .WithMany()
-                        .HasForeignKey("SourceStateId");
+                        .HasForeignKey("TypeContentId");
 
-                    b.HasOne("Guide.Models.SourceType", "SourceType")
+                    b.HasOne("Guide.Models.Type", "Type")
                         .WithMany()
-                        .HasForeignKey("SourceTypeId");
+                        .HasForeignKey("TypeId");
+
+                    b.HasOne("Guide.Models.TypeState", "TypeState")
+                        .WithMany()
+                        .HasForeignKey("TypeStateId");
+
+                    b.HasOne("Guide.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
                 });
 
-            modelBuilder.Entity("Guide.Models.SourceAuthor", b =>
-                {
-                    b.HasOne("Guide.Models.Author", "Author")
-                        .WithMany()
-                        .HasForeignKey("AuthorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Guide.Models.Source", "Source")
-                        .WithMany()
-                        .HasForeignKey("SourceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Guide.Models.SourceBusinessProcess", b =>
+            modelBuilder.Entity("Guide.Models.PostBusinessProcess", b =>
                 {
                     b.HasOne("Guide.Models.BusinessProcess", "BusinessProcess")
                         .WithMany()
@@ -999,26 +1167,26 @@ namespace Guide.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Guide.Models.Source", "Source")
+                    b.HasOne("Guide.Models.Post", "Post")
                         .WithMany()
-                        .HasForeignKey("SourceId")
+                        .HasForeignKey("PostId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Guide.Models.SourceIdAndEnglishSourceId", b =>
+            modelBuilder.Entity("Guide.Models.QuestionAnswer", b =>
                 {
-                    b.HasOne("Guide.Models.Source", "EnglishSource")
+                    b.HasOne("Guide.Models.User", "Asking")
                         .WithMany()
-                        .HasForeignKey("EnglishSourceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("AskingId");
 
-                    b.HasOne("Guide.Models.Source", "Source")
+                    b.HasOne("Guide.Models.Post", "Post")
                         .WithMany()
-                        .HasForeignKey("SourceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("PostId");
+
+                    b.HasOne("Guide.Models.User", "Responder")
+                        .WithMany()
+                        .HasForeignKey("ResponderId");
                 });
 
             modelBuilder.Entity("Guide.Models.TaskUser", b =>
@@ -1032,7 +1200,9 @@ namespace Guide.Migrations
                 {
                     b.HasOne("Guide.Models.Position", "Position")
                         .WithMany()
-                        .HasForeignKey("PositionId");
+                        .HasForeignKey("PositionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Guide.Models.UserIssue", b =>

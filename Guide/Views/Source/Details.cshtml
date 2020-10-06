@@ -1,4 +1,4 @@
-﻿@model Book
+﻿@model Source
 
 @{
     ViewBag.Title = "Книга";
@@ -125,12 +125,12 @@
             let comment = $('#comment_area').val();
             reset();        
             $.ajax({
-                url: '@Url.Action("CreateComment", "SourceManage", new{area="Admin"})',
+                url: '@Url.Action("CreateComment", "BooksManage", new{area="Admin"})',
                 type: 'POST',
                 data: { 
                     'sourceId': id, 
                     'description': comment,
-                    'type': "book"},
+                },
                 success: function(data) {
                     $('#listComment').html(data); 
                 },
@@ -141,14 +141,13 @@
             $('#comment_area').val("");               
         };
         
-        function deleteComment(Id, PostId) {
+        function deleteComment(Id, SourceId) {
             $.ajax({
-                url: '@Url.Action("DeleteComment", "SourceManage", new{area="Admin"})',
+                url: '@Url.Action("DeleteComment", "BooksManage", new{area="Admin"})',
                 type: 'GET',
                 data: { 
                     'id': Id,
-                    'sourceId': PostId,
-                    'type': "book" 
+                    'sourceId': SourceId, 
                 },
                 success: function(data) {
                     $('#listComment').html(data); 
@@ -158,11 +157,10 @@
               
         function viewComment(id) {                             
             $.ajax({
-                url: '@Url.Action("ViewComment", "SourceManage", new{area="Admin"})',
+                url: '@Url.Action("ViewComment", "BooksManage", new{area="Admin"})',
                 type: 'GET',
                 data: { 
                     'id': id,
-                    'type': "book"
                 },
                 success: function(data) {
                 $('#listComment').html(data); 

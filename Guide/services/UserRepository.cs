@@ -51,7 +51,7 @@ namespace Guide.Services
                 .Where(d => d.UserId == userId).
                 Select(s => s.Issue).ToList();
         }
-        public virtual List<Issue> PositionsIssues(int positionId)
+        public virtual List<Issue> PositionsIssues(int? positionId)
         {
             List<Issue> issues = _db.PositionIssues.OrderBy(d => d.Id)
                 .Where(d => d.PositionId == positionId).

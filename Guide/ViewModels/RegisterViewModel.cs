@@ -19,12 +19,11 @@ namespace Guide.ViewModels
         
         [Required(ErrorMessage = "Это поле обязательно для заполнения")]
         public string Surname { get; set; }
-        [Required(ErrorMessage = "Это поле обязательно для заполнения")]
-        public int PositionsId { get; set; }
+        public int? PositionsId { get; set; }
 
         [Required(ErrorMessage = "Это поле обязательно для заполнения")]
         [DataType(DataType.Password)]
-        [MaxLength(6, ErrorMessage = "Минимальная длина пароля 6 символов")]
+        [MinLength(6, ErrorMessage = "Минимальная длина пароля 6 символов")]
         public string Password { get; set; }
         
         [Required(ErrorMessage = "Это поле обязательно для заполнения")]
