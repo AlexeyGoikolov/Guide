@@ -13,7 +13,7 @@
                     <a asp-action="Details" asp-controller="Account" asp-area=""><i class="fa fa-home"></i> Guide</a>
                 </li>
                 <li>
-                    <a asp-action="Index" asp-controller="BooksManage">Библиотека</a>
+                    <a asp-action="Index" asp-controller="SourceManage">Библиотека</a>
                 </li>
             </ul>
         </div>
@@ -31,13 +31,13 @@
                     </h1>
                     <ul class="controls">
                         <li>
-                            <a role="button" tabindex="0" asp-action="Create" asp-controller="BooksManage"><i class="fa fa-plus mr-5"></i>Добавить новый источник</a>
+                            <a role="button" tabindex="0" asp-action="Create" asp-controller="SourceManage"><i class="fa fa-plus mr-5"></i>Добавить новый источник</a>
                         </li>
                         <li>
-                            <a role="button" tabindex="0" asp-action="Index" asp-controller="BooksManage">Активные</a>
+                            <a role="button" tabindex="0" asp-action="Index" asp-controller="SourceManage">Активные</a>
                         </li>
                         <li>
-                            <a role="button" tabindex="0" asp-action="Index" asp-controller="BooksManage" asp-route-activ="false">Удаленные</a>
+                            <a role="button" tabindex="0" asp-action="Index" asp-controller="SourceManage" asp-route-activ="false">Удаленные</a>
                         </li>
                     </ul>
                 </div>
@@ -64,7 +64,7 @@
                                 i++;
                                 <tr class="odd gradeX">
                                     <td>
-                                        <a asp-action="Details" asp-controller="BooksManage" asp-route-id="@source.Id">@source.Name</a>
+                                        <a asp-action="Details" asp-controller="SourceManage" asp-route-id="@source.Id">@source.Name</a>
                                     </td>
                                     @if (source.Authors.Count > 0)
                                     {
@@ -113,7 +113,7 @@
                                         @if (source.TranslationID == 0)
                                         {
                                             <a title="Добавить на английском" role="button" class="btn btn-rounded-20 btn-default btn-sm p-5" style="width:30px;"
-                                               asp-action="Create" asp-controller="BooksManage" asp-route-bookId="@source.Id">
+                                               asp-action="Create" asp-controller="SourceManage" asp-route-bookId="@source.Id">
                                                 <i class="fas fa-globe"></i>
                                             </a>
                                         }
@@ -126,20 +126,20 @@
                                             <i class="fa fa-eye"></i>
                                         </a>
                                         <a class="btn btn-rounded-20 btn-default btn-sm p-5" style="width:30px;" role="button" asp-action=""
-                                           asp-controller="BooksManage" asp-area="Admin" asp-route-id="@source.Id" tabindex="0" title="Изменить">
+                                           asp-controller="SourceManage" asp-area="Admin" asp-route-id="@source.Id" tabindex="0" title="Изменить">
                                             <i class="fa fa-pencil"></i>
                                         </a>
                                         @if (source.Active)
                                         {
                                             <a class="btn btn-rounded-20 btn-default btn-sm p-5" style="width:30px;" role="button" tabindex="0"
-                                               title="Удалить" asp-action="Delete" asp-controller="BooksManage" asp-route-id="@source.Id">
+                                               title="Удалить" asp-action="Delete" asp-controller="SourceManage" asp-route-id="@source.Id">
                                                 <i class="fa fa-trash"></i>
                                             </a>
                                         }
                                         else
                                         {
                                             <a class="btn btn-rounded-20 btn-default btn-sm p-5" style="width:30px;"
-                                               asp-action="Delete" asp-controller="BooksManage" title="Восстановить" asp-route-id="@source.Id">
+                                               asp-action="Delete" asp-controller="SourceManage" title="Восстановить" asp-route-id="@source.Id">
                                                 <i class="fa fa-reply"></i>
                                             </a>
                                         }
