@@ -27,6 +27,11 @@
       <_ContentIncludedByDefault Remove="Views\Material\Index.cshtml" />
       <_ContentIncludedByDefault Remove="Views\Material\PartialViews\CommentsPartial.cshtml" />
       <_ContentIncludedByDefault Remove="Views\Material\ReadSource.cshtml" />
+      <_ContentIncludedByDefault Remove="wwwroot\Files\BooksFiles\Мышление. Системное исследование\Book_Running lean Рационализация стартапа.pdf" />
+      <_ContentIncludedByDefault Remove="wwwroot\Files\BooksFiles\Название источника\Book_Running lean Рационализация стартапа.pdf" />
+      <_ContentIncludedByDefault Remove="wwwroot\Files\BooksFiles\Название источника\Обложка Running Lean.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\Files\BooksFiles\Проверка\Book_Running lean Рационализация стартапа.pdf" />
+      <_ContentIncludedByDefault Remove="wwwroot\Files\BooksFiles\Проверка\Обложка Running Lean.jpg" />
     </ItemGroup>
 
     <ItemGroup>
@@ -171,9 +176,7 @@
 
     <ItemGroup>
       <Folder Include="Views\Users" />
-      <Folder Include="wwwroot\BooksFiles" />
       <Folder Include="wwwroot\Image\Avatar" />
-      <Folder Include="wwwroot\PostsFiles" />
     </ItemGroup>
 
 
