@@ -143,7 +143,7 @@
             let comment = $('#comment_area').val();
             reset();        
             $.ajax({
-                url: '@Url.Action("CreateComment", "BooksManage", new{area="Admin"})',
+                url: '@Url.Action("CreateComment", "SourceManage", new{area="Admin"})',
                 type: 'POST',
                 data: { 
                     'sourceId': id, 
@@ -161,7 +161,7 @@
         
         function deleteComment(Id, SourceId) {
             $.ajax({
-                url: '@Url.Action("DeleteComment", "BooksManage", new{area="Admin"})',
+                url: '@Url.Action("DeleteComment", "SourceManage", new{area="Admin"})',
                 type: 'GET',
                 data: { 
                     'id': Id,
@@ -175,7 +175,7 @@
               
         function viewComment(id) {                             
             $.ajax({
-                url: '@Url.Action("ViewComment", "BooksManage", new{area="Admin"})',
+                url: '@Url.Action("ViewComment", "SourceManage", new{area="Admin"})',
                 type: 'GET',
                 data: { 
                     'id': id,

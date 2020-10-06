@@ -15,10 +15,10 @@
                     <a asp-action="Details" asp-controller="Account"><i class="fa fa-home"></i> Guide</a>
                 </li>
                 <li>
-                    <a asp-action="Index" asp-controller="BooksManage">Библиотека</a>
+                    <a asp-action="Index" asp-controller="SourceManage">Библиотека</a>
                 </li>
                 <li>
-                    <a asp-action="Details" asp-controller="BooksManage" asp-route-id="@Model.Id">@Model.Name</a>
+                    <a asp-action="Details" asp-controller="SourceManage" asp-route-id="@Model.Id">@Model.Name</a>
                 </li>
             </ul>
         </div>
@@ -96,15 +96,15 @@
                                 <p>Состояние: @Model.SourceState.Name</p>
                             }
                             <div>
-                                <a asp-action="ReadBook" asp-controller="BooksManage" asp-route-id="@Model.Id"><i class="fa fa-book"></i> Читать источник </a>
+                                <a asp-action="ReadBook" asp-controller="SourceManage" asp-route-id="@Model.Id"><i class="fa fa-book"></i> Читать источник </a>
                                 </div>
                                  <div>
                                 @if (ViewBag.BookTransferId != 0)
                                 {
                                     @if(ViewBag.BookTransferLanguage == "ru")
-                                    {<a asp-action="Details" asp-controller="BooksManage" asp-route-path="" asp-route-id="@ViewBag.BookTransferId"><i class="fas fa-globe"></i> Перевод</a>}
+                                    {<a asp-action="Details" asp-controller="SourceManage" asp-route-path="" asp-route-id="@ViewBag.BookTransferId"><i class="fas fa-globe"></i> Перевод</a>}
                                     @if(ViewBag.BookTransferLanguage == "en")
-                                    {<a asp-action="Details" asp-controller="BooksManage" asp-route-path="" asp-route-id="@ViewBag.BookTransferId"><i class="fas fa-globe"></i> Оригинальная версия</a>}
+                                    {<a asp-action="Details" asp-controller="SourceManage" asp-route-path="" asp-route-id="@ViewBag.BookTransferId"><i class="fas fa-globe"></i> Оригинальная версия</a>}
                                 }
                                  
                             </div>
@@ -139,7 +139,7 @@
             let comment = $('#comment_area').val();
             reset();        
             $.ajax({
-                url: '@Url.Action("CreateComment", "BooksManage")',
+                url: '@Url.Action("CreateComment", "SourceManage")',
                 type: 'POST',
                 data: { 
                     'sourceId': id, 
@@ -157,7 +157,7 @@
         
         function deleteComment(Id, sourceId) {
             $.ajax({
-                url: '@Url.Action("DeleteComment", "BooksManage")',
+                url: '@Url.Action("DeleteComment", "SourceManage")',
                 type: 'GET',
                 data: { 
                     'id': Id,
@@ -171,7 +171,7 @@
               
         function viewComment(id) {                             
             $.ajax({
-                url: '@Url.Action("ViewComment", "BooksManage")',
+                url: '@Url.Action("ViewComment", "SourceManage")',
                 type: 'GET',
                 data: { 
                     'id': id

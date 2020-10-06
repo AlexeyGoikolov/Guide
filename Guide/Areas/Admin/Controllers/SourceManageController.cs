@@ -18,7 +18,7 @@ namespace Guide.Areas.Admin.Controllers
 {
     [Area("Admin")]
     [Authorize(Roles = "admin")]
-    public class BooksManageController : Controller
+    public class SourceManageController : Controller
     {
         
         private readonly GuideContext _db;
@@ -26,7 +26,7 @@ namespace Guide.Areas.Admin.Controllers
         private readonly IHostEnvironment _environment;
         private readonly UploadService _uploadService;
 
-        public BooksManageController(GuideContext db, UserManager<User> userManager, IHostEnvironment environment, UploadService uploadService)
+        public SourceManageController(GuideContext db, UserManager<User> userManager, IHostEnvironment environment, UploadService uploadService)
         {
             _db = db;
             _userManager = userManager;
@@ -248,7 +248,7 @@ namespace Guide.Areas.Admin.Controllers
                     _db.SaveChanges();
                 }
             }
-            return RedirectToAction("Index" , "BooksManage");
+            return RedirectToAction("Index" , "SourceManage");
         }
 
         public  IActionResult ReadBook(int id)

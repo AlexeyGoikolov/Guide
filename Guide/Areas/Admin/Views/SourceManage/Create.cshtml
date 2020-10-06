@@ -24,17 +24,17 @@
                     <a asp-action="Profile" asp-controller="Service"><i class="fa fa-home"></i> Guide</a>
                 </li>
                 <li>
-                    <a asp-action="Index" asp-controller="BooksManage">Библиотека</a>
+                    <a asp-action="Index" asp-controller="SourceManage">Библиотека</a>
                 </li>
                 <li>
-                    <a asp-action="Create" asp-controller="BooksManage">Добавить Книгу</a>
+                    <a asp-action="Create" asp-controller="SourceManage">Добавить Книгу</a>
                 </li>
             </ul>
         </div>
     </div>
     <span id="errorText" style="color: red"></span>
     <div style="margin:auto;">
-        <form asp-action="Create" asp-controller="BooksManage" asp-area="Admin" method="post" enctype="multipart/form-data">
+        <form asp-action="Create" asp-controller="SourceManage" asp-area="Admin" method="post" enctype="multipart/form-data">
             @{ Html.RenderPartial("PartialViews/FormPartial", Model); }
             <input type="hidden" value="@Model.Id" id="sourceId" asp-for="Id">
         </form>
@@ -51,7 +51,7 @@
         let loadAuthor = function(){
             let authorInput = $('#authorInput').val();
             $.ajax({
-                url: '@Url.Action("CreateAuthorAjax", "BooksManage", new {area = "Admin"})',                    
+                url: '@Url.Action("CreateAuthorAjax", "SourceManage", new {area = "Admin"})',                    
                 type: 'GET',                    
                 data: {name: authorInput},
                 success: function(response) {                    
@@ -102,7 +102,7 @@
             formData.append('BusinessProcesses', String(businessProcessesArray));
           
             $.ajax({
-                url: '@Url.Action("Create", "BooksManage", new {area = "Admin"})',                            
+                url: '@Url.Action("Create", "SourceManage", new {area = "Admin"})',                            
                 type: 'POST',           
                 traditional: true,                 
                 data: formData,                                                                                                             
@@ -111,7 +111,7 @@
                 success: function(response) {
                     console.log(response);
                     if (response === true){
-                        window.location.href = "@Url.Action("Index","BooksManage", new{area="Admin"})"
+                        window.location.href = "@Url.Action("Index","SourceManage", new{area="Admin"})"
                     }
                     else if (response === "falseData"){
                         $('#errorText').html('Вы не добавили источник. Проверьте название или файл')
@@ -128,28 +128,28 @@
         
         let loadSourceTypeContent = function(){
             let sourceTypeInput = $('#sourceTypeContentInput').val();
-            $("#sourceTypes-row").load('@Url.Action("CreateTypeContentAjax", "BooksManage")',{Name: sourceTypeInput});   
+            $("#sourceTypes-row").load('@Url.Action("CreateTypeContentAjax", "SourceManage")',{Name: sourceTypeInput});   
         };
         let loadSourceState = function(){
             let sourceStateInput = $('#sourceStateInput').val();
-            $("#sourceState-row").load('@Url.Action("CreateSourceStateAjax", "BooksManage")',{Name: sourceStateInput});
+            $("#sourceState-row").load('@Url.Action("CreateSourceStateAjax", "SourceManage")',{Name: sourceStateInput});
         };
         let loadCategories = function(){
             let catInput = $('#catInput').val();
-            $("#categories-row").load('@Url.Action("CreateCategoryAjax", "BooksManage")',{Name: catInput});            
+            $("#categories-row").load('@Url.Action("CreateCategoryAjax", "SourceManage")',{Name: catInput});            
         };               
         let deleteCategory = function(categoryId){
-            $("#categories-row").load('@Url.Action("DeleteCategoryAjax", "BooksManage")', {Id: categoryId});
+            $("#categories-row").load('@Url.Action("DeleteCategoryAjax", "SourceManage")', {Id: categoryId});
         };
         let deleteSourceTypeContent = function(typeId){
-            $("#sourceTypes-row").load('@Url.Action("DeleteTypeContentAjax", "BooksManage")',{Id: typeId});
+            $("#sourceTypes-row").load('@Url.Action("DeleteTypeContentAjax", "SourceManage")',{Id: typeId});
         };
         let deleteAuthor = function(authorId){
-            $("#author-chosen").load('@Url.Action("DeleteAuthorAjax", "BooksManage")',{Id: authorId});
+            $("#author-chosen").load('@Url.Action("DeleteAuthorAjax", "SourceManage")',{Id: authorId});
             $('#author-chosen').trigger("chosen:updated");
         };
         let deleteSourceType = function(sourceTypeId){
-            $("#sourceState-row").load('@Url.Action("DeleteSourceStateAjax", "BooksManage")', {Id: sourceTypeId});
+            $("#sourceState-row").load('@Url.Action("DeleteSourceStateAjax", "SourceManage")', {Id: sourceTypeId});
         };
         
         $(document).ready(function(){

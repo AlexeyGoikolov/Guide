@@ -3,11 +3,11 @@
 @{
     if (Model.Active)
     {
-       ViewBag.Title = "Удаление книги"; 
+       ViewBag.Title = "Удаление источника"; 
     }
     else
     {
-        ViewBag.Title = "Восстановление книги"; 
+        ViewBag.Title = "Восстановление источника"; 
     }
     
     Layout = "_Layout";
@@ -22,10 +22,10 @@
                     <a asp-action="Details" asp-controller="Account" asp-area=""><i class="fa fa-home"></i> Guide</a>
                 </li>
                 <li>
-                    <a asp-action="Index" asp-controller="BooksManage"> Библиотека</a>
+                    <a asp-action="Index" asp-controller="SourceManage"> Библиотека</a>
                 </li>
                 <li>
-                    <a asp-action="Delete" asp-controller="BooksManage" asp-route-id="@Model.Id">@ViewBag.Title</a>
+                    <a asp-action="Delete" asp-controller="SourceManage" asp-route-id="@Model.Id">@ViewBag.Title</a>
                 </li>
             </ul>
         </div>
@@ -39,12 +39,12 @@
         }
         <div>
             <div style="display: inline-block">
-                <form asp-action="Delete" asp-controller="BooksManage" asp-area="Admin" method="post" asp-route-id="@Model.Id">
+                <form asp-action="Delete" asp-controller="SourceManage" asp-area="Admin" method="post" asp-route-id="@Model.Id">
                     <button class="btn btn-danger" type="submit">Подтвердить</button>
                 </form>
             </div>
             <div style="display: inline-block">
-                <a class="btn btn-info" asp-action="Index" asp-controller="BooksManage" asp-area="Admin">Отменить</a>
+                <a class="btn btn-info" asp-action="Index" asp-controller="SourceManage" asp-area="Admin">Отменить</a>
             </div>
         </div>
     </div>
