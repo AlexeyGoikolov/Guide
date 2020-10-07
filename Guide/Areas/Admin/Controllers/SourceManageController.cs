@@ -67,6 +67,12 @@ namespace Guide.Areas.Admin.Controllers
                 
             };
             model.SourceId = sourceId;
+            ViewBag.SourceFormatAvailable =
+                "Документы: pdf, doc, docx, txt, xls, xlsx\r\n" +
+                "Видео: mp4, avi, mpeg, quicktime\r\n" +
+                "Аудио: mp3, amr, ogg\r\nИзображения: jpg, png, bmp\r\n" +
+                "Все другие форматы загружать в архивах zip, 7z, rar";
+            ViewBag.CoverFormatAvailable = "Разрешено загрузить jpeg(jpg), png, bmp";
             return View(model);
         }
         
