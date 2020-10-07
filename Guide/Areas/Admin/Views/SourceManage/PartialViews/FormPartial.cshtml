@@ -81,14 +81,18 @@
                     <span class="btn btn-rounded-20 btn-default btn-xs" style="margin-left: 5px" title="@ViewBag.SourceFormatAvailable">
                         <i style="padding-right: 1px" class="fas fa-question"></i>
                     </span>
-                    <input id="sourceFile" class="btn" style="padding: 6px 0" name="sourceFile" type="file">
+                    <input id="sourceFile" accept="application/pdf, application/vnd.openxmlformats-officedocument.wordprocessingml.document, 
+                        application/vnd.ms-excel, text/plain, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, 
+                        application/vnd.ms-excel, application/msword, application/x-7z-compressed, application/zip, application/vnd.rar,
+                        video/mp4, video/quicktime, video/x-msvideo, video/mpeg, audio/ogg, audio/AMR, audio/mpeg, image/png, 
+                        image/jpeg, image/jpg, image/bmp" class="btn" style="padding: 6px 0" name="sourceFile" type="file">
                 </div>
                 <div class="col">
                     <span>Обложка источника</span>
                     <span class="btn btn-rounded-20 btn-default btn-xs" style="margin-left: 5px" title="@ViewBag.CoverFormatAvailable">
                         <i style="padding-right: 1px" class="fas fa-question"></i>
                     </span>
-                    <input id="coverFile" name="coverFile" class="btn" style="padding: 6px 0" type="file">
+                    <input id="coverFile" accept="image/png, image/jpeg, image/jpg, image/bmp"  name="coverFile" class="btn" style="padding: 6px 0" type="file">
                 </div>
                 <div>
                     <label>Ключевые слова</label>
