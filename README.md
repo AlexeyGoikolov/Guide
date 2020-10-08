@@ -26,6 +26,8 @@
 В качестве базы данных используются PostgreSQL
 
 В Проекте использован шаблон [Minovate](https://themeforest.net/item/minovate-angular-admin-dashboard/10068009)
+
+К текстовым полям подключен редактор [Ckeditor](https://ckeditor.com/)
 ## Как установить
 
 
