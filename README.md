@@ -15,7 +15,9 @@
  Проект разработан на основе шаблона MVC для  ASP.NET Core, который  представляет собой эффективную платформу для разработки веб-приложений корпоративного уровня, 
  основной язык C#, для разработки использован JetBrains Rider.
 
-## Для реализации функционала проекта использовались библиотеки:
+## Для реализации функционала проекта использовались :
+
+библиотеки:
 
 * Microsoft.AspNetCore.Identity.EntityFrameworkCore
 * Microsoft.EntityFrameworkCore.Design
@@ -23,11 +25,11 @@
 * FileTypeInterrogator
 * Microsoft.AspNetCore.Mvc.NewtonsoftJson
 
-В качестве базы данных используются PostgreSQL
+В качестве базы данных используется PostgreSQL.
 
-В Проекте использован шаблон [Minovate](https://themeforest.net/item/minovate-angular-admin-dashboard/10068009)
+В Проекте использован шаблон [Minovate](https://themeforest.net/item/minovate-angular-admin-dashboard/10068009).
 
-К текстовым полям подключен редактор [Ckeditor](https://ckeditor.com/)
+К текстовым полям подключен редактор [Ckeditor](https://ckeditor.com/).
 ## Как установить
 
 
