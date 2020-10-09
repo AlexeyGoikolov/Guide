@@ -33,7 +33,9 @@
 ## Как установить
 
 Установить .NET / SDK
-Cклонируйте репозиторий 
+
+Cклонируйте репозиторий
+
 $ git clone https://github.com/CSharp2-3Command2/Guide.git
 
 
