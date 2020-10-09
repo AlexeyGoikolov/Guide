@@ -32,6 +32,10 @@
 К текстовым полям подключен редактор [Ckeditor](https://ckeditor.com/).
 ## Как установить
 
+Установить .NET / SDK
+Cклонируйте репозиторий 
+$ git clone https://github.com/CSharp2-3Command2/Guide.git
+
 
 ## Авторы
 #### Состав команды:
