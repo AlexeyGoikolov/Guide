@@ -36,7 +36,8 @@
     <div style="margin:auto;">
         <form asp-action="Create" asp-controller="SourceManage" asp-area="Admin" method="post" enctype="multipart/form-data">
             @{ Html.RenderPartial("PartialViews/FormPartial", Model); }
-            <input type="hidden" value="@Model.Id" id="sourceId" asp-for="Id">
+            <input type="hidden" value="@Model.SourceId" id="sourceId" asp-for="SourceId">
+            <input type="hidden" value="@Model.Id" id="mainId" asp-for="Id">
         </form>
     </div>
 </div>
@@ -98,7 +99,7 @@
             formData.append('CategoryId', $('#category').val());
             formData.append('SourceTypeId', $('#typeContentId').val());
             formData.append('SourceStateId', $('#sourceStateId').val());
-            formData.append('Id', "0");
+            formData.append('Id', $('#mainId').val());
             formData.append('BusinessProcesses', String(businessProcessesArray));
           
             $.ajax({
@@ -127,7 +128,7 @@
         });
         
         let loadSourceTypeContent = function(){
-            let sourceTypeInput = $('#sourceTypeContentInput').val();
+            let sourceTypeInput = $('#sourceTypeInput').val();
             $("#sourceTypes-row").load('@Url.Action("CreateTypeContentAjax", "SourceManage")',{Name: sourceTypeInput});   
         };
         let loadSourceState = function(){

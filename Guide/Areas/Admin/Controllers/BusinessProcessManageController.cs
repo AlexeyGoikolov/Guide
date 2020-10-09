@@ -42,7 +42,7 @@ namespace Guide.Areas.Admin.Controllers
                 BusinessProcess business = _db.BusinessProcesses.FirstOrDefault(b => b.Name == model.Name 
                                                                                      && b.Description == model.Description);
                 if (choice == 1)
-                    return RedirectToAction("Details", "BusinessProcessManage", new {id = business.Id});
+                    return RedirectToAction("Details", "BusinessProcessManage", new {id = business.Id, back = "Бизнес-процессы"});
                 return RedirectToAction("AddIssues", "BusinessProcessManage", new {id = business.Id, type = "create"});
             }
 
@@ -81,7 +81,7 @@ namespace Guide.Areas.Admin.Controllers
                 _db.BusinessProcesses.Update(model);
                 _db.SaveChanges();
                 if (choice == 1)
-                    return RedirectToAction("Details", "BusinessProcessManage", new {id=model.Id});
+                    return RedirectToAction("Details", "BusinessProcessManage", new {id=model.Id, back = "Бизнес-процессы"});
                 return RedirectToAction("AddIssues", "BusinessProcessManage", new {id = model.Id});;
             }
 

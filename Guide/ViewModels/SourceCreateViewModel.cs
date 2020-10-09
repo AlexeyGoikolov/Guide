@@ -23,6 +23,7 @@ namespace Guide.ViewModels
         public List<BusinessProcess> BusinessProcessesList { get; set; }
         public string BusinessProcesses { get; set; }
         public int SourceId { get; set; }
+        public virtual Source LinkSource { get; set; }
         public string Keys { get; set; }
     }
     

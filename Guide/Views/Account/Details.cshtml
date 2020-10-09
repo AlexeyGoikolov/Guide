@@ -18,7 +18,15 @@
 
     @if (User.IsInRole("admin"))
     {
-        <h1 style="color: #4b0d5f"> @Model.User.Name @Model.User.Surname: @Model.User.Position.Name</h1>
+        if (@Model.User.Position != null)
+        {
+            <h1 style="color: #4b0d5f"> @Model.User.Name @Model.User.Surname: @Model.User.Position.Name</h1>
+        }
+        else
+        {
+            <h1 style="color: #4b0d5f"> @Model.User.Name @Model.User.Surname: Должность не назначена</h1>
+        }
+        
     }
     else
     {
@@ -72,7 +80,15 @@
                             @if (Model.PositionsIssues.Count > 0)
                             {
                                 int i = 0;
-                                <h2 style="color: #25892e;">Задачи для Вашей Должности:</h2>
+                                @if (User.IsInRole("admin"))
+                                {
+                                    <h2 style="color: #25892e;">Задачи для Вашей Должности:</h2>
+                                }
+                                else
+                                {
+                                    <h2 style="color: #25892e;">Задачи для Должности:</h2>
+                                }
+                                
                                 <table class="table table-custom" id="editable-usage">
                                     <thead>
                                     <tr>
