@@ -60,32 +60,40 @@
                             {
                                 <tr class="odd gradeX">
                                     <div class="row border">
-                                        <td>
-                                            @if (glossary.Active)
-                                            {
+
+                                        @if (glossary.Active)
+                                        {
+                                            <td>
                                                 <a asp-action="Preview" asp-controller="GlossarysManage" asp-route-id="@glossary.Id">@glossary.Name</a>
-                                            }
-                                            @if (!glossary.Active && glossary.GlossarysId != null)
-                                            {
+                                            </td>
+                                        }
+                                        @if (!glossary.Active && glossary.GlossarysId != null)
+                                        {
+                                            <td>
                                                 <a title="посмотреть удаленный" role="button"
                                                    asp-action="Create" asp-controller="GlossarysManage" asp-route-id="@glossary.Id" asp-route-enId="@glossary.GlossarysId">
                                                     <i class="fas fa-globe"></i>
                                                 </a>
-                                            }
-                                        </td>
-                                        <td>
-                                            @if (glossary.GlossarysId != null)
-                                            {
+                                            </td>
+                                        }
+
+
+                                        @if (glossary.GlossarysId != null)
+                                        {
+                                            <td>
                                                 <a asp-action="Preview" asp-controller="GlossarysManage" asp-route-id="@glossary.Id">@glossary.Glossarys.Name</a>
-                                            }
-                                            @if (glossary.Active && glossary.GlossarysId == null)
-                                            {
+                                            </td>
+                                        }
+                                        @if (glossary.Active && glossary.GlossarysId == null)
+                                        {
+                                            <td>
                                                 <a title="Добавить термин на английском" role="button"
                                                    asp-action="Create" asp-controller="GlossarysManage" asp-route-glossarysId="@glossary.Id">
                                                     <i class="fas fa-globe"></i>
                                                 </a>
-                                            }
-                                        </td>
+                                            </td>
+                                        }
+
                                     </div>
                                 </tr>
                             }
