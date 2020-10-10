@@ -75,7 +75,7 @@
                             <div>
                                 @if (Model.PhysicalPath == null)
                                 {
-                                    <p style="color: #0f9dca; font-style: inherit;">только в электронном виде</p>
+                                    <p style="color: #0f9dca; font-style: inherit;">Только в электронном виде</p>
                                 }
                                 else
                                 {
@@ -89,7 +89,7 @@
                                 {
                                     processes += bp.Name + ", ";
                                 }
-                                <p>Связан к Бизнес-процессам: @processes</p>
+                                <p>Связан с Бизнес-процессами: @processes</p>
                             }
                             @if (Model.SourceState != null)
                             {

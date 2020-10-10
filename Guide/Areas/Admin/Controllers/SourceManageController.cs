@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -70,9 +71,9 @@ namespace Guide.Areas.Admin.Controllers
             ViewBag.SourceFormatAvailable =
                 "Документы: pdf, doc, docx, txt, xls, xlsx\r\n" +
                 "Видео: mp4, avi, mpeg, quicktime\r\n" +
-                "Аудио: mp3, amr, ogg\r\nИзображения: jpg, png, bmp\r\n" +
+                "Аудио: mp3, amr, ogg\r\nИзображения: jpg, gif, png, bmp\r\n" +
                 "Все другие форматы загружать в архивах zip, 7z, rar";
-            ViewBag.CoverFormatAvailable = "Разрешено загрузить jpeg(jpg), png, bmp";
+            ViewBag.CoverFormatAvailable = "Разрешено загрузить jpeg(jpg), gif, png, bmp";
             return View(model);
         }
         
@@ -215,13 +216,14 @@ namespace Guide.Areas.Admin.Controllers
 
         private string Load(string name, IFormFile file)
         {
-            string path = Path.Combine(_environment.ContentRootPath + $"/wwwroot/Files/{name}");
-            string filePath = $"Files/{name}/{file.FileName}";
-            if (!Directory.Exists($"wwwroot/Files/{name}"))
+            string path = Path.Combine(_environment.ContentRootPath + "/wwwroot/Files");
+            string fileName = $"{name}{DateTime.Now.ToBinary()}+{file.FileName}";
+            string filePath = $"Files/{fileName}";
+            if (!Directory.Exists("wwwroot/Files"))
             {
-                Directory.CreateDirectory($"wwwroot/Files/{name}");
+                Directory.CreateDirectory("wwwroot/Files");
             }
-            _uploadService.Upload(path, file.FileName, file);
+            _uploadService.Upload(path,fileName, file);
             return filePath;
         }
         

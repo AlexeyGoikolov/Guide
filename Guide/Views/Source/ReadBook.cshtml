@@ -5,12 +5,12 @@
     Layout = "_LayoutEmployee";
 }
 
-@if (Model.VirtualPath.Contains(".pdf"))
+@if (Model.VirtualPath.Contains(".pdf") ||  Model.VirtualPath.Contains(".jpg") || Model.VirtualPath.Contains(".png"))
 {
     <div>
         <a class="btn btn-info" asp-action="Details" asp-controller="Source" asp-route-id="@Model.Id">Вернуться назад</a>
     </div>
-    <iframe width="100%" height="1000" allowfullscreen src="~/@Model.VirtualPath"></iframe>
+    <iframe width="100%" style="height: 100vh" allowfullscreen src="~/@Model.VirtualPath"></iframe>
 }
 else
 {
@@ -18,5 +18,5 @@ else
         <a class="btn btn-info" href="~/@Model.VirtualPath">Скачать</a>
         <a class="btn btn-info" asp-action="Details" asp-controller="Source" asp-route-id="@Model.Id">Вернуться назад</a>
     </div>
-    <iframe width="100%" height="1000" allowfullscreen src="https://docs.google.com/gview?url=@ViewBag.BookPath&embedded=true"></iframe>
+    <iframe width="100%" style="height: 100vh" allowfullscreen src="https://docs.google.com/gview?url=@ViewBag.BookPath&embedded=true"></iframe>
 }

@@ -51,13 +51,13 @@
                         <!-- tile body -->
                         <div class="tile-body">
                             <div style="text-align: right; margin-right: 10px ">
-                                @if (Model.IsRecipe)
+                                @if (Model.Category != null)
                                 {
-                                    <span style="color: #0a6aa1">является Рецептом</span>
+                                    <span style="color: #0a6aa1">Категория: @Model.Category.Name</span>
                                 }
                                 @if (Model.ISBN != null)
                                 {
-                                    <span>ISBN @Model.ISBN</span>
+                                    <br><span>ISBN @Model.ISBN</span> 
                                 }
                             </div>
                             <div>
@@ -91,7 +91,7 @@
                                 {
                                     processes += bp.Name + ", ";
                                 }
-                                <p>Относится к бизнес-процессам: @processes</p>
+                                <p>Связан с Бизнес-процессами: @processes</p>
                             }
                             @if (Model.VirtualPath != null)
                             {
