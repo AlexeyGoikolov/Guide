@@ -21,9 +21,7 @@ namespace Guide.Areas.Admin.Controllers
             _userManager = userManager;
             _db = db;
         }
-
-        
-        public IActionResult Profile(string id = null)
+       public IActionResult Profile(string id = null)
         {
             User user;
             if (id == null)

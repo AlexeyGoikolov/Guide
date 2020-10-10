@@ -19,7 +19,7 @@ namespace Guide.Areas.Admin.Controllers
             _db = db;
         }
 
-        
+
         public IActionResult Index()
         {
             List<BusinessProcess> businessProcesses = _db.BusinessProcesses.ToList();
@@ -30,7 +30,7 @@ namespace Guide.Areas.Admin.Controllers
         {
             return View(new BusinessProcess());
         }
-        
+
         [HttpPost]
         public IActionResult Create(BusinessProcess model, int choice)
         {
@@ -39,13 +39,13 @@ namespace Guide.Areas.Admin.Controllers
                 _db.BusinessProcesses.Add(model);
                 _db.SaveChanges();
 
-                BusinessProcess business = _db.BusinessProcesses.FirstOrDefault(b => b.Name == model.Name 
-                                                                                     && b.Description == model.Description);
+                BusinessProcess business = _db.BusinessProcesses.FirstOrDefault(b => b.Name == model.Name
+                                                                                     && b.Description ==
+                                                                                     model.Description);
                 if (choice == 1)
                     return RedirectToAction("Details", "BusinessProcessManage", new {id = business.Id});
                 return RedirectToAction("AddIssues", "BusinessProcessManage", new {id = business.Id, type = "create"});
             }
-
             return View(model);
         }
 
@@ -55,8 +55,8 @@ namespace Guide.Areas.Admin.Controllers
             {
                 Back = back,
                 BusinessProcess = _db.BusinessProcesses.FirstOrDefault(i => i.Id == id),
-                DesignatedIssues = _db.BusinessProcessIssues.OrderBy(b => b.Id).Where(b => b.BusinessProcessId == id).
-                    Select(i => i.Issue).ToList(),
+                DesignatedIssues = _db.BusinessProcessIssues.OrderBy(b => b.Id).Where(b => b.BusinessProcessId == id)
+                    .Select(i => i.Issue).ToList(),
                 AllIssue = new List<Issue>(),
             };
             return View(model);
@@ -72,7 +72,7 @@ namespace Guide.Areas.Admin.Controllers
             }
             return NotFound();
         }
-        
+
         [HttpPost]
         public IActionResult Edit(BusinessProcess model, int choice)
         {
@@ -81,10 +81,10 @@ namespace Guide.Areas.Admin.Controllers
                 _db.BusinessProcesses.Update(model);
                 _db.SaveChanges();
                 if (choice == 1)
-                    return RedirectToAction("Details", "BusinessProcessManage", new {id=model.Id});
-                return RedirectToAction("AddIssues", "BusinessProcessManage", new {id = model.Id});;
+                    return RedirectToAction("Details", "BusinessProcessManage", new {id = model.Id});
+                return RedirectToAction("AddIssues", "BusinessProcessManage", new {id = model.Id});
+                ;
             }
-
             return View(model);
         }
 
@@ -104,7 +104,6 @@ namespace Guide.Areas.Admin.Controllers
                     model.Action = "create";
                 return View(model);
             }
-
             return NotFound();
         }
 
@@ -116,7 +115,6 @@ namespace Guide.Areas.Admin.Controllers
                     from business in _db.BusinessProcessIssues
                     where business.BusinessProcessId == businessId
                     select business;
-
                 foreach (var business in deleteBusinessProcessIssues)
                 {
                     _db.BusinessProcessIssues.Remove(business);
@@ -131,12 +129,12 @@ namespace Guide.Areas.Admin.Controllers
                     };
                     _db.BusinessProcessIssues.Add(model);
                 }
-
                 _db.SaveChanges();
             }
+
             return RedirectToAction("Details", "BusinessProcessManage", new {area = "Admin", id = businessId});
         }
-        
+
         public IActionResult AjaxIssueSearch(string word)
         {
             if (string.IsNullOrEmpty(word))
@@ -144,9 +142,9 @@ namespace Guide.Areas.Admin.Controllers
                 List<Issue> model = _db.Issues.OrderByDescending(i => i.CreatedAt).ToList();
                 return PartialView("PartialViews/FilterIssuesPartial", model);
             }
-            
+
             string filterWord = word.ToUpper();
-            var issues = _db.Issues.Where(i => 
+            var issues = _db.Issues.Where(i =>
                 i.Name.ToUpper().Contains(filterWord)).OrderByDescending(i => i.CreatedAt).ToList();
             if (issues.Count > 0)
             {
@@ -165,7 +163,6 @@ namespace Guide.Areas.Admin.Controllers
                     return View(businessProcess);
                 }
             }
-
             return NotFound();
         }
 
@@ -182,7 +179,6 @@ namespace Guide.Areas.Admin.Controllers
                     _db.SaveChanges();
                 }
             }
-
             return RedirectToAction("Index", "BusinessProcessManage");
         }
     }
