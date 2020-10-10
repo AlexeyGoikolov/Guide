@@ -3,10 +3,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using Guide.Models;
 using Guide.Models.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Guide.Controllers
 {
+    [Authorize]
     public class StepsController : Controller
     {
         private readonly GuideContext _db;
@@ -25,16 +27,13 @@ namespace Guide.Controllers
                 .Select(s => s.DesiredResult).Where(s => s.Active).ToList();
             return View(step);
         }
+
         [HttpGet]
         public IActionResult ViewStep(int id)
         {
-            List<Step> steps = _db.IssueStep.OrderBy(i => i.Id).
-                Where(i => i.IssueId == id).Select(s => s.Step)
+            List<Step> steps = _db.IssueStep.OrderBy(i => i.Id).Where(i => i.IssueId == id).Select(s => s.Step)
                 .ToList();
-            
-
             return PartialView("PartialViews/StepsForIssuePartialView", steps);
         }
-
     }
 }

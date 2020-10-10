@@ -3,10 +3,12 @@ using System.Linq;
 using Guide.Models;
 using Guide.Models.Data;
 using Guide.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Guide.Controllers
 {
+    [Authorize]
     public class IssuesController : Controller
     {
         private readonly GuideContext _db;
@@ -22,11 +24,13 @@ namespace Guide.Controllers
             IssueStepsViewModel model = new IssueStepsViewModel
             {
                 Issue = _db.Issues.FirstOrDefault(i => i.Id == id),
-                DesignatedSteps = _db.IssueStep.OrderBy(i => i.Id).Where(i => i.IssueId == id).
-                    Select(s => s.Step).ToList(),
+                DesignatedSteps = _db.IssueStep.OrderBy(i => i.Id)
+                    .Where(i => i.IssueId == id).Select(s => s.Step)
+                    .ToList(),
                 AllSteps = new List<Step>(),
-                DesiredResults = _db.DesiredResultIssue.OrderBy(d=>d.Id).Where(d=>d.IssueId==id).
-                    Select(s=>s.DesiredResult).Where(s=>s.Active).ToList()
+                DesiredResults = _db.DesiredResultIssue.OrderBy(d => d.Id)
+                    .Where(d => d.IssueId == id)
+                    .Select(s => s.DesiredResult).Where(s => s.Active).ToList()
             };
             return View(model);
         }

@@ -3,10 +3,12 @@ using System.Linq;
 using Guide.Models;
 using Guide.Models.Data;
 using Guide.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Guide.Controllers
 {
+    [Authorize]
     public class BusinessProcessController : Controller
     {
         // GET

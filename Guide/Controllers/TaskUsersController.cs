@@ -1,11 +1,13 @@
 ﻿using System.Linq;
 using Guide.Models;
 using Guide.Models.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Guide.Controllers
 {
+    [Authorize]
     public class TaskUsersController : Controller
     {
         private readonly UserManager<User> _userManager;
