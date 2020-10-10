@@ -52,13 +52,7 @@
                     <label>ISBN(для книг)</label> <br/><span class="validationError" asp-validation-for="ISBN"></span>
                     <input id="isbn" class="form-control" type="text" asp-for="ISBN" value="@Model.ISBN">
                 </div>
-                <div>
-                    <label>Источник является рецептом?</label>
-                    <select name="" id="isRecipe">
-                        <option value="true">Да</option>
-                        <option value="false">Нет</option>
-                    </select>
-                </div>
+                <div id="categories-row" class="form-group" style="justify-content: center;"></div>
                 <div >
                     <label>В какой редакции :</label>
                     <input id="edition" class="form-control" type="text" asp-for="Edition" value="@Model.Edition">
@@ -69,7 +63,6 @@
                     <input id="year" placeholder="0000" class="form-control" type="text" asp-for="YearOfWriting" value="@Model.YearOfWriting">
                 </div>
                 <div id="sourceTypes-row" class="form-group" style="justify-content: center;"></div>
-                <div id="categories-row" class="form-group" style="justify-content: center;"></div>
                 <div id="sourceState-row" class="form-group" style="justify-content: center;"></div>
                 <div >
                     <label>Физическое местонахождение</label>

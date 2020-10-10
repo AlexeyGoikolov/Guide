@@ -120,11 +120,14 @@ namespace Guide.Areas.Admin.Controllers
         public IActionResult Delete(int id, int intrId)
         {
             Glossary glossary = _db.Glossaries.FirstOrDefault(v => v.Id == id);
-            glossary.GlossarysInterpretations =
-                _db.Interpretations.Where(i => i.GlossaryId == glossary.GlossarysId).ToList();
-           if (glossary != null)
+            if (glossary != null)
+            {
+                glossary.GlossarysInterpretations =
+                    _db.Interpretations.Where(i => i.GlossaryId == glossary.GlossarysId).ToList();
+           
                 return View(glossary);
-           return NotFound();
+            }
+            return NotFound();
         }
         public IActionResult DeleteInterpretation( int intrId, int modelId)
         {
@@ -141,35 +144,45 @@ namespace Guide.Areas.Admin.Controllers
             if (id != 0)
             {
                 Glossary glossary = _db.Glossaries.FirstOrDefault(v => v.Id == id);
-                if (glossary != null )
+                if (glossary != null)
                 {
-                    glossary.Active = false;
                     Glossary glossaryRu = _db.Glossaries.FirstOrDefault(v => v.GlossarysId==glossary.Id);
                     if (glossaryRu != null)
                     {
                         glossaryRu.GlossarysId = null;
                         _db.Glossaries.Update(glossaryRu);
                     }
-                    _db.Glossaries.Update(glossary);
                     List<Interpretation> interpretations =
                         _db.Interpretations.Where(i => i.GlossaryId == glossary.Id).ToList();
                     foreach (var interpretationVar in interpretations)
                     {
-                       _db.Interpretations.Remove(interpretationVar);
+                        _db.Interpretations.Remove(interpretationVar);
                     }
-
+                    if (glossary.GlossarysId == null)
+                    {
+                        _db.Glossaries.Remove(glossary);
+                    }
+                    else
+                    {
+                        glossary.Active = false;
+                        _db.Glossaries.Update(glossary);
+                    }
                     _db.SaveChanges();
                     return RedirectToAction("Index", "GlossarysManage");
                 }
             }
 
-            Interpretation interpretation = _db.Interpretations.FirstOrDefault(i => i.Id == intrId);
-            if (interpretation != null)
+            if (intrId != 0)
             {
-                _db.Interpretations.Remove(interpretation);
-                _db.SaveChanges();
-                return RedirectToAction("Preview", new {id = interpretation.GlossaryId});
+                Interpretation interpretation = _db.Interpretations.FirstOrDefault(i => i.Id == intrId);
+                if (interpretation != null)
+                {
+                    _db.Interpretations.Remove(interpretation);
+                    _db.SaveChanges();
+                    return RedirectToAction("Preview", new {id = interpretation.GlossaryId});
+                }
             }
+            
             return NotFound();
         }
 

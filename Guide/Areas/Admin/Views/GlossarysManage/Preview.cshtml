@@ -30,7 +30,7 @@
     </div>
     <div class="row">
         <div class="col-sm-6 col-md-6 portlets">
-            <section class="tile portlet col-6 col-md-6 col-sm-6">
+            <section class="tile portlet">
                 @foreach (var interpretation in Model.Interpretations)
                 {
                     <div class="tile time-simple">
@@ -86,13 +86,21 @@
         </div>
 @if (@Model.GlossarysId != null)
 {
-    <div class="col-sm-6 portlets ">
-        <section class="tile portlet col - 6">
+    <div class="col-sm-6 col-md-6 portlets ">
+        <section class="tile portlet">
             <div class="tile-header dvd dvd-btm">
                 <div style="width: 430px;">
-                <h4 >
-                   @Model.Glossarys.Name <strong> ( @Model.GlossarysInterpretations[0].Abbreviation)</strong>
-                </h4>
+                    @if (Model.GlossarysInterpretations != null)
+                    {
+                        <h4 >
+                            @Model.Glossarys.Name <strong> (@Model.GlossarysInterpretations[0].Abbreviation)</strong>
+                        </h4>
+                    }
+                    else
+                    {
+                        @Model.Glossarys.Name
+                    }
+                    
                 </div>
                 <ul class="controls">
                     <li>
