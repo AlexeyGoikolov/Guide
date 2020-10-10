@@ -23,7 +23,8 @@
         </div>
     </div>
 
-    <h2>Вы уверены что хотите удалить задачу - @Model.Name</h2>
+    <h2>Вы уверены что хотите удалить задачу :</h2>
+    <p>" @Model.Name "</p>
     <div>
         <div style="display: inline-block">
             <form asp-action="Delete" asp-controller="IssuesManage" asp-area="Admin" method="post" asp-route-id="@Model.Id">

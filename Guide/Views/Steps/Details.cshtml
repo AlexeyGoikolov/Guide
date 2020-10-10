@@ -17,7 +17,7 @@
                     <a asp-action="Details" asp-controller="Account"><i class="fa fa-home"></i> Guide</a>
                 </li>
                 <li>
-                    <a asp-action="Details" asp-controller="Account">Личный кабинет</a>
+                   <a href='javascript:history.go(-1)'>@Model.Baсk</a>
                 </li>
                 <li>
                     <a asp-action="Details" asp-controller="Steps" asp-route-id="@Model.Id">@ViewBag.Title</a>
@@ -51,11 +51,13 @@
 
                     </div>
                     <div class="col-md-3 material_discription" data-lightbox="gallery">
-                        
+
 
                         <div style="margin: 5px; margin-left: auto">
-                            <a asp-action="Create" asp-controller="QuestionAnswers" 
-                               class="btn btn-info" asp-route-status="ToQuestion" asp-route-postId="@Model.Id">Задать вопрос</a>
+                            <a asp-action="Create" asp-controller="QuestionAnswers"
+                               class="btn btn-info" asp-route-status="ToQuestion" asp-route-postId="@Model.Id">
+                                Задать вопрос
+                            </a>
                         </div>
                     </div>
                 </div>

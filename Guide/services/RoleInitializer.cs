@@ -35,11 +35,10 @@ namespace Guide.Services
                     Email = adminEmail,
                     UserName = adminEmail,
                     Position = position
-                    };
+                };
                 var result = await userManager.CreateAsync(admin, adminPassword);
                 if (result.Succeeded)
                     await userManager.AddToRoleAsync(admin, "admin");
-
             }
         }
     }

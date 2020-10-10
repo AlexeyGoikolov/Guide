@@ -1,11 +1,11 @@
 ﻿@model QuestionAnswersViewModel
 
 @{
-   @if (Model.Status == QuestionAnswersStatus.Create)
+    @if (Model.Status == QuestionAnswersStatus.Create)
     {
         ViewBag.Title = "Добавление";
     }
-    else if  (Model.Status == QuestionAnswersStatus.Edit)
+    else if (Model.Status == QuestionAnswersStatus.Edit)
     {
         ViewBag.Title = "Редактировать";
     }
@@ -45,27 +45,28 @@
                 <input type="hidden" value="@Model.QuestionAnswer.Id" asp-for="QuestionAnswer.Id">
                 <input type="hidden" value="@Model.Status" asp-for="@Model.Status">
                 <input type="hidden" value="@Model.SourceId" asp-for="@Model.SourceId">
-                    @if (Model.Status == QuestionAnswersStatus.Create)
-                    {
-                        <button type="submit" class="btn btn-info" style="margin:  20px 0 0;" >Добавить</button>
-                    }
-                    else if  (Model.Status == QuestionAnswersStatus.Edit)
-                    {
-                        <button type="submit" class="btn btn-info" style="margin:  20px 0 0;" >Сохранить</button>
-                    }
-                    else if  (Model.Status == QuestionAnswersStatus.ToAnswer)
-                    {
-                        <button type="submit" class="btn btn-info" style="margin:  20px 0 0;" >Ответить</button>
-                    }
-                    else if  (Model.Status == QuestionAnswersStatus.ToQuestion)
-                    {
-                        <button type="submit" class="btn btn-info" style="margin:  20px 0 0;" >Отправить</button>
-                    }
-                    <a asp-action="Index" asp-controller="QuestionAnswers" class="btn btn-info" style="margin:  20px 0 0;" >Отменить</a>
+                @if (Model.Status == QuestionAnswersStatus.Create)
+                {
+                    <button type="submit" class="btn btn-info" style="margin:  20px 0 0;">Добавить</button>
+                }
+                else if (Model.Status == QuestionAnswersStatus.Edit)
+                {
+                    <button type="submit" class="btn btn-info" style="margin:  20px 0 0;">Сохранить</button>
+                }
+                else if (Model.Status == QuestionAnswersStatus.ToAnswer)
+                {
+                    <button type="submit" class="btn btn-info" style="margin:  20px 0 0;">Ответить</button>
+                }
+                else if (Model.Status == QuestionAnswersStatus.ToQuestion)
+                {
+                    <button type="submit" class="btn btn-info" style="margin:  20px 0 0;">Отправить</button>
+                }
+                <a asp-action="Index" asp-controller="QuestionAnswers" class="btn btn-info" style="margin:  20px 0 0;">Отменить</a>
             </form>
         </div>
     </div>
 </div>
+
 @section Scripts
 {
     @{
@@ -74,4 +75,4 @@
     <script>
      CKEDITOR.replace('QuestionAnswer.Answer');
     </script>
-} 
+}

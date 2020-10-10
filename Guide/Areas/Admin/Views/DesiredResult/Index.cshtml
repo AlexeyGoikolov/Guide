@@ -16,7 +16,7 @@
                     <a asp-action="Details" asp-controller="Account" asp-area=""><i class="fa fa-home"></i> Guide</a>
                 </li>
                 <li>
-                    <a asp-action="Index" asp-controller="DesiredResult"> Желаемый результат</a>
+                    <a asp-action="Index" asp-controller="DesiredResult">  Список Желаемых результатов</a>
                 </li>
             </ul>
         </div>
@@ -59,9 +59,7 @@
                                     <td>@desiredResult.Number</td>
                                     <td>@desiredResult.Name</td>
                                    <td >
-                                       <a class="btn btn-rounded-20 btn-default btn-sm mr-5 p-5" style="width:30px;" role="button" asp-action="" 
-                                           asp-controller="DesiredResult" asp-route-id="@desiredResult.Id" tabindex="0" title="Изменить"><i class="fa fa-pencil"></i></a>
-                                        <a class="btn btn-rounded-20 btn-default btn-sm mr-5 p-5" style="width:30px;" role="button" tabindex="0" 
+                                       <a class="btn btn-rounded-20 btn-default btn-sm mr-5 p-5" style="width:30px;" role="button" tabindex="0" 
                                            title="Удалить" asp-action="Delete" asp-controller="DesiredResult" asp-route-id="@desiredResult.Id"><i class="fa fa-trash"></i></a>
                                     </td>
                                 </tr>

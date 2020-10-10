@@ -34,7 +34,12 @@ namespace Guide.Areas.Admin.Controllers
                 IssueId = issuesId,
                 StepId = stepId
             };
-            return View(model);
+            if (issuesId != 0)
+                model.Baсk = _db.Issues.FirstOrDefault(i => i.Id == issuesId).Name;
+            if (stepId != 0)
+                model.Baсk = _db.Steps.FirstOrDefault(s => s.Id == stepId).Name;
+          
+           return View(model);
         }
 
         [HttpPost]
@@ -58,7 +63,7 @@ namespace Guide.Areas.Admin.Controllers
                         NewDesiredResultIssue(model.IssueId, desiredResult.Id);
                     }
 
-                    return RedirectToAction("Details", "IssuesManage", new {id = model.IssueId});
+                    return RedirectToAction("Details", "IssuesManage", new {id = model.IssueId, back = "Добавление ЖР"});
                 }
 
                 if (model.StepId != 0)
@@ -67,7 +72,7 @@ namespace Guide.Areas.Admin.Controllers
                     {
                         foreach (var result in model.DesiredResultId)
                         {
-                            NewDesiredResultStep(model.IssueId, result);
+                            NewDesiredResultStep(model.StepId, result);
                         }
                     }
 
@@ -77,7 +82,7 @@ namespace Guide.Areas.Admin.Controllers
                         NewDesiredResultStep(model.StepId, desiredResult.Id);
                     }
 
-                    return RedirectToAction("Details", "StepsManage", new {id = model.StepId});
+                    return RedirectToAction("Details", "StepsManage", new {id = model.StepId, back = "Добавление ЖР"});
                 }
 
                 if (model.StepId == 0 && model.StepId == 0)

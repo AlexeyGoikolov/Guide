@@ -24,9 +24,9 @@ namespace Guide.Controllers
             BusinessProcessIssuesViewModel model = new BusinessProcessIssuesViewModel()
             {
                 BusinessProcess = _db.BusinessProcesses.FirstOrDefault(i => i.Id == id),
-                DesignatedIssues = _db.BusinessProcessIssues.OrderBy(b => b.Id).Where(b => b.BusinessProcessId == id).
-                    Select(i => i.Issue).ToList(),
-                AllIssue = new List<Issue>(),
+                DesignatedIssues = _db.BusinessProcessIssues.OrderBy(b => b.Id).Where(b => b.BusinessProcessId == id)
+                    .Select(i => i.Issue).ToList(),
+                AllIssue = new List<Issue>()
             };
             return View(model);
         }

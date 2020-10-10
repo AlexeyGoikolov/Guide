@@ -8,7 +8,7 @@
             <option value="@position.Id">@position.Name</option>
         }
     </select>
- <div class="input-group-append">
+    <div class="input-group-append">
         <button class="btn btn-outline-secondary" type="button" data-toggle="modal" data-target="#modalCategory">
             <i class="fas fa-plus"></i>
         </button>
@@ -31,15 +31,18 @@
                 </div>
                 @foreach (var position in Model.Positions)
                 {
-                    <p style="text-align: right; ">- @position.Name <button data-dismiss="modal" type="button" value="@position.Id" class="btn buttonDeletePosition"><i class="fas fa-trash-alt"></i></button></p>
+                    <p style="text-align: right; ">- @position.Name <button data-dismiss="modal" type="button" value="@position.Id" class="btn buttonDeletePosition">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                    </p>
                 }
             </div>
         </div>
     </div>
 </div>
 
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
+@{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
 
 

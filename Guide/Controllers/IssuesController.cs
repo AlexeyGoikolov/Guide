@@ -19,7 +19,7 @@ namespace Guide.Controllers
         }
 
         // GET
-        public IActionResult Details(int id)
+        public IActionResult Details(int id, string back)
         {
             IssueStepsViewModel model = new IssueStepsViewModel
             {
@@ -32,6 +32,12 @@ namespace Guide.Controllers
                     .Where(d => d.IssueId == id)
                     .Select(s => s.DesiredResult).Where(s => s.Active).ToList()
             };
+            if (back != null)
+                model.Back = back;
+            else
+            {
+                model.Back = "Личный кабинет";
+            }
             return View(model);
         }
     }

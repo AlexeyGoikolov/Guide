@@ -24,69 +24,69 @@
             </ul>
         </div>
     </div>
-      <!-- row -->
-        <div class="row">
-            <!-- col -->
-            <div class="col-md-12">
-                <!-- tile -->
-                <section class="tile">
-                    <!-- tile header -->
-                    <div class="tile-header dvd dvd-btm">
-                        <h1 class="custom-font">
-                            <strong>Проблемные  ситуации</strong>
-                        </h1>
-                        <ul class="controls">
-                            <li>
-                                <a role="button" tabindex="0" target="_blank" asp-action="Create" asp-controller="FaqManage" asp-route-status="ToQuestion"><i class="fa fa-plus mr-5"></i>Добавить</a>
-                            </li>
-                           
-                        </ul>
-                    </div>
-                    <!-- /tile header -->
-    
-                    <!-- tile body -->
-                    <div class="tile-body" style="display: block">
-                        <div class="table-responsive">
-                            <table class="table table-custom" id="editable-usage">
-                                <thead>
-                                <tr>
-                                    <th>Название</th>
-                                   <th style="width: 160px;" class="no-sort">Действие</th>
+    <!-- row -->
+    <div class="row">
+        <!-- col -->
+        <div class="col-md-12">
+            <!-- tile -->
+            <section class="tile">
+                <!-- tile header -->
+                <div class="tile-header dvd dvd-btm">
+                    <h1 class="custom-font">
+                        <strong>Проблемные ситуации</strong>
+                    </h1>
+                    <ul class="controls">
+                        <li>
+                            <a role="button" tabindex="0" target="_blank" asp-action="Create" asp-controller="FaqManage" asp-route-status="ToQuestion"><i class="fa fa-plus mr-5"></i>Добавить</a>
+                        </li>
+
+                    </ul>
+                </div>
+                <!-- /tile header -->
+
+                <!-- tile body -->
+                <div class="tile-body" style="display: block">
+                    <div class="table-responsive">
+                        <table class="table table-custom" id="editable-usage">
+                            <thead>
+                            <tr>
+                                <th>Название</th>
+                                <th style="width: 160px;" class="no-sort">Действие</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach (var question in Model)
+                            {
+                                <tr class="odd gradeX">
+                                    <td>
+                                        <a asp-action="Create" asp-controller="FaqManage" asp-route-id="@question.Id">@question.Question</a>
+                                    </td>
+
+                                    <td>
+                                        <a class="btn btn-rounded-20 btn-default btn-sm mr-5 p-5" style="width:30px;" role="button" asp-action="Create"
+                                           asp-controller="FaqManage" asp-route-id="@question.Id" tabindex="0" title="Изменить">
+                                            <i class="fa fa-pencil"></i>
+                                        </a>
+                                        <a class="btn btn-rounded-20 btn-default btn-sm mr-5 p-5" style="width:30px;" role="button" tabindex="0"
+                                           title="Удалить" asp-action="Delete" asp-controller="FaqManage" asp-route-id="@question.Id">
+                                            <i class="fa fa-trash"></i>
+                                        </a>
+
+                                    </td>
                                 </tr>
-                                </thead>
-                                <tbody>
-                                @foreach (var question in Model)
-                                {
-                                    <tr class="odd gradeX">
-                                        <td>
-                                            <a asp-action="Create" asp-controller="FaqManage" asp-route-id="@question.Id">@question.Question</a>
-                                        </td>
-
-                                        <td>
-                                            <a class="btn btn-rounded-20 btn-default btn-sm mr-5 p-5" style="width:30px;" role="button" asp-action="Create"
-                                               asp-controller="FaqManage" asp-route-id="@question.Id" tabindex="0" title="Изменить">
-                                                <i class="fa fa-pencil"></i>
-                                            </a>
-                                            <a class="btn btn-rounded-20 btn-default btn-sm mr-5 p-5" style="width:30px;" role="button" tabindex="0"
-                                               title="Удалить" asp-action="Delete" asp-controller="FaqManage" asp-route-id="@question.Id">
-                                                <i class="fa fa-trash"></i>
-                                            </a>
-
-                                        </td>
-                                    </tr>
-                                }
-                                </tbody>
-                            </table>
-                        </div>
+                            }
+                            </tbody>
+                        </table>
                     </div>
-                    <!-- /tile body -->
-                </section>
-                <!-- /tile -->
-                <!-- tile -->
-            </div>
-            <!-- /col -->
+                </div>
+                <!-- /tile body -->
+            </section>
+            <!-- /tile -->
+            <!-- tile -->
         </div>
-        <!-- /row -->
+        <!-- /col -->
+    </div>
+    <!-- /row -->
    
 
 </div>

@@ -91,7 +91,7 @@
                                                 @foreach (var bp in issue.BP)
                                                 {
                                                     <a style="color: #34ce57;font-style: oblique;"
-                                                       asp-action="Details" asp-controller="BusinessProcess" asp-route-id="@bp.Id">
+                                                       asp-action="Details" asp-controller="BusinessProcess" asp-route-id="@bp.Id" asp-route-back="Личный кабинет">
                                                         @bp.Name :
                                                     </a>
                                                 }
@@ -99,7 +99,7 @@
                                             <td>
                                                 <a asp-action="Details" asp-controller="Issues" asp-route-id="@issue.Id">@issue.Name</a>
                                                 <span onclick="viewStep('@issue.Id', '@i')">
-                                             <i class="fa fa-angle-down"></i>  
+                                                    <i class="fa fa-angle-down"></i>
                                                 </span>
                                                 <div id="step-@issue.Id@i" class="form-group" style="justify-content: left; "></div>
                                             </td>
@@ -149,7 +149,7 @@
                                                     }
                                                     <a asp-action="Details" asp-controller="Issues" asp-route-id="@issue.Id">@issue.Name</a>
                                                     <span onclick="viewStep('@issue.Id', '@i')">
-                                                      <i class="fa fa-angle-down"></i>
+                                                        <i class="fa fa-angle-down"></i>
                                                     </span>
                                                     <div id="confirmDesResDelete-@i" style="display: none">
                                                         <p>Вы действительно хотите удалить эту Задачу для сотрудника</p>
@@ -226,8 +226,7 @@
 {
     <script>
    CKEDITOR.replace('Task', {
-         // Define the toolbar groups as it is a more accessible solution.
-         toolbarGroups: [{
+                 toolbarGroups: [{
              "name": "basicstyles",
              "groups": ["basicstyles"]
            },
@@ -245,8 +244,7 @@
              "groups": ["styles"]
            }
                    ],
-         // Remove the redundant buttons from toolbar groups defined above.
-         removeButtons: 'Underline,Strike,Subscript,Superscript,Anchor,Styles,Specialchar,document,insert,about'
+               removeButtons: 'Underline,Strike,Subscript,Superscript,Anchor,Styles,Specialchar,document,insert,about'
        });
    
     $(window).load(function(){                                           

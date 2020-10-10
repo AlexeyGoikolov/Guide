@@ -48,9 +48,10 @@ namespace Guide.Areas.Admin.Controllers
         }
 
 
-        public IActionResult Details(int id)
+        public IActionResult Details(int id, string back)
         {
             Step step = _db.Steps.FirstOrDefault(s => s.Id == id);
+            step.Baсk = back;
             step.DesiredResults = _db.DesiredResultStep.OrderBy(d => d.Id)
                 .Where(d => d.StepId == id)
                 .Select(s => s.DesiredResult).Where(s => s.Active).ToList();
