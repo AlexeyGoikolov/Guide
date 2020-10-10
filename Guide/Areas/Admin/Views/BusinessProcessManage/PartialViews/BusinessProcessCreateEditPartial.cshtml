@@ -3,7 +3,6 @@
 <div class="row">
     <div class="col-sm-12 portlets sortable">
         <section class="tile portlet col-12">
-
             <!-- tile body -->
             <div class="tile-body">
                 <div >
@@ -15,13 +14,9 @@
                     <label>Описание</label>
                     <textarea name="Description" type="text" asp-for="@Model.Description" value="@Model.Description">@Model.Description</textarea>
                 </div>
-                
+
             </div>
-            
             <!-- /tile body -->
         </section>
     </div>
-</div>
-<div style="text-align: center">
-    <span class="validationError">@Html.ValidationMessage("CustomError")</span>
 </div>

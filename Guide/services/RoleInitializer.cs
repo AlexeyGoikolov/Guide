@@ -28,17 +28,17 @@ namespace Guide.Services
 
             if (await userManager.FindByEmailAsync(adminEmail) is null)
             {
-                Position position = new Position() {Name = "admin"};
+                Position position = new Position() {Name = "администратор"};
+                Position position1 = new Position() {Name = "сотрудник"};
                 User admin = new User
                 {
                     Email = adminEmail,
                     UserName = adminEmail,
                     Position = position
-                    };
+                };
                 var result = await userManager.CreateAsync(admin, adminPassword);
                 if (result.Succeeded)
                     await userManager.AddToRoleAsync(admin, "admin");
-
             }
         }
     }

@@ -4,7 +4,7 @@
     ViewBag.Title = "title";
     Layout = "_Layout";
 }
-  <h2>Надо додумать</h2>
+<h2>Надо додумать</h2>
 <div class="page page-tables-datatables">
 
     <div class="pageheader">
@@ -35,7 +35,7 @@
                     <h1 class="custom-font">
                         <strong>ЖР - желаемый результат</strong>
                     </h1>
-                    
+
                 </div>
                 <!-- /tile header -->
 
@@ -47,7 +47,7 @@
                             <tr>
                                 <th>Номер</th>
                                 <th>Название</th>
-                               <th style="width: 160px;" class="no-sort">Действие</th>
+                                <th style="width: 160px;" class="no-sort">Действие</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -56,11 +56,15 @@
                                 <tr class="odd gradeX">
                                     <td>@desiredResult.Number</td>
                                     <td>@desiredResult.Name</td>
-                                   <td >
-                                       <a class="btn btn-rounded-20 btn-default btn-sm mr-5 p-5" style="width:30px;" role="button" asp-action="" 
-                                           asp-controller="DesiredResult" asp-route-id="@desiredResult.Id" tabindex="0" title="Изменить"><i class="fa fa-pencil"></i></a>
-                                        <a class="btn btn-rounded-20 btn-default btn-sm mr-5 p-5" style="width:30px;" role="button" tabindex="0" 
-                                           title="Удалить" asp-action="Delete" asp-controller="DesiredResult" asp-route-id="@desiredResult.Id"><i class="fa fa-trash"></i></a>
+                                    <td >
+                                        <a class="btn btn-rounded-20 btn-default btn-sm mr-5 p-5" style="width:30px;" role="button" asp-action=""
+                                           asp-controller="DesiredResult" asp-route-id="@desiredResult.Id" tabindex="0" title="Изменить">
+                                            <i class="fa fa-pencil"></i>
+                                        </a>
+                                        <a class="btn btn-rounded-20 btn-default btn-sm mr-5 p-5" style="width:30px;" role="button" tabindex="0"
+                                           title="Удалить" asp-action="Delete" asp-controller="DesiredResult" asp-route-id="@desiredResult.Id">
+                                            <i class="fa fa-trash"></i>
+                                        </a>
                                     </td>
                                 </tr>
                             }
@@ -76,7 +80,8 @@
         <!-- /col -->
     </div>
     <!-- /row -->
-</div>      
+</div>
+
 @section Scripts
 {
     <script> 

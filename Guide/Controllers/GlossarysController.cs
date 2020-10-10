@@ -2,9 +2,12 @@
 using System.Linq;
 using Guide.Models;
 using Guide.Models.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+
 namespace Guide.Controllers
 {
+    [Authorize]
     public class GlossarysController : Controller
     {
         private readonly GuideContext _db;
@@ -13,12 +16,14 @@ namespace Guide.Controllers
         {
             _db = db;
         }
+
         public IActionResult Index()
         {
-            List<Glossary> glossaries = _db.Glossaries.Where(g=>g.Language == Models.Language.ru).
-                OrderBy(g => g.Name).ToList();
+            List<Glossary> glossaries = _db.Glossaries.Where(g => g.Language == Models.Language.ru).OrderBy(g => g.Name)
+                .ToList();
             return View(glossaries);
         }
+
         public IActionResult Preview(int id)
         {
             Glossary glossary = _db.Glossaries.FirstOrDefault(g => g.Id == id);

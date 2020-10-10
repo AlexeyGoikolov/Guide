@@ -11,48 +11,25 @@
 <div class="page">
     <div class="pageheader">
 
-        <h2>@ViewBag.Title : администратор  @Model.Name @Model.Surname  </h2>
+        <h2>@ViewBag.Title : администратор @Model.Name @Model.Surname </h2>
         @if (UserManager.GetUserId(User) == Model.Id)
         {
             <a asp-action="Edit" asp-controller="Account" asp-area="" asp-route-id="@Model.Id" class="btn btn-info pull-right"> Изменить личные данные</a>
-            }
+        }
 
         <div class="page-bar">
-    
-                <ul class="page-breadcrumb">
-                    <li>
-                        <a asp-action="Details" asp-controller="Account" asp-area=""><i class="fa fa-home"></i> Guide</a>
-                    </li>
-                    <li>
-                     <a asp-action="Profile" asp-controller="Service" asp-route-id="@Model.Id">@ViewBag.Title</a>
-                    </li>
-                </ul>
-            </div>
+            <ul class="page-breadcrumb">
+                <li>
+                    <a asp-action="Details" asp-controller="Account" asp-area=""><i class="fa fa-home"></i> Guide</a>
+                </li>
+                <li>
+                    <a asp-action="Profile" asp-controller="Service" asp-route-id="@Model.Id">@ViewBag.Title</a>
+                </li>
+            </ul>
         </div>
-   
-   <img src="/Image/UserProfilePage/paper-3213924_1920.jpg" style ="width: 100%;" alt="картинка">
-
+    </div>
+    <img src="/Image/UserProfilePage/paper-3213924_1920.jpg" style="width: 100%;" alt="картинка">
 </div>
 
-@section Scripts
-{
-    <script >
-        $(".BlockingAjax").click(function() {
-            var id = $(this).attr("id");
-            $.ajax({url: '@Url.Action("BlockingAjax", "UsersManage")',type : 'POST',data : {'idUser' : id},
-                success : function f(data)  {
-                    if (data){
-                        $("#"+id).html('Отключить');
-                        $("."+id).html("<p>Активный</p>");
-                        $('#info').html("")
-                    }
-                    else{
-                        $("#"+id).html('Подключить');
-                        $("."+id).html("<p>Заблокирован</p>");
-                        $('#info').html("Пользователь отключен")
-                    }
-                }
-            })
-        });
-    </script>
-}
+
+

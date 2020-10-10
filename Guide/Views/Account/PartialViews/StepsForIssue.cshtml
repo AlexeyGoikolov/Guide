@@ -1,12 +1,12 @@
 ﻿@model List<Step>
 
 <ul>
- @foreach (var step in @Model)
- {
-     <li>
-         <a asp-action="Details" asp-controller="Steps" asp-route-id="@step.Id">
-             @step.Name
-         </a>
-     </li>
- }
- </ul>
+    @foreach (var step in @Model)
+    {
+        <li>
+            <a asp-action="Details" asp-controller="Steps" asp-route-id="@step.Id" >
+                @step.Name
+            </a>
+        </li>
+    }
+</ul>

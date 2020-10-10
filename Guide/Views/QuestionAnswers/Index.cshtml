@@ -35,7 +35,7 @@
                     <h1 class="custom-font">
                         <strong>Список Беспроблемных ситуаций</strong>
                     </h1>
-                   
+
                 </div>
                 <!-- /tile header -->
 
@@ -54,15 +54,16 @@
                             {
                                 <tr class="odd gradeX">
                                     <td>
-                                        <a asp-action="Preview" asp-controller="QuestionAnswers" asp-area="" asp-route-id="@question.Id">@question.Question</a>
+                                        <a asp-action="Preview" asp-controller="QuestionAnswers" asp-area="" 
+                                           asp-route-id="@question.Id">@question.Question</a>
                                     </td>
                                 </tr>
                             }
                             </tbody>
                         </table>
-                        
+
                     </div>
-                    
+
                 </div>
                 <!-- /tile body -->
             </section>
@@ -73,25 +74,19 @@
     </div>
     <!-- /row -->
     <div id="questionForm" class="text-center">
-
     </div>
-</div>  
-   
-
-
+</div>
 @section Scripts
 {
-    <script>
-             
-                   
+    <script>            
+               
     $(window).load(function(){                                           
         let oTable = $('#editable-usage').DataTable({
             "aoColumnDefs": [
                 { 'defaultContent': '-', 'bSortable': false, 'aTargets': [ "no_sort" ] }
             ]
         });                         
-    });
-                 
+    });                
                                              
     $(document).ready(function(){           
         $.ajax({               
@@ -124,10 +119,8 @@
                 }
             });          
         });
-        
         function redirect() {
-          window.location.href = "@Url.Action("Details","Account")"
+          window.location.href = "@Url.Action("Details", "Account")"
         }
-        
-    </script>
+  </script>
 }

@@ -6,7 +6,7 @@
 }
 <div class="container">
     <h2>Вы уверены что хотите удалить</h2>
-    <h3>@Model.QuestionAnswer.Question</h3>
+   <h4>@Model.QuestionAnswer.Question</h4>
     <form asp-action="Delete" asp-controller="FaqManage" method="post">
         <input type="hidden" asp-for="QuestionAnswer.Id" value="@Model.QuestionAnswer.Id">
         <input type="hidden" value="@Model.Status" asp-for="@Model.Status">

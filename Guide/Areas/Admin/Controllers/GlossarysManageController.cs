@@ -24,11 +24,11 @@ namespace Guide.Areas.Admin.Controllers
 
         public IActionResult Index()
         {
-            List<Glossary> glossaries = _db.Glossaries.Where(g=>g.Language == Models.Language.ru).
-                OrderBy(g => g.Name).ToList();
+            List<Glossary> glossaries = _db.Glossaries.Where(g => g.Language == Models.Language.ru).OrderBy(g => g.Name)
+                .ToList();
             return View(glossaries);
         }
-        
+
         public IActionResult Preview(int id)
         {
             Glossary glossary = _db.Glossaries.FirstOrDefault(g => g.Id == id);
@@ -37,28 +37,28 @@ namespace Guide.Areas.Admin.Controllers
             return View(glossary);
         }
 
-        public IActionResult Create(int id, int glossarysId, int enId ) 
+        public IActionResult Create(int id, int glossarysId, int enId)
         {
             Glossary glossary = _db.Glossaries.FirstOrDefault(g => g.Id == id);
             if (glossary != null)
             {
-                if(glossary.Active)
-                   return View(new GlossaryViewModel() {Id = id, Name = glossary.Name, Action = "AddInterpretation"});
+                if (glossary.Active)
+                    return View(new GlossaryViewModel() {Id = id, Name = glossary.Name, Action = "AddInterpretation"});
                 if (!glossary.Active)
                     return View(new GlossaryViewModel() {Id = id, Name = glossary.Name, GlossarysId = enId});
             }
 
             GlossaryViewModel model = new GlossaryViewModel();
-            if (glossarysId != 0)//значит добавляем описание на английском
+            if (glossarysId != 0)
             {
                 model.GlossarysId = glossarysId;
                 model.Language = Language.en;
-                model.Glossary =_db.Glossaries.FirstOrDefault(g => g.Id == glossarysId);
+                model.Glossary = _db.Glossaries.FirstOrDefault(g => g.Id == glossarysId);
             }
 
             return View(model);
         }
-        
+
         [HttpPost]
         public IActionResult Create(GlossaryViewModel model)
         {
@@ -124,11 +124,11 @@ namespace Guide.Areas.Admin.Controllers
             {
                 glossary.GlossarysInterpretations =
                     _db.Interpretations.Where(i => i.GlossaryId == glossary.GlossarysId).ToList();
-           
-                return View(glossary);
+                return View(glossary); 
             }
             return NotFound();
         }
+            
         public IActionResult DeleteInterpretation( int intrId, int modelId)
         {
            Interpretation interpretation = _db.Interpretations.FirstOrDefault(i => i.Id == intrId);
@@ -190,7 +190,7 @@ namespace Guide.Areas.Admin.Controllers
         {
             Glossary glossary = _db.Glossaries.FirstOrDefault(g => g.Id == id);
             Interpretation interpretation = _db.Interpretations.FirstOrDefault(i => i.Id == intrId);
-            if (glossary != null && interpretation!=null)
+            if (glossary != null && interpretation != null)
             {
                 return View(new GlossaryViewModel()
                 {
@@ -210,13 +210,14 @@ namespace Guide.Areas.Admin.Controllers
                     Name = glossary.Name
                 });
             }
+
             return NotFound();
         }
 
         [HttpPost]
         public async Task<IActionResult> Edit(GlossaryViewModel model)
         {
-            if (ModelState.IsValid )
+            if (ModelState.IsValid)
             {
                 Glossary glossary = await _db.Glossaries.FirstOrDefaultAsync(g => g.Id == model.Id);
                 if (glossary != null && model.Name != glossary.Name)
@@ -240,7 +241,7 @@ namespace Guide.Areas.Admin.Controllers
                     await _db.SaveChangesAsync();
                 }
 
-                return RedirectToAction("Preview",new {id=glossary.Id});
+                return RedirectToAction("Preview", new {id = glossary.Id});
             }
             return View(model);
         }

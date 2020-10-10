@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -38,7 +37,7 @@ namespace Guide.Areas.Admin.Controllers
         public IActionResult Index(string activ)
         {
             List<Source> sources;
-            
+
             if (activ == null)
                 sources = _db.Sources.Where(s => s.Active).ToList();
             else
@@ -46,26 +45,31 @@ namespace Guide.Areas.Admin.Controllers
             
             foreach (var source in sources)
             {
-                SourceIdAndEnglishSourceId sourceIdAndEnglishSourceId = _db.SourceIdAndEnglishSourceIds.FirstOrDefault(b => b.SourceId == source.Id);
+                SourceIdAndEnglishSourceId sourceIdAndEnglishSourceId =
+                    _db.SourceIdAndEnglishSourceIds.FirstOrDefault(b => b.SourceId == source.Id);
                 int translationID = 0;
                 if (sourceIdAndEnglishSourceId == null)
-                    sourceIdAndEnglishSourceId = _db.SourceIdAndEnglishSourceIds.FirstOrDefault(b => b.EnglishSourceId == source.Id);
+                    sourceIdAndEnglishSourceId =
+                        _db.SourceIdAndEnglishSourceIds.FirstOrDefault(b => b.EnglishSourceId == source.Id);
                 if (sourceIdAndEnglishSourceId != null)
                     translationID = sourceIdAndEnglishSourceId.EnglishSourceId;
                 source.TranslationID = translationID;
-                source.Authors = _db.SourceAuthors.Where(b => b.SourceId == source.Id).Select(a => a.Author).ToList();
-                source.BusinessProcesses = _db.SourceBusinessProcesses.Where(b => b.SourceId == source.Id)
+                source.Authors = _db.SourceAuthors.Where(b => b.SourceId == source.Id)
+                    .Select(a => a.Author).ToList();
+                source.BusinessProcesses = _db.SourceBusinessProcesses
+                    .Where(b => b.SourceId == source.Id)
                     .Select(b => b.BusinessProcess).ToList();
             }
+
             return View(sources);
         }
+
         public IActionResult Create(int sourceId)
         {
             SourceCreateViewModel model = new SourceCreateViewModel
             {
-                AllAuthors = _db.Authors.Where(c=> c.Active).ToList(),
+                AllAuthors = _db.Authors.Where(c => c.Active).ToList(),
                 BusinessProcessesList = _db.BusinessProcesses.ToList()
-                
             };
             model.SourceId = sourceId;
             ViewBag.SourceFormatAvailable =
@@ -79,7 +83,8 @@ namespace Guide.Areas.Admin.Controllers
         
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(SourceCreateViewModel model, string authors, IFormFile coverFile, IFormFile sourceFile)
+        public IActionResult Create(SourceCreateViewModel model, string authors, IFormFile coverFile,
+            IFormFile sourceFile)
         {
             if (model.Name != null && sourceFile != null)
             {
@@ -117,21 +122,22 @@ namespace Guide.Areas.Admin.Controllers
                 }
                 else
                     return Json("falseBookType");
-                
+
                 _db.Sources.Add(source);
                 _db.SaveChanges();
                 if (authors != null)
-                    SaveSourceAuthors(authors,source);
+                    SaveSourceAuthors(authors, source);
                 if (model.BusinessProcesses != null)
                     SaveBusinessProcessesSource(model, source);
                 if (model.SourceId != 0)
-                    SaveBookIdAndEnglishBookId(model,source);
+                    SaveBookIdAndEnglishBookId(model, source);
                 return Json(true);
             }
+
             return Json("falseData");
         }
 
-        public void SaveSourceAuthors(string authors, Source source )
+        public void SaveSourceAuthors(string authors, Source source)
         {
             string[] authorsId = authors.Split(',');
             foreach (var authorName in authorsId)
@@ -145,7 +151,7 @@ namespace Guide.Areas.Admin.Controllers
                         AuthorId = author.Id
                     };
                     _db.SourceAuthors.Add(sourceAuthor);
-                    _db.SaveChanges();    
+                    _db.SaveChanges();
                 }
             }
         }
@@ -159,7 +165,6 @@ namespace Guide.Areas.Admin.Controllers
             };
             _db.SourceIdAndEnglishSourceIds.Add(sourceIdAndEnglishSourceId);
             _db.SaveChanges();
-
         }
 
         public void SaveBusinessProcessesSource(SourceCreateViewModel model, Source source)
@@ -178,7 +183,7 @@ namespace Guide.Areas.Admin.Controllers
                             BusinessProcessId = process.Id
                         };
                         _db.SourceBusinessProcesses.Add(sourceBusinessProcess);
-                        _db.SaveChanges(); 
+                        _db.SaveChanges();
                     }
                 }
             }
@@ -199,18 +204,19 @@ namespace Guide.Areas.Admin.Controllers
                 translationID = sourceIdAndEnglishSourceId.EnglishSourceId;
                 ViewBag.BookTransferLanguage = "en";
             }
-            
+
             if (sourceIdAndEnglishSourceId == null)
-                sourceIdAndEnglishSourceId = _db.SourceIdAndEnglishSourceIds.FirstOrDefault(b => b.EnglishSourceId == id);
-            
-            if(translationID == 0 && sourceIdAndEnglishSourceId != null)
+                sourceIdAndEnglishSourceId =
+                    _db.SourceIdAndEnglishSourceIds.FirstOrDefault(b => b.EnglishSourceId == id);
+
+            if (translationID == 0 && sourceIdAndEnglishSourceId != null)
             {
                 translationID = sourceIdAndEnglishSourceId.SourceId;
                 ViewBag.BookTransferLanguage = "ru";
             }
-            
+
             ViewBag.BookTransferId = translationID;
-            
+
             return View(source);
         }
 
@@ -237,8 +243,10 @@ namespace Guide.Areas.Admin.Controllers
                     return View(source);
                 }
             }
+
             return NotFound();
         }
+
         [HttpPost]
         [ActionName("Delete")]
         public IActionResult ConfirmDelete(int id)
@@ -252,20 +260,20 @@ namespace Guide.Areas.Admin.Controllers
                         source.Active = false;
                     else
                         source.Active = true;
-                    _db.Sources.Update(source); 
+                    _db.Sources.Update(source);
                     _db.SaveChanges();
                 }
             }
-            return RedirectToAction("Index" , "SourceManage");
+
+            return RedirectToAction("Index", "SourceManage");
         }
 
-        public  IActionResult ReadBook(int id)
+        public IActionResult ReadBook(int id)
         {
             Source source = _db.Sources.FirstOrDefault(b => b.Id == id);
             ViewBag.Path = Request.Scheme + "://" + Request.Host.Value + "/" + source.VirtualPath;
-            return View(source) ;
+            return View(source);
         }
-
         
         public IActionResult CreateAuthorAjax(string name)
         {
@@ -278,12 +286,14 @@ namespace Guide.Areas.Admin.Controllers
                 _db.Authors.Add(author);
                 _db.SaveChanges();
             }
+
             SourceCreateViewModel model = new SourceCreateViewModel
             {
-                AllAuthors = _db.Authors.Where(a=> a.Name == name).ToList()
+                AllAuthors = _db.Authors.Where(a => a.Name == name).ToList()
             };
             return PartialView("PartialViews/AuthorPartial", model);
         }
+
         public IActionResult DeleteAuthorAjax(int id)
         {
             Author author = _db.Authors.FirstOrDefault(a => a.Id == id);
@@ -292,9 +302,10 @@ namespace Guide.Areas.Admin.Controllers
                 author.Active = false;
                 _db.SaveChanges();
             }
+
             SourceCreateViewModel model = new SourceCreateViewModel()
             {
-                AllAuthors = _db.Authors.Where(c=> c.Active).ToList(),
+                AllAuthors = _db.Authors.Where(c => c.Active).ToList(),
             };
             return PartialView("PartialViews/AuthorPartial", model);
         }
@@ -310,12 +321,12 @@ namespace Guide.Areas.Admin.Controllers
             SourceTypeContentViewModel model = new SourceTypeContentViewModel
             {
                 Source = new Source(),
-                SourceTypes = _db.SourceTypes.Where(c=> c.Active).ToList(),
+                SourceTypes = _db.SourceTypes.Where(c => c.Active).ToList(),
             };
 
             return PartialView("PartialViews/TypeContentPartial", model);
         }
-        
+
         public IActionResult DeleteTypeContentAjax(int id)
         {
             SourceType sourceType = _db.SourceTypes.FirstOrDefault(c => c.Id == id);
@@ -328,12 +339,12 @@ namespace Guide.Areas.Admin.Controllers
             SourceTypeContentViewModel model = new SourceTypeContentViewModel()
             {
                 Source = new Source(),
-                SourceTypes = _db.SourceTypes.Where(c=> c.Active).ToList(),
+                SourceTypes = _db.SourceTypes.Where(c => c.Active).ToList(),
             };
 
             return PartialView("PartialViews/TypeContentPartial", model);
         }
-        
+
         public IActionResult CreateCategoryAjax(Category category)
         {
             if (category.Name != null)
@@ -345,31 +356,31 @@ namespace Guide.Areas.Admin.Controllers
             SourceCategoryViewModel model = new SourceCategoryViewModel()
             {
                 Source = new Source(),
-                Categories = _db.Categories.Where(c=> c.Active).ToList(),
+                Categories = _db.Categories.Where(c => c.Active).ToList()
             };
 
             return PartialView("PartialViews/CategoriesPartial", model);
         }
-        
+
         public IActionResult DeleteCategoryAjax(int id)
         {
             Category category = _db.Categories.FirstOrDefault(c => c.Id == id);
             if (category != null)
             {
                 category.Active = false;
-               
+
                 _db.SaveChanges();
             }
 
             SourceCategoryViewModel model = new SourceCategoryViewModel()
             {
                 Source = new Source(),
-                Categories = _db.Categories.Where(c=>c.Active).ToList(),
+                Categories = _db.Categories.Where(c => c.Active).ToList()
             };
 
             return PartialView("PartialViews/CategoriesPartial", model);
         }
-        
+
         [HttpPost]
         public async Task<IActionResult> CreateComment(int sourceId, string description)
         {
@@ -384,16 +395,16 @@ namespace Guide.Areas.Admin.Controllers
             }
 
             List<Comment> comments = await _db.Comments.Include(c => c.Author).Where(c => c.SourceId == sourceId)
-                    .OrderByDescending(g => g.DateOfCreate).ToListAsync();
+                .OrderByDescending(g => g.DateOfCreate).ToListAsync();
 
             return PartialView("PartialViews/CommentsPartial", comments);
         }
-        
+
         [HttpGet]
         public IActionResult ViewComment(int id)
         {
             List<Comment> comments = _db.Comments.Where(c => c.SourceId == id)
-                    .OrderByDescending(g => g.DateOfCreate).ToList();
+                .OrderByDescending(g => g.DateOfCreate).ToList();
             return PartialView("PartialViews/CommentsPartial", comments);
         }
 
@@ -408,11 +419,11 @@ namespace Guide.Areas.Admin.Controllers
             }
 
             List<Comment> comments = await _db.Comments.Where(c => c.SourceId == sourceId)
-                                .OrderByDescending(g => g.DateOfCreate).ToListAsync();
-            
+                .OrderByDescending(g => g.DateOfCreate).ToListAsync();
+
             return PartialView("PartialViews/CommentsPartial", comments);
         }
-        
+
         public IActionResult CreateSourceStateAjax(SourceState sourceState)
         {
             if (sourceState.Name != null)
@@ -420,14 +431,15 @@ namespace Guide.Areas.Admin.Controllers
                 _db.SourceStates.Add(sourceState);
                 _db.SaveChanges();
             }
+
             SourceStateViewModel model = new SourceStateViewModel
             {
                 Source = new Source(),
-                SourceStates = _db.SourceStates.Where(c=> c.Active).ToList(),
+                SourceStates = _db.SourceStates.Where(c => c.Active).ToList(),
             };
             return PartialView("PartialViews/SourceStatesPartial", model);
         }
-        
+
         public IActionResult DeleteSourceStateAjax(int id)
         {
             SourceState sourceState = _db.SourceStates.FirstOrDefault(c => c.Id == id);
@@ -440,7 +452,7 @@ namespace Guide.Areas.Admin.Controllers
             SourceStateViewModel model = new SourceStateViewModel()
             {
                 Source = new Source(),
-                SourceStates = _db.SourceStates.Where(c=> c.Active).ToList(),
+                SourceStates = _db.SourceStates.Where(c => c.Active).ToList(),
             };
 
             return PartialView("PartialViews/SourceStatesPartial", model);

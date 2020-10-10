@@ -29,33 +29,32 @@
         <div class="tile-body">
             <form class="create-form" asp-action="Edit" asp-controller="IssuesManage" asp-area="Admin" method="post">
                 <div asp-validation-summary="ModelOnly"></div>
-                
-               <div class="row">
-                   <div class="col-sm-12 portlets sortable">
-                       <section class="tile portlet col-12">
-               
-                           <!-- tile body -->
-                           <div class="tile-body">
-                               <div >
-                                   <label>Название:</label>
-                                   <br/><span class="validationError" asp-validation-for="@Model.Issue.Name"></span>
-                                   <input class="form-control" type="text" asp-for="Issue.Name" value="@Model.Issue.Name">
-                               </div>
-                               <div>
-                                   <label>Описание:</label>
-                                   <textarea name="issue.issueDescription" type="text" asp-for="Issue.IssueDescription" 
+
+                <div class="row">
+                    <div class="col-sm-12 portlets sortable">
+                        <section class="tile portlet col-12">
+
+                            <!-- tile body -->
+                            <div class="tile-body">
+                                <div >
+                                    <label>Название:</label>
+                                    <br/><span class="validationError" asp-validation-for="@Model.Issue.Name"></span>
+                                    <input class="form-control" type="text" asp-for="Issue.Name" value="@Model.Issue.Name">
+                                </div>
+                                <div>
+                                    <label>Описание:</label>
+                                    <textarea name="issue.issueDescription" type="text" asp-for="Issue.IssueDescription" 
                                     >@Model.Issue.IssueDescription</textarea>
-                               </div>
-                               
-                           </div>
-                           
-                           <!-- /tile body -->
-                       </section>
-                   </div>
-               </div>
+                                </div>
+
+                            </div>
+
+                            <!-- /tile body -->
+                        </section>
+                    </div>
+                </div>
                 <div class="col-sm-12 portlets sortable">
                     <section class="tile portlet col-12">
-
                         <!-- tile body -->
                         <div class="tile-body">
                             <h4 style="color: #0c5460">Шаги :</h4>
@@ -66,14 +65,13 @@
                                 {
                                     i++;
                                     <div id="step-@i">
-                                        
                                         <h3>
-                                            <a asp-action="Edit" asp-controller="StepsManage" asp-route-id="@step.Id" >
-                                                @i - @step.Name
-                                            </a>
                                             <a class="btn btn-rounded-20 btn-default btn-sm mr-5 p-5" style="width:30px;"
                                                title="Удалить шаг" onclick="openStepConfirmDelete(@i,'@Model.Issue.Id','@step.Id')">
                                                 <i class="fa fa-trash"></i>
+                                            </a>
+                                            <a asp-action="Edit" asp-controller="StepsManage" asp-route-id="@step.Id">
+                                                @i - @step.Name
                                             </a>
                                         </h3>
                                         <div id="confirmStepDelete-@i" style="display: none">
@@ -82,8 +80,6 @@
                                             <button class="btn btn-small btn-green" id="cancel-@i">Нет</button>
                                         </div>
                                     </div>
-                                    
-                                    
                                 }
                             }
                             <h4 style="color: #0c5460">Желаемые результаты :</h4>
@@ -95,11 +91,11 @@
                                     i++;
                                     <div id="desRes-@i">
                                         <h4>
-                                            # @dr.Number - @dr.Name
                                             <a class="btn btn-rounded-20 btn-default btn-sm mr-5 p-5" style="width:30px;" role="button" tabindex="0"
                                                title="Удалить желаемый результат" onclick="openDRConfirmDelete('@i','@Model.Issue.Id', '@dr.Id')">
                                                 <i class="fa fa-trash"></i>
                                             </a>
+                                            # @dr.Number - @dr.Name
                                         </h4>
                                         <div id="confirmDesResDelete-@i" style="display: none">
                                             <p>Вы действительно хотите удалить связь задачи с этим ЖР?</p>
@@ -107,7 +103,6 @@
                                             <button class="btn btn-small btn-green" id="cancelDR-@i">Нет</button>
                                         </div>
                                     </div>
-                                    
                                 }
                             }
 
@@ -132,7 +127,7 @@
     <script>
         CKEDITOR.replace('issue.issueDescription');
     </script>
-    
+
     <script>   
         function openStepConfirmDelete(number,issueId, stepId) {          
             $('#confirmStepDelete-'+number).show();
@@ -160,7 +155,7 @@
         
         function deleteStep(number, issueId, stepId) {              
             $.ajax({
-                url: '@Url.Action("DeleteStepLink", "IssuesManage", new{area="Admin"})',
+                url: '@Url.Action("DeleteStepLink", "IssuesManage", new {area = "Admin"})',
                 type: 'POST',
                 data: 
                 {
@@ -177,7 +172,7 @@
         
         function deleteDesireResult(number, issueId, desResId) {          
             $.ajax({
-                url: '@Url.Action("DeleteDesireResult", "IssuesManage", new{area="Admin"})',
+                url: '@Url.Action("DeleteDesireResult", "IssuesManage", new {area = "Admin"})',
                 type: 'POST',
                 data: 
                 {
