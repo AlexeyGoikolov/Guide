@@ -2,7 +2,7 @@
 @inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Xsrf
 
 @{
-    ViewBag.Title = "Добавление книги";
+    ViewBag.Title = "Добавление в Библиотеку";
     Layout = "_Layout";
 }
 
@@ -61,8 +61,29 @@
                     $('#authorInput').val("")
                 }                                                      
             });                   
-        };                                   
-                
+        };  
+        
+           $("form").submit(
+             function(e) {
+               e.preventDefault();
+               var isbn = $('#isbn').val();
+               var isbn_without_hyphens = isbn.replace(/-/g, "");
+               var googleAPI = "https://www.googleapis.com/books/v1/volumes?q=" + isbn_without_hyphens;
+               $.getJSON(googleAPI, function(response) {
+                 if (typeof response.items === "undefined") {
+                   alert("Ничего не найдено по введеному ISBN")
+                 } else {
+                   $("#name").val(response.items[0].volumeInfo.title);
+                  $("#additionalInfo").val(response.items[0].volumeInfo.subtitle);        
+                   $('#author').append(response.items[0].volumeInfo.authors[0]);
+                   $("#publishedDate").html(response.items[0].volumeInfo.publishedDate);
+                   $("#year").val(response.items[0].volumeInfo.publishedDate);
+                   $("#coverFile").val(response.items[0].volumeInfo.preview_url);
+                    $("#edition").val(response.items[0].volumeInfo.contentVersion);
+                 }
+               });
+             }
+           )     
         $('#submit-btn').on('click', function(e) {
             e.preventDefault();
             let authorArray = [];

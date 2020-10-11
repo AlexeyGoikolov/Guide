@@ -20,7 +20,7 @@
                     <label style="display: block" class="control-label">Выберите авторов</label>
 
                     <select multiple="" tabindex="3" id="author-chosen" class="chosen-select" style="width: 85%;">
-                        <option value=""></option>
+                        <option id="author" value=""></option>
                         @{ await Html.RenderPartialAsync("PartialViews/AuthorPartial", Model); }
                     </select>
                     <button class="btn btn-outline-secondary" type="button" data-toggle="modal" data-target="#modalAuthor">
@@ -48,9 +48,11 @@
         <section class="tile portlet col - 6">
             <!-- tile body -->
             <div class="tile-body">
-                <div >
+                <div > <form>
                     <label>ISBN(для книг)</label> <br/><span class="validationError" asp-validation-for="ISBN"></span>
-                    <input id="isbn" class="form-control" type="text" asp-for="ISBN" value="@Model.ISBN">
+                        <input id="isbn" class="form-control" type="text" asp-for="ISBN" value="@Model.ISBN"  value="9781407170671">
+                        <input class="btn btn-info" style="width: 80%;" type="submit" id="submit" value="Внести данные через ISBN">
+                    </form>
                 </div>
                 <div id="categories-row" class="form-group" style="justify-content: center;"></div>
                 <div >
