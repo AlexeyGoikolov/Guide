@@ -69,21 +69,27 @@
                var isbn = $('#isbn').val();
                var isbn_without_hyphens = isbn.replace(/-/g, "");
                var googleAPI = "https://www.googleapis.com/books/v1/volumes?q=" + isbn_without_hyphens;
-               $.getJSON(googleAPI, function(response) {
-                 if (typeof response.items === "undefined") {
+               $.getJSON(googleAPI, function(response1) {
+                 if (typeof response1.items === "undefined") {
                    alert("Ничего не найдено по введеному ISBN")
-                 } else {
-                   $("#name").val(response.items[0].volumeInfo.title);
-                  $("#additionalInfo").val(response.items[0].volumeInfo.subtitle);        
-                   $('#author').append(response.items[0].volumeInfo.authors[0]);
-                   $("#publishedDate").html(response.items[0].volumeInfo.publishedDate);
-                   $("#year").val(response.items[0].volumeInfo.publishedDate);
-                   $("#coverFile").val(response.items[0].volumeInfo.preview_url);
-                    $("#edition").val(response.items[0].volumeInfo.contentVersion);
+                 } 
+                 else {
+                      $("#edition").val(response1.items[0].volumeInfo.contentVersion); 
+                     var googleAPI2 = response1.items[0].selfLink;
+                     console.log(googleAPI2);
+                    $.getJSON(googleAPI2, function(response) {                                   
+                            $("#name").val(response.volumeInfo.title);                                      
+                             $('#author-chosen').val(response.volumeInfo.authors[0]);
+                               $("#year").val(response.volumeInfo.publishedDate);
+                              
+                               $("#coverFile").val(response.volumeInfo.imageLinks.thumbnail);
+                                           
+                              $("#additionalInfo").val(response.volumeInfo.description); 
+                           });
                  }
                });
-             }
-           )     
+             });
+               
         $('#submit-btn').on('click', function(e) {
             e.preventDefault();
             let authorArray = [];

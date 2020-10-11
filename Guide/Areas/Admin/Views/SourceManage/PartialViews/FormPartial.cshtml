@@ -20,7 +20,7 @@
                     <label style="display: block" class="control-label">Выберите авторов</label>
 
                     <select multiple="" tabindex="3" id="author-chosen" class="chosen-select" style="width: 85%;">
-                        <option id="author" value=""></option>
+                        <option  value=""></option>
                         @{ await Html.RenderPartialAsync("PartialViews/AuthorPartial", Model); }
                     </select>
                     <button class="btn btn-outline-secondary" type="button" data-toggle="modal" data-target="#modalAuthor">
