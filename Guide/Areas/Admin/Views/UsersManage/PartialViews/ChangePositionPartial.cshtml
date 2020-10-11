@@ -1,6 +1,6 @@
 ﻿@model ListUsersViewModel
 <select class="form-control" id="changePositionId">
-    <option value="" disabled selected>Выберите позицию</option>
+    <option value="" disabled selected>Выберите должность</option>
     @foreach (var position in Model.Positions)
     {
         <option value="@position.Id">@position.Name</option>

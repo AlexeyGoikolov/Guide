@@ -15,7 +15,7 @@
                     <a asp-action="Details" asp-controller="Account" asp-area=""><i class="fa fa-home"></i> Guide</a>
                 </li>
                 <li>
-                    <a asp-action="Index" asp-controller="DesiredResult">Желаемый результат</a>
+                    <a href='javascript:history.go(-1)'>@Model.Baсk</a>
                 </li>
                 <li>
                     <a asp-action="" asp-controller="">Добавить</a>
@@ -25,53 +25,53 @@
     </div>
 
     <!-- row -->
-     <div class="row">
-           <!-- col -->
-           <div class="col-md-12">
-               <!-- tile -->
-               <section class="tile">
-                   <!-- tile header -->
-                   <div class="tile-header dvd dvd-btm">
-                       <h1 class="custom-font">
-                           <strong>ЖР - желаемый результат выбрать из списка :</strong>
-                       </h1>
-                      
-                   </div>
-                   <!-- /tile header -->
-   
-                   <!-- tile body -->
-                   <form class="create-form" asp-action="Create" asp-controller="DesiredResult" asp-area="Admin" method="post" enctype="multipart/form-data">
-                   <div class="tile-body" style="display: block">
-                       <div class="table-responsive">
-                           <table class="table table-custom" id="editable-usage">
-                               <thead>
-                               <tr>
-                                   <th>Выбрать</th>
-                                   <th>Номер</th>
-                                   <th>Название</th>
-                               </tr>
-                               </thead>
-                               <tbody>
-                               <th>новый:</th>
-                               <th>
-                                   <input asp-for="@Model.DesResult.Number" style="width: 100%">
-                               </th>
-                               <th>
-                                   <input asp-for="@Model.DesResult.Name" style="width: 100%">
-                               </th>
-                               @foreach (var desiredResult in Model.Results)
-                               {
-                                   <tr class="odd gradeX">
-                                       <td>
-                                           <input type="checkbox"  class="DesiredResultCheckbox" value="@desiredResult.Id"><Br>
-                                       </td>
-                                       <td>@desiredResult.Number</td>
-                                       <td>@desiredResult.Name</td>
-                                   </tr>
-                               }
-                              
-                               </tbody>
-                           </table>
+    <div class="row">
+        <!-- col -->
+        <div class="col-md-12">
+            <!-- tile -->
+            <section class="tile">
+                <!-- tile header -->
+                <div class="tile-header dvd dvd-btm">
+                    <h1 class="custom-font">
+                        <strong>ЖР - желаемый результат выбрать из списка :</strong>
+                    </h1>
+
+                </div>
+                <!-- /tile header -->
+
+                <!-- tile body -->
+                <form class="create-form" asp-action="Create" asp-controller="DesiredResult" asp-area="Admin" method="post" enctype="multipart/form-data">
+                    <div class="tile-body" style="display: block">
+                        <div class="table-responsive">
+                            <table class="table table-custom" id="editable-usage">
+                                <thead>
+                                <tr>
+                                    <th>Выбрать</th>
+                                    <th>Номер</th>
+                                    <th>Название</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <th>новый:</th>
+                                <th>
+                                    <input asp-for="@Model.DesResult.Number" style="width: 100%">
+                                </th>
+                                <th>
+                                    <input asp-for="@Model.DesResult.Name" style="width: 100%">
+                                </th>
+                                @foreach (var desiredResult in Model.Results)
+                                {
+                                    <tr class="odd gradeX">
+                                        <td>
+                                            <input type="checkbox" class="DesiredResultCheckbox" value="@desiredResult.Id"><Br>
+                                        </td>
+                                        <td>@desiredResult.Number</td>
+                                        <td>@desiredResult.Name</td>
+                                    </tr>
+                                }
+
+                                </tbody>
+                            </table>
                             <input type="hidden" value="@Model.IssueId" asp-for="@Model.IssueId">
                             <input type="hidden" value="@Model.StepId" asp-for="@Model.StepId">
                             @if (Model.IssueId == 0 && Model.StepId != 0)
@@ -86,22 +86,22 @@
                             {
                                 <button type="submit" class="btn btn-info" style="margin:  20px 0 0;">Добавить новый ЖР и выйти</button>
                             }
-                           
-                       </div>
-                   </div>
-                   </form>
-                   <!-- /tile body -->
-               </section>
-               <!-- /tile -->
-               <!-- tile -->
-                 </div>
-           <!-- /col -->
-       </div></div>
 
-  
-   @section Scripts
-   {
-       <script> 
+                        </div>
+                    </div>
+                </form>
+                <!-- /tile body -->
+            </section>
+            <!-- /tile -->
+            <!-- tile -->
+        </div>
+        <!-- /col -->
+    </div>
+</div>
+
+@section Scripts
+{
+    <script> 
            $(window).load(function(){                                           
                let oTable = $('#editable-usage').DataTable({
                    "aoColumnDefs": [
@@ -109,7 +109,7 @@
                    ]
                });                         
            });        
-                    
+                   
                        $(".DesiredResultCheckbox").click(function(){
                            if($(this).is(":checked")){
                              $("form.create-form").append('<input type="hidden" name="DesiredResultId[]" value="'+$(this).val()+'">');
@@ -118,5 +118,5 @@
                            }
                          });                     
        </script>
-   }
+}
        

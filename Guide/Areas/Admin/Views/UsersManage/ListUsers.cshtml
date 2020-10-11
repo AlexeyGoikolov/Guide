@@ -6,14 +6,14 @@
 }
 <div class="page page-tables-datatables">
     <div class="pageheader">
-    
+
         <h2>@ViewBag.Title</h2>
-    
+
         <div class="page-bar">
-    
+
             <ul class="page-breadcrumb">
                 <li>
-                    <a asp-action="Details" asp-controller="Account"><i class="fa fa-home"></i> Guide</a>
+                    <a asp-action="Details" asp-controller="Account" asp-area=""><i class="fa fa-home"></i> Guide</a>
                 </li>
                 <li>
                     <a asp-action="ListUsers" asp-controller="UsersManage"> Сотрудники</a>
@@ -21,7 +21,7 @@
             </ul>
         </div>
     </div>
-    
+
     <!-- row -->
     <div class="row">
         <!-- col -->
@@ -75,7 +75,7 @@
                                 <th >Действие</th>
                             </tr>
                             </thead>
-                        <tbody>
+                            <tbody>
 
                             @if (Model.Users.Count == 0)
                             {
@@ -93,7 +93,14 @@
                                         <td>
                                             @Model.Users[i].Surname
                                         </td>
-                                        <td id="userPosition-@Model.Users[i].Id">@Model.Users[i].Position.Name</td>
+                                        @if (Model.Users[i].Position != null)
+                                        {
+                                            <td id="userPosition-@Model.Users[i].Id">@Model.Users[i].Position.Name</td>
+                                        }
+                                        else
+                                        {
+                                            <td></td>
+                                        }
 
                                         @if (Model.Users[i].Active)
                                         {
@@ -107,14 +114,14 @@
                                                         Выберите действие <span class="caret"></span>
                                                     </button>
                                                     <ul class="dropdown-menu">
-                                                       <li>
+                                                        <li>
                                                             <a asp-action="Edit" asp-controller="Account" asp-area="" asp-route-id="@Model.Users[i].Id">Редактировать</a>
                                                         </li>
                                                         <li>
                                                             <a type="submit" class="BlockingAjax" id="@Model.Users[i].Id">Отключить</a>
                                                         </li>
                                                         <li>
-                                                            <a asp-action="AddForUser" asp-controller="IssuesManage"  asp-route-id="@Model.Users[i].Id">Добавить Задачи к исполнению</a>
+                                                            <a asp-action="AddForUser" asp-controller="IssuesManage" asp-route-id="@Model.Users[i].Id">Добавить Задачи к исполнению</a>
                                                         </li>
                                                     </ul>
                                                 </div>
@@ -140,7 +147,6 @@
                                                     </ul>
                                                 </div>
                                             </td>
-                                            
                                         }
 
                                     </tr>
@@ -159,8 +165,9 @@
     </div>
     <!-- /row -->
 </div>
+
 @section Scripts{
-    
+
     <script>       
     
       $(window).load(function(){                                           

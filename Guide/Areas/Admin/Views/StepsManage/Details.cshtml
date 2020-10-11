@@ -9,15 +9,14 @@
     <div class="pageheader">
 
         <h2>@ViewBag.Title</h2>
-
         <div class="page-bar">
 
             <ul class="page-breadcrumb">
                 <li>
-                    <a asp-action="Details" asp-controller="Account"><i class="fa fa-home"></i> Guide</a>
+                    <a asp-action="Details" asp-controller="Account" asp-area=""><i class="fa fa-home"></i> Guide</a>
                 </li>
                 <li>
-                    <a asp-action="Index" asp-controller="StepsManage"> Шаги</a>
+                  <a href='javascript:history.go(-1)'>@Model.Baсk</a>
                 </li>
                 <li>
                     <a asp-action="Details" asp-controller="StepsManage" asp-route-id="@Model.Id">@ViewBag.Title</a>
@@ -40,20 +39,20 @@
                             </div>
                             <div class="col-md-4">
                                 <div style="margin: 5px; margin-left: auto">
-                                        <a asp-action="Create" asp-controller="FaqManage" class="btn btn-blue"
-                                           asp-route-status="ToQuestion" asp-route-postId="@Model.Id">
-                                            Задать вопрос
-                                        </a>
-                                    </div>
-                                    <div style="margin: 5px; margin-left: auto">
-                                        <a class="btn btn-info" asp-action="Edit" asp-controller="StepsManage"
-                                           asp-area="Admin" asp-route-id="@Model.Id" asp-route-back="@Model.Name">
-                                            Редактировать Название и Описание Шага
-                                        </a>
-                                    </div>
+                                    <a asp-action="Create" asp-controller="FaqManage" class="btn btn-blue"
+                                       asp-route-status="ToQuestion" asp-route-postId="@Model.Id">
+                                        Задать вопрос
+                                    </a>
+                                </div>
+                                <div style="margin: 5px; margin-left: auto">
+                                    <a class="btn btn-info" asp-action="Edit" asp-controller="StepsManage"
+                                       asp-area="Admin" asp-route-id="@Model.Id" asp-route-back="@Model.Name">
+                                        Редактировать Название и Описание Шага
+                                    </a>
+                                </div>
                             </div>
                         </div>
-                        
+
                         <div class="desc text-default lt mb-20 mt-20 material_content">
                             @Html.Raw(Model.StepDescription)
                             <h2 style="color: #0c5460">Желаемые результаты :</h2>
@@ -84,17 +83,18 @@
                         </div>
 
                     </div>
-                    
+
                 </div>
-               </div>
+            </div>
             <!-- /tile body -->
         </section>
     </div>
 </div>
 
 <!-- /tile -->
+
 @section Scripts{
-   
+
     <script >
         
         function openDRConfirmDelete(number,issueId, DesResId) {
@@ -111,7 +111,7 @@
         
         function deleteDesireResult(number, stepId, desResId) {          
             $.ajax({
-                url: '@Url.Action("DeleteDesireResultLink", "StepsManage", new{area="Admin"})',
+                url: '@Url.Action("DeleteDesireResultLink", "StepsManage", new {area = "Admin"})',
                 type: 'POST',
                 data: 
                 {

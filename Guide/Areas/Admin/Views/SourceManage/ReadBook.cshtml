@@ -1,0 +1,30 @@
+﻿@model Source
+
+@{
+    ViewBag.Title = "Чтение";
+    Layout = "_Layout";
+}
+
+@if (Model.VirtualPath.Contains(".pdf") ||  Model.VirtualPath.Contains(".jpg") || Model.VirtualPath.Contains(".png"))
+{
+    <div>
+        <a class="btn btn-info" asp-action="Details" asp-controller="SourceManage" asp-route-id="@Model.Id">Вернуться назад</a>
+    </div>
+    <iframe width="100%" style="height: 100vh" allowfullscreen src="~/@Model.VirtualPath"></iframe>
+}
+else
+{
+    <div>
+        <a class="btn btn-info" href="~/@Model.VirtualPath">Скачать</a>
+        <a class="btn btn-info" asp-action="Details" asp-controller="SourceManage" asp-route-id="@Model.Id">Вернуться назад</a>
+    </div>
+    <iframe width="100%" style="height: 100vh" src="https://docs.google.com/gview?url=@ViewBag.Path&embedded=true" ></iframe>
+}
+
+@section Scripts
+{
+    <script >
+
+    </script>
+}
+ 

@@ -6,19 +6,16 @@ namespace Guide.Models.Data
     public class GuideContext : IdentityDbContext<User>
     {
         public override DbSet<User> Users { get; set; }
-        public virtual DbSet<Post> Posts { get; set; }
         public virtual DbSet<Comment> Comments { get; set; }
-        public virtual DbSet<Type> Types { get; set; }
-        public virtual DbSet<TypeContent> TypeContents { get; set; }
+        public virtual DbSet<SourceType> SourceTypes { get; set; }
 
-        public virtual DbSet<TypeState> TypeStates { get; set; }
+        public virtual DbSet<SourceState> SourceStates { get; set; }
 
         public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<QuestionAnswer> QuestionAnswers { get; set; }
         public virtual DbSet<Glossary> Glossaries { get; set; }
         public virtual DbSet<Position> Positions { get; set; }
-        public virtual DbSet<Book> Books { get; set; }
-        public virtual DbSet<Template> Templates { get; set; }
+        public virtual DbSet<Source> Sources { get; set; }
         public virtual DbSet<TaskUser> TaskUsers { get; set; }
         public virtual DbSet<Issue> Issues { get; set; }
         public virtual DbSet<Step> Steps { get; set; }
@@ -31,11 +28,10 @@ namespace Guide.Models.Data
         public virtual DbSet<BusinessProcessIssue> BusinessProcessIssues { get; set; }
         public virtual DbSet<UserIssue> UserIssues { get; set; }
         public virtual DbSet<Author> Authors { get; set; }
-        public virtual DbSet<BookAuthor> BookAuthors { get; set; }
+        public virtual DbSet<SourceAuthor> SourceAuthors { get; set; }
         public virtual DbSet<PositionIssue> PositionIssues { get; set; }
-        public virtual DbSet<BookBusinessProcess> BookBusinessProcesses { get; set; }
-        public virtual DbSet<BookIdAndEnglishBookId> BookIdAndEnglishBookIds { get; set; }
-        public virtual DbSet<PostBusinessProcess> PostBusinessProcesses { get; set; }
+        public virtual DbSet<SourceBusinessProcess> SourceBusinessProcesses { get; set; }
+        public virtual DbSet<SourceIdAndEnglishSourceId> SourceIdAndEnglishSourceIds { get; set; }
         public object UserRepository { get; set; }
 
 
@@ -54,13 +50,13 @@ namespace Guide.Models.Data
                 .HasOne(isc => isc.Step)
                 .WithMany(s => s.IssueSteps)
                 .HasForeignKey(isc => isc.StepId);
-            
-            modelBuilder.Entity<Type>().HasData(new Type() {Id = 1, Name = "Книга", Active = true});
+
+            modelBuilder.Entity<SourceType>().HasData(new SourceType() {Id = 1, Name = "Книга", Active = true});
         }
+
         public GuideContext(DbContextOptions<GuideContext> options) : base(options)
         {
         }
-        
     }
 }
 

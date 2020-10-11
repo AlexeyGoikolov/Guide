@@ -14,7 +14,7 @@
 
             <ul class="page-breadcrumb">
                 <li>
-                    <a asp-action="Details" asp-controller="Account"><i class="fa fa-home"></i> Guide</a>
+                    <a asp-action="Details" asp-controller="Account" asp-area=""><i class="fa fa-home"></i> Guide</a>
                 </li>
                 <li>
                     <a asp-action="Index" asp-controller="BusinessProcessManage"> Бизнес-процессы</a>
@@ -23,15 +23,15 @@
                 {
                     <li>
                         <a asp-action="Edit" asp-controller="BusinessProcessManage" asp-route-id="@Model.BusinessProcess.Id"> Создание бизнес-процесса</a>
-                    </li>    
+                    </li>
                 }
                 else
                 {
                     <li>
                         <a asp-action="Edit" asp-controller="BusinessProcessManage" asp-route-id="@Model.BusinessProcess.Id"> Редактирование бизнес-процесса</a>
-                    </li>   
+                    </li>
                 }
-                
+
                 <li>
                     <a asp-action="AddIssues" asp-controller="BusinessProcessManage" asp-route-id="@Model.BusinessProcess.Id"> Добавление задач к бизнес-процессу</a>
                 </li>
@@ -55,7 +55,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- row -->
                 <div class="row">
                     <div class="col-md-7" style="height: 100%">
@@ -63,19 +63,20 @@
                         <div id="list" class="list">
                             @if (Model.DesignatedIssues.Count > 0)
                             {
-                                @foreach (var issue in Model.DesignatedIssues){
+                                @foreach (var issue in Model.DesignatedIssues)
+                                {
                                     <li class="list-group-item" style="width: 100% !important; cursor: pointer;">
                                         <input class="mb-0" type="hidden" name="id[]" value="@issue.Id">
                                         <p class="mb-0">@issue.Name</p>
                                     </li>
                                 }
-                            } 
+                            }
                         </div>
                     </div>
                     <div class="col-md-5" style="height: 100%">
                         <h3>Таблица задач</h3>
                         <div style="border: 1px solid #aaa">
-                            <input class="form-control" type="text" name="searchKey" id="search" 
+                            <input class="form-control" type="text" name="searchKey" id="search"
                                    placeholder="Поиск по названию задачи">
                         </div>
                         <div id="issue" class="issues">
@@ -103,12 +104,13 @@
                 <div class="text-center">
                     <a class="btn btn-info mt-20 btn-save" style="width: 100%" href="#">Сохранить и перейти к просмотру БП</a>
                 </div>
-                
+
             </div>
             <!-- /tile body -->
         </section>
     </div>
 </div>
+
 @section Scripts
 {
     <script>
@@ -120,7 +122,7 @@
         dragAndDrop();
         function search() {
             let searchKey = $('#search').val();           
-            $.get('@Url.Action("AjaxIssueSearch", "BusinessProcessManage", new {area="Admin"})',  { word : searchKey}, function(data) {
+            $.get('@Url.Action("AjaxIssueSearch", "BusinessProcessManage", new {area = "Admin"})',  { word : searchKey}, function(data) {
             if (data == false)
                 $('#issue').html('<p class="text-danger">Поиск не дал результатов</p>');
             else
@@ -169,7 +171,7 @@
                 traditional: true,                  
                 data: {businessId: businessId, issuesId: arrayIssueId},
                 success: function() {
-                  window.location.href = "@Url.Action("Details","BusinessProcessManage", new{area="Admin", id = Model.BusinessProcess.Id})"
+                  window.location.href = "@Url.Action("Details", "BusinessProcessManage", new {area = "Admin", id = Model.BusinessProcess.Id, back = "Добавление задач"})"
                 }                                                        
             });                   
         });          

@@ -3,10 +3,12 @@ using System.Linq;
 using Guide.Models;
 using Guide.Models.Data;
 using Guide.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Guide.Controllers
 {
+    [Authorize]
     public class BusinessProcessController : Controller
     {
         // GET
@@ -22,9 +24,9 @@ namespace Guide.Controllers
             BusinessProcessIssuesViewModel model = new BusinessProcessIssuesViewModel()
             {
                 BusinessProcess = _db.BusinessProcesses.FirstOrDefault(i => i.Id == id),
-                DesignatedIssues = _db.BusinessProcessIssues.OrderBy(b => b.Id).Where(b => b.BusinessProcessId == id).
-                    Select(i => i.Issue).ToList(),
-                AllIssue = new List<Issue>(),
+                DesignatedIssues = _db.BusinessProcessIssues.OrderBy(b => b.Id).Where(b => b.BusinessProcessId == id)
+                    .Select(i => i.Issue).ToList(),
+                AllIssue = new List<Issue>()
             };
             return View(model);
         }

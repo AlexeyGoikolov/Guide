@@ -1,9 +1,11 @@
-﻿@model MaterialCreateViewModel
+﻿@model SourceCreateViewModel
 @inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Xsrf
+
 @{
-    ViewBag.Title = "Новый источник";
+    ViewBag.Title = "Добавление книги";
     Layout = "_Layout";
 }
+
 @functions{
     public string GetAntiXsrfRequestToken()
     {
@@ -12,116 +14,94 @@
 }
 
 <input type="hidden" id="RequestVerificationToken" 
-       name="RequestVerificationToken" value="@GetAntiXsrfRequestToken()">  
-
-<div class="page page-ui-portlets">
+       name="RequestVerificationToken" value="@GetAntiXsrfRequestToken()">
+<div class="page page-forms-common">
     <div class="pageheader">
-
         <h2>@ViewBag.Title</h2>
-
         <div class="page-bar">
-
             <ul class="page-breadcrumb">
                 <li>
-                    <a asp-action="Details" asp-controller="Account"><i class="fa fa-home"></i> Guide</a>
+                    <a asp-action="Details" asp-controller="Account" asp-area=""><i class="fa fa-home"></i> Guide</a>
                 </li>
                 <li>
-                    <a asp-action="Index" asp-controller="SourceManage"> Библиотека</a>
+                    <a asp-action="Index" asp-controller="SourceManage">Библиотека</a>
                 </li>
                 <li>
-                    <a asp-action="Create" asp-controller="SourceManage"> Добавить</a>
+                    <a asp-action="Create" asp-controller="SourceManage">Добавить Источник</a>
                 </li>
             </ul>
         </div>
     </div>
     <span id="errorText" style="color: red"></span>
-
-    <div class="row">
-
-        <div class="tile-body">
-            <form class="create-form" asp-action="Create" asp-controller="SourceManage" asp-area="Admin" method="post" enctype="multipart/form-data">
-                <div asp-validation-summary="ModelOnly"></div>
-                @{ await Html.RenderPartialAsync("PartialViews/FormPartial", Model); }
-                
-                <input type="hidden" value="@Model.Id" id="postId" asp-for="Id">
-            </form>
-        </div>
-        <!-- /tile body -->
-
+    <div style="margin:auto;">
+        <form asp-action="Create" asp-controller="SourceManage" asp-area="Admin" method="post" enctype="multipart/form-data">
+            @{ Html.RenderPartial("PartialViews/FormPartial", Model); }
+            <input type="hidden" value="@Model.SourceId" id="sourceId" asp-for="SourceId">
+            <input type="hidden" value="@Model.Id" id="mainId" asp-for="Id">
+        </form>
     </div>
-
-
-    <!-- Modal -->
-    <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" style="margin-left: 250px">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h3 class="modal-title custom-font">Новый Шаблон</h3>
-                </div>
-                <div>
-                    <div class="p-3">
-                        <div >
-                            <label>Название шаблона<span class="text-danger">*</span></label><br/>
-                            <input class="form-control" type="text" id="templateName">
-                        </div>
-                        <div >
-                            <label>Заголовок<span class="text-danger">*</span></label><br/>
-                            <input class="form-control" type="text" id="templateTitle">
-                        </div>
-                        <div>
-                            <label>Содержание<span class="text-danger">*</span></label>
-                            <textarea  name="ContentTemplate" type="templateContent"></textarea>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-success btn-ef btn-ef-3 btn-ef-3c" data-dismiss="modal" id="templateButton"><i class="fa fa-arrow-right"></i>Создать</button>
-                    <button class="btn btn-lightred btn-ef btn-ef-4 btn-ef-4c" data-dismiss="modal"><i class="fa fa-arrow-left"></i> Отменить</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Modal -->
-
 </div>
 
      
 @section Scripts
 {
     <script>
-        CKEDITOR.replace('textContent');
+        CKEDITOR.replace('sourceDescription');
     </script>
-    <script>
-        CKEDITOR.replace('ContentTemplate');
-    </script>
-    <script >
-    
-        $('#submit').on('click', function(e) {
+    <script >              
+        let loadAuthor = function(){
+            let authorInput = $('#authorInput').val();
+            $.ajax({
+                url: '@Url.Action("CreateAuthorAjax", "SourceManage", new {area = "Admin"})',                    
+                type: 'GET',                    
+                data: {name: authorInput},
+                success: function(response) {                    
+                    $('#author-chosen').append(response);
+                    $('#author-chosen').trigger("chosen:updated");
+                    $('#authorInput').val("")
+                }                                                      
+            });                   
+        };                                   
+                
+        $('#submit-btn').on('click', function(e) {
             e.preventDefault();
-            let businessProcessesArray = [];               
+            let authorArray = [];
+            let businessProcessesArray = [];
+
             let getbusinessP = document.getElementById('businessProcesses-row');
             let getBPName = getbusinessP.getElementsByTagName('span');
             for (let i=0; i < getBPName.length; i++){
-                businessProcessesArray.push(getBPName[i].innerHTML);
+               businessProcessesArray.push(getBPName[i].innerHTML);
             }
-            let editorData = CKEDITOR.instances.textContent.getData();
+            let authors = document.getElementById('author-row');
+            let getAuthorName = authors.getElementsByTagName('span');
+            for (var i=0; i < getAuthorName.length; i++){
+                authorArray.push(getAuthorName[i].innerHTML);
+            }
+            let editorData = CKEDITOR.instances.sourceDescription.getData();
             let formData = new FormData();
             let coverFile = document.getElementById('coverFile');
             let sourceFile = document.getElementById('sourceFile');    
             formData.append('__RequestVerificationToken', $('#RequestVerificationToken').val());
             formData.append(coverFile.getAttribute('name'), coverFile.files[0]);
             formData.append(sourceFile.getAttribute('name'), sourceFile.files[0]);
-            formData.append('Title', $('#name').val());
-            formData.append('TextContent', editorData);
-            formData.append('Keys', $('#keyWord').val());
-            formData.append('TypeContentId', $('#typeContentId').val());
+            formData.append('IsRecipe', $('#isRecipe').val());
+            formData.append('Name', $('#name').val());
+            formData.append('SourceDescription', editorData);
+            formData.append('AdditionalInformation', $('#additionalInfo').val());
+            formData.append('PhysicalPath', $('#physPath').val());
+            formData.append('YearOfWriting', $('#year').val());
+            formData.append('Edition', $('#edition').val());
+            formData.append('ISBN', $('#isbn').val());
+            formData.append('authors', String(authorArray));
+            formData.append('Keys', $('#wordsKey').val());            
+            formData.append('SourceId', $('#sourceId').val());
             formData.append('CategoryId', $('#category').val());
-            formData.append('TypeId', $('#typeId').val());
-            formData.append('TypeStateId', $('#typeStateId').val());
-            formData.append('Author', $('#author').val());
-            formData.append('AdditionalInformation', $('#additional').val());
+            formData.append('SourceTypeId', $('#typeContentId').val());
+            formData.append('SourceStateId', $('#sourceStateId').val());
+            formData.append('Id', $('#mainId').val());
             formData.append('BusinessProcesses', String(businessProcessesArray));
-              
+          
             $.ajax({
                 url: '@Url.Action("Create", "SourceManage", new {area = "Admin"})',                            
                 type: 'POST',           
@@ -130,13 +110,14 @@
                 contentType: false,
                 processData: false,          
                 success: function(response) {
+                    console.log(response);
                     if (response === true){
                         window.location.href = "@Url.Action("Index","SourceManage", new{area="Admin"})"
                     }
                     else if (response === "falseData"){
-                        $('#errorText').html('Вы не ввели название. Проверьте название')
+                        $('#errorText').html('Вы не добавили источник. Проверьте название или файл')
                     }
-                    else if (response === "falseSourceType"){
+                    else if (response === "falseSourceSourceType"){
                         $('#errorText').html('Неверный формат источника')
                     }
                     else{
@@ -145,104 +126,72 @@
                 }                                                        
             });                   
         });
-    
-        function sendTemplate() {
-            let id = $("#selectTemplate").val();
-            $.ajax({
-                url: '@Url.Action("ValTemplate", "SourceManage", new {area = "Admin"})',
-                type: 'GET',
-                data: { 
-                    'templatesId': id},
-                success: function(data) {                                      
-                    CKEDITOR.instances['TextContent'].setData(data.contentTemplate);
-                },                  
-            });
-        }    
-        var loadTypeContent = function(){
-            var typeContentInput = $('#typeContentInput').val();
-            $("#typeContent-row").load('@Url.Action("CreateTypeContentAjax", "SourceManage")',{Name: typeContentInput});
-        };
-         var loadTypeState = function(){
-             var typeStateInput = $('#typeStateInput').val();
-             $("#typeState-row").load('@Url.Action("CreateTypeStateAjax", "SourceManage")',{Name: typeStateInput});
-        };
-        var loadCategories = function(){
-            var catInput = $('#catInput').val();
-            $("#categories-row").load('@Url.Action("CreateCategoryAjax", "SourceManage")',{Name: catInput});
-        };
-        var loadTemplate = function(){
-            var templateTitle = $('#templateTitle').val();
-            var templateContent = CKEDITOR.instances['ContentTemplate'].getData();
-        var templateInput = $('#templateName').val();
-            $("#template-row").load('@Url.Action("CreateTemplateAjax", "SourceManage")',{Name: templateInput, ContentTemplate : templateContent, Title:templateTitle});
-         };
-        var loadTypes = function(){
-            var typeInput = $('#typeInput').val();
-            $("#types-row").load('@Url.Action("CreateTypeAjax", "SourceManage")',{Name: typeInput});
-        };
         
-        var deleteTypeContent = function(typeContentId){
-            $("#typeContent-row").load('@Url.Action("DeleteTypeContentAjax", "SourceManage")', {Id: typeContentId});
+        let loadSourceTypeContent = function(){
+            let sourceTypeInput = $('#sourceTypeInput').val();
+            $("#sourceTypes-row").load('@Url.Action("CreateTypeContentAjax", "SourceManage")',{Name: sourceTypeInput});   
         };
-        var deleteTypeState = function(typeStateId){
-            $("#typeContent-row").load('@Url.Action("DeleteTypeStateAjax", "SourceManage")', {Id: typeStateId});
+        let loadSourceState = function(){
+            let sourceStateInput = $('#sourceStateInput').val();
+            $("#sourceState-row").load('@Url.Action("CreateSourceStateAjax", "SourceManage")',{Name: sourceStateInput});
         };
-        var deleteCategory = function(categoryId){
+        let loadCategories = function(){
+            let catInput = $('#catInput').val();
+            $("#categories-row").load('@Url.Action("CreateCategoryAjax", "SourceManage")',{Name: catInput});            
+        };               
+        let deleteCategory = function(categoryId){
             $("#categories-row").load('@Url.Action("DeleteCategoryAjax", "SourceManage")', {Id: categoryId});
         };
-        var deleteTemplate = function(templateId){
-            $("#template-row").load('@Url.Action("DeleteTemplateAjax", "SourceManage")', {Id: templateId});
+        let deleteSourceTypeContent = function(typeId){
+            $("#sourceTypes-row").load('@Url.Action("DeleteTypeContentAjax", "SourceManage")',{Id: typeId});
         };
-        var deleteType = function(typeId){
-            $("#types-row").load('@Url.Action("DeleteTypeAjax", "SourceManage")', {Id: typeId});
+        let deleteAuthor = function(authorId){
+            $("#author-chosen").load('@Url.Action("DeleteAuthorAjax", "SourceManage")',{Id: authorId});
+            $('#author-chosen').trigger("chosen:updated");
         };
+        let deleteSourceType = function(sourceTypeId){
+            $("#sourceState-row").load('@Url.Action("DeleteSourceStateAjax", "SourceManage")', {Id: sourceTypeId});
+        };
+        
         $(document).ready(function(){
-            loadTypeState();
-            loadTypeContent();
-            loadTemplate();
+            loadAuthor();
             loadCategories();
-            loadTypes();
+            loadSourceTypeContent();
+            loadSourceState();       
             
-            $('body').on('click','#typeContentButton',function(event){
-                 event.preventDefault();
-                 setTimeout(loadTypeContent, 200)
-            });
-             $('body').on('click','#typeStateButton',function(event){
-                  event.preventDefault();
-                  setTimeout(loadTypeState, 200)
-                        });
-            $('body').on('click','#catButton',function(event){
-                 event.preventDefault();
-                 setTimeout(loadCategories, 200)
-            });
-            $('body').on('click','#templateButton',function(event){
-                 event.preventDefault();
-                 setTimeout(loadTemplate, 200)
-            });
-            $('body').on('click','#typeButton',function(event){
-                 event.preventDefault();
-                 setTimeout(loadTypes, 200)
-            });
-            $('body').on('click','.buttonDeleteTypeContent',function(event){
-                 event.preventDefault();
-                  setTimeout(function() {deleteTypeContent(event.currentTarget.value)}, 200)
-            });
-            $('body').on('click','.buttonDeleteTypeState',function(event){
-                 event.preventDefault();
-                 setTimeout(function() {deleteTypeState(event.currentTarget.value)}, 200)
-             });
-            $('body').on('click','.buttonDeleteCat',function(event){
-                 event.preventDefault();
-                 setTimeout(function() {deleteCategory(event.currentTarget.value)}, 200)
-            });
-            $('body').on('click','.buttonDeleteTemplate',function(event){
-                 event.preventDefault();
-                 setTimeout(function() {deleteTemplate(event.currentTarget.value)}, 200)
-                 });
-            $('body').on('click','.buttonDeleteType',function(event){
-                 event.preventDefault();
-                 setTimeout(function() {deleteType(event.currentTarget.value)}, 200)
-            });
-        })
+           $('body').on('click','#authorButton',function(event){
+                event.preventDefault();
+                setTimeout(loadAuthor, 200)
+           });
+           $('body').on('click','#typeContentButton',function(event){
+                event.preventDefault();
+                setTimeout(loadSourceTypeContent, 200)
+           });                
+           $('body').on('click','#catButton',function(event){
+                event.preventDefault();
+                setTimeout(loadCategories, 200) 
+           });
+           $('body').on('click','#sourceStateButton',function(event){
+                event.preventDefault();
+                setTimeout(loadSourceState, 200) 
+           });                     
+           $('body').on('click','.buttonDeleteAuthor',function(event){
+                event.preventDefault();
+                setTimeout(function() {deleteAuthor(event.currentTarget.value)}, 200)
+           });
+           $('body').on('click','.buttonDeleteType',function(event){
+                event.preventDefault();
+                setTimeout(function() {deleteSourceTypeContent(event.currentTarget.value)}, 200)
+           });
+           $('body').on('click','.buttonDeleteCat',function(event){
+                event.preventDefault();
+                setTimeout(function() {deleteCategory(event.currentTarget.value)}, 200)                  
+           });
+           $('body').on('click','.buttonDeleteSourceState',function(event){
+                event.preventDefault();
+                setTimeout(function() {deleteSourceType(event.currentTarget.value)}, 200)                  
+           });           
+        });                
     </script>
 }
+

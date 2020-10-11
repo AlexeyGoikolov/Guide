@@ -89,12 +89,14 @@
                });                         
            });
              $(".IssuesCheckbox").click(function(){
-                                          if($(this).is(":checked")){
-                                           $("form.create-form").append('<input type="hidden" name="IssuesId[]" value="'+$(this).val()+'">');
-                                             }else
-                                                 {
-                                                     $('input[type=hidden][value='+$(this).val()+']').remove();
-                                                    }
+                                if($(this).is(":checked"))
+                                {
+                                   $("form.create-form").append('<input type="hidden" name="IssuesId[]" value="'+$(this).val()+'">');
+                                }
+                                else
+                                  {
+                                      $('input[type=hidden][value='+$(this).val()+']').remove();
+                                  }
                                  });  
        </script>
    }

@@ -24,7 +24,7 @@
 
                                 @if (UserManager.GetUserId(User) == comment.AuthorId || User.IsInRole("admin"))
                                 {
-                                    <button class="btn_commit_del" onclick="deleteComment('@comment.Id','@comment.PostId')" >
+                                    <button class="btn_commit_del" onclick="deleteComment('@comment.Id','@comment.SourceId')" >
                                         <i class="fa fa-trash" ></i> 
                                     </button>
                                 }

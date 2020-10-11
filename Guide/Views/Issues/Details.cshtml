@@ -17,10 +17,10 @@
                     <a asp-action="Details" asp-controller="Account"><i class="fa fa-home"></i> Guide</a>
                 </li>
                 <li>
-                    <a asp-action="Details" asp-controller="Account" >Личный кабинет</a>
+                    <a href='javascript:history.go(-1)'>@Model.Back</a>
                 </li>
                 <li>
-                 <a asp-action="Details" asp-controller="Issues" asp-route-id="@Model.Issue.Id">Подробно о Задаче</a>
+                    <a asp-action="Details" asp-controller="Issues" asp-route-id="@Model.Issue.Id">Подробно о Задаче</a>
                 </li>
             </ul>
         </div>
@@ -45,31 +45,31 @@
                                 {
                                     i++;
                                     <h3>
-                                        <a asp-action="Details" asp-controller="Steps" asp-route-id="@step.Id">
+                                        <a asp-action="Details" asp-controller="Steps" asp-route-id="@step.Id" asp-route-back="@Model.Issue.Name">
                                             @i - @step.Name
                                         </a>
                                     </h3>
                                 }
                             }
-                          <h2 style="color: #0c5460">Желаемые результаты :</h2>
+                            <h2 style="color: #0c5460">Желаемые результаты :</h2>
                             @if (Model.DesiredResults.Count > 0)
                             {
                                 @foreach (var dr in Model.DesiredResults)
                                 {
                                     <h4>
-                                       # @dr.Number  -  @dr.Name
+                                        # @dr.Number - @dr.Name
                                     </h4>
                                 }
                             }
-                            
+
                         </div>
 
                     </div>
-                 
+
                 </div>
             </div>
             <!-- /tile body -->
-            
+
         </section>
     </div>
 </div>

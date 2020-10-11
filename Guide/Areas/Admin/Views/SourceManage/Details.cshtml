@@ -1,180 +1,185 @@
-﻿@model Post
+﻿@model Source
+
 @{
-    ViewBag.Title = "Просмотр";
+    ViewBag.Title = "Источник";
     Layout = "_Layout";
 }
 <div class="page">
+    <!-- заголовок страницы -->
     <div class="pageheader">
-
-        <h2>@ViewBag.Title : @Model.Title</h2>
-
+        <h2>
+            @ViewBag.Title <br/>@Model.Name</h2>
         <div class="page-bar">
-
             <ul class="page-breadcrumb">
                 <li>
-                    <a asp-action="Details" asp-controller="Account"><i class="fa fa-home"></i> Guide</a>
+                    <a asp-action="Details" asp-controller="Account" asp-area=""><i class="fa fa-home"></i> Guide</a>
                 </li>
                 <li>
-                    <a asp-action="Index" asp-controller="SourceManage"> Библиотека</a>
+                    <a asp-action="Index" asp-controller="SourceManage">Библиотека</a>
                 </li>
                 <li>
-                    <a asp-action="Details" asp-controller="SourceManage" asp-route-id="@Model.Id">Просмотр</a>
+                    <a asp-action="Details" asp-controller="SourceManage" asp-route-id="@Model.Id">@Model.Name</a>
                 </li>
             </ul>
         </div>
     </div>
+    <!--/ заголовок страницы -->
 
     <div class="page row">
 
-        <!-- tile body -->
         <div class="tile-body">
 
-            <!-- row -->
             <div class="row">
-                <div class="col-sm-5 col-md-5 portlets sortable ">
+
+                <div class="col-sm-4 portlets sortable">
                     <section class="tile portlet ">
-                    <h2 class="custom-font mt-0 mb-5">@Model.Title </h2>
-                    <div class=" ">
-                        @Html.Raw(Model.TextContent)
-                        <div style="text-align: center; margin: 10px;">
-                            <img style=" width: 85%;-webkit-box-shadow: 14px 14px 28px -6px rgba(53,3,71,0.57);
+
+                        <!-- tile body -->
+                        <div class="tile-body">
+                            <div  style="text-align: center; margin: 10px;">
+                                <img style=" width: 100%;-webkit-box-shadow: 14px 14px 28px -6px rgba(53,3,71,0.57);
                                                                           -moz-box-shadow: 14px 14px 28px -6px rgba(53,3,71,0.57);
                                                                           box-shadow: 14px 14px 28px -6px rgba(53,3,71,0.57);" src="~/@Model.CoverPath" alt="изображение обложки">
+                            </div>
                         </div>
-                    </div>
+                        <!-- /tile body -->
                     </section>
                 </div>
-                <div class=" col-sm-7 col-md-7  portlets sortable  material_discription" data-lightbox="gallery">
+                <div class="col-sm-8 portlets sortable">
                     <section class="tile portlet ">
+                        <!-- tile body -->
                         <div class="tile-body">
-                            @if (Model.Author != null)
-                            {
-                                <h5>Автор : @Model.Author</h5>
-                                <hr class="line-dashed line-full">
-                            }
-                            @if (Model.AdditionalInformation != null)
-                            {
-                                <div>Дополнительная информация : @Model.AdditionalInformation</div>
-                                <hr class="line-dashed line-full">
-                            }
-                            <div>Дата добавления : @Model.DateOfCreate</div>
-                            <hr class="line-dashed line-full">
-                            @if (Model.DateOfUpdate < Model.DateOfCreate)
-                            {
-                                <div>Дата обновления : @Model.DateOfUpdate</div>
-                                <hr class="line-dashed line-full">
-                            }
-                            @if (Model.Category != null)
-                            {
-                                <div>Категория : @Model.Category.Name</div>
-                                <hr class="line-dashed line-full">
-                            }
-                            @if (Model.Type != null)
-                            {
-                                <div>Тип : @Model.Type.Name</div>
-                                <hr class="line-dashed line-full">
-                            }
-                            @if (Model.BusinessProcesses.Count > 0)
-                            {
-                                string processes = " ";
-                                foreach (var process in Model.BusinessProcesses)
+                            <div style="text-align: right; margin-right: 10px ">
+                                @if (Model.Category != null)
                                 {
-                                    processes += process.Name + ", ";
+                                    <span style="color: #0a6aa1">Категория: @Model.Category.Name</span>
                                 }
-                                processes.Trim().TrimEnd(',');
-                                <div>Связан с бизнес процессами: @processes</div>
-                                <hr class="line-dashed line-full">
-                            }
-                            @if (Model.VirtualPath != null)
-                            {
-                                <a class="btn btn-info" asp-action="ReadSource" asp-controller="SourceManage" asp-area="Admin" asp-route-id="@Model.Id">Просмотреть источник</a>
-                            }
-                            <div style="margin: 5px; margin-left: auto">
-                                <a asp-action="Create" asp-controller="FaqManage" class="btn btn-info" asp-route-status="ToQuestion" asp-route-postId="@Model.Id">Задать вопрос</a>
+                                @if (Model.ISBN != null)
+                                {
+                                    <br><span>ISBN @Model.ISBN</span> 
+                                }
                             </div>
                             <div>
-                                <div class="">
-                                    <textarea id="comment_area" class="form-control textarea_chat" placeholder="Оставить свой комментарий..." rows="3"></textarea>
-                                    <button type="button" class="btn btn-info mt-10" name="@Model.Id" id="sendComment">Добавить комментарий</button>
-                                    <div class="clearfix"></div>
+                                <h2>" @Model.Name "</h2>
+                            </div>
+                            @if (Model.YearOfWriting != null)
+                            {
+                                <div>Год издания : @Model.YearOfWriting</div>
+                            }
+                            @if (Model.Edition != null)
+                            {
+                                <div>Редакция  : @Model.Edition</div>
+                            }
+                            <div>Дата добавления в систему : @Model.DateCreate</div>
+                            <div>Дата последнего исправления : @Model.DateUpdate</div>
+                            <div>
+                                @if (Model.PhysicalPath == null)
+                                {
+                                    <p style="color: #0f9dca; font-style: inherit;">Только в электронном виде</p>
+                                }
+                                else
+                                {
+                                    <p>Источник находится : @Model.PhysicalPath</p>
+                                }
+                            </div>
+                            @if (Model.BusinessProcesses.Count > 0)
+                            {
+                                string processes = "";
+                                @foreach (var bp in Model.BusinessProcesses)
+                                {
+                                    processes += bp.Name + ", ";
+                                }
+                                <p>Связан с Бизнес-процессами: @processes</p>
+                            }
+                            @if (Model.SourceState != null)
+                            {
+                                <p>Состояние: @Model.SourceState.Name</p>
+                            }
+                            <div>
+                                <a asp-action="ReadBook" asp-controller="SourceManage" asp-route-id="@Model.Id"><i class="fa fa-book"></i> Читать источник </a>
                                 </div>
-                                <div style="margin: 5px; margin-left: auto">
-                                    <button type="button" class="btn btn-info "
-                                            onclick="viewComment('@Model.Id')">
-                                        Посмотреть комментарии
-                                    </button>
-                                </div>
+                                 <div>
+                                @if (ViewBag.BookTransferId != 0)
+                                {
+                                    @if(ViewBag.BookTransferLanguage == "ru")
+                                    {<a asp-action="Details" asp-controller="SourceManage" asp-route-path="" asp-route-id="@ViewBag.BookTransferId"><i class="fas fa-globe"></i> Перевод</a>}
+                                    @if(ViewBag.BookTransferLanguage == "en")
+                                    {<a asp-action="Details" asp-controller="SourceManage" asp-route-path="" asp-route-id="@ViewBag.BookTransferId"><i class="fas fa-globe"></i> Оригинальная версия</a>}
+                                }
+                                 
                             </div>
                         </div>
+                        <!-- /tile body -->
+
                     </section>
-                    
                 </div>
             </div>
-
         </div>
         <!-- /tile body -->
-        <div class="panel panel-info">
+        <div>
+            <div class="" >
+                <textarea id="comment_area" class="form-control textarea_chat" placeholder="Оставить свой комментарий..." rows="2"></textarea>
+                <button type="button" class="btn btn-info mt-10" name="@Model.Id" id="sendComment">Добавить комментарий</button>
+                <button type="button" class="btn btn-info mt-10" onclick="viewComment('@Model.Id')">Посмотреть комментарии</button>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+        <div class="panel panel-info mt-10">
             <div id="listComment"></div>
         </div>
     </div>
 </div>
 
-
-<!-- /tile -->
-
-@section Scripts{
-   
-    <script >
-    $('#sendComment').click(function(event) {
-        event.preventDefault();
-        let id = $('#sendComment').attr('name');
-        let comment = $('#comment_area').val();
-        reset();        
-        $.ajax({
-            url: '@Url.Action("CreateComment", "SourceManage")',
-            type: 'POST',
-            data: { 
-                'sourceId': id, 
-                'Description': comment,
-                'type': "source" 
-                
+@section Scripts
+{
+    <script>
+        $('#sendComment').click(function(event) {
+            event.preventDefault();
+            let id = $('#sendComment').attr('name');
+            let comment = $('#comment_area').val();
+            reset();        
+            $.ajax({
+                url: '@Url.Action("CreateComment", "SourceManage")',
+                type: 'POST',
+                data: { 
+                    'sourceId': id, 
+                    'description': comment
                 },
-            success: function(data) {
+                success: function(data) {
+                    $('#listComment').html(data); 
+                },
+            });  
+        });
+        
+        let reset = function() {
+            $('#comment_area').val("");               
+        };
+        
+        function deleteComment(Id, sourceId) {
+            $.ajax({
+                url: '@Url.Action("DeleteComment", "SourceManage")',
+                type: 'GET',
+                data: { 
+                    'id': Id,
+                    'sourceId': sourceId,
+                },
+                success: function(data) {
+                    $('#listComment').html(data); 
+                },
+            });   
+        }
+              
+        function viewComment(id) {                             
+            $.ajax({
+                url: '@Url.Action("ViewComment", "SourceManage")',
+                type: 'GET',
+                data: { 
+                    'id': id
+                 },
+                success: function(data) {
                 $('#listComment').html(data); 
-            },
-        });  
-    });
-    
-    let reset = function() {
-        $('#comment_area').val("");               
-    };
-    
-    function deleteComment(Id, PostId) {
-        $.ajax({
-            url: '@Url.Action("DeleteComment", "SourceManage")',
-            type: 'GET',
-            data: { 
-                'id': Id,
-                'sourceId': PostId,
-                'type': "source" 
-            },
-            success: function(data) {
-                $('#listComment').html(data); 
-            },
-        });   
-    }
-          
-    function viewComment(id) {
-                          
-        $.ajax({
-            url: '@Url.Action("ViewComment", "SourceManage")',
-            type: 'GET',
-            data: { 'id': id },
-            success: function(data) {
-            $('#listComment').html(data); 
-            },
-        });   
-    }
+                },
+            });   
+        }        
     </script>
 }
-

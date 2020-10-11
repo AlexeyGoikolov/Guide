@@ -13,7 +13,7 @@
         <div class="page-bar">
             <ul class="page-breadcrumb">
                 <li>
-                    <a asp-action="Profile" asp-controller="Service"><i class="fa fa-home"></i> Guide</a>
+                    <a asp-action="Details" asp-controller="Account" asp-area=""><i class="fa fa-home"></i> Guide</a>
                 </li>
                 <li>
                     <a asp-action="Index" asp-controller="GlossarysManage">Глоссарий</a>
@@ -25,7 +25,7 @@
                     <a asp-action="Preview" asp-controller="GlossarysManage" asp-route-id="@Model.Id">@Model.Name</a>
                 </li>
             </ul>
-            
+
         </div>
     </div>
     <div class="row">
@@ -37,33 +37,40 @@
                         @if (first)
                         {
                             <div class="tile-header dvd dvd-btm ">
-                               
-                                    <div style="width: 430px;">
-                                        <h4 >
-                                            @if (interpretation.Abbreviation != null)
-                                            {
-                                               @Model.Name  <strong>( @interpretation.Abbreviation)</strong>
-                                            }
-                                            else
-                                            {
-                                                <strong>@Model.Name</strong>
-                                            }
-                                        </h4>
-                                    </div>
+
+                                <div style="width: 430px;">
+                                    <h4 >
+                                        @if (interpretation.Abbreviation != null)
+                                        {
+                                            @Model.Name
+                                            <strong>( @interpretation.Abbreviation)</strong>
+                                        }
+                                        else
+                                        {
+                                            <strong>@Model.Name</strong>
+                                        }
+                                    </h4>
+                                </div>
                                 <ul class="controls">
-                                            <li>
-                                                <a role="button" tabindex="0" asp-action="Create"
-                                                   asp-controller="GlossarysManage" asp-route-id="@Model.Id"><i class="fa fa-plus mr-5"></i>Толкование</a>
-                                            </li>
-                                            <li>
-                                                <a title="удалить термин" role="button" tabindex="0" target="_blank" asp-action="Delete" asp-controller="GlossarysManage" asp-route-id="@Model.Id"><i class="fa fa-trash mr-5"></i></a>
-                                            </li>
-                                            <li>
-                                                <a title="вид пользователя" role="button" tabindex="0" asp-area="" asp-action="Preview" asp-controller="Glossarys" asp-route-id="@Model.Id"><i class="fa fa-eye mr-5"></i></a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                             
+                                    <li>
+                                        <a role="button" tabindex="0" asp-action="Create"
+                                           asp-controller="GlossarysManage" asp-route-id="@Model.Id">
+                                            <i class="fa fa-plus mr-5"></i>Толкование
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a title="удалить термин" role="button" tabindex="0" target="_blank" asp-action="Delete" asp-controller="GlossarysManage" asp-route-id="@Model.Id">
+                                            <i class="fa fa-trash mr-5"></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a title="вид пользователя" role="button" tabindex="0" asp-area="" asp-action="Preview" asp-controller="Glossarys" asp-route-id="@Model.Id">
+                                            <i class="fa fa-eye mr-5"></i>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+
                             first = false;
                         }
                         <div class="tile-body">
@@ -73,71 +80,74 @@
                                 @Html.Raw(interpretation.Source)
                                 <div>
                                     <a class="btn btn-rounded-20 btn-default btn-sm mr-5 p-5" style="width:30px;" role="button" tabindex="0"
-                                       title="редактировать" asp-action="Edit" asp-controller="GlossarysManage" asp-route-id="@Model.Id" asp-route-intrId="@interpretation.Id"><i class="fa fa-pencil"></i></a>
+                                       title="редактировать" asp-action="Edit" asp-controller="GlossarysManage" asp-route-id="@Model.Id" asp-route-intrId="@interpretation.Id">
+                                        <i class="fa fa-pencil"></i>
+                                    </a>
                                     <a class="btn btn-rounded-20 btn-default btn-sm mr-5 p-5" style="width:30px;" role="button" tabindex="0"
-                                       title="удалить" asp-action="DeleteInterpretation" asp-controller="GlossarysManage" asp-route-modelId="@Model.Id" asp-route-intrId="@interpretation.Id"><i class="fa fa-trash"></i></a>
+                                       title="удалить" asp-action="DeleteInterpretation" asp-controller="GlossarysManage" asp-route-modelId="@Model.Id" asp-route-intrId="@interpretation.Id">
+                                        <i class="fa fa-trash"></i>
+                                    </a>
                                 </div>
                             </div>
                         </div>
                     </div>
                 }
-                 
+
             </section>
         </div>
-@if (@Model.GlossarysId != null)
-{
-    <div class="col-sm-6 portlets ">
-        <section class="tile portlet col - 6">
-            <div class="tile-header dvd dvd-btm">
-                <div style="width: 430px;">
-                <h4 >
-                   @Model.Glossarys.Name <strong> ( @Model.GlossarysInterpretations[0].Abbreviation)</strong>
-                </h4>
-                </div>
-                <ul class="controls">
-                    <li>
-                        <a role="button" tabindex="0" target="_blank" asp-action="Create"
-                           asp-controller="GlossarysManage" asp-route-id="@Model.GlossarysId">
-                            <i class="fa fa-plus mr-5"></i>Толкование
-                        </a>
-                    </li>
-                    <li>
-                        <a title="удалить термин" role="button" tabindex="0" asp-action="Delete" asp-controller="GlossarysManage" asp-route-id="@Model.GlossarysId">
-                            <i class="fa fa-trash mr-5"></i>
-                        </a>
-                    </li>
-                    <li>
-                        <a title="вид пользователя" role="button" tabindex="0" asp-area="" asp-action="Preview" asp-controller="Glossarys" asp-route-id="@Model.GlossarysId">
-                            <i class="fa fa-eye mr-5"></i>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-
-            @foreach (var interpretation in Model.GlossarysInterpretations)
-            {
-                <div class="tile-body">
-                    @Html.Raw(interpretation.Description)
-                    <hr/>
-                    <div style="text-align: right">
-                        @Html.Raw(interpretation.Source)
-
-                        <a class="btn btn-rounded-20 btn-default btn-sm mr-5 p-5" style="width:30px;" role="button" tabindex="0"
-                           title="редактировать" asp-action="Edit" asp-controller="GlossarysManage" asp-route-id="@Model.GlossarysId" asp-route-intrId="@interpretation.Id">
-                            <i class="fa fa-pencil"></i>
-                        </a>
-                        <a class="btn btn-rounded-20 btn-default btn-sm mr-5 p-5" style="width:30px;" role="button" tabindex="0"
-                           title="удалить" asp-action="DeleteInterpretation" asp-controller="GlossarysManage" asp-route-modelId="@Model.GlossarysId" asp-route-intrId="@interpretation.Id">
-                            <i class="fa fa-trash"></i>
-                        </a>
-
+        @if (@Model.GlossarysId != null)
+        {
+            <div class="col-sm-6 portlets ">
+                <section class="tile portlet col - 6">
+                    <div class="tile-header dvd dvd-btm">
+                        <div style="width: 430px;">
+                            <h4 >
+                                @Model.Glossarys.Name <strong> ( @Model.GlossarysInterpretations[0].Abbreviation)</strong>
+                            </h4>
+                        </div>
+                        <ul class="controls">
+                            <li>
+                                <a role="button" tabindex="0" target="_blank" asp-action="Create"
+                                   asp-controller="GlossarysManage" asp-route-id="@Model.GlossarysId">
+                                    <i class="fa fa-plus mr-5"></i>Толкование
+                                </a>
+                            </li>
+                            <li>
+                                <a title="удалить термин" role="button" tabindex="0" asp-action="Delete" asp-controller="GlossarysManage" asp-route-id="@Model.GlossarysId">
+                                    <i class="fa fa-trash mr-5"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a title="вид пользователя" role="button" tabindex="0" asp-area="" asp-action="Preview" asp-controller="Glossarys" asp-route-id="@Model.GlossarysId">
+                                    <i class="fa fa-eye mr-5"></i>
+                                </a>
+                            </li>
+                        </ul>
                     </div>
-                </div>
 
-            }
-        </section>
-    </div>
-}
+                    @foreach (var interpretation in Model.GlossarysInterpretations)
+                    {
+                        <div class="tile-body">
+                            @Html.Raw(interpretation.Description)
+                            <hr/>
+                            <div style="text-align: right">
+                                @Html.Raw(interpretation.Source)
+
+                                <a class="btn btn-rounded-20 btn-default btn-sm mr-5 p-5" style="width:30px;" role="button" tabindex="0"
+                                   title="редактировать" asp-action="Edit" asp-controller="GlossarysManage" asp-route-id="@Model.GlossarysId" asp-route-intrId="@interpretation.Id">
+                                    <i class="fa fa-pencil"></i>
+                                </a>
+                                <a class="btn btn-rounded-20 btn-default btn-sm mr-5 p-5" style="width:30px;" role="button" tabindex="0"
+                                   title="удалить" asp-action="DeleteInterpretation" asp-controller="GlossarysManage" asp-route-modelId="@Model.GlossarysId" asp-route-intrId="@interpretation.Id">
+                                    <i class="fa fa-trash"></i>
+                                </a>
+
+                            </div>
+                        </div>
+                    }
+                </section>
+            </div>
+        }
     </div >
 
 

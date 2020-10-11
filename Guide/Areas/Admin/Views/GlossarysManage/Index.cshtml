@@ -11,7 +11,7 @@
         <div class="page-bar">
             <ul class="page-breadcrumb">
                 <li>
-                    <a asp-action="Profile" asp-controller="Service"><i class="fa fa-home"></i> Guide</a>
+                    <a asp-action="Details" asp-controller="Account" asp-area=""><i class="fa fa-home"></i> Guide</a>
                 </li>
                 <li>
                     <a asp-action="Index" asp-controller="GlossarysManage">@ViewBag.Title</a>
@@ -60,32 +60,40 @@
                             {
                                 <tr class="odd gradeX">
                                     <div class="row border">
-                                        <td>
-                                            @if (glossary.Active)
-                                            {
+
+                                        @if (glossary.Active)
+                                        {
+                                            <td>
                                                 <a asp-action="Preview" asp-controller="GlossarysManage" asp-route-id="@glossary.Id">@glossary.Name</a>
-                                            }
-                                            @if (!glossary.Active && glossary.GlossarysId != null)
-                                            {
+                                            </td>
+                                        }
+                                        @if (!glossary.Active && glossary.GlossarysId != null)
+                                        {
+                                            <td>
                                                 <a title="посмотреть удаленный" role="button"
                                                    asp-action="Create" asp-controller="GlossarysManage" asp-route-id="@glossary.Id" asp-route-enId="@glossary.GlossarysId">
                                                     <i class="fas fa-globe"></i>
                                                 </a>
-                                            }
-                                        </td>
-                                        <td>
-                                            @if (glossary.GlossarysId != null)
-                                            {
+                                            </td>
+                                        }
+
+
+                                        @if (glossary.GlossarysId != null)
+                                        {
+                                            <td>
                                                 <a asp-action="Preview" asp-controller="GlossarysManage" asp-route-id="@glossary.Id">@glossary.Glossarys.Name</a>
-                                            }
-                                            @if (glossary.Active && glossary.GlossarysId == null)
-                                            {
+                                            </td>
+                                        }
+                                        @if (glossary.Active && glossary.GlossarysId == null)
+                                        {
+                                            <td>
                                                 <a title="Добавить термин на английском" role="button"
                                                    asp-action="Create" asp-controller="GlossarysManage" asp-route-glossarysId="@glossary.Id">
                                                     <i class="fas fa-globe"></i>
                                                 </a>
-                                            }
-                                        </td>
+                                            </td>
+                                        }
+
                                     </div>
                                 </tr>
                             }
@@ -107,7 +115,7 @@
 {
     <script>
         $(window).load(function(){                                           
-            let oTable = $('#editable-usage').DataTable({
+            $('#editable-usage').DataTable({
                 "aoColumnDefs": [
                     { 'defaultContent': '-', 'bSortable': false, 'aTargets': [ "no_sort" ] }
                 ]

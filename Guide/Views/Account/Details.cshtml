@@ -18,11 +18,26 @@
 
     @if (User.IsInRole("admin"))
     {
-        <h1 style="color: #4b0d5f"> @Model.User.Name @Model.User.Surname: @Model.User.Position.Name</h1>
+        if (@Model.User.Position != null)
+        {
+            <h1 style="color: #4b0d5f"> @Model.User.Name @Model.User.Surname: @Model.User.Position.Name</h1>
+        }
+        else
+        {
+            <h1 style="color: #4b0d5f"> @Model.User.Name @Model.User.Surname: Должность не назначена</h1>
+        }
+        
     }
     else
     {
-        <h1 style="color: #4b0d5f">Ваша Должность: @Model.User.Position.Name</h1>
+        if (Model.User.Position != null)
+        {
+            <h1 style="color: #4b0d5f">Ваша Должность: @Model.User.Position.Name</h1>
+        }
+        else
+        {
+            <h1 style="color: #4b0d5f">Вам еще не назначена должность</h1>
+        }
     }
 
 
@@ -65,12 +80,20 @@
                             @if (Model.PositionsIssues.Count > 0)
                             {
                                 int i = 0;
-                                <h2 style="color: #25892e;">Задачи для Вашей Должности:</h2>
+                                @if (User.IsInRole("admin"))
+                                {
+                                    <h2 style="color: #25892e;">Задачи для Вашей Должности:</h2>
+                                }
+                                else
+                                {
+                                    <h2 style="color: #25892e;">Задачи для Должности:</h2>
+                                }
+                                
                                 <table class="table table-custom" id="editable-usage">
                                     <thead>
                                     <tr>
                                         <th></th>
-                                        <th>Бизнесс процесс</th>
+                                        <th>Бизнес процесс</th>
                                         <th>Задача</th>
                                     </tr>
                                     </thead>
@@ -84,7 +107,7 @@
                                                 @foreach (var bp in issue.BP)
                                                 {
                                                     <a style="color: #34ce57;font-style: oblique;"
-                                                       asp-action="Details" asp-controller="BusinessProcess" asp-route-id="@bp.Id">
+                                                       asp-action="Details" asp-controller="BusinessProcess" asp-route-id="@bp.Id" asp-route-back="Личный кабинет">
                                                         @bp.Name :
                                                     </a>
                                                 }
@@ -92,7 +115,7 @@
                                             <td>
                                                 <a asp-action="Details" asp-controller="Issues" asp-route-id="@issue.Id">@issue.Name</a>
                                                 <span onclick="viewStep('@issue.Id', '@i')">
-                                             <i class="fa fa-angle-down"></i>  
+                                                    <i class="fa fa-angle-down"></i>
                                                 </span>
                                                 <div id="step-@issue.Id@i" class="form-group" style="justify-content: left; "></div>
                                             </td>
@@ -142,7 +165,7 @@
                                                     }
                                                     <a asp-action="Details" asp-controller="Issues" asp-route-id="@issue.Id">@issue.Name</a>
                                                     <span onclick="viewStep('@issue.Id', '@i')">
-                                                      <i class="fa fa-angle-down"></i>
+                                                        <i class="fa fa-angle-down"></i>
                                                     </span>
                                                     <div id="confirmDesResDelete-@i" style="display: none">
                                                         <p>Вы действительно хотите удалить эту Задачу для сотрудника</p>
@@ -219,8 +242,7 @@
 {
     <script>
    CKEDITOR.replace('Task', {
-         // Define the toolbar groups as it is a more accessible solution.
-         toolbarGroups: [{
+                 toolbarGroups: [{
              "name": "basicstyles",
              "groups": ["basicstyles"]
            },
@@ -238,8 +260,7 @@
              "groups": ["styles"]
            }
                    ],
-         // Remove the redundant buttons from toolbar groups defined above.
-         removeButtons: 'Underline,Strike,Subscript,Superscript,Anchor,Styles,Specialchar,document,insert,about'
+               removeButtons: 'Underline,Strike,Subscript,Superscript,Anchor,Styles,Specialchar,document,insert,about'
        });
    
     $(window).load(function(){                                           

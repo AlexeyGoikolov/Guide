@@ -1,4 +1,4 @@
-﻿@model  List<LibraryListViewModel>
+@model List<Source>
 
 @{
     ViewBag.Title = "Библиотека";
@@ -31,10 +31,7 @@
                     </h1>
                     <ul class="controls">
                         <li>
-                            <a role="button" tabindex="0" asp-action="Create" asp-controller="SourceManage"><i class="fa fa-plus mr-5"></i>Добавить</a>
-                        </li>
-                        <li>
-                            <a role="button" tabindex="0" asp-action="Create" asp-controller="BooksManage"><i class="fa fa-plus mr-5"></i>Добавить Книгу</a>
+                            <a role="button" tabindex="0" asp-action="Create" asp-controller="SourceManage"><i class="fa fa-plus mr-5"></i>Добавить новый источник</a>
                         </li>
                         <li>
                             <a role="button" tabindex="0" asp-action="Index" asp-controller="SourceManage">Активные</a>
@@ -54,135 +51,99 @@
                             <tr>
                                 <th style="width: 30%">Название</th>
                                 <th>Автор</th>
-                                <th>Тип Контента</th>
+                                <th>Тип источника</th>
                                 <th>Категория</th>
-                                <th>Тип файла</th>
+                                <th>Связан с бизнес-процессами</th>
                                 <th style="width: 160px;" class="no-sort">Действие</th>
                             </tr>
                             </thead>
                             <tbody>
                             @{int i = 0;}
-                            @foreach (var post in Model)
+                            @foreach (var source in Model)
                             {
                                 i++;
                                 <tr class="odd gradeX">
-                                    @if (post.Entity == "book")
+                                    <td>
+                                        <a asp-action="Details" asp-controller="SourceManage" asp-route-id="@source.Id">@source.Name</a>
+                                    </td>
+                                    @if (source.Authors.Count > 0)
                                     {
-                                        <td>
-                                            <a asp-action="Details" asp-controller="BooksManage" asp-route-id="@post.Id">@post.Name</a>
-                                        </td>
-                                    }
-                                    else
-                                    {
-                                        <td>
-                                            <a asp-action="Details" asp-controller="SourceManage" asp-route-id="@post.Id">@post.Name</a>
-                                        </td>
-                                    }
-                                    @if (post.Entity != "book")
-                                    {
-                                        if (post.Author != null)
+                                        string authors = "";
+                                        @foreach (var t in source.Authors)
                                         {
-                                            <td>@post.Author</td>
+                                            authors += t.Name + ", ";
                                         }
-                                        else
-                                        {
-                                            <td></td>
-                                        }
-                                    }
-                                    else
-                                    {
-                                        if (post.BookAuthors.Count > 0)
-                                        {
-                                            string authors = ""; 
-                                            @foreach (var t in post.BookAuthors)
-                                            {
-                                                authors += t.Name + ", ";
-                                            }
-                                            <td>@authors.Trim().TrimEnd(',')</td>
-                                        }
-                                        else
-                                        {
-                                            <td></td>
-                                        }
-                                    }
-                                    @if (post.TypeContent != null)
-                                    {
-                                        <td>@post.TypeContent.Name</td>
+                                        <td>@authors.Trim().TrimEnd(',')</td>
                                     }
                                     else
                                     {
                                         <td></td>
                                     }
-                                    @if (post.Category != null)
+                                    @if (source.SourceType != null)
                                     {
-                                        <td>@post.Category.Name</td>
+                                        <td>@source.SourceType.Name</td>
                                     }
                                     else
                                     {
                                         <td></td>
                                     }
-                                    @if (post.Type != null)
+                                    @if (source.Category != null)
                                     {
-                                        <td>@post.Type.Name</td>
+                                        <td>@source.Category.Name</td>
                                     }
                                     else
                                     {
                                         <td></td>
                                     }
-                                    @if (post.Entity != "book")
+                                    @if (source.BusinessProcesses.Count > 0)
                                     {
-                                        <td>
-                                                <a id="link_@i" onclick="copy(event,@i)" class="btn btn-rounded-20 btn-default btn-sm p-5" style="width:30px;" role="button" tabindex="0" target="_blank"
-                                                   title="Копировать ссылку" href="../../@post.FilePath"><i class="fa fa-link"></i></a>
- 
-                                            
-                                            <a class="btn btn-rounded-20 btn-default btn-sm p-5" style="width:30px;" role="button" tabindex="0" target="_blank"
-                                               title="Вид пользователя" asp-action="Details" asp-controller="Material" asp-area="" asp-route-id="@post.Id"><i class="fa fa-eye"></i></a>
-                                            <a class="btn btn-rounded-20 btn-default btn-sm p-5" style="width:30px;" role="button" asp-action="Edit"
-                                               asp-controller="SourceManage" asp-area="Admin" asp-route-id="@post.Id" tabindex="0" title="Изменить"><i class="fa fa-pencil"></i></a>
-                                            @if (post.Active)
-                                            {
-                                                <a class="btn btn-rounded-20 btn-default btn-sm p-5" style="width:30px;" role="button" tabindex="0"
-                                                   title="Удалить" asp-action="Delete" asp-controller="SourceManage" asp-route-id="@post.Id"><i class="fa fa-trash"></i></a>
-                                            }
-                                            else
-                                            {
-                                                <a class="btn btn-rounded-20 btn-default btn-sm p-5" style="width:30px;"
-                                                   asp-action="Delete" asp-controller="SourceManage" title="Восстановить" asp-route-id="@post.Id">
-                                                    <i class="fa fa-reply"></i>
-                                                </a>
-                                            }
-                                        </td>
+                                        string processes = "";
+                                        @foreach (var bp in source.BusinessProcesses)
+                                        {
+                                            processes += bp.Name + ", ";
+                                        }
+                                        <td>@processes.Trim().TrimEnd(',')</td>
                                     }
                                     else
                                     {
-                                        <td >
-                                             @if (post.TranslationID == 0)
-                                             {
-                                                 <a title="Добавить на английском" role="button" class="btn btn-rounded-20 btn-default btn-sm p-5" style="width:30px;"
-                                                    asp-action="Create" asp-controller="BooksManage" asp-route-bookId="@post.Id">
-                                                     <i class="fas fa-globe"></i>
-                                                 </a>
-                                             }
-                                             <a id="link_@i" onclick="copy(event,@i)" class="btn btn-rounded-20 btn-default btn-sm p-5" style="width:30px;" role="button" tabindex="0" target="_blank"
-                                                                                                title="Копировать ссылку" href="../../@post.FilePath"><i class="fa fa-link"></i></a>
+                                        <td></td>
+                                    }
+                                    
+                                    <td>
+                                        @if (source.TranslationID == 0)
+                                        {
+                                            <a title="Добавить на английском" role="button" class="btn btn-rounded-20 btn-default btn-sm p-5" style="width:30px;"
+                                               asp-action="Create" asp-controller="SourceManage" asp-route-sourceId="@source.Id">
+                                                <i class="fas fa-globe"></i>
+                                            </a>
+                                        }
+                                        <a id="link_@i" onclick="copy(event,@i)" class="btn btn-rounded-20 btn-default btn-sm p-5" style="width:30px;" role="button" tabindex="0" target="_blank"
+                                           title="Копировать ссылку" href="../../@source.VirtualPath">
+                                            <i class="fa fa-link"></i>
+                                        </a>
+                                        <a class="btn btn-rounded-20 btn-default btn-sm p-5" style="width:30px;" role="button" tabindex="0" target="_blank"
+                                           title="Вид пользователя" asp-action="Details" asp-controller="Source" asp-area="" asp-route-id="@source.Id">
+                                            <i class="fa fa-eye"></i>
+                                        </a>
+                                        <a class="btn btn-rounded-20 btn-default btn-sm p-5" style="width:30px;" role="button" asp-action=""
+                                           asp-controller="SourceManage" asp-area="Admin" asp-route-id="@source.Id" tabindex="0" title="Изменить">
+                                            <i class="fa fa-pencil"></i>
+                                        </a>
+                                        @if (source.Active)
+                                        {
                                             <a class="btn btn-rounded-20 btn-default btn-sm p-5" style="width:30px;" role="button" tabindex="0"
-                                               target="_blank" title="Вид пользователя" asp-action="Details" asp-controller="Source" asp-area="" asp-route-id="@post.Id"><i class="fa fa-eye"></i></a>
-                                            <a class="btn btn-rounded-20 btn-default btn-sm p-5" style="width:30px;" title="Редактировать"
-                                               asp-action="Details" asp-controller="BooksManage" asp-route-id="@post.Id"><i class="fa fa-pencil"></i></a>
-
-                                            @if (post.Active)
-                                            {
-                                                <a class="btn btn-rounded-20 btn-default btn-sm p-5" title="Удалить" style="width:30px;"
-                                                   asp-action="Delete" asp-controller="BooksManage" asp-route-id="@post.Id"><i class="fa fa-trash"></i></a>
-                                            }
-                                            else
-                                            {
-                                                <a class="btn btn-rounded-20 btn-default btn-sm p-5" style="width:30px;"
-                                                   asp-action="Delete" asp-controller="BooksManage" asp-route-id="@post.Id" title="Восстановить"><i class="fa fa-reply"></i></a>
-                                            }
-                                        </td>
-                                    }
+                                               title="Удалить" asp-action="Delete" asp-controller="SourceManage" asp-route-id="@source.Id">
+                                                <i class="fa fa-trash"></i>
+                                            </a>
+                                        }
+                                        else
+                                        {
+                                            <a class="btn btn-rounded-20 btn-default btn-sm p-5" style="width:30px;"
+                                               asp-action="Delete" asp-controller="SourceManage" title="Восстановить" asp-route-id="@source.Id">
+                                                <i class="fa fa-reply"></i>
+                                            </a>
+                                        }
+                                    </td>
                                 </tr>
                             }
                             </tbody>
@@ -228,4 +189,3 @@
 
     </script>
 }
-

@@ -1,4 +1,4 @@
-﻿@model  List<LibraryListViewModel>
+﻿@model  List<Source>
 
 @{
     ViewBag.Title = "Библиотека";
@@ -40,80 +40,62 @@
                             <tr>
                                 <th style="width: 30%">Название</th>
                                 <th>Автор</th>
-                                <th>Тип Контента</th>
+                                <th>Тип источника</th>
                                 <th>Категория</th>
-                                <th>Тип файла</th>
+                                <th>Связанные бизнес-процессы</th>
                                 <th>Дата создания</th>
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach (var post in Model)
+                            @foreach (var source in Model)
                             {
                                 <tr class="odd gradeX">
-                                    @if (post.Entity == "book")
+                                    <td>
+                                        <a asp-action="Details" asp-controller="Source" asp-route-id="@source.Id">@source.Name</a>
+                                    </td>
+                                    @if (source.Authors.Count > 0)
                                     {
-                                        <td>
-                                            <a asp-action="Details" asp-controller="Source" asp-route-id="@post.Id">@post.Name</a>
-                                        </td>
-                                    }
-                                    else
-                                    {
-                                        <td>
-                                            <a asp-action="Details" asp-controller="Material" asp-route-id="@post.Id">@post.Name</a>
-                                        </td>
-                                    }
-                                    @if (post.Entity != "Книга")
-                                    {
-                                        if (post.Author != null)
+                                        string authors = "";
+                                        @foreach (var author in source.Authors)
                                         {
-                                            <td>@post.Author</td>
+                                            authors += author.Name + ", ";
                                         }
-                                        else
-                                        {
-                                            <td></td>
-                                        }
-                                    }
-                                    else
-                                    {
-                                        if (post.BookAuthors.Count > 0)
-                                        {
-                                            string authors = "";
-                                            @foreach (var t in post.BookAuthors)
-                                            {
-                                                authors += t.Name + ", ";
-                                            }
-                                            <td>@authors.Trim().TrimEnd(',')</td>
-                                        }
-                                        else
-                                        {
-                                            <td></td>
-                                        }
-                                    }
-                                    @if (post.TypeContent != null)
-                                    {
-                                        <td>@post.TypeContent.Name</td>
+                                        <td>@authors.Trim().TrimEnd(',')</td>
                                     }
                                     else
                                     {
                                         <td></td>
                                     }
-                                    @if (post.Category != null)
+                                    @if (source.SourceType != null)
                                     {
-                                        <td>@post.Category.Name</td>
+                                        <td>@source.SourceType.Name</td>
                                     }
                                     else
                                     {
                                         <td></td>
                                     }
-                                    @if (post.Type != null)
+                                    @if (source.Category != null)
                                     {
-                                        <td>@post.Type.Name</td>
+                                        <td>@source.Category.Name</td>
                                     }
                                     else
                                     {
                                         <td></td>
                                     }
-                                    <td>@post.DateCreate</td>
+                                    @if (source.BusinessProcesses.Count > 0)
+                                    {
+                                        string processes = "";
+                                        @foreach (var bp in source.BusinessProcesses)
+                                        {
+                                            processes += bp.Name + ", ";
+                                        }
+                                        <td>@processes.Trim().TrimEnd(',')</td>
+                                    }
+                                    else
+                                    {
+                                        <td></td>
+                                    }
+                                    <td>@source.DateCreate</td>
                                 </tr>
                             }
                             </tbody>
@@ -128,7 +110,8 @@
         <!-- /col -->
     </div>
     <!-- /row -->
-</div>      
+</div>
+
 @section Scripts
 {
     <script> 

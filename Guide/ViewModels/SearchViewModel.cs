@@ -7,8 +7,7 @@ namespace Guide.ViewModels
     {
         public string Search { get; set; }
         public int TotalFound{ get; set; }
-        public List<Book>  Books{ get; set; }
-        public List<Post>  Posts{ get; set; }
+        public List<Source>  Sources{ get; set; }
         public List<Issue>  Issues{ get; set; }
         public List<Step> Steps{ get; set; }
         public List<Glossary> Glossaries{ get; set; }

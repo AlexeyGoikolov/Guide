@@ -40,14 +40,13 @@
                 @if (Model.Name == null && Model.Description == null)
                 {
                     <button type="submit" class="btn btn-info mt-10 glossary-create-button">Сохранить Термин с Толкованием</button>
-                    
                 }
                 else
                 {
                     <button type="submit" class="btn btn-info mt-10 glossary-update-button">Сохранить</button>
                     <a asp-action="Index" asp-controller="GlossarysManage" class="btn btn-info mt-10 glossary-cancel-button" style="margin:  20px 0 0;">Отменить</a>
                 }
-                
+
             </div>
         </section>
     </div>

@@ -48,34 +48,32 @@ namespace Guide.Services
         public virtual List<Issue> GetUserIssues(string userId)
         {
             return _db.UserIssues.OrderBy(d => d.Id)
-                .Where(d => d.UserId == userId).
-                Select(s => s.Issue).ToList();
+                .Where(d => d.UserId == userId).Select(s => s.Issue).ToList();
         }
-        public virtual List<Issue> PositionsIssues(int positionId)
+
+        public virtual List<Issue> PositionsIssues(int? positionId)
         {
             List<Issue> issues = _db.PositionIssues.OrderBy(d => d.Id)
-                .Where(d => d.PositionId == positionId).
-                Select(s => s.Issue).ToList();
+                .Where(d => d.PositionId == positionId).Select(s => s.Issue).ToList();
             if (issues.Count == 0)
                 return issues = new List<Issue>();
             return issues;
-        }     
+        }
+
         public virtual List<BusinessProcess> BusinessProcessIssues(int issueId)
         {
             List<BusinessProcess> bp = _db.BusinessProcessIssues.OrderBy(b => b.Id)
-                .Where(b => b.IssueId == issueId).
-                Select(b => b.BusinessProcess).ToList();
+                .Where(b => b.IssueId == issueId).Select(b => b.BusinessProcess).ToList();
             if (bp.Count == 0)
                 return bp = new List<BusinessProcess>();
             return bp;
-        }     
-        
-        
+        }
         public virtual void AddPosition(Position position) => _db.Positions.Add(position);
 
         public virtual Position GetPosition(int positionId) => _db.Positions.FirstOrDefault(p => p.Id == positionId);
-        
+
         public virtual List<Position> GetAllPositions() => _db.Positions.ToList();
+
         public virtual List<Position> GetActivePositions()
         {
             return _db.Positions.Where(p => p.Active).ToList();

@@ -3,11 +3,13 @@ using System.Linq;
 using Guide.Models;
 using Guide.Models.Data;
 using Guide.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace Guide.Controllers
 {
+    [Authorize]
     public class SearchController : Controller
     {
         private readonly GuideContext _db;
@@ -49,17 +51,15 @@ namespace Guide.Controllers
                     QuestionAnswers = new List<QuestionAnswer>(_db.QuestionAnswers.Where(s => EF.Functions.Like
                                                                                               (s.Question.ToLower(),
                                                                                                   a) ||
-                                                                                              EF.Functions.Like(s.Answer.ToLower(),
+                                                                                              EF.Functions.Like(
+                                                                                                  s.Answer.ToLower(),
                                                                                                   a))),
-                    Books = new List<Book>(_db.Books.Where(b => EF.Functions.Like
-                                                                (b.Name.ToLower(), a) ||
-                                                                EF.Functions.Like(b.Keys.ToLower(), a))),
-                    Posts = new List<Post>(_db.Posts.Where(p => EF.Functions.Like(p.Title.ToLower(), a) ||
-                                                                EF.Functions.Like(p.Keys.ToLower(), a) ||
-                                                                EF.Functions.Like(p.TextContent.ToLower(), a))),
+                    Sources = new List<Source>(_db.Sources.Where(b => EF.Functions.Like
+                                                                          (b.Name.ToLower(), a) ||
+                                                                      EF.Functions.Like(b.Keys.ToLower(), a)))
                 };
-                model.TotalFound = model.Issues.Count + model.Steps.Count + model.Glossaries.Count + model.Posts.Count +
-                                   model.Books.Count + model.QuestionAnswers.Count;
+                model.TotalFound = model.Issues.Count + model.Steps.Count + model.Glossaries.Count +
+                                   model.Sources.Count + model.QuestionAnswers.Count;
                 return View(model);
             }
 

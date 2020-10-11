@@ -1,11 +1,10 @@
-﻿@model Book
+﻿@model Source
 
 @{
     ViewBag.Title = "Книга";
     Layout = "_LayoutEmployee";
 }
 <div class="page">
-    <!-- заголовок страницы -->
     <div class="pageheader">
         <h2>
             @ViewBag.Title <br/>@Model.Name</h2>
@@ -23,27 +22,20 @@
             </ul>
         </div>
     </div>
-    <!--/ заголовок страницы -->
-
     <div class="page row">
-
         <div class="tile-body">
-
             <div class="row">
-
                 <div class="col-sm-4 portlets sortable">
                     <section class="tile portlet ">
-
                         <!-- tile body -->
                         <div class="tile-body">
-                            <div  style="text-align: center; margin: 10px;">
+                            <div style="text-align: center; margin: 10px;">
                                 <img style=" width: 100%;-webkit-box-shadow: 14px 14px 28px -6px rgba(53,3,71,0.57);
                                                                           -moz-box-shadow: 14px 14px 28px -6px rgba(53,3,71,0.57);
                                                                           box-shadow: 14px 14px 28px -6px rgba(53,3,71,0.57);" src="~/@Model.CoverPath" alt="изображение обложки">
                             </div>
                         </div>
                         <!-- /tile body -->
-
                     </section>
                 </div>
                 <div class="col-sm-8 portlets sortable">
@@ -51,20 +43,29 @@
                         <!-- tile body -->
                         <div class="tile-body">
                             <div style="text-align: right; margin-right: 10px ">
-                                @if (Model.IsRecipe)
+                                @if (Model.Category != null)
                                 {
-                                    <span>является Рецептом</span>
+                                    <span style="color: #0a6aa1">Категория: @Model.Category.Name</span>
                                 }
-                                ISBN @Model.ISBN
+                                @if (Model.ISBN != null)
+                                {
+                                    <br><span>ISBN @Model.ISBN</span> 
+                                }
                             </div>
                             <div>
-                                
+
                                 <h2>" @Model.Name "</h2>
                             </div>
-                            <div>год издания : @Model.YearOfWriting</div>
-                            <div>в редакции  : @Model.Edition</div>
-                            <div>дата добавления в систему : @Model.DateCreate</div>
-                            <div>дата последнего исправления : @Model.DateUpdate</div>
+                            @if (Model.YearOfWriting != null)
+                            {
+                                <div>Год издания : @Model.YearOfWriting</div>
+                            }
+                            @if (Model.Edition != null)
+                            {
+                                <div>Редакция : @Model.Edition</div>
+                            }
+                            <div>Дата добавления в систему : @Model.DateCreate</div>
+                            <div>Дата последнего исправления : @Model.DateUpdate</div>
                             <div>
                                 @if (Model.PhysicalPath == null)
                                 {
@@ -72,30 +73,35 @@
                                 }
                                 else
                                 {
-                                    <p>книга находится : @Model.PhysicalPath</p>
+                                    <p>Источник находится : @Model.PhysicalPath</p>
                                 }
                             </div>
+                            @if (Model.BusinessProcesses.Count > 0)
+                            {
+                                string processes = "";
+                                @foreach (var bp in Model.BusinessProcesses)
+                                {
+                                    processes += bp.Name + ", ";
+                                }
+                                <p>Связан с Бизнес-процессами: @processes</p>
+                            }
                             @if (Model.VirtualPath != null)
                             {
                                 <div>
                                     <a asp-action="ReadBook" asp-controller="Source" asp-route-id="@Model.Id"><i class="fa fa-book"></i> Читать книгу </a>
                                 </div>
                             }
-                            
-                             <div>
-                                 @if (ViewBag.BookTransferId != 0)
-                                 {
-                                     @if (ViewBag.BookTransferLanguage == "ru")
-                                     {<a asp-action="Details" asp-controller="Source" asp-route-path="" asp-route-id="@ViewBag.BookTransferId"><i class="fas fa-globe"></i> Перевод</a>}
-                                     @if (ViewBag.BookTransferLanguage == "en")
-                                     {<a asp-action="Details" asp-controller="Source" asp-route-path="" asp-route-id="@ViewBag.BookTransferId"><i class="fas fa-globe"></i> Оригинальная версия</a>}
-                                 }
-
-                             </div>
+                            <div>
+                                @if (ViewBag.BookTransferId != 0)
+                                {
+                                    @if (ViewBag.BookTransferLanguage == "ru")
+                                    {<a asp-action="Details" asp-controller="Source" asp-route-path="" asp-route-id="@ViewBag.BookTransferId"><i class="fas fa-globe"></i> Перевод</a>}
+                                    @if (ViewBag.BookTransferLanguage == "en")
+                                    {<a asp-action="Details" asp-controller="Source" asp-route-path="" asp-route-id="@ViewBag.BookTransferId"><i class="fas fa-globe"></i> Оригинальная версия</a>}
+                                }
+                            </div>
                         </div>
-
                         <!-- /tile body -->
-
                     </section>
                 </div>
             </div>
@@ -112,7 +118,6 @@
         <div class="panel panel-info mt-10">
             <div id="listComment"></div>
         </div>
-
     </div>
 </div>
 
@@ -125,12 +130,12 @@
             let comment = $('#comment_area').val();
             reset();        
             $.ajax({
-                url: '@Url.Action("CreateComment", "SourceManage", new{area="Admin"})',
+                url: '@Url.Action("CreateComment", "SourceManage", new {area = "Admin"})',
                 type: 'POST',
                 data: { 
                     'sourceId': id, 
                     'description': comment,
-                    'type': "book"},
+                },
                 success: function(data) {
                     $('#listComment').html(data); 
                 },
@@ -141,28 +146,25 @@
             $('#comment_area').val("");               
         };
         
-        function deleteComment(Id, PostId) {
+        function deleteComment(Id, SourceId) {
             $.ajax({
-                url: '@Url.Action("DeleteComment", "SourceManage", new{area="Admin"})',
+                url: '@Url.Action("DeleteComment", "SourceManage", new {area = "Admin"})',
                 type: 'GET',
                 data: { 
                     'id': Id,
-                    'sourceId': PostId,
-                    'type': "book" 
+                    'sourceId': SourceId, 
                 },
                 success: function(data) {
                     $('#listComment').html(data); 
                 },
             });   
-        }
-              
+        }              
         function viewComment(id) {                             
             $.ajax({
-                url: '@Url.Action("ViewComment", "SourceManage", new{area="Admin"})',
+                url: '@Url.Action("ViewComment", "SourceManage", new {area = "Admin"})',
                 type: 'GET',
                 data: { 
                     'id': id,
-                    'type': "book"
                 },
                 success: function(data) {
                 $('#listComment').html(data); 

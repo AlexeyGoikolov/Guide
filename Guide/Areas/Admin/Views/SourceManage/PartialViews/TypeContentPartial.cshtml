@@ -1,12 +1,12 @@
-﻿@model MaterialTypeContentViewModel
+﻿@model SourceTypeContentViewModel
 
 <label>Тип Контента</label>
-  <span class="validationError" asp-validation-for="@Model.Material.TypeContentId"></span>
+  <span class="validationError" asp-validation-for="@Model.Source.SourceTypeId"></span>
 <div style="display: flex">
-    <select id="typeContentId" class="form-control" name="TypeContentId" asp-for="@Model.Material.TypeContentId">
-        @foreach (var typeContent in Model.TypeContents)
+    <select id="typeContentId" class="form-control" name="SourceTypeContentId" asp-for="@Model.Source.SourceTypeId">
+        @foreach (var sourceType in Model.SourceTypes)
         {
-            <option value="@typeContent.Id">@typeContent.Name</option>
+            <option value="@sourceType.Id">@sourceType.Name</option>
         }
     </select>
 
@@ -21,19 +21,19 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Добавить новую Тип Контента</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Добавить новый тип источника</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
                 <div class="input-group mb-3" style="justify-content: center">
-                    <input type="text" id="typeContentInput" class="input-register" style="width: 460px;">
+                    <input type="text" id="sourceTypeInput" class="input-register" style="width: 460px;">
                     <button class="btn btn-outline-secondary" data-dismiss="modal" type="button" id="typeContentButton" style="margin:0 0 5px 17px;">Добавить</button>
                 </div>
-                @foreach (var typeContent in Model.TypeContents)
+                @foreach (var sourceType in Model.SourceTypes)
                 {
-                    <p style="text-align: right; ">- @typeContent.Name <button data-dismiss="modal" type="button" value="@typeContent.Id" class="btn buttonDeleteTypeContent"><i class="fas fa-trash-alt"></i></button></p>
+                    <p style="text-align: right; ">- @sourceType.Name <button data-dismiss="modal" type="button" value="@sourceType.Id" class="btn buttonDeleteType"><i class="fas fa-trash-alt"></i></button></p>
                 }
             </div>
         </div>

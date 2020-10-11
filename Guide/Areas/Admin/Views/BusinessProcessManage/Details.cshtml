@@ -7,20 +7,17 @@
 
 <div class="page">
     <div class="pageheader">
-
         <h2>@ViewBag.Title</h2>
-
         <div class="page-bar">
-
             <ul class="page-breadcrumb">
                 <li>
-                    <a asp-action="Details" asp-controller="Account"><i class="fa fa-home"></i> Guide</a>
+                    <a asp-action="Details" asp-controller="Account" asp-area=""><i class="fa fa-home"></i> Guide</a>
                 </li>
                 <li>
                     <a href='javascript:history.go(-1)'>@Model.Back</a>
                 </li>
                 <li>
-                 <a asp-action="Details" asp-controller="BusinessProcessManage" asp-route-id="@Model.BusinessProcess.Id">Подробно</a>
+                    <a asp-action="Details" asp-controller="BusinessProcessManage" asp-route-id="@Model.BusinessProcess.Id">Подробно о @Model.BusinessProcess.Name</a>
                 </li>
             </ul>
         </div>
@@ -38,15 +35,15 @@
                         <h6 class="custom-font mt-0 mb-5">дата создания: @Model.BusinessProcess.CreatedAt.ToShortDateString() </h6>
                         <div class="desc text-default lt mb-20 mt-20 material_content">
                             @Html.Raw(Model.BusinessProcess.Description)
-                             <h2 style="color: #0c5460">Задачи:</h2>
+                            <h2 style="color: #0c5460">Задачи:</h2>
                             @if (Model.DesignatedIssues.Count > 0)
                             {
-                               int i = 0;
+                                int i = 0;
                                 @foreach (var issue in Model.DesignatedIssues)
                                 {
                                     i++;
                                     <h3>
-                                      @i.   <a asp-action="Details" asp-controller="IssuesManage" asp-route-id="@issue.Id"  asp-route-back="@Model.BusinessProcess.Name">@issue.Name</a>
+                                        @i. <a asp-action="Details" asp-controller="IssuesManage" asp-route-id="@issue.Id" asp-route-back="@Model.BusinessProcess.Name">@issue.Name</a>
                                     </h3>
                                 }
                             }
@@ -55,12 +52,14 @@
 
                     </div>
                     <div class="col-md-4">
-                        <a class="btn btn-small btn-info" asp-action="Edit" asp-controller="BusinessProcessManage" asp-area="Admin" asp-route-id="@Model.BusinessProcess.Id">Редактировать Название и Описание</a>
+                        <a class="btn btn-small btn-info" asp-action="Edit" asp-controller="BusinessProcessManage"
+                           asp-area="Admin" asp-route-id="@Model.BusinessProcess.Id">
+                            Редактировать Название и Описание
+                        </a>
                     </div>
                 </div>
             </div>
             <!-- /tile body -->
-            
         </section>
     </div>
 </div>

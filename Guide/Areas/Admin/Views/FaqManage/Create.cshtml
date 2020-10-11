@@ -1,11 +1,11 @@
 ﻿@model QuestionAnswersViewModel
 
 @{
-   @if (Model.Status == QuestionAnswersStatus.Create)
+    @if (Model.Status == QuestionAnswersStatus.Create)
     {
         ViewBag.Title = "Добавить ситуацию";
     }
-    else if  (Model.Status == QuestionAnswersStatus.Edit)
+    else if (Model.Status == QuestionAnswersStatus.Edit)
     {
         ViewBag.Title = "Редактировать";
     }
@@ -27,26 +27,26 @@
         <div class="page-bar">
             <ul class="page-breadcrumb">
                 <li>
-                    <a asp-action="Details" asp-controller="Account"><i class="fa fa-home"></i> Guide</a>
+                    <a asp-action="Details" asp-controller="Account" asp-area=""><i class="fa fa-home"></i> Guide</a>
                 </li>
                 <li>
                     <a asp-action="Index" asp-controller="FaqManage"> Ситуационная база</a>
                 </li>
                 <li>
-                    <a> @ViewBag.Title</a> 
+                    <a> @ViewBag.Title</a>
                 </li>
             </ul>
         </div>
     </div>
     <div class="card" style="width:100%;margin:auto;">
         <div class="card-body">
-           
-            <form class="create-form" asp-action="Create" asp-controller="FaqManage" 
-                  asp-area="Admin" method="post" enctype="multipart/form-data" >
-                @{ await Html.RenderPartialAsync("PartialViews/QuestionAnswers", Model); }
+
+            <form class="create-form" asp-action="Create" asp-controller="FaqManage"
+                  asp-area="Admin" method="post" enctype="multipart/form-data">
+                @{ Html.RenderPartial("PartialViews/QuestionAnswers", Model); }
                 <input type="hidden" value="@Model.QuestionAnswer.Id" asp-for="QuestionAnswer.Id">
                 <input type="hidden" value="@Model.Status" asp-for="@Model.Status">
-                <input type="hidden" value="@Model.PostId" asp-for="@Model.PostId">
+                <input type="hidden" value="@Model.SourceId" asp-for="@Model.SourceId">
                 @if (Model.Status == QuestionAnswersStatus.Create)
                 {
                     <button type="submit" class="btn btn-info" style="margin:  20px 0 0;">Добавить</button>
@@ -71,8 +71,8 @@
 
 @section Scripts
 {
-   
-     <script>
+
+    <script>
             CKEDITOR.replace('QuestionAnswer.Answer');
         </script>
 }

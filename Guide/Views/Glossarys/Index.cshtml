@@ -53,27 +53,38 @@
                             {
                                 <tr class="odd gradeX">
                                     <div class="row border">
-                                        <td>
-                                            @if (glossary.Active)
-                                            {
-                                                <a asp-action="Preview" asp-controller="Glossarys" asp-route-id="@glossary.Id" asp-area="">@glossary.Name</a>
-                                            }
-                                            @if (!glossary.Active && glossary.GlossarysId != null)
-                                            {
+
+                                        @if (glossary.Active)
+                                        {
+                                            <td>
+                                                <a asp-action="Preview" asp-controller="Glossarys"
+                                                   asp-route-id="@glossary.Id" asp-area="">
+                                                    @glossary.Name</a>
+                                            </td>
+                                        }
+                                        @if (!glossary.Active && glossary.GlossarysId != null)
+                                        {
+                                            <td>
                                                 <i class="fas fa-globe"></i>
-                                            }
-                                        </td>
-                                        <td>
-                                            @if (glossary.GlossarysId != null)
-                                            {
+                                            </td>
+                                        }
+
+
+                                        @if (glossary.GlossarysId != null)
+                                        {
+                                            <td>
                                                 <a asp-action="Preview" asp-controller="Glossarys" asp-route-id="@glossary.GlossarysId"
-                                                   asp-area="">@glossary.Glossarys.Name</a>
-                                            }
-                                            @if (glossary.Active && glossary.GlossarysId == null)
-                                            {
-                                               <i class="fas fa-globe"></i>
-                                            }
-                                        </td>
+                                                   asp-area="">
+                                                    @glossary.Glossarys.Name</a>
+                                            </td>
+                                        }
+                                        @if (glossary.Active && glossary.GlossarysId == null)
+                                        {
+                                            <td>
+                                                <i class="fas fa-globe"></i>
+                                            </td>
+                                        }
+
                                     </div>
                                 </tr>
                             }
@@ -104,4 +115,3 @@
         });
     </script>
 }
-

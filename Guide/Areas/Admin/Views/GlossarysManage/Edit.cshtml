@@ -10,7 +10,7 @@
         <div class="page-bar">
             <ul class="page-breadcrumb">
                 <li>
-                    <a asp-action="Profile" asp-controller="Service"><i class="fa fa-home"></i> Guide</a>
+                    <a asp-action="Details" asp-controller="Account" asp-area=""><i class="fa fa-home"></i> Guide</a>
                 </li>
                 <li>
                     <a asp-action="Index" asp-controller="GlossarysManage">Глоссарий</a>
@@ -44,7 +44,7 @@
     <script>
                 CKEDITOR.replace('Description');
                 CKEDITOR.replace('Source', {
-                                      // Define the toolbar groups as it is a more accessible solution.
+                                      
                                       toolbarGroups: [{
                                           "name": "basicstyles",
                                           "groups": ["basicstyles"]
@@ -63,7 +63,7 @@
                                           "groups": ["styles"]
                                         }
                                                 ],
-                                      // Remove the redundant buttons from toolbar groups defined above.
+                                     
                                       removeButtons: 'Underline,Strike,Subscript,Superscript,Anchor,Styles,Specialchar,document,insert,about'
                                     });
                                
