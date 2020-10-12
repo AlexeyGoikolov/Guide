@@ -49,12 +49,15 @@
                                 }
                                 @if (Model.ISBN != null)
                                 {
-                                    <br><span>ISBN @Model.ISBN</span> 
+                                    <br><span>ISBN @Model.ISBN</span>
                                 }
                             </div>
                             <div>
-
                                 <h2>" @Model.Name "</h2>
+                                @foreach (var author in @Model.Authors)
+                                {
+                                    <p> @author.Name </p>
+                                }
                             </div>
                             @if (Model.YearOfWriting != null)
                             {

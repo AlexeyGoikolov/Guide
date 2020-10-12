@@ -36,7 +36,7 @@
 
                         <!-- tile body -->
                         <div class="tile-body">
-                            <div  style="text-align: center; margin: 10px;">
+                            <div style="text-align: center; margin: 10px;">
                                 <img style=" width: 100%;-webkit-box-shadow: 14px 14px 28px -6px rgba(53,3,71,0.57);
                                                                           -moz-box-shadow: 14px 14px 28px -6px rgba(53,3,71,0.57);
                                                                           box-shadow: 14px 14px 28px -6px rgba(53,3,71,0.57);" src="~/@Model.CoverPath" alt="изображение обложки">
@@ -56,11 +56,15 @@
                                 }
                                 @if (Model.ISBN != null)
                                 {
-                                    <br><span>ISBN @Model.ISBN</span> 
+                                    <br><span>ISBN @Model.ISBN</span>
                                 }
                             </div>
                             <div>
                                 <h2>" @Model.Name "</h2>
+                                @foreach (var author in @Model.Authors)
+                                {
+                                    <p> @author.Name </p>
+                                }
                             </div>
                             @if (Model.YearOfWriting != null)
                             {
@@ -68,21 +72,21 @@
                             }
                             @if (Model.Edition != null)
                             {
-                                <div>Редакция  : @Model.Edition</div>
+                                <div>Редакция : @Model.Edition</div>
                             }
                             <div>Дата добавления в систему : @Model.DateCreate</div>
                             <div>Дата последнего исправления : @Model.DateUpdate</div>
                             <div>
                                 <h4 style="color: #3e8f3e; ">Описание : </h4>
-                                 @Html.Raw(Model.SourceDescription)
+                                @Html.Raw(Model.SourceDescription)
                             </div>
                             <div>
-                                 <h5 style="color: #3e8f3e; ">Дополнительно: </h5>
-                                 @Html.Raw(Model.AdditionalInformation)
+                                <h5 style="color: #3e8f3e; ">Дополнительно: </h5>
+                                @Html.Raw(Model.AdditionalInformation)
                             </div>
                             <div>
-                                 <h5 style="color: #3e8f3e; "> Ключевые слова :  </h5>
-                               @Html.Raw(Model.Keys)
+                                <h5 style="color: #3e8f3e; "> Ключевые слова : </h5>
+                                @Html.Raw(Model.Keys)
                             </div>
                             <div>
                                 @if (Model.PhysicalPath == null)
@@ -109,16 +113,16 @@
                             }
                             <div>
                                 <a asp-action="ReadBook" asp-controller="SourceManage" asp-route-id="@Model.Id"><i class="fa fa-book"></i> Читать источник </a>
-                                </div>
-                                 <div>
+                            </div>
+                            <div>
                                 @if (ViewBag.BookTransferId != 0)
                                 {
-                                    @if(ViewBag.BookTransferLanguage == "ru")
+                                    @if (ViewBag.BookTransferLanguage == "ru")
                                     {<a asp-action="Details" asp-controller="SourceManage" asp-route-path="" asp-route-id="@ViewBag.BookTransferId"><i class="fas fa-globe"></i> Перевод</a>}
-                                    @if(ViewBag.BookTransferLanguage == "en")
+                                    @if (ViewBag.BookTransferLanguage == "en")
                                     {<a asp-action="Details" asp-controller="SourceManage" asp-route-path="" asp-route-id="@ViewBag.BookTransferId"><i class="fas fa-globe"></i> Оригинальная версия</a>}
                                 }
-                                 
+
                             </div>
                         </div>
                         <!-- /tile body -->
@@ -129,7 +133,7 @@
         </div>
         <!-- /tile body -->
         <div>
-            <div class="" >
+            <div class="">
                 <textarea id="comment_area" class="form-control textarea_chat" placeholder="Оставить свой комментарий..." rows="2"></textarea>
                 <button type="button" class="btn btn-info mt-10" name="@Model.Id" id="sendComment">Добавить комментарий</button>
                 <button type="button" class="btn btn-info mt-10" onclick="viewComment('@Model.Id')">Посмотреть комментарии</button>
