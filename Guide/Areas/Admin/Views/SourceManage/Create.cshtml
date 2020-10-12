@@ -2,7 +2,7 @@
 @inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Xsrf
 
 @{
-    ViewBag.Title = "Добавление книги";
+    ViewBag.Title = "Добавление в Библиотеку";
     Layout = "_Layout";
 }
 
@@ -46,7 +46,25 @@
 @section Scripts
 {
     <script>
-        CKEDITOR.replace('sourceDescription');
+        CKEDITOR.replace('sourceDescription', {toolbarGroups: [{
+                       "name": "basicstyles",
+                        "groups": ["basicstyles"]
+                          },
+                            {
+                                "name": "links",
+                               "groups": ["links"]
+                              },
+                                {
+                                 "name": "paragraph",
+                                  "groups": ["list", "blocks"]
+                                },                                                                 
+                                  {
+                                   "name": "styles",
+                                     "groups": ["styles"]
+                                    }
+                                      ],                                                         
+                     });
+        
     </script>
     <script >              
         let loadAuthor = function(){
@@ -61,8 +79,33 @@
                     $('#authorInput').val("")
                 }                                                      
             });                   
-        };                                   
-                
+        };  
+        
+           $("form").submit(
+             function(e) {
+               e.preventDefault();
+               var isbn = $('#isbn').val();
+               var isbn_without_hyphens = isbn.replace(/-/g, "");
+               var googleAPI = "https://www.googleapis.com/books/v1/volumes?q=" + isbn_without_hyphens;
+               $.getJSON(googleAPI, function(response1) {
+                 if (typeof response1.items === "undefined") {
+                   alert("Ничего не найдено по введеному ISBN")
+                 } 
+                 else {
+                      $("#edition").val(response1.items[0].volumeInfo.contentVersion); 
+                     var googleAPI2 = response1.items[0].selfLink;                    
+                           $.getJSON(googleAPI2, function(response) {                                   
+                                                                 
+                                        $('#authorInput').val(response.volumeInfo.authors[0]);
+                                        $("#year").val(response.volumeInfo.publishedDate);                         
+                                         $("#name").val(response.volumeInfo.title); 
+                                        $("#additionalInfo").val(response.volumeInfo.description);   
+                                             
+                           });
+                 }
+               });
+             });
+               
         $('#submit-btn').on('click', function(e) {
             e.preventDefault();
             let authorArray = [];

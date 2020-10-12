@@ -73,6 +73,18 @@
                             <div>Дата добавления в систему : @Model.DateCreate</div>
                             <div>Дата последнего исправления : @Model.DateUpdate</div>
                             <div>
+                                <h4 style="color: #3e8f3e; ">Описание : </h4>
+                                 @Html.Raw(Model.SourceDescription)
+                            </div>
+                            <div>
+                                 <h5 style="color: #3e8f3e; ">Дополнительно: </h5>
+                                 @Html.Raw(Model.AdditionalInformation)
+                            </div>
+                            <div>
+                                 <h5 style="color: #3e8f3e; "> Ключевые слова :  </h5>
+                               @Html.Raw(Model.Keys)
+                            </div>
+                            <div>
                                 @if (Model.PhysicalPath == null)
                                 {
                                     <p style="color: #0f9dca; font-style: inherit;">Только в электронном виде</p>
