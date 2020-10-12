@@ -48,11 +48,10 @@
         <section class="tile portlet col - 6">
             <!-- tile body -->
             <div class="tile-body">
-                <div > <form>
-                    <label>ISBN(для книг)</label> <br/><span class="validationError" asp-validation-for="ISBN"></span>
-                        <input id="isbn" class="form-control" type="text" asp-for="ISBN" value="@Model.ISBN"  value="">
-                        <input class="btn btn-info" style="width: 80%;" type="submit" id="submit" value="Внести данные через ISBN">
-                    </form>
+                <div > 
+                    <label>ISBN(для книг)</label> 
+                        <input id="isbn" class="form-control" type="text" asp-for="ISBN" value="@Model.ISBN" >                       
+                    
                 </div>
                 <div id="categories-row" class="form-group" style="justify-content: center;"></div>
                 <div >
@@ -70,30 +69,11 @@
                     <label>Физическое местонахождение</label>
                     <input id="physPath" class="form-control" type="text" asp-for="PhysicalPath" value="@Model.PhysicalPath">
                 </div>
-
-                <div class="col">
-                    <span>Цифровая версия источника</span> 
-                    <span class="btn btn-rounded-20 btn-default btn-xs" style="margin-left: 5px" title="@ViewBag.SourceFormatAvailable">
-                        <i style="padding-right: 1px" class="fas fa-question"></i>
-                    </span>
-                    <input id="sourceFile" accept="application/pdf, application/vnd.openxmlformats-officedocument.wordprocessingml.document, 
-                        application/vnd.ms-excel, text/plain, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, 
-                        application/vnd.ms-excel, application/msword, application/x-7z-compressed, application/zip, application/vnd.rar,
-                        video/mp4, video/quicktime, video/x-msvideo, video/mpeg, audio/ogg, audio/AMR, audio/mpeg, image/png, 
-                        image/jpeg, image/jpg, image/bmp" class="btn" style="padding: 6px 0" name="sourceFile" type="file">
-                </div>
-                <div class="col">
-                    <span>Обложка источника</span>
-                    <span class="btn btn-rounded-20 btn-default btn-xs" style="margin-left: 5px" title="@ViewBag.CoverFormatAvailable">
-                        <i style="padding-right: 1px" class="fas fa-question"></i>
-                    </span>
-                    <input id="coverFile" accept="image/png, image/jpeg, image/jpg, image/bmp"  name="coverFile" class="btn" style="padding: 6px 0" type="file">
-                </div>
                 <div>
                     <label>Ключевые слова</label>
                     <textarea class="form-control" id="wordsKey" type="text" asp-for="Keys" value="@Model.Keys"></textarea>
                 </div>
-                <button id="submit-btn" type="submit" class="btn btn-info" style="width: 100%; margin-top: 1rem">Сохранить источник и выйти</button>
+                <button id="submit-btn" type="submit" class="btn btn-info" style="width: 100%; margin-top: 1rem">Внести изменения</button>
             </div>
 
             <!-- /tile body -->
@@ -122,6 +102,8 @@
         </section>
     </div>
 </div>
+
+
 
 
 

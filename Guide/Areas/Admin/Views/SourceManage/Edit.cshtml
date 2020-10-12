@@ -1,1 +1,205 @@
-﻿
+﻿@model SourceCreateViewModel
+@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Xsrf
+
+@{
+    ViewBag.Title = "Редактирование";
+    Layout = "_Layout";
+}
+
+@functions{
+    public string GetAntiXsrfRequestToken()
+    {
+        return Xsrf.GetAndStoreTokens(Context).RequestToken;
+    }
+}
+
+<input type="hidden" id="RequestVerificationToken" 
+       name="RequestVerificationToken" value="@GetAntiXsrfRequestToken()">
+<div class="page page-forms-common">
+    <div class="pageheader">
+        <h2>@ViewBag.Title</h2>
+        <div class="page-bar">
+            <ul class="page-breadcrumb">
+                <li>
+                    <a asp-action="Details" asp-controller="Account" asp-area=""><i class="fa fa-home"></i> Guide</a>
+                </li>
+                <li>
+                    <a asp-action="Index" asp-controller="SourceManage">Библиотека</a>
+                </li>
+                <li>
+                    <a asp-action="Edit" asp-controller="SourceManage">Редактировать</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <span id="errorText" style="color: red"></span>
+    <div style="margin:auto;">
+        <form asp-action="Edit" asp-controller="SourceManage" asp-area="Admin" method="post" >
+            @{ Html.RenderPartial("PartialViews/FormPartialEdit", Model); }
+            <input type="hidden" value="@Model.SourceId" id="sourceId" asp-for="SourceId">
+            <input type="hidden" value="@Model.Id" id="mainId" asp-for="Id">
+        </form>
+    </div>
+</div>
+
+     
+@section Scripts
+{
+    <script>
+        CKEDITOR.replace('sourceDescription', {toolbarGroups: [{
+                       "name": "basicstyles",
+                        "groups": ["basicstyles"]
+                          },
+                            {
+                                "name": "links",
+                               "groups": ["links"]
+                              },
+                                {
+                                 "name": "paragraph",
+                                  "groups": ["list", "blocks"]
+                                },                                                                 
+                                  {
+                                   "name": "styles",
+                                     "groups": ["styles"]
+                                    }
+                                      ],                                                         
+                     });
+        
+    </script>
+    <script >              
+        let loadAuthor = function(){
+            let authorInput = $('#authorInput').val();
+            $.ajax({
+                url: '@Url.Action("CreateAuthorAjax", "SourceManage", new {area = "Admin"})',                    
+                type: 'GET',                    
+                data: {name: authorInput},
+                success: function(response) {                    
+                    $('#author-chosen').append(response);
+                    $('#author-chosen').trigger("chosen:updated");
+                    $('#authorInput').val("")
+                }                                                      
+            });                   
+        };  
+        
+                          
+        $('#submit-btn').on('click', function(e) {
+            e.preventDefault();
+            let authorArray = [];
+            let businessProcessesArray = [];
+            let formData = new FormData();
+            let getbusinessP = document.getElementById('businessProcesses-row');
+            let getBPName = getbusinessP.getElementsByTagName('span');
+            for (let i=0; i < getBPName.length; i++){
+               businessProcessesArray.push(getBPName[i].innerHTML);
+            }
+            let authors = document.getElementById('author-row');
+            let getAuthorName = authors.getElementsByTagName('span');
+            for (var i=0; i < getAuthorName.length; i++){
+                authorArray.push(getAuthorName[i].innerHTML);
+            }
+            let editorData = CKEDITOR.instances.sourceDescription.getData();
+              
+          
+            formData.append('Name', $('#name').val());
+            formData.append('SourceDescription', editorData);
+            formData.append('AdditionalInformation', $('#additionalInfo').val());
+            formData.append('PhysicalPath', $('#physPath').val());
+            formData.append('YearOfWriting', $('#year').val());
+            formData.append('Edition', $('#edition').val());
+            formData.append('ISBN', $('#isbn').val());
+            formData.append('authors', String(authorArray));
+            formData.append('Keys', $('#wordsKey').val());            
+            formData.append('SourceId', $('#sourceId').val());
+            formData.append('CategoryId', $('#category').val());
+            formData.append('SourceTypeId', $('#typeContentId').val());
+            formData.append('SourceStateId', $('#sourceStateId').val());
+            formData.append('Id', $('#mainId').val());
+            formData.append('BusinessProcesses', String(businessProcessesArray));
+          
+            $.ajax({
+                url: '@Url.Action("Edit", "SourceManage", new {area = "Admin"})',                            
+                type: 'POST',           
+                traditional: true,                 
+                data: formData,                                                                                                             
+                contentType: false,
+                processData: false,          
+                success: function(response) {
+                    console.log(response);
+                    if (response === true){
+                        window.location.href = "@Url.Action("Index","SourceManage", new{area="Admin"})"
+                    }
+                    else{
+                        $('#errorText').html('Неверный формат обложки')
+                    }
+                }                                                        
+            });                   
+        });
+        
+        let loadSourceTypeContent = function(){
+            let sourceTypeInput = $('#sourceTypeInput').val();
+            $("#sourceTypes-row").load('@Url.Action("CreateTypeContentAjax", "SourceManage")',{Name: sourceTypeInput});   
+        };
+        let loadSourceState = function(){
+            let sourceStateInput = $('#sourceStateInput').val();
+            $("#sourceState-row").load('@Url.Action("CreateSourceStateAjax", "SourceManage")',{Name: sourceStateInput});
+        };
+        let loadCategories = function(){
+            let catInput = $('#catInput').val();
+            $("#categories-row").load('@Url.Action("CreateCategoryAjax", "SourceManage")',{Name: catInput});            
+        };               
+        let deleteCategory = function(categoryId){
+            $("#categories-row").load('@Url.Action("DeleteCategoryAjax", "SourceManage")', {Id: categoryId});
+        };
+        let deleteSourceTypeContent = function(typeId){
+            $("#sourceTypes-row").load('@Url.Action("DeleteTypeContentAjax", "SourceManage")',{Id: typeId});
+        };
+        let deleteAuthor = function(authorId){
+            $("#author-chosen").load('@Url.Action("DeleteAuthorAjax", "SourceManage")',{Id: authorId});
+            $('#author-chosen').trigger("chosen:updated");
+        };
+        let deleteSourceType = function(sourceTypeId){
+            $("#sourceState-row").load('@Url.Action("DeleteSourceStateAjax", "SourceManage")', {Id: sourceTypeId});
+        };
+        
+        $(document).ready(function(){
+            loadAuthor();
+            loadCategories();
+            loadSourceTypeContent();
+            loadSourceState();       
+            
+           $('body').on('click','#authorButton',function(event){
+                event.preventDefault();
+                setTimeout(loadAuthor, 200)
+           });
+           $('body').on('click','#typeContentButton',function(event){
+                event.preventDefault();
+                setTimeout(loadSourceTypeContent, 200)
+           });                
+           $('body').on('click','#catButton',function(event){
+                event.preventDefault();
+                setTimeout(loadCategories, 200) 
+           });
+           $('body').on('click','#sourceStateButton',function(event){
+                event.preventDefault();
+                setTimeout(loadSourceState, 200) 
+           });                     
+           $('body').on('click','.buttonDeleteAuthor',function(event){
+                event.preventDefault();
+                setTimeout(function() {deleteAuthor(event.currentTarget.value)}, 200)
+           });
+           $('body').on('click','.buttonDeleteType',function(event){
+                event.preventDefault();
+                setTimeout(function() {deleteSourceTypeContent(event.currentTarget.value)}, 200)
+           });
+           $('body').on('click','.buttonDeleteCat',function(event){
+                event.preventDefault();
+                setTimeout(function() {deleteCategory(event.currentTarget.value)}, 200)                  
+           });
+           $('body').on('click','.buttonDeleteSourceState',function(event){
+                event.preventDefault();
+                setTimeout(function() {deleteSourceType(event.currentTarget.value)}, 200)                  
+           });           
+        });                
+    </script>
+}
+
