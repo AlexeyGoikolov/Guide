@@ -49,6 +49,7 @@ namespace Guide.Controllers
             int translationID = 0;
             ViewBag.BookTransferLanguage = 0;
             Source source = _db.Sources.FirstOrDefault(b => b.Id == id);
+            source.Authors = _db.SourceAuthors.Where(c => c.SourceId == source.Id).Select(s => s.Author).ToList();
             source.BusinessProcesses = _db.SourceBusinessProcesses.Where(s => s.SourceId == source.Id)
                 .Select(s => s.BusinessProcess).ToList();
             SourceIdAndEnglishSourceId sourceIdAndEnglishSourceId = new SourceIdAndEnglishSourceId();

@@ -7,6 +7,7 @@ namespace Guide.ViewModels
     public class SourceCreateViewModel
     {
         public int Id { get; set; }
+        public int EditId { get; set; }
         public string Name { get; set; }
         public string ISBN { get; set; }
         public int? CategoryId { get; set; }
