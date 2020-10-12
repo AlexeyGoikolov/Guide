@@ -56,7 +56,9 @@ namespace Guide.Controllers
                                                                                                   a))),
                     Sources = new List<Source>(_db.Sources.Where(b => EF.Functions.Like
                                                                           (b.Name.ToLower(), a) ||
-                                                                      EF.Functions.Like(b.Keys.ToLower(), a)))
+                                                                      EF.Functions.Like(b.Keys.ToLower(), a)
+                                                                      ||  EF.Functions.Like(b.AdditionalInformation.ToLower(), a)||
+                    EF.Functions.Like(b.SourceDescription.ToLower(), a)))
                 };
                 model.TotalFound = model.Issues.Count + model.Steps.Count + model.Glossaries.Count +
                                    model.Sources.Count + model.QuestionAnswers.Count;

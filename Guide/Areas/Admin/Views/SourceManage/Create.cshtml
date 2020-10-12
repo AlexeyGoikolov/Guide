@@ -46,7 +46,25 @@
 @section Scripts
 {
     <script>
-        CKEDITOR.replace('sourceDescription');
+        CKEDITOR.replace('sourceDescription', {toolbarGroups: [{
+                       "name": "basicstyles",
+                        "groups": ["basicstyles"]
+                          },
+                            {
+                                "name": "links",
+                               "groups": ["links"]
+                              },
+                                {
+                                 "name": "paragraph",
+                                  "groups": ["list", "blocks"]
+                                },                                                                 
+                                  {
+                                   "name": "styles",
+                                     "groups": ["styles"]
+                                    }
+                                      ],                                                         
+                     });
+        
     </script>
     <script >              
         let loadAuthor = function(){
@@ -75,16 +93,14 @@
                  } 
                  else {
                       $("#edition").val(response1.items[0].volumeInfo.contentVersion); 
-                     var googleAPI2 = response1.items[0].selfLink;
-                     console.log(googleAPI2);
-                    $.getJSON(googleAPI2, function(response) {                                   
-                            $("#name").val(response.volumeInfo.title);                                      
-                             $('#author-chosen').val(response.volumeInfo.authors[0]);
-                               $("#year").val(response.volumeInfo.publishedDate);
-                              
-                               $("#coverFile").val(response.volumeInfo.imageLinks.thumbnail);
-                                           
-                              $("#additionalInfo").val(response.volumeInfo.description); 
+                     var googleAPI2 = response1.items[0].selfLink;                    
+                           $.getJSON(googleAPI2, function(response) {                                   
+                                                                 
+                                        $('#authorInput').val(response.volumeInfo.authors[0]);
+                                        $("#year").val(response.volumeInfo.publishedDate);                         
+                                         $("#name").val(response.volumeInfo.title); 
+                                        $("#additionalInfo").val(response.volumeInfo.description);   
+                                             
                            });
                  }
                });
