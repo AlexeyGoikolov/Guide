@@ -8,15 +8,23 @@
 @if (Model.VirtualPath.Contains(".pdf") ||  Model.VirtualPath.Contains(".jpg") || Model.VirtualPath.Contains(".png"))
 {
     <div>
-        <a class="btn btn-info" asp-action="Details" asp-controller="Source" asp-route-id="@Model.Id">Вернуться назад</a>
+        <a class="btn btn-info" asp-action="Details" asp-controller="SourceManage" asp-route-id="@Model.Id">Вернуться назад</a>
     </div>
     <iframe width="100%" style="height: 100vh" allowfullscreen src="~/@Model.VirtualPath"></iframe>
+}
+else if(Model.VirtualPath.Contains(".doc") || Model.VirtualPath.Contains(".docx")
+        || Model.VirtualPath.Contains(".xls") || Model.VirtualPath.Contains(".xlsx"))
+{
+    <div>
+        <a class="btn btn-info" href="~/@Model.VirtualPath">Скачать</a>
+        <a class="btn btn-info" asp-action="Details" asp-controller="SourceManage" asp-route-id="@Model.Id">Вернуться назад</a>
+    </div>
+    <iframe width="100%" style="height: 100vh" src="https://docs.google.com/gview?url=@ViewBag.Path&embedded=true" ></iframe>
 }
 else
 {
     <div>
-        <a class="btn btn-info" href="~/@Model.VirtualPath">Скачать</a>
-        <a class="btn btn-info" asp-action="Details" asp-controller="Source" asp-route-id="@Model.Id">Вернуться назад</a>
+        <a class="btn btn-info" asp-action="Details" asp-controller="SourceManage" asp-route-id="@Model.Id">Вернуться назад</a>
     </div>
-    <iframe width="100%" style="height: 100vh" allowfullscreen src="https://docs.google.com/gview?url=@ViewBag.BookPath&embedded=true"></iframe>
+    <iframe width="100%" style="height: 100vh" allowfullscreen src="~/@Model.VirtualPath"></iframe>
 }
