@@ -94,12 +94,18 @@
                  else {
                       $("#edition").val(response1.items[0].volumeInfo.contentVersion); 
                      var googleAPI2 = response1.items[0].selfLink;                    
-                           $.getJSON(googleAPI2, function(response) {                                   
-                                                                 
-                                        $('#authorInput').val(response.volumeInfo.authors[0]);
-                                        $("#year").val(response.volumeInfo.publishedDate);                         
-                                         $("#name").val(response.volumeInfo.title); 
-                                        $("#additionalInfo").val(response.volumeInfo.description);   
+                           $.getJSON(googleAPI2, function(response2) {                           
+                                        $('#authorInput').val(response2.volumeInfo.authors[0]);                                       
+                                        $("#year").val(response2.volumeInfo.publishedDate);                         
+                                         $("#name").val(response2.volumeInfo.title); 
+                                        $("#additionalInfo").val(response2.volumeInfo.description);                                          
+                                          loadAuthor();   
+                                      $('.chosen-select')
+                                        .find(`option[data-value="${response2.volumeInfo.authors[0]}"]`)
+                                        .prop('selected', true)
+                                        .end()
+                                        .trigger('chosen:updated');
+                                      
                                              
                            });
                  }

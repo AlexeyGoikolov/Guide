@@ -97,7 +97,6 @@ namespace Guide.Areas.Admin.Controllers
                     Name = model.Name,
                     SourceDescription = model.SourceDescription,
                     AdditionalInformation = model.AdditionalInformation,
-                    IsRecipe = model.IsRecipe,
                     ISBN = model.ISBN,
                     Edition = model.Edition,
                     PhysicalPath = model.PhysicalPath,
@@ -289,22 +288,33 @@ namespace Guide.Areas.Admin.Controllers
             ViewBag.Path = Request.Scheme + "://" + Request.Host.Value + "/" + source.VirtualPath;
             return View(source);
         }
-        
+
         public IActionResult CreateAuthorAjax(string name)
         {
             if (name != null)
             {
-                Author author = new Author
+                Author author = _db.Authors.FirstOrDefault(a => a.Name.ToLower() == name.ToLower() && a.Active);
+               
+                if (author == null)
                 {
-                    Name = name
-                };
-                _db.Authors.Add(author);
-                _db.SaveChanges();
+                    Author authorNew = new Author {Name = name};
+                    _db.Authors.Add(authorNew);
+                    _db.SaveChanges();
+                }
+                else
+                {
+                    SourceCreateViewModel model1 = new SourceCreateViewModel
+                    {
+                        AllAuthors = null
+                    };
+                    return PartialView("PartialViews/AuthorPartial", model1);
+                
+                }
             }
 
             SourceCreateViewModel model = new SourceCreateViewModel
             {
-                AllAuthors = _db.Authors.Where(a => a.Name == name).ToList()
+                AllAuthors = _db.Authors.Where(a => a.Name == name && a.Active).ToList()
             };
             return PartialView("PartialViews/AuthorPartial", model);
         }
@@ -476,8 +486,7 @@ namespace Guide.Areas.Admin.Controllers
         public IActionResult Edit(int id)
         {
             Source source = _db.Sources.FirstOrDefault(b => b.Id == id);
-            source.Authors = _db.SourceAuthors.Where(c => c.SourceId == source.Id).Select(s=>s.Author).ToList();
-           SourceCreateViewModel model = new SourceCreateViewModel
+            SourceCreateViewModel model = new SourceCreateViewModel
             {
                 Name = source.Name,
                 ISBN = source.ISBN,
@@ -487,8 +496,11 @@ namespace Guide.Areas.Admin.Controllers
                 Keys = source.Keys,
                 PhysicalPath = source.PhysicalPath,
                 AdditionalInformation = source.AdditionalInformation,
-                AllAuthors =source.Authors,
-                BusinessProcessesList = _db.BusinessProcesses.ToList()
+                AllAuthorsOfThisSourse = _db.SourceAuthors.Where(c => c.SourceId == source.Id).Select(s=>s.Author).ToList(),
+                AllAuthors =_db.Authors.Where(a=>a.Active).ToList(),
+                BusinessProcessesList = _db.BusinessProcesses.ToList(),
+                BusinessProcessesListOfThisSourse = _db.SourceBusinessProcesses.Where(s => s.SourceId == source.Id)
+                    .Select(s => s.BusinessProcess).ToList()
             };
             model.SourceId = id;
             return View(model);
