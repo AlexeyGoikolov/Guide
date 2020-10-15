@@ -1,9 +1,20 @@
-﻿@model SourceCreateViewModel
+﻿@model List<Author>
 
-@foreach (var author in Model.AllAuthors)
+@if (ViewBag.Check == "Create")
 {
-    <option value="@author.Id">@author.Name</option>
+    @foreach (var author in Model)
+    {
+        <option selected value="@author.Id">@author.Name</option>
+    }
 }
+else
+{
+    @foreach (var author in Model)
+    {
+        <option value="@author.Id">@author.Name</option>
+    }
+}
+
 
 
 

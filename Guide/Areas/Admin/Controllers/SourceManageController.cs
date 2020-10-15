@@ -278,6 +278,7 @@ namespace Guide.Areas.Admin.Controllers
         
         public IActionResult CreateAuthorAjax(string name)
         {
+            List<Author> model = new List<Author>();
             if (name != null)
             {
                 Author author = new Author
@@ -286,12 +287,15 @@ namespace Guide.Areas.Admin.Controllers
                 };
                 _db.Authors.Add(author);
                 _db.SaveChanges();
+                model.Add(author);
+                ViewBag.Check = "Create";
+                
             }
-
-            SourceCreateViewModel model = new SourceCreateViewModel
+            else
             {
-                AllAuthors = _db.Authors.Where(a => a.Name == name).ToList()
-            };
+                ViewBag.Check = "Load";
+                model = _db.Authors.Where(a => a.Active).ToList();
+            }
             return PartialView("PartialViews/AuthorPartial", model);
         }
 
@@ -304,10 +308,8 @@ namespace Guide.Areas.Admin.Controllers
                 _db.SaveChanges();
             }
 
-            SourceCreateViewModel model = new SourceCreateViewModel()
-            {
-                AllAuthors = _db.Authors.Where(c => c.Active).ToList(),
-            };
+            List<Author> model = _db.Authors.Where(c => c.Active).ToList();
+            ViewBag.Check = "Delete";
             return PartialView("PartialViews/AuthorPartial", model);
         }
 

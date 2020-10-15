@@ -73,38 +73,39 @@
                 url: '@Url.Action("CreateAuthorAjax", "SourceManage", new {area = "Admin"})',                    
                 type: 'GET',                    
                 data: {name: authorInput},
-                success: function(response) {                    
-                    $('#author-chosen').append(response);
-                    $('#author-chosen').trigger("chosen:updated");
-                    $('#authorInput').val("")
+                success: function(response) {
+                    if (response !== false){
+                        $('#author-chosen').append(response);
+                        $('#author-chosen').trigger("chosen:updated");
+                        $('#authorInput').val("")
+                    }                    
                 }                                                      
             });                   
         };  
         
-           $("form").submit(
-             function(e) {
-               e.preventDefault();
-               var isbn = $('#isbn').val();
-               var isbn_without_hyphens = isbn.replace(/-/g, "");
-               var googleAPI = "https://www.googleapis.com/books/v1/volumes?q=" + isbn_without_hyphens;
-               $.getJSON(googleAPI, function(response1) {
-                 if (typeof response1.items === "undefined") {
+        $("form").submit(function(e) {
+            e.preventDefault();
+            let isbn = $('#isbn').val();
+            let isbn_without_hyphens = isbn.replace(/-/g, "");
+            let googleAPI = "https://www.googleapis.com/books/v1/volumes?q=" + isbn_without_hyphens;
+            $.getJSON(googleAPI, function(response1) {
+                console.log(response1);
+                if (typeof response1.items === "undefined") {
                    alert("Ничего не найдено по введеному ISBN")
-                 } 
-                 else {
-                      $("#edition").val(response1.items[0].volumeInfo.contentVersion); 
-                     var googleAPI2 = response1.items[0].selfLink;                    
-                           $.getJSON(googleAPI2, function(response) {                                   
-                                                                 
-                                        $('#authorInput').val(response.volumeInfo.authors[0]);
-                                        $("#year").val(response.volumeInfo.publishedDate);                         
-                                         $("#name").val(response.volumeInfo.title); 
-                                        $("#additionalInfo").val(response.volumeInfo.description);   
-                                             
-                           });
-                 }
-               });
-             });
+                } 
+                else {
+                    $("#edition").val(response1.items[0].volumeInfo.contentVersion); 
+                    let googleAPI2 = response1.items[0].selfLink;                    
+                    $.getJSON(googleAPI2, function(response) {                                   
+                        $('#authorInput').val(response.volumeInfo.authors[0]);
+                        $("#year").val(response.volumeInfo.publishedDate);                         
+                        $("#name").val(response.volumeInfo.title); 
+                        $("#additionalInfo").val(response.volumeInfo.description); 
+                        loadAuthor();
+                    });
+                }
+            });
+        });
                
         $('#submit-btn').on('click', function(e) {
             e.preventDefault();
@@ -155,7 +156,7 @@
                 success: function(response) {
                     console.log(response);
                     if (response === true){
-                        window.location.href = "@Url.Action("Index","SourceManage", new{area="Admin"})"
+                        window.location.href = "@Url.Action("Index", "SourceManage", new {area = "Admin"})"
                     }
                     else if (response === "falseData"){
                         $('#errorText').html('Вы не добавили источник. Проверьте название или файл')
@@ -190,14 +191,14 @@
         };
         let deleteAuthor = function(authorId){
             $("#author-chosen").load('@Url.Action("DeleteAuthorAjax", "SourceManage")',{Id: authorId});
-            $('#author-chosen').trigger("chosen:updated");
+            $('#author-chosen').trigger("chosen:updated");         
         };
         let deleteSourceType = function(sourceTypeId){
             $("#sourceState-row").load('@Url.Action("DeleteSourceStateAjax", "SourceManage")', {Id: sourceTypeId});
         };
         
         $(document).ready(function(){
-            loadAuthor();
+
             loadCategories();
             loadSourceTypeContent();
             loadSourceState();       
@@ -221,6 +222,7 @@
            $('body').on('click','.buttonDeleteAuthor',function(event){
                 event.preventDefault();
                 setTimeout(function() {deleteAuthor(event.currentTarget.value)}, 200)
+                $('#author-'+event.currentTarget.value).remove();
            });
            $('body').on('click','.buttonDeleteType',function(event){
                 event.preventDefault();
