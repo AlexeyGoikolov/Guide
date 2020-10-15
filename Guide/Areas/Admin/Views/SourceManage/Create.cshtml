@@ -83,14 +83,14 @@
             });                   
         };  
         
-           $("form").submit(
-             function(e) {
-               e.preventDefault();
-               var isbn = $('#isbn').val();
-               var isbn_without_hyphens = isbn.replace(/-/g, "");
-               var googleAPI = "https://www.googleapis.com/books/v1/volumes?q=" + isbn_without_hyphens;
-               $.getJSON(googleAPI, function(response1) {
-                 if (typeof response1.items === "undefined") {
+        $("form").submit(function(e) {
+            e.preventDefault();
+            let isbn = $('#isbn').val();
+            let isbn_without_hyphens = isbn.replace(/-/g, "");
+            let googleAPI = "https://www.googleapis.com/books/v1/volumes?q=" + isbn_without_hyphens;
+            $.getJSON(googleAPI, function(response1) {
+                console.log(response1);
+                if (typeof response1.items === "undefined") {
                    alert("Ничего не найдено по введеному ISBN")
                 } 
                 else {
