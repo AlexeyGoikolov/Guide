@@ -18,7 +18,7 @@ using Microsoft.Extensions.Hosting;
 namespace Guide.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Roles = "admin")]
+    
     public class SourceManageController : Controller
     {
         
@@ -34,7 +34,7 @@ namespace Guide.Areas.Admin.Controllers
             _environment = environment;
             _uploadService = uploadService;
         }
-
+        [Authorize(Roles = "admin")]
         public IActionResult Index(string activ)
         {
             List<Source> sources;
@@ -64,7 +64,7 @@ namespace Guide.Areas.Admin.Controllers
 
             return View(sources);
         }
-
+        [Authorize(Roles = "admin")]
         public IActionResult Create(int sourceId)
         {
             SourceCreateViewModel model = new SourceCreateViewModel
@@ -82,6 +82,7 @@ namespace Guide.Areas.Admin.Controllers
             return View(model);
         }
         
+        [Authorize(Roles = "admin")]        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create(SourceCreateViewModel model, string authors, IFormFile coverFile,
@@ -136,7 +137,8 @@ namespace Guide.Areas.Admin.Controllers
 
             return Json("falseData");
         }
-
+        
+        [Authorize(Roles = "admin")]
         public void SaveSourceAuthors(string authors, Source source)
         {
             string[] authorsId = authors.Split(',');
@@ -161,7 +163,8 @@ namespace Guide.Areas.Admin.Controllers
                 }
             }
         }
-
+        
+        [Authorize(Roles = "admin")]
         public void SaveBookIdAndEnglishBookId(SourceCreateViewModel model, Source source)
         {
             SourceIdAndEnglishSourceId sourceIdAndEnglishSourceId = new SourceIdAndEnglishSourceId()
@@ -172,7 +175,8 @@ namespace Guide.Areas.Admin.Controllers
             _db.SourceIdAndEnglishSourceIds.Add(sourceIdAndEnglishSourceId);
             _db.SaveChanges();
         }
-
+        
+        [Authorize(Roles = "admin")]
         public void SaveBusinessProcessesSource(SourceCreateViewModel model, Source source)
         {
             string[] businessProcesses = model.BusinessProcesses.Split(',');
@@ -201,7 +205,8 @@ namespace Guide.Areas.Admin.Controllers
                 }
             }
         }
-
+        
+        [Authorize(Roles = "admin")]
         public IActionResult Details(int id)
         {
             int translationID = 0;
@@ -233,7 +238,8 @@ namespace Guide.Areas.Admin.Controllers
 
             return View(source);
         }
-
+        
+        [Authorize(Roles = "admin")]
         private string Load(string name, IFormFile file)
         {
             string path = Path.Combine(_environment.ContentRootPath + "/wwwroot/Files");
@@ -247,6 +253,7 @@ namespace Guide.Areas.Admin.Controllers
             return filePath;
         }
         
+        [Authorize(Roles = "admin")]
         public IActionResult Delete(int id)
         {
             if (id != 0)
@@ -260,7 +267,8 @@ namespace Guide.Areas.Admin.Controllers
 
             return NotFound();
         }
-
+        
+        [Authorize(Roles = "admin")]
         [HttpPost]
         [ActionName("Delete")]
         public IActionResult ConfirmDelete(int id)
@@ -281,14 +289,16 @@ namespace Guide.Areas.Admin.Controllers
 
             return RedirectToAction("Index", "SourceManage");
         }
-
+        
+        [Authorize(Roles = "admin")]
         public IActionResult ReadBook(int id)
         {
             Source source = _db.Sources.FirstOrDefault(b => b.Id == id);
             ViewBag.Path = Request.Scheme + "://" + Request.Host.Value + "/" + source.VirtualPath;
             return View(source);
         }
-
+        
+        [Authorize(Roles = "admin")]
         public IActionResult CreateAuthorAjax(string name)
         {
             List<Author> model = new List<Author>();
@@ -311,7 +321,8 @@ namespace Guide.Areas.Admin.Controllers
             }
             return PartialView("PartialViews/AuthorPartial", model);
         }
-
+        
+        [Authorize(Roles = "admin")]
         public IActionResult DeleteAuthorAjax(int id)
         {
             Author author = _db.Authors.FirstOrDefault(a => a.Id == id);
@@ -325,7 +336,8 @@ namespace Guide.Areas.Admin.Controllers
             ViewBag.Check = "Delete";
             return PartialView("PartialViews/AuthorPartial", model);
         }
-
+        
+        [Authorize(Roles = "admin")]
         public IActionResult CreateTypeContentAjax(SourceType sourceType)
         {
             if (sourceType.Name != null)
@@ -342,7 +354,8 @@ namespace Guide.Areas.Admin.Controllers
 
             return PartialView("PartialViews/TypeContentPartial", model);
         }
-
+        
+        [Authorize(Roles = "admin")]
         public IActionResult DeleteTypeContentAjax(int id)
         {
             SourceType sourceType = _db.SourceTypes.FirstOrDefault(c => c.Id == id);
@@ -360,7 +373,8 @@ namespace Guide.Areas.Admin.Controllers
 
             return PartialView("PartialViews/TypeContentPartial", model);
         }
-
+        
+        [Authorize(Roles = "admin")]
         public IActionResult CreateCategoryAjax(Category category)
         {
             if (category.Name != null)
@@ -378,6 +392,7 @@ namespace Guide.Areas.Admin.Controllers
             return PartialView("PartialViews/CategoriesPartial", model);
         }
 
+        [Authorize(Roles = "admin")]
         public IActionResult DeleteCategoryAjax(int id)
         {
             Category category = _db.Categories.FirstOrDefault(c => c.Id == id);
@@ -396,7 +411,8 @@ namespace Guide.Areas.Admin.Controllers
 
             return PartialView("PartialViews/CategoriesPartial", model);
         }
-
+        
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> CreateComment(int sourceId, string description)
         {
@@ -416,6 +432,7 @@ namespace Guide.Areas.Admin.Controllers
             return PartialView("PartialViews/CommentsPartial", comments);
         }
 
+        [Authorize]
         [HttpGet]
         public IActionResult ViewComment(int id)
         {
@@ -423,7 +440,8 @@ namespace Guide.Areas.Admin.Controllers
                 .OrderByDescending(g => g.DateOfCreate).ToList();
             return PartialView("PartialViews/CommentsPartial", comments);
         }
-
+        
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> DeleteComment(int id, int sourceId)
         {
@@ -440,6 +458,7 @@ namespace Guide.Areas.Admin.Controllers
             return PartialView("PartialViews/CommentsPartial", comments);
         }
 
+        [Authorize(Roles = "admin")]
         public IActionResult CreateSourceStateAjax(SourceState sourceState)
         {
             if (sourceState.Name != null)
@@ -456,6 +475,7 @@ namespace Guide.Areas.Admin.Controllers
             return PartialView("PartialViews/SourceStatesPartial", model);
         }
 
+        [Authorize(Roles = "admin")]
         public IActionResult DeleteSourceStateAjax(int id)
         {
             SourceState sourceState = _db.SourceStates.FirstOrDefault(c => c.Id == id);
@@ -473,7 +493,9 @@ namespace Guide.Areas.Admin.Controllers
 
             return PartialView("PartialViews/SourceStatesPartial", model);
         }
-[HttpGet]
+        
+        [Authorize(Roles = "admin")]
+        [HttpGet]
         public IActionResult Edit(int id)
         {
             Source source = _db.Sources.FirstOrDefault(b => b.Id == id);
@@ -496,7 +518,8 @@ namespace Guide.Areas.Admin.Controllers
             model.SourceId = id;
             return View(model);
         }
-
+        
+        [Authorize(Roles = "admin")]
         [HttpPost]
         public IActionResult Edit(SourceCreateViewModel model, string authors)
         {
@@ -523,6 +546,7 @@ namespace Guide.Areas.Admin.Controllers
                     SaveBusinessProcessesSource(model, source);
                 return Json(true);
             }
-            return Json("falseData");        }
+            return Json("falseData");
+        }
     }
 }

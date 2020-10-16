@@ -23,10 +23,11 @@ namespace Guide.Models
         // тот ,кто ответил на вопрос
         public string ResponderId{ get; set; }
         public virtual User Responder{ get; set; }
-        public int? SourceId { get; set; }
-        public bool Active { get; set; } = true;
         // к какому материалу задан вопрос
-        public virtual Source Source { get; set; }
+        public int? StepId { get; set; }
+        public virtual Step Step { get; set; }
+        
+        public bool Active { get; set; } = true;
         public List<string> Links { get; set; }
     }
 }

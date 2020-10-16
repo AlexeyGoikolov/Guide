@@ -102,7 +102,7 @@
             event.preventDefault();
             let question = $('#questionInput').val();          
             $.ajax({               
-                url: '@Url.Action("Create", "QuestionAnswers", new {area = ""})',
+                url: '@Url.Action("CreateAjax", "QuestionAnswers", new {area = ""})',
                 type: 'GET',
                 data: {'question': question},           
                 success: function(data) {

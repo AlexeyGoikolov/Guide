@@ -22,7 +22,7 @@
 
                     <select multiple="" tabindex="3" id="author-chosen" class="chosen-select" style="width: 85%;">
                         <option value=""></option>
-                        @{ await Html.RenderPartialAsync("PartialViews/AuthorPartial", Model); }
+                        @{ await Html.RenderPartialAsync("PartialViews/AuthorPartial", Model.AllAuthors); }
                     </select>
                     <button class="btn btn-outline-secondary" type="button" data-toggle="modal" data-target="#modalAuthor">
                         <i class="fas fa-plus"></i>
