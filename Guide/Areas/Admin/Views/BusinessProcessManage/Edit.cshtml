@@ -26,7 +26,7 @@
         <div class="tile-body">
             <form class="create-form" asp-action="Edit" asp-controller="BusinessProcessManage" asp-area="Admin" method="post" enctype="multipart/form-data">
                 <div asp-validation-summary="ModelOnly"></div>
-                @{ Html.RenderPartial("PartialViews/BusinessProcessCreateEditPartial", Model); }
+                @{ await Html.RenderPartialAsync("PartialViews/BusinessProcessCreateEditPartial", Model); }
                 <div class="text-center" style="width: 100%">
                     <button type="submit" name="choice" value="1" class="btn btn-info" style="width: 49%">Сохранить и выйти из редактирования</button>
                     <button type="submit" name="choice" value="2" class="btn btn-info" style="width: 49%">Сохранить и перейти к изменению задач</button>

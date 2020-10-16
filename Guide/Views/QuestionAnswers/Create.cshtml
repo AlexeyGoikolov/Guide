@@ -41,7 +41,7 @@
     <div class="card" style="width:100%;margin:auto;">
         <div class="card-body">
             <form asp-action="Create" asp-controller="QuestionAnswers" asp-area="" method="post" enctype="multipart/form-data" asp-antiforgery="true">
-                @{ Html.RenderPartial("PartialViews/QuestionAnswers", Model); }
+                @{ await Html.RenderPartialAsync("PartialViews/QuestionAnswers", Model); }
                 <input type="hidden" value="@Model.QuestionAnswer.Id" asp-for="QuestionAnswer.Id">
                 <input type="hidden" value="@Model.Status" asp-for="@Model.Status">
                 <input type="hidden" value="@Model.SourceId" asp-for="@Model.SourceId">

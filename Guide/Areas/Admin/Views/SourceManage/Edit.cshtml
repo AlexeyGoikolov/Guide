@@ -2,7 +2,7 @@
 @inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Xsrf
 
 @{
-    ViewBag.Title = "Добавление в Библиотеку";
+    ViewBag.Title = "Редактирование";
     Layout = "_Layout";
 }
 
@@ -27,15 +27,15 @@
                     <a asp-action="Index" asp-controller="SourceManage">Библиотека</a>
                 </li>
                 <li>
-                    <a asp-action="Create" asp-controller="SourceManage">Добавить Источник</a>
+                    <a asp-action="Edit" asp-controller="SourceManage">Редактировать</a>
                 </li>
             </ul>
         </div>
     </div>
     <span id="errorText" style="color: red"></span>
     <div style="margin:auto;">
-        <form asp-action="Create" asp-controller="SourceManage" asp-area="Admin" method="post" enctype="multipart/form-data">
-            @{ Html.RenderPartial("PartialViews/FormPartial", Model); }
+        <form asp-action="Edit" asp-controller="SourceManage" asp-area="Admin" method="post" >
+            @{ Html.RenderPartial("PartialViews/FormPartialEdit", Model); }
             <input type="hidden" value="@Model.SourceId" id="sourceId" asp-for="SourceId">
             <input type="hidden" value="@Model.Id" id="mainId" asp-for="Id">
         </form>
@@ -73,45 +73,20 @@
                 url: '@Url.Action("CreateAuthorAjax", "SourceManage", new {area = "Admin"})',                    
                 type: 'GET',                    
                 data: {name: authorInput},
-                success: function(response) {
-                    if (response !== false){
-                        $('#author-chosen').append(response);
-                        $('#author-chosen').trigger("chosen:updated");
-                        $('#authorInput').val("")
-                    }                    
+                success: function(response) {                    
+                    $('#author-chosen').append(response);
+                    $('#author-chosen').trigger("chosen:updated");
+                    $('#authorInput').val("")
                 }                                                      
             });                   
         };  
         
-           $("form").submit(
-             function(e) {
-               e.preventDefault();
-               var isbn = $('#isbn').val();
-               var isbn_without_hyphens = isbn.replace(/-/g, "");
-               var googleAPI = "https://www.googleapis.com/books/v1/volumes?q=" + isbn_without_hyphens;
-               $.getJSON(googleAPI, function(response1) {
-                 if (typeof response1.items === "undefined") {
-                   alert("Ничего не найдено по введеному ISBN")
-                } 
-                else {
-                    $("#edition").val(response1.items[0].volumeInfo.contentVersion); 
-                    let googleAPI2 = response1.items[0].selfLink;                    
-                    $.getJSON(googleAPI2, function(response) {                                   
-                        $('#authorInput').val(response.volumeInfo.authors[0]);
-                        $("#year").val(response.volumeInfo.publishedDate);                         
-                        $("#name").val(response.volumeInfo.title); 
-                        $("#additionalInfo").val(response.volumeInfo.description); 
-                        loadAuthor();
-                    });
-                }
-            });
-        });
-               
+                          
         $('#submit-btn').on('click', function(e) {
             e.preventDefault();
             let authorArray = [];
             let businessProcessesArray = [];
-
+            let formData = new FormData();
             let getbusinessP = document.getElementById('businessProcesses-row');
             let getBPName = getbusinessP.getElementsByTagName('span');
             for (let i=0; i < getBPName.length; i++){
@@ -123,13 +98,8 @@
                 authorArray.push(getAuthorName[i].innerHTML);
             }
             let editorData = CKEDITOR.instances.sourceDescription.getData();
-            let formData = new FormData();
-            let coverFile = document.getElementById('coverFile');
-            let sourceFile = document.getElementById('sourceFile');    
-            formData.append('__RequestVerificationToken', $('#RequestVerificationToken').val());
-            formData.append(coverFile.getAttribute('name'), coverFile.files[0]);
-            formData.append(sourceFile.getAttribute('name'), sourceFile.files[0]);
-            formData.append('IsRecipe', $('#isRecipe').val());
+              
+          
             formData.append('Name', $('#name').val());
             formData.append('SourceDescription', editorData);
             formData.append('AdditionalInformation', $('#additionalInfo').val());
@@ -147,7 +117,7 @@
             formData.append('BusinessProcesses', String(businessProcessesArray));
           
             $.ajax({
-                url: '@Url.Action("Create", "SourceManage", new {area = "Admin"})',                            
+                url: '@Url.Action("Edit", "SourceManage", new {area = "Admin"})',                            
                 type: 'POST',           
                 traditional: true,                 
                 data: formData,                                                                                                             
@@ -156,13 +126,7 @@
                 success: function(response) {
                     console.log(response);
                     if (response === true){
-                        window.location.href = "@Url.Action("Index", "SourceManage", new {area = "Admin"})"
-                    }
-                    else if (response === "falseData"){
-                        $('#errorText').html('Вы не добавили источник. Проверьте название или файл')
-                    }
-                    else if (response === "falseSourceSourceType"){
-                        $('#errorText').html('Неверный формат источника')
+                        window.location.href = "@Url.Action("Index","SourceManage", new{area="Admin"})"
                     }
                     else{
                         $('#errorText').html('Неверный формат обложки')
@@ -191,14 +155,14 @@
         };
         let deleteAuthor = function(authorId){
             $("#author-chosen").load('@Url.Action("DeleteAuthorAjax", "SourceManage")',{Id: authorId});
-            $('#author-chosen').trigger("chosen:updated");         
+            $('#author-chosen').trigger("chosen:updated");
         };
         let deleteSourceType = function(sourceTypeId){
             $("#sourceState-row").load('@Url.Action("DeleteSourceStateAjax", "SourceManage")', {Id: sourceTypeId});
         };
         
         $(document).ready(function(){
-
+            loadAuthor();
             loadCategories();
             loadSourceTypeContent();
             loadSourceState();       
@@ -222,7 +186,6 @@
            $('body').on('click','.buttonDeleteAuthor',function(event){
                 event.preventDefault();
                 setTimeout(function() {deleteAuthor(event.currentTarget.value)}, 200)
-                $('#author-'+event.currentTarget.value).remove();
            });
            $('body').on('click','.buttonDeleteType',function(event){
                 event.preventDefault();

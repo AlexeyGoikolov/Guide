@@ -97,7 +97,6 @@ namespace Guide.Areas.Admin.Controllers
                     Name = model.Name,
                     SourceDescription = model.SourceDescription,
                     AdditionalInformation = model.AdditionalInformation,
-                    IsRecipe = model.IsRecipe,
                     ISBN = model.ISBN,
                     Edition = model.Edition,
                     PhysicalPath = model.PhysicalPath,
@@ -146,13 +145,19 @@ namespace Guide.Areas.Admin.Controllers
                 var author = _db.Authors.FirstOrDefault(a => a.Name == authorName);
                 if (author != null)
                 {
-                    SourceAuthor sourceAuthor = new SourceAuthor()
+                    SourceAuthor check =
+                        _db.SourceAuthors.FirstOrDefault(s => s.SourceId == source.Id && s.AuthorId == author.Id);
+                    if (check == null)
                     {
-                        SourceId = source.Id,
-                        AuthorId = author.Id
-                    };
-                    _db.SourceAuthors.Add(sourceAuthor);
-                    _db.SaveChanges();
+                        SourceAuthor sourceAuthor = new SourceAuthor()
+                        {
+                            SourceId = source.Id,
+                            AuthorId = author.Id
+                        };
+                        _db.SourceAuthors.Add(sourceAuthor);
+                        _db.SaveChanges();
+                    }
+                    
                 }
             }
         }
@@ -178,13 +183,20 @@ namespace Guide.Areas.Admin.Controllers
                     var process = _db.BusinessProcesses.FirstOrDefault(b => b.Name == businessProcess);
                     if (process != null)
                     {
-                        SourceBusinessProcess sourceBusinessProcess = new SourceBusinessProcess()
+                        SourceBusinessProcess check =
+                            _db.SourceBusinessProcesses.FirstOrDefault(s =>
+                                s.SourceId == source.Id && s.BusinessProcessId == process.Id);
+                        if (check == null)
                         {
-                            SourceId = source.Id,
-                            BusinessProcessId = process.Id
-                        };
-                        _db.SourceBusinessProcesses.Add(sourceBusinessProcess);
-                        _db.SaveChanges();
+                            SourceBusinessProcess sourceBusinessProcess = new SourceBusinessProcess()
+                            {
+                                SourceId = source.Id,
+                                BusinessProcessId = process.Id
+                            };
+                            _db.SourceBusinessProcesses.Add(sourceBusinessProcess);
+                            _db.SaveChanges();
+                        }
+                       
                     }
                 }
             }
@@ -195,6 +207,7 @@ namespace Guide.Areas.Admin.Controllers
             int translationID = 0;
             ViewBag.BookTransferLanguage = 0;
             Source source = _db.Sources.FirstOrDefault(b => b.Id == id);
+            source.Authors = _db.SourceAuthors.Where(c => c.SourceId == source.Id).Select(s=>s.Author).ToList();
             source.BusinessProcesses = _db.SourceBusinessProcesses.Where(s => s.SourceId == source.Id)
                 .Select(s => s.BusinessProcess).ToList();
             SourceIdAndEnglishSourceId sourceIdAndEnglishSourceId = new SourceIdAndEnglishSourceId();
@@ -275,7 +288,7 @@ namespace Guide.Areas.Admin.Controllers
             ViewBag.Path = Request.Scheme + "://" + Request.Host.Value + "/" + source.VirtualPath;
             return View(source);
         }
-        
+
         public IActionResult CreateAuthorAjax(string name)
         {
             List<Author> model = new List<Author>();
@@ -460,5 +473,56 @@ namespace Guide.Areas.Admin.Controllers
 
             return PartialView("PartialViews/SourceStatesPartial", model);
         }
+[HttpGet]
+        public IActionResult Edit(int id)
+        {
+            Source source = _db.Sources.FirstOrDefault(b => b.Id == id);
+            SourceCreateViewModel model = new SourceCreateViewModel
+            {
+                Name = source.Name,
+                ISBN = source.ISBN,
+                Edition = source.Edition,
+                YearOfWriting = source.YearOfWriting,
+                SourceDescription = source.SourceDescription,
+                Keys = source.Keys,
+                PhysicalPath = source.PhysicalPath,
+                AdditionalInformation = source.AdditionalInformation,
+                AllAuthorsOfThisSourse = _db.SourceAuthors.Where(c => c.SourceId == source.Id).Select(s=>s.Author).ToList(),
+                AllAuthors =_db.Authors.Where(a=>a.Active).ToList(),
+                BusinessProcessesList = _db.BusinessProcesses.ToList(),
+                BusinessProcessesListOfThisSourse = _db.SourceBusinessProcesses.Where(s => s.SourceId == source.Id)
+                    .Select(s => s.BusinessProcess).ToList()
+            };
+            model.SourceId = id;
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(SourceCreateViewModel model, string authors)
+        {
+            Source source = _db.Sources.FirstOrDefault(b => b.Id == model.SourceId);
+            if (model != null)
+            {
+                source.Name = model.Name;
+                source.ISBN = model.ISBN;
+                source.Edition = model.Edition;
+                source.YearOfWriting = model.YearOfWriting;
+                source.SourceDescription = model.SourceDescription;
+                source.Keys = model.Keys;
+                source.PhysicalPath = model.PhysicalPath;
+                source.AdditionalInformation = model.AdditionalInformation;
+                source.DateUpdate = DateTime.Now;
+                source.SourceTypeId = model.SourceTypeId;
+                source.SourceStateId = model.SourceStateId;
+                source.CategoryId = model.CategoryId;
+                _db.Sources.Update(source);
+                _db.SaveChanges();
+                if (authors != null)
+                    SaveSourceAuthors(authors, source);
+                if (model.BusinessProcesses != null)
+                    SaveBusinessProcessesSource(model, source);
+                return Json(true);
+            }
+            return Json("falseData");        }
     }
 }

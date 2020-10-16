@@ -11,30 +11,46 @@
                 <div >
                     <label>Название источника</label><br/><span class="validationError" asp-validation-for="Name"></span>
                     <input id="name" class="form-control" type="text" asp-for="Name" value="@Model.Name">
-                </div>
-                <div id="editor" class="mt-20">
-                    <label>Описание источника</label>
-                    <textarea id="sourceDescription"  name="sourceDescription" type="text" asp-for="SourceDescription" value="@Model.SourceDescription"></textarea>
+                    <p>Автор: </p>
+                    @foreach (var author in @Model.AllAuthorsOfThisSourse)
+                    {
+                        <p> @author.Name </p>
+                    }
                 </div>
                 <div class="form-group" id="author-row">
-                    <label style="display: block" class="control-label">Выберите авторов</label>
+                    <label style="display: block" class="control-label">Можно добавить авторов</label>
 
                     <select multiple="" tabindex="3" id="author-chosen" class="chosen-select" style="width: 85%;">
-                        <option  value=""></option>
-                        @{ await Html.RenderPartialAsync("PartialViews/AuthorPartial", Model.AllAuthors); }
+                        <option value=""></option>
+                        @{ await Html.RenderPartialAsync("PartialViews/AuthorPartial", Model); }
                     </select>
                     <button class="btn btn-outline-secondary" type="button" data-toggle="modal" data-target="#modalAuthor">
                         <i class="fas fa-plus"></i>
                     </button>
                 </div>
                 <div class="form-group" id="businessProcesses-row">
-                     <label style="display: block" class="control-label">Выберите связанные Бизнес процессы</label>
+                    @if (Model.BusinessProcessesListOfThisSourse.Count > 0)
+                    {
+                        string processes = "";
+                        @foreach (var bp in Model.BusinessProcessesListOfThisSourse)
+                        {
+                            processes += bp.Name + ", ";
+                        }
+                        <p>Связан с Бизнес-процессами: @processes</p>
+                    }
+                    <label style="display: block" class="control-label">Можно добавить Бизнес процессы</label>
 
-                     <select multiple="" tabindex="3" class="chosen-select" style="width: 85%;">
-                         <option value=""></option>
-                         @{ await Html.RenderPartialAsync("PartialViews/BusinessProcessesPartal", Model); }
-                     </select>
-                 </div>
+                    <select multiple="" tabindex="3" class="chosen-select" style="width: 85%;">
+                        <option value=""></option>
+                        @{ await Html.RenderPartialAsync("PartialViews/BusinessProcessesPartal", Model); }
+                    </select>
+                </div>
+                <div id="editor" class="mt-20">
+                    <label>Описание источника</label>
+                    <textarea id="sourceDescription"  name="sourceDescription" type="text" asp-for="SourceDescription" value="@Model.SourceDescription"></textarea>
+                </div>
+
+               
                 <div>
                     <label>Дополнительная информация</label>
                     <textarea class="form-control" id="additionalInfo" type="text" asp-for="AdditionalInformation" value="@Model.AdditionalInformation" style="height: 200px;"></textarea>
@@ -48,11 +64,10 @@
         <section class="tile portlet col - 6">
             <!-- tile body -->
             <div class="tile-body">
-                <div > <form>
-                    <label>ISBN(для книг)</label> <br/><span class="validationError" asp-validation-for="ISBN"></span>
-                        <input id="isbn" class="form-control" type="text" asp-for="ISBN" value="@Model.ISBN"  value="">
-                        <input class="btn btn-info" style="width: 80%;" type="submit" id="submit" value="Внести данные через ISBN">
-                    </form>
+                <div > 
+                    <label>ISBN(для книг)</label> 
+                        <input id="isbn" class="form-control" type="text" asp-for="ISBN" value="@Model.ISBN" >                       
+                    
                 </div>
                 <div id="categories-row" class="form-group" style="justify-content: center;"></div>
                 <div >
@@ -70,30 +85,11 @@
                     <label>Физическое местонахождение</label>
                     <input id="physPath" class="form-control" type="text" asp-for="PhysicalPath" value="@Model.PhysicalPath">
                 </div>
-
-                <div class="col">
-                    <span>Цифровая версия источника</span> 
-                    <span class="btn btn-rounded-20 btn-default btn-xs" style="margin-left: 5px" title="@ViewBag.SourceFormatAvailable">
-                        <i style="padding-right: 1px" class="fas fa-question"></i>
-                    </span>
-                    <input id="sourceFile" accept="application/pdf, application/vnd.openxmlformats-officedocument.wordprocessingml.document, 
-                        application/vnd.ms-excel, text/plain, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, 
-                        application/vnd.ms-excel, application/msword, application/x-7z-compressed, application/zip, application/vnd.rar,
-                        video/mp4, video/quicktime, video/x-msvideo, video/mpeg, audio/ogg, audio/AMR, audio/mpeg, image/png, 
-                        image/jpeg, image/jpg, image/bmp" class="btn" style="padding: 6px 0" name="sourceFile" type="file">
-                </div>
-                <div class="col">
-                    <span>Обложка источника</span>
-                    <span class="btn btn-rounded-20 btn-default btn-xs" style="margin-left: 5px" title="@ViewBag.CoverFormatAvailable">
-                        <i style="padding-right: 1px" class="fas fa-question"></i>
-                    </span>
-                    <input id="coverFile" accept="image/png, image/jpeg, image/jpg, image/bmp"  name="coverFile" class="btn" style="padding: 6px 0" type="file">
-                </div>
                 <div>
                     <label>Ключевые слова</label>
                     <textarea class="form-control" id="wordsKey" type="text" asp-for="Keys" value="@Model.Keys"></textarea>
                 </div>
-                <button id="submit-btn" type="submit" class="btn btn-info" style="width: 100%; margin-top: 1rem">Сохранить источник и выйти</button>
+                <button id="submit-btn" type="submit" class="btn btn-info" style="width: 100%; margin-top: 1rem">Внести изменения</button>
             </div>
 
             <!-- /tile body -->
@@ -113,7 +109,7 @@
                             </div>
                             @foreach (var author in Model.AllAuthors)
                             {
-                                <p id="author-@author.Id" style="text-align: right; " >- @author.Name <button data-dismiss="modal" type="button" value="@author.Id" class="btn buttonDeleteAuthor"><i class="fas fa-trash-alt"></i></button></p>
+                                <p style="text-align: right; " >- @author.Name <button data-dismiss="modal" type="button" value="@author.Id" class="btn buttonDeleteAuthor"><i class="fas fa-trash-alt"></i></button></p>
                             }
                         </div>
                     </div>
@@ -122,6 +118,8 @@
         </section>
     </div>
 </div>
+
+
 
 
 
