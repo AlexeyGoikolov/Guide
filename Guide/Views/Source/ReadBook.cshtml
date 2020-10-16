@@ -24,7 +24,7 @@ else if(Model.VirtualPath.Contains(".doc") || Model.VirtualPath.Contains(".docx"
 else
 {
     <div>
-        <a class="btn btn-info" asp-action="Details" asp-controller="SourceManage" asp-route-id="@Model.Id">Вернуться назад</a>
+        <a class="btn btn-info" asp-action="Details" asp-controller="Source" asp-area="" asp-route-id="@Model.Id">Вернуться назад</a>
     </div>
     <iframe width="100%" style="height: 100vh" allowfullscreen src="~/@Model.VirtualPath"></iframe>
 }
