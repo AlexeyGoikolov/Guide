@@ -32,7 +32,6 @@ namespace Guide.Tests.AccountControllerUITests
             _basicSteps.FilTextField("password", "WrongPassword");
             _basicSteps.ClickById("submit");
             Assert.True(_basicSteps.IsElementFound("Неправильный логин или пароль"));
-            
         }
         
         [Fact]
@@ -61,7 +60,6 @@ namespace Guide.Tests.AccountControllerUITests
         [Fact]
         public void LogOutTest()
         {
-            
             _driver.Navigate().GoToUrl("http://localhost:5000/Account/Login");
             _driver.FindElement(By.Id("email")).SendKeys("admin@admin.com");
             _driver.FindElement(By.Id("password")).SendKeys("Qwerty123@");
@@ -69,9 +67,6 @@ namespace Guide.Tests.AccountControllerUITests
             _driver.FindElement(By.LinkText("admin@admin.com")).Click();
             _driver.FindElement(By.Id("exitButton")).Click();
             Assert.Equal("http://localhost:5000/Account/Login", _driver.Url);
-            
-
-            
         }
     }
 }

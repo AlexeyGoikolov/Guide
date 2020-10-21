@@ -48,13 +48,13 @@ namespace Guide.Areas.Admin.Controllers
             {
                 SourceIdAndEnglishSourceId sourceIdAndEnglishSourceId =
                     _db.SourceIdAndEnglishSourceIds.FirstOrDefault(b => b.SourceId == source.Id);
-                int translationID = 0;
+                int translationId = 0;
                 if (sourceIdAndEnglishSourceId == null)
                     sourceIdAndEnglishSourceId =
                         _db.SourceIdAndEnglishSourceIds.FirstOrDefault(b => b.EnglishSourceId == source.Id);
                 if (sourceIdAndEnglishSourceId != null)
-                    translationID = sourceIdAndEnglishSourceId.EnglishSourceId;
-                source.TranslationID = translationID;
+                    translationId = sourceIdAndEnglishSourceId.EnglishSourceId;
+                source.TranslationID = translationId;
                 source.Authors = _db.SourceAuthors.Where(b => b.SourceId == source.Id)
                     .Select(a => a.Author).ToList();
                 source.BusinessProcesses = _db.SourceBusinessProcesses
@@ -70,9 +70,9 @@ namespace Guide.Areas.Admin.Controllers
             SourceCreateViewModel model = new SourceCreateViewModel
             {
                 AllAuthors = _db.Authors.Where(c => c.Active).ToList(),
-                BusinessProcessesList = _db.BusinessProcesses.ToList()
+                BusinessProcessesList = _db.BusinessProcesses.ToList(),
+                SourceId = sourceId
             };
-            model.SourceId = sourceId;
             ViewBag.SourceFormatAvailable =
                 "Документы: pdf, doc, docx, txt, xls, xlsx\r\n" +
                 "Видео: mp4, avi, mpeg, quicktime\r\n" +
@@ -209,18 +209,18 @@ namespace Guide.Areas.Admin.Controllers
         [Authorize(Roles = "admin")]
         public IActionResult Details(int id)
         {
-            int translationID = 0;
+            int translationId = 0;
             ViewBag.BookTransferLanguage = 0;
             Source source = _db.Sources.FirstOrDefault(b => b.Id == id);
             source.Authors = _db.SourceAuthors.Where(c => c.SourceId == source.Id).Select(s=>s.Author).ToList();
             source.BusinessProcesses = _db.SourceBusinessProcesses.Where(s => s.SourceId == source.Id)
                 .Select(s => s.BusinessProcess).ToList();
-            SourceIdAndEnglishSourceId sourceIdAndEnglishSourceId = new SourceIdAndEnglishSourceId();
-            sourceIdAndEnglishSourceId = _db.SourceIdAndEnglishSourceIds.FirstOrDefault(b => b.SourceId == id);
+            var sourceIdAndEnglishSourceId = _db.SourceIdAndEnglishSourceIds
+                .FirstOrDefault(b => b.SourceId == id);
 
             if (sourceIdAndEnglishSourceId != null)
             {
-                translationID = sourceIdAndEnglishSourceId.EnglishSourceId;
+                translationId = sourceIdAndEnglishSourceId.EnglishSourceId;
                 ViewBag.BookTransferLanguage = "en";
             }
 
@@ -228,13 +228,13 @@ namespace Guide.Areas.Admin.Controllers
                 sourceIdAndEnglishSourceId =
                     _db.SourceIdAndEnglishSourceIds.FirstOrDefault(b => b.EnglishSourceId == id);
 
-            if (translationID == 0 && sourceIdAndEnglishSourceId != null)
+            if (translationId == 0 && sourceIdAndEnglishSourceId != null)
             {
-                translationID = sourceIdAndEnglishSourceId.SourceId;
+                translationId = sourceIdAndEnglishSourceId.SourceId;
                 ViewBag.BookTransferLanguage = "ru";
             }
 
-            ViewBag.BookTransferId = translationID;
+            ViewBag.BookTransferId = translationId;
 
             return View(source);
         }
@@ -242,8 +242,16 @@ namespace Guide.Areas.Admin.Controllers
         [Authorize(Roles = "admin")]
         private string Load(string name, IFormFile file)
         {
+            if (file.FileName.Contains("js") || file.FileName.Contains("JS"))
+                return null;
             string path = Path.Combine(_environment.ContentRootPath + "/wwwroot/Files");
-            string fileName = $"{name}{DateTime.Now.ToBinary()}+{file.FileName}";
+            string additionalName = file.FileName;
+            if (name.Contains(" "))
+                name = name.Replace(" ", "_");
+            if (file.FileName.Contains(" "))
+                additionalName = file.FileName.Replace(" ", "_");
+            string additional = DateTime.Now.ToBinary().ToString().Trim('-');
+            string fileName = $"{name}_{additional.Substring(0, additional.Length / 2)}_{additionalName}";
             string filePath = $"Files/{fileName}";
             if (!Directory.Exists("wwwroot/Files"))
             {
@@ -509,13 +517,14 @@ namespace Guide.Areas.Admin.Controllers
                 Keys = source.Keys,
                 PhysicalPath = source.PhysicalPath,
                 AdditionalInformation = source.AdditionalInformation,
-                AllAuthorsOfThisSourse = _db.SourceAuthors.Where(c => c.SourceId == source.Id).Select(s=>s.Author).ToList(),
-                AllAuthors =_db.Authors.Where(a=>a.Active).ToList(),
+                AllAuthorsOfThisSourse =
+                    _db.SourceAuthors.Where(c => c.SourceId == source.Id).Select(s => s.Author).ToList(),
+                AllAuthors = _db.Authors.Where(a => a.Active).ToList(),
                 BusinessProcessesList = _db.BusinessProcesses.ToList(),
                 BusinessProcessesListOfThisSourse = _db.SourceBusinessProcesses.Where(s => s.SourceId == source.Id)
-                    .Select(s => s.BusinessProcess).ToList()
+                    .Select(s => s.BusinessProcess).ToList(),
+                SourceId = id
             };
-            model.SourceId = id;
             return View(model);
         }
         

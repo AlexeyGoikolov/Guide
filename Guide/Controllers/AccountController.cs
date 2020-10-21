@@ -28,14 +28,14 @@ namespace Guide.Controllers
         }
 
         [Authorize]
-        public IActionResult Details(string id)
+        public async Task<IActionResult> Details(string id)
         {
-            User user = new User();
+            User user;
             if (User.IsInRole("admin") && id == null)
                 return RedirectToAction("Profile", "Service", new {area = "Admin"});
 
             if (id == null)
-                user = _userManager.GetUserAsync(User).Result;
+                user = await _userManager.GetUserAsync(User);
             else
                 user = _db.GetUser(id);
             UserDetailsViewModel model = new UserDetailsViewModel()
@@ -47,14 +47,12 @@ namespace Guide.Controllers
             };
 
             foreach (var issue in model.PositionsIssues)
-            {
                 issue.BP = _db.BusinessProcessIssues(issue.Id);
-            }
+            
 
             foreach (var issue in model.Issues)
-            {
                 issue.BP = _db.BusinessProcessIssues(issue.Id);
-            }
+            
 
             model.Issues.OrderBy(i => i.BP);
             model.PositionsIssues.OrderBy(i => i.BP);
@@ -81,22 +79,22 @@ namespace Guide.Controllers
         public async Task<IActionResult> Edit(string id = null)
         {
             User user = await _userManager.FindByIdAsync(id);
-            RegisterViewModel model = new RegisterViewModel();
-            model.Positions = _db.GetActivePositions();
-            model.UserEdit = new EditUserViewModel();
-            if (user != null)
+            RegisterViewModel model = new RegisterViewModel
             {
-                model.UserEdit.Id = user.Id;
-                model.UserEdit.Name = user.Name;
-                model.UserEdit.Email = user.Email;
-                model.UserEdit.PositionsId = user.PositionId;
-                model.UserEdit.Surname = user.Surname;
-                if (await _userManager.IsInRoleAsync(user, "admin"))
-                    model.UserEdit.Role = Roles.admin;
-                else
-                    model.UserEdit.Role = Roles.user;
-                model.UserEdit.Id = user.Id;
-            }
+                Positions = _db.GetActivePositions(), 
+                UserEdit = new EditUserViewModel()
+            };
+            if (user == null) return View(model);
+            model.UserEdit.Id = user.Id;
+            model.UserEdit.Name = user.Name;
+            model.UserEdit.Email = user.Email;
+            model.UserEdit.PositionsId = user.PositionId;
+            model.UserEdit.Surname = user.Surname;
+            if (await _userManager.IsInRoleAsync(user, "admin"))
+                model.UserEdit.Role = Roles.admin;
+            else
+                model.UserEdit.Role = Roles.user;
+            model.UserEdit.Id = user.Id;
 
             return View(model);
         }
@@ -126,7 +124,7 @@ namespace Guide.Controllers
                         await _userManager.AddToRoleAsync(user, role);
                         await _userManager.RemoveFromRoleAsync(user, "user");
                         await _userManager.UpdateAsync(user);
-                        _db.Save();
+                        _db.SaveAsync();
 
                         return Redirect($"~/Admin/Service/Profile/{user.Id}");
                     }

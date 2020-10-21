@@ -27,9 +27,14 @@ namespace Guide.Controllers
         public IActionResult Preview(int id)
         {
             Glossary glossary = _db.Glossaries.FirstOrDefault(g => g.Id == id);
-            glossary.GlossarysInterpretations =
-                _db.Interpretations.Where(i => i.GlossaryId == glossary.GlossarysId).ToList();
-            return View(glossary);
+            if (glossary != null)
+            {
+                glossary.GlossarysInterpretations =
+                    _db.Interpretations.Where(i => i.GlossaryId == glossary.GlossarysId).ToList();
+                return View(glossary);
+            }
+
+            return NotFound();
         }
     }
 }

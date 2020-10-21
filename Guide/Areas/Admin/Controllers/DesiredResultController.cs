@@ -35,11 +35,11 @@ namespace Guide.Areas.Admin.Controllers
                 StepId = stepId
             };
             if (issuesId != 0)
-                model.Baсk = _db.Issues.FirstOrDefault(i => i.Id == issuesId).Name;
+                model.Baсk = _db.Issues.FirstOrDefault(i => i.Id == issuesId)?.Name;
             if (stepId != 0)
-                model.Baсk = _db.Steps.FirstOrDefault(s => s.Id == stepId).Name;
+                model.Baсk = _db.Steps.FirstOrDefault(s => s.Id == stepId)?.Name;
           
-           return View(model);
+            return View(model);
         }
 
         [HttpPost]
@@ -172,8 +172,11 @@ namespace Guide.Areas.Admin.Controllers
             DesiredResultIssue desiredResult =
                 _db.DesiredResultIssue.FirstOrDefault(d =>
                     d.IssueId == issueid && d.DesiredResultId == desiredResultId);
-            _db.DesiredResultIssue.Remove(desiredResult);
-            _db.SaveChanges();
+            if (desiredResult != null)
+            {
+                _db.DesiredResultIssue.Remove(desiredResult);
+                _db.SaveChanges();
+            }
             return RedirectToAction("Details", "Issues", new {id = issueid});
         }
     }

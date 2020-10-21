@@ -1,9 +1,9 @@
-﻿﻿﻿using System.Collections.Generic;
-  using System.Linq;
-  using Guide.Models;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Guide.Models;
 using Guide.Models.Data;
-  using Microsoft.AspNetCore.Authorization;
-  using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 
 namespace Guide.Controllers
@@ -28,13 +28,13 @@ namespace Guide.Controllers
             {
                 SourceIdAndEnglishSourceId sourceIdAndEnglishSourceId =
                     _db.SourceIdAndEnglishSourceIds.FirstOrDefault(b => b.SourceId == source.Id);
-                int translationID = 0;
+                int translationId = 0;
                 if (sourceIdAndEnglishSourceId == null)
                     sourceIdAndEnglishSourceId =
                         _db.SourceIdAndEnglishSourceIds.FirstOrDefault(b => b.EnglishSourceId == source.Id);
                 if (sourceIdAndEnglishSourceId != null)
-                    translationID = sourceIdAndEnglishSourceId.EnglishSourceId;
-                source.TranslationID = translationID;
+                    translationId = sourceIdAndEnglishSourceId.EnglishSourceId;
+                source.TranslationID = translationId;
                 source.Authors = _db.SourceAuthors.Where(b => b.SourceId == source.Id).Select(a => a.Author).ToList();
                 source.BusinessProcesses = _db.SourceBusinessProcesses.Where(b => b.SourceId == source.Id)
                     .Select(b => b.BusinessProcess).ToList();
@@ -46,18 +46,17 @@ namespace Guide.Controllers
 
         public IActionResult Details(int id)
         {
-            int translationID = 0;
+            int translationId = 0;
             ViewBag.BookTransferLanguage = 0;
             Source source = _db.Sources.FirstOrDefault(b => b.Id == id);
             source.Authors = _db.SourceAuthors.Where(c => c.SourceId == source.Id).Select(s => s.Author).ToList();
             source.BusinessProcesses = _db.SourceBusinessProcesses.Where(s => s.SourceId == source.Id)
                 .Select(s => s.BusinessProcess).ToList();
-            SourceIdAndEnglishSourceId sourceIdAndEnglishSourceId = new SourceIdAndEnglishSourceId();
-            sourceIdAndEnglishSourceId = _db.SourceIdAndEnglishSourceIds.FirstOrDefault(b => b.SourceId == id);
-
+            SourceIdAndEnglishSourceId sourceIdAndEnglishSourceId = _db.SourceIdAndEnglishSourceIds
+                .FirstOrDefault(b => b.SourceId == id);
             if (sourceIdAndEnglishSourceId != null)
             {
-                translationID = sourceIdAndEnglishSourceId.EnglishSourceId;
+                translationId = sourceIdAndEnglishSourceId.EnglishSourceId;
                 ViewBag.BookTransferLanguage = "en";
             }
 
@@ -65,13 +64,13 @@ namespace Guide.Controllers
                 sourceIdAndEnglishSourceId =
                     _db.SourceIdAndEnglishSourceIds.FirstOrDefault(b => b.EnglishSourceId == id);
 
-            if (translationID == 0 && sourceIdAndEnglishSourceId != null)
+            if (translationId == 0 && sourceIdAndEnglishSourceId != null)
             {
-                translationID = sourceIdAndEnglishSourceId.SourceId;
+                translationId = sourceIdAndEnglishSourceId.SourceId;
                 ViewBag.BookTransferLanguage = "ru";
             }
 
-            ViewBag.BookTransferId = translationID;
+            ViewBag.BookTransferId = translationId;
             return View(source);
         }
 

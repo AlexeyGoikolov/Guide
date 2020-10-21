@@ -1,4 +1,5 @@
-﻿@model Source
+﻿@using System.Text.Unicode
+@model Source
 
 @{
     ViewBag.Title = "Источник";
@@ -52,16 +53,16 @@
                             <div style="text-align: right; margin-right: 10px ">
                                 @if (Model.Category != null)
                                 {
-                                    <span style="color: #0a6aa1">Категория: @Model.Category.Name</span>
+                                    <span style="color: #0a6aa1">Категория: @Model.Category.Name </span>
                                 }
                                 @if (Model.ISBN != null)
                                 {
-                                    <br><span>ISBN @Model.ISBN</span>
+                                    <br><span>ISBN: @Model.ISBN</span>
                                 }
                             </div>
                             <div>
                                 <h2>" @Model.Name "</h2>
-                                @foreach (var author in @Model.Authors)
+                                @foreach (var author in Model.Authors)
                                 {
                                     <p> @author.Name </p>
                                 }
@@ -78,15 +79,15 @@
                             <div>Дата последнего исправления : @Model.DateUpdate</div>
                             <div>
                                 <h4 style="color: #3e8f3e; ">Описание : </h4>
-                                @Html.Raw(Model.SourceDescription)
+                                @Html.Raw(Model.SourceDescription) 
                             </div>
                             <div>
                                 <h5 style="color: #3e8f3e; ">Дополнительно: </h5>
-                                @Html.Raw(Model.AdditionalInformation)
+                                @Model.AdditionalInformation
                             </div>
                             <div>
                                 <h5 style="color: #3e8f3e; "> Ключевые слова : </h5>
-                                @Html.Raw(Model.Keys)
+                                @Model.Keys
                             </div>
                             <div>
                                 @if (Model.PhysicalPath == null)
@@ -111,9 +112,13 @@
                             {
                                 <p>Состояние: @Model.SourceState.Name</p>
                             }
-                            <div>
-                                <a asp-action="ReadBook" asp-controller="SourceManage" asp-route-id="@Model.Id"><i class="fa fa-book"></i> Читать источник </a>
-                            </div>
+                            @if (Model.VirtualPath != null)
+                            {
+                                <div>
+                                    <a asp-action="ReadBook" asp-controller="SourceManage" asp-route-id="@Model.Id"><i class="fa fa-book"></i> Читать источник </a>
+                                </div>
+                            }
+                            
                             <div>
                                 @if (ViewBag.BookTransferId != 0)
                                 {
@@ -162,7 +167,7 @@
                     'description': comment
                 },
                 success: function(data) {
-                    $('#listComment').html(data); 
+                    $('#listComment').html(data);                   
                 },
             });  
         });

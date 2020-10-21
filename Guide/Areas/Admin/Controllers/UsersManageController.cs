@@ -31,7 +31,7 @@ namespace Guide.Areas.Admin.Controllers
             ListUsersViewModel users = new ListUsersViewModel()
             {
                 Users = listUsers,
-                Positions = _db.Positions.Where(p=> p.Active == true).ToList()
+                Positions = _db.Positions.Where(p=> p.Active).ToList()
             };
             return View(users);
         }
@@ -47,7 +47,7 @@ namespace Guide.Areas.Admin.Controllers
             return View(users);
         }
         [NonAction]
-        public List<User> Filter(string? active, int? idPositions)
+        private List<User> Filter(string? active, int? idPositions)
         {
             IQueryable<User> users = _db.Users.Include(p => p.Position).Where(u => u.Email != "admin@admin.com");
             if (active != null)
@@ -62,9 +62,9 @@ namespace Guide.Areas.Admin.Controllers
             return users.ToList();
         }
         [HttpPost]
-        public async  Task<IActionResult> BlockingAjax(string idUser)
+        public async Task<IActionResult> BlockingAjax(string idUser)
         {
-            User user = _db.Users.FirstOrDefault(u => u.Id == idUser);
+            User user = await _db.Users.FirstOrDefaultAsync(u => u.Id == idUser);
             if (user != null)
             {
                 if (user.Active)

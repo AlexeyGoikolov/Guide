@@ -28,12 +28,12 @@ namespace Guide.Tests
 {
     public class AccountControllerTests
     {
-        public static User GetTestUser()
+        private static User GetTestUser()
         {
             return new User{Id = "1", Email = "test@test.test", Name = "John", Surname = "Dou", UserName = "test@test.test"};
         }
 
-        public ClaimsPrincipal GetClaims(string userRole)
+        private ClaimsPrincipal GetClaims(string userRole)
         {
             IEnumerable<Claim> claims = new List<Claim>()
             {
@@ -47,7 +47,7 @@ namespace Guide.Tests
             return claimsPrincipal;
         }
 
-        public ControllerContext GetControllerContext(string userRole)
+        private ControllerContext GetControllerContext(string userRole)
         {
             var context = new ControllerContext
             {

@@ -63,10 +63,12 @@ namespace Guide.Areas.Admin.Controllers
             if (id != 0)
             {
                 Step step = _db.Steps.FirstOrDefault(s => s.Id == id);
-                step.Baсk = back;
+
                 if (step != null)
+                {
+                    step.Baсk = back;
                     return View(step);
-                
+                }
             }
             return NotFound();
         }

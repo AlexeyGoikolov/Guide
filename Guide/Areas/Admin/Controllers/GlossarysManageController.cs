@@ -32,9 +32,14 @@ namespace Guide.Areas.Admin.Controllers
         public IActionResult Preview(int id)
         {
             Glossary glossary = _db.Glossaries.FirstOrDefault(g => g.Id == id);
-            glossary.GlossarysInterpretations =
-                _db.Interpretations.Where(i => i.GlossaryId == glossary.GlossarysId).ToList();
-            return View(glossary);
+            if (glossary != null)
+            {
+                glossary.GlossarysInterpretations =
+                    _db.Interpretations.Where(i => i.GlossaryId == glossary.GlossarysId).ToList();
+                return View(glossary); 
+            }
+
+            return NotFound();
         }
 
         public IActionResult Create(int id, int glossarysId, int enId)
@@ -64,6 +69,7 @@ namespace Guide.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
+                Interpretation interpretation;
                 Glossary glossary = _db.Glossaries.FirstOrDefault(g => g.Id == model.Id);
                 if (glossary != null)
                 {
@@ -71,7 +77,7 @@ namespace Guide.Areas.Admin.Controllers
                     glossary.Name = model.Name;
                     _db.Glossaries.Update(glossary);
                     _db.SaveChanges();
-                    Interpretation interpretation = new Interpretation()
+                    interpretation = new Interpretation()
                     {
                         GlossaryId = glossary.Id,
                         Description = model.Description,
@@ -83,35 +89,32 @@ namespace Guide.Areas.Admin.Controllers
                     return RedirectToAction("Preview", new {id = glossary.Id});
                 }
 
-                if (glossary == null)
-                {
-                    glossary = new Glossary()
-                    {
-                        Name = model.Name,
-                        Language = (Models.Language) model.Language
-                    };
-                    _db.Glossaries.Add(glossary);
-                    _db.SaveChanges();
-                    if (model.GlossarysId != null)
-                    {
-                        Glossary glossary1 = _db.Glossaries.FirstOrDefault(g => g.Id == model.GlossarysId);
-                        glossary1.GlossarysId = glossary.Id;
-                        _db.Glossaries.Update(glossary1);
-                        _db.SaveChanges();
-                    }
 
-                    Interpretation interpretation = new Interpretation()
-                    {
-                        GlossaryId = glossary.Id,
-                        Description = model.Description,
-                        Abbreviation = model.Abbreviation,
-                        Source = model.Source
-                    };
-                    _db.Interpretations.Add(interpretation);
+                glossary = new Glossary()
+                {
+                    Name = model.Name,
+                    Language = (Models.Language) model.Language
+                };
+                _db.Glossaries.Add(glossary);
+                _db.SaveChanges();
+                if (model.GlossarysId != null)
+                {
+                    Glossary glossary1 = _db.Glossaries.FirstOrDefault(g => g.Id == model.GlossarysId);
+                    glossary1.GlossarysId = glossary.Id;
+                    _db.Glossaries.Update(glossary1);
                     _db.SaveChanges();
-                    return RedirectToAction("Index");
                 }
-                
+
+                interpretation = new Interpretation()
+                {
+                    GlossaryId = glossary.Id,
+                    Description = model.Description,
+                    Abbreviation = model.Abbreviation,
+                    Source = model.Source
+                };
+                _db.Interpretations.Add(interpretation);
+                _db.SaveChanges();
+                return RedirectToAction("Index");
             }
 
             return View(model);

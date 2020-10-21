@@ -114,8 +114,12 @@ namespace Guide.Areas.Admin.Controllers
             {
                 QuestionAnswer questionAnswer =
                     _db.QuestionAnswers.FirstOrDefault(v => v.Id == model.QuestionAnswer.Id);
-                _db.QuestionAnswers.Remove(questionAnswer);
-                _db.SaveChanges();
+                if (questionAnswer != null)
+                {
+                    _db.QuestionAnswers.Remove(questionAnswer);
+                    _db.SaveChanges();
+                }
+                
                 if (model.Status == QuestionAnswersStatus.Edit)
                     return RedirectToAction("Index", "FaqManage");
                 return RedirectToAction("IndexQuestions", "FaqManage");
