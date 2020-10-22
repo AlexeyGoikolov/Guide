@@ -70,13 +70,18 @@ namespace Guide.Tests
 
             mockDb.Setup(db => db.GetUserTask(It.IsAny<string>())).Returns(new TaskUser{Id = 1, Task = "aaa", UserId = "1"});
             mockDb.Setup(db => db.GetUserIssues(It.IsAny<string>())).Returns(new List<Issue> {new Issue{Id = 1, Name = "test"}});
+            mockDb.Setup(db => db.PositionsIssues(It.IsAny<int?>())).Returns(new List<Issue> {new Issue{Id = 1, Name = "testPosition"}});
+            mockDb.Setup(db => db.BusinessProcessIssues(It.IsAny<int>())).Returns(new List<BusinessProcess> {new BusinessProcess{Id = 1, Name = "testProcess"}});
             
             var controller = new AccountController(mockUserManager.Object, mockSignInManager.Object, mockDb.Object);
             controller.ControllerContext = GetControllerContext("user");
             var result = controller.Details(null);
             
-            var viewResult = Assert.IsType<ViewResult>(result);
-            var model = Assert.IsType<UserDetailsViewModel>(viewResult?.Model);
+            
+            var viewResult = Assert.IsAssignableFrom<Task<IActionResult>>(result);
+            var viewModel = Assert.IsType<ViewResult>(viewResult.Result);
+            var model = Assert.IsType<UserDetailsViewModel>(viewModel?.Model);
+
             Assert.Equal(typeof(UserDetailsViewModel), model?.GetType());
         }
         
@@ -90,7 +95,8 @@ namespace Guide.Tests
             var controller = new AccountController(mockUserManager.Object, mockSignInManager.Object, mockDb.Object);
             controller.ControllerContext = GetControllerContext("admin");
             var result = controller.Details(null);
-            var redirectToActionResult = Assert.IsType<RedirectToActionResult>(result);
+            var viewResult = Assert.IsAssignableFrom<Task<IActionResult>>(result);
+            var redirectToActionResult = Assert.IsType<RedirectToActionResult>(viewResult.Result);
             Assert.Equal("Service", redirectToActionResult.ControllerName);
             Assert.Equal("Profile", redirectToActionResult.ActionName);
         }
@@ -181,8 +187,7 @@ namespace Guide.Tests
             User user = GetTestUser();
             RegisterViewModel model = new RegisterViewModel();
             model.Positions = new List<Position>{new Position()};
-           // model.User = new RegisterViewModel{Name = GetTestUser().Name};
-            
+
             mockDb.Setup(db => db.GetAllPositions()).Returns(new List<Position>());
 
             var controller = new AccountController(mockUserManager.Object, mockSignInManager.Object, mockDb.Object)

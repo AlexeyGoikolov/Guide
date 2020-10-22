@@ -51,7 +51,7 @@ namespace Guide.Tests.AccountControllerUITests
             _driver.FindElement(By.Id("email")).SendKeys("admin@admin.com");
             _driver.FindElement(By.Id("password")).SendKeys("Qwerty123@");
             _driver.FindElement(By.Id("submit")).Click();
-            var userEditButtonLink = _driver.FindElement(By.LinkText("Изменить личные данные"))
+            var userEditButtonLink = _driver.FindElement(By.Id("edit-profile"))
                 .GetAttribute("href");
             Assert.Contains("Личный кабинет : администратор", _driver.PageSource);
             Assert.Contains("http://localhost:5000/Account/Edit", userEditButtonLink);
@@ -64,7 +64,7 @@ namespace Guide.Tests.AccountControllerUITests
             _driver.FindElement(By.Id("email")).SendKeys("admin@admin.com");
             _driver.FindElement(By.Id("password")).SendKeys("Qwerty123@");
             _driver.FindElement(By.Id("submit")).Click();
-            _driver.FindElement(By.LinkText("admin@admin.com")).Click();
+            _driver.FindElement(By.Id("navbar-user-name")).Click();
             _driver.FindElement(By.Id("exitButton")).Click();
             Assert.Equal("http://localhost:5000/Account/Login", _driver.Url);
         }

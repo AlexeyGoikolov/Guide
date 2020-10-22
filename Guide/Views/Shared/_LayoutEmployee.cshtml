@@ -92,10 +92,8 @@
                       @if (User.Identity.IsAuthenticated)
                       {
                         <li class="dropdown nav-profile mr-40">
-                            <a class="dropdown-toggle" data-toggle="dropdown" asp-action="Details" asp-controller="Account" asp-area="">
-                                <span>
-                                    @User.Identity.Name<i class="fa fa-angle-down"></i>
-                                </span>
+                            <a id="navbar-user-name" class="dropdown-toggle" data-toggle="dropdown" asp-action="Details" asp-controller="Account" asp-area="">
+                                @User.Identity.Name<i class="fa fa-angle-down"></i>
                             </a>
                             <ul class="dropdown-menu animated littleFadeInLeft" role="menu">
                                 <li>

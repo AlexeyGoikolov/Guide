@@ -14,7 +14,7 @@
         <h2>@ViewBag.Title : администратор @Model.Name @Model.Surname </h2>
         @if (UserManager.GetUserId(User) == Model.Id)
         {
-            <a asp-action="Edit" asp-controller="Account" asp-area="" asp-route-id="@Model.Id" class="btn btn-info pull-right"> Изменить личные данные</a>
+            <a id="edit-profile" asp-action="Edit" asp-controller="Account" asp-area="" asp-route-id="@Model.Id" class="btn btn-info pull-right"> Изменить личные данные</a>
         }
 
         <div class="page-bar">
