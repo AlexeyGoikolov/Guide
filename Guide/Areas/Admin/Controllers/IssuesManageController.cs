@@ -163,7 +163,7 @@ namespace Guide.Areas.Admin.Controllers
         }
 
 
-        public IActionResult AddIssueStepConnection(int issueId, int[] stepsId)
+        public IActionResult AddIssueStepConnection(int issueId, int[] stepsId, string action)
         {
             if (issueId != 0)
             {
@@ -185,7 +185,7 @@ namespace Guide.Areas.Admin.Controllers
                     };
                     _db.IssueStep.Add(model);
                 }
-
+                
                 _db.SaveChanges();
             }
 

@@ -55,7 +55,7 @@
                                 @foreach (var step in Model.DesignatedSteps)
                                 {
                                     i++;
-                                    <div id="desRes-@i">
+                                    <div id="step-@i">
                                         <h3>
 
                                             <a asp-action="Edit" asp-controller="StepsManage" asp-route-id="@step.Id">
@@ -145,7 +145,7 @@
         function deleteStep(number, issueId, stepId) {              
             $.ajax({
                 url: '@Url.Action("DeleteStepLink", "IssuesManage", new{area="Admin"})',
-                type: 'POST',
+                type: 'GET',
                 data: 
                 {
                     'issueId': issueId,
@@ -156,7 +156,7 @@
                         $("#step-"+number).remove();
                     }
                 }
-            })
+            });
         }
         
         function deleteDesireResult(number, issueId, desResId) {          

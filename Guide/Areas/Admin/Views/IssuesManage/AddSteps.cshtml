@@ -93,7 +93,7 @@
                         </div>
                         <div>
                             <a asp-action="Create" asp-controller="DesiredResult" asp-area="Admin" asp-route-issuesId="@Model.Issue.Id" 
-                               class="btn btn-info mt-20" style="width: 100%" target="_blank">Сохранить и перейти к добавлению ЖР</a>
+                               class="btn btn-info btn-save-DR-redirect mt-20" style="width: 100%" target="_blank">Сохранить и перейти к добавлению ЖР</a>
                             <a asp-action="Create" asp-controller="StepsManage" asp-area="Admin" 
                                                            class="btn btn-info mt-20" style="width: 100%" target="_blank">Создать новый шаг</a>
                         </div>
@@ -119,7 +119,7 @@
         dragAndDrop();
         function search() {
             let searchKey = $('#search').val();           
-            $.get('@Url.Action("AjaxStepSearch", "IssuesManage", new {area="Admin"})',  { word : searchKey}, function(data) {
+            $.get('@Url.Action("AjaxStepSearch", "IssuesManage", new {area = "Admin"})',  { word : searchKey}, function(data) {
             if (data == false)
                 $('#step').html('<p class="text-danger">Поиск не дал результатов</p>');
             else
@@ -157,6 +157,15 @@
         
         $('.btn-save').click(function (event) {
             event.preventDefault();
+            CreateIssueStepLink("create");                   
+        });
+
+        $('.btn-save-DR-redirect').click(function (event) {
+            event.preventDefault();
+            CreateIssueStepLink("saveAndRedirect");                   
+        });        
+        
+        let CreateIssueStepLink = function (action){
             let arrayId = [];
             $("#list li input").each(function(items) {                
                 arrayId.push($(this).val());
@@ -166,12 +175,18 @@
                 url: '@Url.Action("AddIssueStepConnection", "IssuesManage", new {area = "Admin"})',                    
                 type: 'GET',  
                 traditional: true,                  
-                data: {issueId: issueId, stepsId: arrayId},
+                data: {issueId: issueId, stepsId: arrayId, action: action},
                 success: function() {
-                  window.location.href = "@Url.Action("Details","IssuesManage", new{area="Admin", id = Model.Issue.Id, back ="Добавление Шагов"})"
+                    if (action === "create"){
+                        window.location.href = "@Url.Action("Details", "IssuesManage", new {area = "Admin", id = Model.Issue.Id, back = "Добавление Шагов"})"
+                    }
+                    else{
+                        window.location.href = "@Url.Action("Create", "DesiredResult", new {area = "Admin", issuesId = Model.Issue.Id})"   
+                    }
                 }                                                        
-            });                   
-        });          
+            });            
+        }
+        
     }    
 
     </script>
