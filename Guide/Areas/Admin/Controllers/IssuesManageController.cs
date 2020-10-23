@@ -163,7 +163,7 @@ namespace Guide.Areas.Admin.Controllers
         }
 
 
-        public IActionResult AddIssueStepConnection(int issueId, int[] stepsId, string action)
+        public IActionResult AddIssueStepConnection(int issueId, int[] stepsId)
         {
             if (issueId != 0)
             {
