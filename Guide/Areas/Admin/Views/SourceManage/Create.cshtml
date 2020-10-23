@@ -89,7 +89,6 @@
             let isbn_without_hyphens = isbn.replace(/-/g, "");
             let googleAPI = "https://www.googleapis.com/books/v1/volumes?q=" + isbn_without_hyphens;
             $.getJSON(googleAPI, function(response1) {
-                console.log(response1);
                 if (typeof response1.items === "undefined") {
                    alert("Ничего не найдено по введеному ISBN")
                 } 
@@ -119,7 +118,7 @@
             }
             let authors = document.getElementById('author-row');
             let getAuthorName = authors.getElementsByTagName('span');
-            for (var i=0; i < getAuthorName.length; i++){
+            for (let i=0; i < getAuthorName.length; i++){
                 authorArray.push(getAuthorName[i].innerHTML);
             }
             let editorData = CKEDITOR.instances.sourceDescription.getData();
