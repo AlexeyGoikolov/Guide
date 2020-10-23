@@ -4,4 +4,26 @@
   &lt;Assembly Path="C:\Users\Nasya\.nuget\packages\microsoft.entityframeworkcore.relational\3.1.6\lib\netstandard2.0\Microsoft.EntityFrameworkCore.Relational.dll" /&gt;&#xD;
   &lt;Assembly Path="C:\Users\Nasya\.nuget\packages\selenium.webdriver\3.141.0\lib\netstandard2.0\WebDriver.dll" /&gt;&#xD;
   &lt;Assembly Path="C:\Users\Nasya\.nuget\packages\filetypeinterrogator\1.0.0\lib\netstandard1.3\FileTypeInterrogator.dll" /&gt;&#xD;
-&lt;/AssemblyExplorer&gt;</s:String></wpf:ResourceDictionary>
+&lt;/AssemblyExplorer&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=b1f547c7_002Ddb36_002D40a6_002Da2e3_002D5ad09e8bb5af/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="All tests from LoginAndMainPageTests.cs" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;Or&gt;&#xD;
+    &lt;ProjectFile&gt;AE6F4107-7703-4E31-AE91-7A484B595FE6/d:AccountControllerUITests/f:LoginAndMainPageTests.cs&lt;/ProjectFile&gt;&#xD;
+    &lt;TestAncestor&gt;&#xD;
+      &lt;TestId&gt;xUnit::AE6F4107-7703-4E31-AE91-7A484B595FE6::.NETCoreApp,Version=v3.1::Guide.Tests.AccountControllerTests.DetailsReturnsViewResultWithUserDetailsViewModelTest&lt;/TestId&gt;&#xD;
+    &lt;/TestAncestor&gt;&#xD;
+  &lt;/Or&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=b4d53766_002D00e2_002D4e99_002Db665_002D9e56732e6ce9/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="DetailsReturnsViewResultWithUserDetailsViewModelTest #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::AE6F4107-7703-4E31-AE91-7A484B595FE6::.NETCoreApp,Version=v3.1::Guide.Tests.AccountControllerTests.DetailsReturnsViewResultWithUserDetailsViewModelTest&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::AE6F4107-7703-4E31-AE91-7A484B595FE6::.NETCoreApp,Version=v3.1::Guide.Tests.AccountControllerTests.DetailsIsInRoleAdminReturnRedirectToProfileTest&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::AE6F4107-7703-4E31-AE91-7A484B595FE6::.NETCoreApp,Version=v3.1::Guide.Tests.AccountControllerTests.DeleteUserAndReturnsRedirectTest&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::AE6F4107-7703-4E31-AE91-7A484B595FE6::.NETCoreApp,Version=v3.1::Guide.Tests.AccountControllerTests.EditUserReturnsViewResultWithPositionsViewModelTest&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::AE6F4107-7703-4E31-AE91-7A484B595FE6::.NETCoreApp,Version=v3.1::Guide.Tests.AccountControllerTests.EditUserInDbAndRedirectTest&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::AE6F4107-7703-4E31-AE91-7A484B595FE6::.NETCoreApp,Version=v3.1::Guide.Tests.AccountControllerTests.EditUserModelStateIsNotValidReturnViewModelTest&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::AE6F4107-7703-4E31-AE91-7A484B595FE6::.NETCoreApp,Version=v3.1::Guide.Tests.AccountControllerUITests.LoginAndMainPageTests&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=b9cd7819_002D2d8f_002D4611_002Daf62_002D35aad8b25373/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="DetailsReturnsViewResultWithUserDetailsViewModelTest" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;Project Location="D:\csharp\ESDP\Guide\Guide.Tests" Presentation="&amp;lt;Guide.Tests&amp;gt;" /&gt;&#xD;
+&lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>

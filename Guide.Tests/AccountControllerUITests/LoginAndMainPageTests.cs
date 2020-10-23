@@ -27,7 +27,7 @@ namespace Guide.Tests.AccountControllerUITests
         [Fact]
         public void LoginWrongModelDataReturnsErrorMessageTest()
         {
-            _basicSteps.GoToLoginPage();
+            _basicSteps.GoToMainPage();
             _basicSteps.FilTextField("email", "wrong@wrong.email");
             _basicSteps.FilTextField("password", "WrongPassword");
             _basicSteps.ClickById("submit");
@@ -37,7 +37,7 @@ namespace Guide.Tests.AccountControllerUITests
         [Fact]
         public void LoginEmptyModelDataReturnsErrorMessageTest()
         {
-            _basicSteps.GoToLoginPage();
+            _basicSteps.GoToMainPage();
             _basicSteps.FilTextField("email", string.Empty);
             _basicSteps.FilTextField("password", "WrongPassword");
             _basicSteps.ClickById("submit");
@@ -47,26 +47,27 @@ namespace Guide.Tests.AccountControllerUITests
         [Fact]
         public void LoginCorrectDataReturnsSuccessAuthTest()
         {
-            _driver.Navigate().GoToUrl("http://localhost:5000/Account/Login");
+            _basicSteps.GoToMainPage();
             _driver.FindElement(By.Id("email")).SendKeys("admin@admin.com");
             _driver.FindElement(By.Id("password")).SendKeys("Qwerty123@");
             _driver.FindElement(By.Id("submit")).Click();
             var userEditButtonLink = _driver.FindElement(By.Id("edit-profile"))
                 .GetAttribute("href");
             Assert.Contains("Личный кабинет : администратор", _driver.PageSource);
-            Assert.Contains("http://localhost:5000/Account/Edit", userEditButtonLink);
+            Assert.Contains("http://128.199.37.179/Account/Edit", userEditButtonLink);
         }
         
         [Fact]
         public void LogOutTest()
         {
-            _driver.Navigate().GoToUrl("http://localhost:5000/Account/Login");
+            _basicSteps.GoToMainPage();
             _driver.FindElement(By.Id("email")).SendKeys("admin@admin.com");
             _driver.FindElement(By.Id("password")).SendKeys("Qwerty123@");
             _driver.FindElement(By.Id("submit")).Click();
             _driver.FindElement(By.Id("navbar-user-name")).Click();
             _driver.FindElement(By.Id("exitButton")).Click();
-            Assert.Equal("http://localhost:5000/Account/Login", _driver.Url);
+            string loginPage = _basicSteps.ReturnLoginPage();
+            Assert.Equal(loginPage, _driver.Url);
         }
     }
 }

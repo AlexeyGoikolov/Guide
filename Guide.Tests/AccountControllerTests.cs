@@ -79,7 +79,7 @@ namespace Guide.Tests
             
             
             var viewResult = Assert.IsAssignableFrom<Task<IActionResult>>(result);
-            var viewModel = Assert.IsType<ViewResult>(viewResult.Result);
+            var viewModel = Assert.IsType<ViewResult>(viewResult?.Result);
             var model = Assert.IsType<UserDetailsViewModel>(viewModel?.Model);
 
             Assert.Equal(typeof(UserDetailsViewModel), model?.GetType());

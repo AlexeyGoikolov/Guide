@@ -6,8 +6,8 @@ namespace Guide.Tests.AccountControllerUITests
     public class BasicSteps : IDisposable
     {
         private readonly IWebDriver _driver;
-        private const string MainPageUrl = "http://localhost:5000";
-        private const string LoginPageUrl = MainPageUrl + "/Account/Login";
+        private const string MainPageUrl = "http://128.199.37.179/";
+        private const string LoginPageUrl = MainPageUrl + "Account/Login";
 
         public BasicSteps(IWebDriver driver)
         {
@@ -30,9 +30,10 @@ namespace Guide.Tests.AccountControllerUITests
             GoToUrl(MainPageUrl);
         }
         
-        public void GoToLoginPage()
+        public string ReturnLoginPage()
         {
-            GoToUrl(LoginPageUrl);
+            string a = LoginPageUrl;
+            return a;
         }
         
         public void ClickLink(string linkText)
