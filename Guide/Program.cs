@@ -30,10 +30,8 @@ namespace Guide
                 var logger = services.GetRequiredService<ILogger<Program>>();
                 logger.LogError(e, "Возникло исключение при инициализации ролей");
             }
-            host.Run();
-           
+            host.Run(); 
         }
-
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); });
