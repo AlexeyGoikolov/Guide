@@ -10,7 +10,7 @@ namespace Guide.Models
         public string Name { get; set; }
         public string IssueDescription { get; set; }
         public string Type { get; set; } = "Задача";
-        public DateTime CreatedAt { get; set; } = DateTime.Now;
+        public DateTime CreatedAt { get; set; } = DateTimeOffset.Now.UtcDateTime.AddHours(6);
         public virtual List<IssueStep> IssueSteps { get; set; }
         public virtual List<DesiredResultIssue>  DesiredResultIssues { get; set; }
         [NotMapped]

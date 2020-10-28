@@ -154,7 +154,6 @@
                 contentType: false,
                 processData: false,          
                 success: function(response) {
-                    console.log(response);
                     if (response === true){
                         window.location.href = "@Url.Action("Index", "SourceManage", new {area = "Admin"})"
                     }

@@ -9,8 +9,9 @@ namespace Guide.Services
         [RequestSizeLimit(209715200)] 
         public async void Upload(string path, string fileName, IFormFile file)
         {
-            await using var stream = new FileStream(Path.Combine(path, fileName), FileMode.Create);
+            var stream = new FileStream(Path.Combine(path, fileName), FileMode.Create);
             await file.CopyToAsync(stream);
+            await stream.DisposeAsync();
         }
     }
 }

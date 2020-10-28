@@ -11,7 +11,7 @@ namespace Guide.Models
         public virtual Position Position { get; set; }
         public bool Active { get; set; } = true;
         
-        public DateTime DateCreate { get; set; } = DateTime.Now;
+        public DateTime DateCreate { get; set; } = DateTimeOffset.Now.UtcDateTime.AddHours(6);
 
     }
 }

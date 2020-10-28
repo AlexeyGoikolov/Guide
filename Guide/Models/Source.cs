@@ -23,8 +23,8 @@ namespace Guide.Models
         public int? SourceStateId { get; set; }
         public virtual SourceState SourceState { get; set; }
         public string YearOfWriting { get; set; }
-        public DateTime DateCreate { get; set; } = DateTime.Now;
-        public DateTime DateUpdate { get; set; } = DateTime.Now;
+        public DateTime DateCreate { get; set; } = DateTimeOffset.Now.UtcDateTime.AddHours(6);
+        public DateTime DateUpdate { get; set; } = DateTimeOffset.Now.UtcDateTime.AddHours(6);
         public int? CategoryId { get; set; }
         public virtual Category Category { get; set; }
         public int TranslationID { get; set; }
