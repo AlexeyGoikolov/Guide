@@ -8,7 +8,7 @@
 
 @functions{
 
-    private string GetAntiXsrfRequestToken()
+    public string GetAntiXsrfRequestToken()
     {
         return Xsrf.GetAndStoreTokens(Context).RequestToken;
     }

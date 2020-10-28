@@ -245,7 +245,7 @@ namespace Guide.Areas.Admin.Controllers
         {
             if (file.FileName.Contains(".js") || file.FileName.Contains(".JS"))
                 return null;
-            string path = Path.Combine(_environment.WebRootPath + "/Files/");
+            string path = Path.Combine(_environment.ContentRootPath + "/wwwroot/Files/");
             string additionalName = file.FileName;
             if (name.Contains(" "))
                 name = name.Replace(" ", "_");
