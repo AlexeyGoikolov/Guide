@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Hosting;
+
 
 
 namespace Guide.Areas.Admin.Controllers
@@ -254,9 +254,9 @@ namespace Guide.Areas.Admin.Controllers
             string additional = DateTime.Now.ToBinary().ToString().Trim('-');
             string fileName = $"{name}_{additional.Substring(0, additional.Length / 2)}_{additionalName}";
             string filePath = $"Files/{fileName}";
-            if (!Directory.Exists("wwwroot/Files"))
+            if (!Directory.Exists(path))
             {
-                Directory.CreateDirectory("wwwroot/Files");
+                Directory.CreateDirectory(path);
             }
             _uploadService.Upload(path,fileName, file);
             return filePath;
