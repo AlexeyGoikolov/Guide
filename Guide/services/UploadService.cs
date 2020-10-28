@@ -9,7 +9,7 @@ namespace Guide.Services
         {
             using (var stream = new FileStream(Path.Combine(path, fileName), FileMode.Create))
             {
-                await file.CopyToAsync(stream); 
+                await file.CopyToAsync(stream);
             }
         }
     }

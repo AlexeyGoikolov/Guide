@@ -8,6 +8,7 @@ using Guide.Models.Data;
 using Guide.Services;
 using Guide.ViewModels;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -24,10 +25,10 @@ namespace Guide.Areas.Admin.Controllers
         
         private readonly GuideContext _db;
         private readonly UserManager<User> _userManager;
-        private readonly IHostEnvironment _environment;
+        private readonly IWebHostEnvironment _environment;
         private readonly UploadService _uploadService;
 
-        public SourceManageController(GuideContext db, UserManager<User> userManager, IHostEnvironment environment, UploadService uploadService)
+        public SourceManageController(GuideContext db, UserManager<User> userManager, IWebHostEnvironment environment, UploadService uploadService)
         {
             _db = db;
             _userManager = userManager;
@@ -244,7 +245,7 @@ namespace Guide.Areas.Admin.Controllers
         {
             if (file.FileName.Contains(".js") || file.FileName.Contains(".JS"))
                 return null;
-            string path = Path.Combine(_environment.ContentRootPath + "/wwwroot/Files");
+            string path = Path.Combine(_environment.WebRootPath + "/Files/");
             string additionalName = file.FileName;
             if (name.Contains(" "))
                 name = name.Replace(" ", "_");
