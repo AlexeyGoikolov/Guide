@@ -1,21 +1,10 @@
 ﻿@model SourceCreateViewModel
-@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Xsrf
 
 @{
     ViewBag.Title = "Добавление в Библиотеку";
     Layout = "_Layout";
 }
 
-@functions{
-
-    public string GetAntiXsrfRequestToken()
-    {
-        return Xsrf.GetAndStoreTokens(Context).RequestToken;
-    }
-}
-
-<input type="hidden" id="RequestVerificationToken" 
-       name="RequestVerificationToken" value="@GetAntiXsrfRequestToken()">
 <div class="page page-forms-common">
     <div class="pageheader">
         <h2>@ViewBag.Title</h2>
@@ -126,7 +115,7 @@
             let formData = new FormData();
             let coverFile = document.getElementById('coverFile');
             let sourceFile = document.getElementById('sourceFile');    
-            formData.append('__RequestVerificationToken', $('#RequestVerificationToken').val());
+            formData.append('__RequestVerificationToken', $('input[name="__RequestVerificationToken"]').val());
             formData.append(coverFile.getAttribute('name'), coverFile.files[0]);
             formData.append(sourceFile.getAttribute('name'), sourceFile.files[0]);
             formData.append('IsRecipe', $('#isRecipe').val());
