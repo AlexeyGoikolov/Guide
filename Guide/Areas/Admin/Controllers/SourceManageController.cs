@@ -242,7 +242,7 @@ namespace Guide.Areas.Admin.Controllers
         [Authorize(Roles = "admin")]
         private string Load(string name, IFormFile file)
         {
-            if (file.FileName.Contains("js") || file.FileName.Contains("JS"))
+            if (file.FileName.Contains(".js") || file.FileName.Contains(".JS"))
                 return null;
             string path = Path.Combine(_environment.ContentRootPath + "/wwwroot/Files");
             string additionalName = file.FileName;
