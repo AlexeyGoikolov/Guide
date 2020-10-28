@@ -3,7 +3,9 @@ using Guide.Models.Data;
 using Guide.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -49,6 +51,24 @@ namespace Guide
                     )
                 .AddEntityFrameworkStores<GuideContext>();
             services.ConfigureApplicationCookie(options => options.LoginPath = "/Account/Login");
+            
+            const int maxRequestLimit = 209715200;
+            // If using IIS
+            services.Configure<IISServerOptions>(options =>
+            {
+                options.MaxRequestBodySize = maxRequestLimit;
+            });
+            // If using Kestrel
+            services.Configure<KestrelServerOptions>(options =>
+            {
+                options.Limits.MaxRequestBodySize = maxRequestLimit;
+            });
+            services.Configure<FormOptions>(x =>
+            {
+                x.ValueLengthLimit = maxRequestLimit;
+                x.MultipartBodyLengthLimit = maxRequestLimit;
+                x.MultipartHeadersLengthLimit = maxRequestLimit;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

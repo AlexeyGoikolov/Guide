@@ -86,7 +86,7 @@ namespace Guide.Areas.Admin.Controllers
         [Authorize(Roles = "admin")]        
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(SourceCreateViewModel model, string authors, IFormFile coverFile,
+        public async Task<IActionResult> Create(SourceCreateViewModel model, string authors, IFormFile coverFile,
             IFormFile sourceFile)
         {
             if (model.Name != null && sourceFile != null)
@@ -125,8 +125,8 @@ namespace Guide.Areas.Admin.Controllers
                 else
                     return Json("falseBookType");
 
-                _db.Sources.Add(source);
-                _db.SaveChanges();
+                await _db.Sources.AddAsync(source);
+                await _db.SaveChangesAsync();
                 if (authors != null)
                     SaveSourceAuthors(authors, source);
                 if (model.BusinessProcesses != null)
